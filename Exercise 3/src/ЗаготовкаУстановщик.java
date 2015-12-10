@@ -14,23 +14,25 @@ public class ЗаготовкаУстановщик implements IProduct{
 	}
 
 	
-	public void installFirstPart() {
-		
-		
+	
+
+	@Override
+	public void installFirstPart(IProductPart productPart) {
+		// TODO Auto-generated method stub
 		System.out.println("Кузов установлен в заготовку");
 	}
 
-	
-	public void installSecindPart() {
-		
-		
+
+	@Override
+	public void installSecindPart(IProductPart productPart) {
+		// TODO Auto-generated method stub
 		System.out.println("Шасси установлено в заготовку");
 	}
 
-	
-	public void installThirdPart() {
-		
-		
+
+	@Override
+	public void installThirdPart(IProductPart productPart) {
+		// TODO Auto-generated method stub
 		System.out.println("Двигатель установлен в заготовку");
 	}
 

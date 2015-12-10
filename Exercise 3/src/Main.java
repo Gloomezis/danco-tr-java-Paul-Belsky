@@ -4,18 +4,16 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-—оздатель узова создатель узова1=new —оздатель узова();
-—оздательЎасси создательЎасси1 = new —оздательЎасси();
-Cоздательƒвигател€ создательƒвигател€1 = new Cоздательƒвигател€();
-
-IProductPart кузов=создатель узова1.buildProductPart();
-IProductPart шасси=создательЎасси1.buildProductPart();
-IProductPart двигатель=создательƒвигател€1.buildProductPart();
+—оздатель узова создатель узова2=new —оздатель узова();
+—оздательЎасси создательЎасси2 = new —оздательЎасси();
+Cоздательƒвигател€ создательƒвигател€2 = new Cоздательƒвигател€();
 
 
-IAssemblyLineImpl iAssemblyLineImpl=new IAssemblyLineImpl(создатель узова1, создательЎасси1, создательƒвигател€1);
 
-«аготовка”становщик заготовка”становщик = new «аготовка”становщик(кузов,шасси,двигатель);
+
+IAssemblyLineImpl iAssemblyLineImpl=new IAssemblyLineImpl(создатель узова2, создательЎасси2, создательƒвигател€2);
+iAssemblyLineImpl.productCreating();
+«аготовка”становщик заготовка”становщик = new «аготовка”становщик(iAssemblyLineImpl.firstProduct,iAssemblyLineImpl.secondProduct,iAssemblyLineImpl.threerdProduct);
 
 iAssemblyLineImpl.assembleProduct(заготовка”становщик);
 
