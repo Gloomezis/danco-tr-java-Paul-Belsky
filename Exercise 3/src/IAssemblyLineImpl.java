@@ -3,45 +3,41 @@ public class IAssemblyLineImpl implements IAssemblyLine{
 
 	
 	
-	—оздатель узова создатель узоваЌаЋинии;
-	—оздательЎасси создательЎассиЌаЋинии;
-	Cоздательƒвигател€ создательƒвигател€ЌаЋинии;
-    IProductPart firstProduct;
-    IProductPart secondProduct;
-    IProductPart threerdProduct;
+	CarBodyCreater carBodyCreater;
+	ChassisCreater chassisCreater;
+	EngineCreater engineCreater;
+    
 
     
 
 	
-	public IAssemblyLineImpl(—оздатель узова создатель узова1, —оздательЎасси создательЎасси1, Cоздательƒвигател€ создательƒвигател€1) {
-		this.создатель узоваЌаЋинии =  создатель узова1;
-		this.создательЎассиЌаЋинии = создательЎасси1;
-		this.создательƒвигател€ЌаЋинии = создательƒвигател€1;
+	public IAssemblyLineImpl(CarBodyCreater carBodyCreater, ChassisCreater chassisCreater, EngineCreater engineCreater) {
+		this.carBodyCreater =  carBodyCreater;
+		this.chassisCreater = chassisCreater;
+		this.engineCreater = engineCreater;
 		
 	}
 
 
 
-	public IProduct assembleProduct(IProduct iproduct) {
-		
-		«аготовка”становщик заготовщик=(«аготовка”становщик) iproduct;
-		заготовщик.installFirstPart(firstProduct);
-		заготовщик.installSecindPart(secondProduct);
-		заготовщик.installThirdPart(threerdProduct);
-		
-		System.out.println("Ќачало сборки");
-		System.out.println("ѕродукт собран");
-		return iproduct;
-		
-	}
-	public void productCreating(){
-		firstProduct=(IProductPart) создатель узоваЌаЋинии.buildProductPart();
-		secondProduct =(IProductPart) создательЎассиЌаЋинии.buildProductPart();
-		threerdProduct= (IProductPart) создательƒвигател€ЌаЋинии.buildProductPart();
-		
+	@Override
+	public IProduct assembleProduct(IProduct car) {
+		car.installFirstPart(carBodyCreater.buildProductPart());
+		car.installSecindPart(chassisCreater.buildProductPart());
+		car.installThirdPart(engineCreater.buildProductPart());
+		return car;
 	}
 
-}
+
+
+
+	}
+
+
+
+	
+
+
 
 
 

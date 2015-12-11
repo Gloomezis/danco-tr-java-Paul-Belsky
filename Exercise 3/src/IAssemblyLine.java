@@ -1,5 +1,5 @@
 
 public interface IAssemblyLine {
-	public IProduct assembleProduct(IProduct iproduct);
+	public IProduct assembleProduct(IProduct  car);
 
 }
