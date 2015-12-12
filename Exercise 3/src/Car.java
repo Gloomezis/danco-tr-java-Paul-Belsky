@@ -28,14 +28,14 @@ public class Car implements IProduct{
 	public void installSecindPart(IProductPart productPart) {
 		this.chassis=(Chassis) productPart;
 		
-		System.out.println("Shasses was intaled in car core");
+		System.out.println("Shasses was intalled in car core");
 	}
 
 
 	@Override
 	public void installThirdPart(IProductPart productPart) {
 	   this.engine=(Engine) productPart ;
-		System.out.println("Engine was instaled in car core");
+		System.out.println("Engine was installed in car core");
 	}
 
 	
