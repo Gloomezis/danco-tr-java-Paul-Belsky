@@ -28,7 +28,7 @@ public class Car implements IProduct{
 	public void installSecindPart(IProductPart productPart) {
 		this.chassis=(Chassis) productPart;
 		
-		System.out.println("Shasses was intalled in car core");
+		System.out.println("Shasses was installed in car core");
 	}
 
 
