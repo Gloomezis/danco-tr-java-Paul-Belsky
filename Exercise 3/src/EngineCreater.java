@@ -4,7 +4,7 @@ public class EngineCreater implements ILineStep {
 	
 	
 	public EngineCreater() {
-		System.out.println("Билдер двигателя создан");
+		System.out.println("Engine builder was created");
 	}
 
 	public Engine buildProductPart() {

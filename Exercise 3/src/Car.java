@@ -13,14 +13,14 @@ public class Car implements IProduct{
 
 	public Car() {
 		
-		System.out.println("Корпус заготовки создан");
+		System.out.println("Car core was created");
 	}
 
 
 	@Override
 	public void installFirstPart(IProductPart productPart) {
 		this.carBody=(CarBody) productPart;
-		System.out.println("Кузов установлен в заготовку");
+		System.out.println("Car body was installed in car core");
 	}
 
 
@@ -28,14 +28,14 @@ public class Car implements IProduct{
 	public void installSecindPart(IProductPart productPart) {
 		this.chassis=(Chassis) productPart;
 		
-		System.out.println("Шасси установлено в заготовку");
+		System.out.println("Shasses was intaled in car core");
 	}
 
 
 	@Override
 	public void installThirdPart(IProductPart productPart) {
 	   this.engine=(Engine) productPart ;
-		System.out.println("Двигатель установлен в заготовку");
+		System.out.println("Engine was instaled in car core");
 	}
 
 	

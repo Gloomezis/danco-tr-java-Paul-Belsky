@@ -2,7 +2,7 @@
 public class Chassis implements IProductPart{
 
 	public Chassis() {
-		System.out.println("Шасси созданно");
+		System.out.println("Shasses was created");
 	}
 
 }

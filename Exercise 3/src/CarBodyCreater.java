@@ -3,7 +3,7 @@ public class CarBodyCreater implements ILineStep{
 
 	
 	public CarBodyCreater() {
-		System.out.println("Ѕилдер кузова создан");
+		System.out.println("Сar body builder created");
 	}
 
 	public CarBody buildProductPart() {

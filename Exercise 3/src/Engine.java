@@ -2,7 +2,7 @@
 public class Engine implements IProductPart{
 
 	public Engine() {
-		System.out.println("Двигатель создан");
+		System.out.println("Engine was created");
 	}
 
 }

@@ -4,7 +4,7 @@ public class ChassisCreater implements ILineStep{
 	
 	
 	public ChassisCreater() {
-		System.out.println("Билдер шасси создан");
+		System.out.println("Shasses builder was created");
 	}
 
 	public Chassis buildProductPart() {
