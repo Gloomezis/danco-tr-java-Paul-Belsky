@@ -10,6 +10,7 @@ public class Main {
 		SumerFirstCharacterOfNumbers summer= new SumerFirstCharacterOfNumbers();
 		int sum=summer.sumFirstCharacterOfNumbers(ng.getA(),ng.getB(),ng.getC());
 		
+		
 	}
 
 }
