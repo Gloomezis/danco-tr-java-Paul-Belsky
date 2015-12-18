@@ -2,6 +2,7 @@ package com.danco.gloomezis;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 //for get method mb use only printLn to console overwriting return tupe
 
@@ -70,9 +71,13 @@ public void showSummToPaidGuest(Guest guest){
 	System.out.println("Summ to paid is: "+guest.summToPaid);
 }
 
-//TODO show last 3 guest of hotel room
+//show last 3 guest of hotel room
 public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom){
-	hotelRoom.getGuestHistory();
+	LinkedList<Guest> g=hotelRoom.getGuestHistory();
+	System.out.println("The last 3 guest of hotel room "+hotelRoom.number+ " was:");
+	for (Guest a:g){
+		System.out.println(a.name+" "+a.dateOfDeparture);
+	}
 }
 //TODO sorted by price
 public void showPriceServiceAndHotelRoom(){
@@ -81,5 +86,15 @@ public void showPriceServiceAndHotelRoom(){
 //TODO
 public void showDetailOfHotelRoom(HotelRoom  hotelRoom){
 	
+}
+
+//  settle guest to hotel room
+public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom){
+	hotelRoom.setGuests(guest);
+	
+}
+// depart all guest from hotel number
+public void departGuestFromHotelRoom(HotelRoom hotelRoom){
+	hotelRoom.guests.clear();
 }
 }

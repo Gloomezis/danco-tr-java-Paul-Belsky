@@ -28,6 +28,28 @@ hotel.showAllGuestNumber();
 hotel.showFreeRoomsNumber();
 hotel.showSummToPaidGuest(gue1);
 
+//settle a guest to room (2 not settle because have no space in room
+hotel.settleGuestToHotelRoom(gue1,hr1);
+hotel.settleGuestToHotelRoom(gue2,hr1);
+
+//departe guest gue1 from hotel room hr1
+hotel.departGuestFromHotelRoom(hr1);
+
+//testing room history
+hotel.settleGuestToHotelRoom(gue3,hr1);  
+hotel.departGuestFromHotelRoom(hr1);
+hotel.settleGuestToHotelRoom(gue2,hr1);
+hotel.departGuestFromHotelRoom(hr1);
+hotel.settleGuestToHotelRoom(gue4,hr1);
+hotel.departGuestFromHotelRoom(hr1);
+hotel.settleGuestToHotelRoom(gue3,hr1);  
+hotel.departGuestFromHotelRoom(hr1);
+hotel.settleGuestToHotelRoom(gue2,hr1);
+hotel.departGuestFromHotelRoom(hr1);
+hotel.settleGuestToHotelRoom(gue7,hr1);
+hotel.departGuestFromHotelRoom(hr1);
+//show last 3 guests of room hr1
+hotel.showLast3GuestOfHotelRoom(hr1);
 	}
 
 }

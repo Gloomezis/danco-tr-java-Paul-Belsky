@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.sql.Date;
 
 public class HotelRoom {
-ArrayList<Guest> guests;
+ArrayList<Guest> guests =new ArrayList<Guest>();
 String number;
 int roomPrice;
 int sleepingNumbers;
@@ -26,8 +26,16 @@ public HotelRoom(String number, int roomPrice, int sleepingNumbers, int starCate
 public ArrayList<Guest> getGuests() {
 	return guests;
 }
-public void setGuests(ArrayList<Guest> guests) {
-	this.guests = guests;
+
+//add guest to room if it have free space and adding to the guestHistory
+public void setGuests(Guest guest) {
+	int a=guests.size();
+	if (a<sleepingNumbers){
+		guests.add(guest);
+		setGuestHistory(guest);
+	}else{
+		System.out.println("no have free sleeping place");
+	}
 }
 public String getNumber() {
 	return number;
@@ -78,7 +86,7 @@ public LinkedList<Guest> getGuestHistory() {
 //add guest to guesthistory (max numb=3)
 public void setGuestHistory(Guest guest) {
 	int a=guestHistory.size();
-	if (a>=4){
+	if (a<3){
 		guestHistory.addFirst(guest);
 	}else{
 		guestHistory.removeLast();
