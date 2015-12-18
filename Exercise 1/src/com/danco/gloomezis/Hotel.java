@@ -85,10 +85,12 @@ public void showPriceServiceAndHotelRoom(){
 }
 //TODO
 public void showDetailOfHotelRoom(HotelRoom  hotelRoom){
+	hotelRoom.toString();
 	
 }
 
 //  settle guest to hotel room
+//TODO adding date of settle and date of departure
 public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom){
 	hotelRoom.setGuests(guest);
 	

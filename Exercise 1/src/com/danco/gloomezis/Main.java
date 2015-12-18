@@ -24,8 +24,13 @@ Service servs1 = new Service(10, "Diner");
 Service servs2= new Service(5, "Cleaning room");
 Service servs3= new Service(10, "Parking");
 
+// show number of all guests
 hotel.showAllGuestNumber();
+
+//show number of free rooms
 hotel.showFreeRoomsNumber();
+
+//show summ to paid guest(name)
 hotel.showSummToPaidGuest(gue1);
 
 //settle a guest to room (2 not settle because have no space in room
@@ -48,8 +53,12 @@ hotel.settleGuestToHotelRoom(gue2,hr1);
 hotel.departGuestFromHotelRoom(hr1);
 hotel.settleGuestToHotelRoom(gue7,hr1);
 hotel.departGuestFromHotelRoom(hr1);
+
 //show last 3 guests of room hr1
 hotel.showLast3GuestOfHotelRoom(hr1);
+
+//show detail of hotel room
+hotel.showDetailOfHotelRoom(hr1);
 	}
 
 }

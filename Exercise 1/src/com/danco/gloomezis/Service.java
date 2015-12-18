@@ -26,9 +26,12 @@ public String getNameOfService() {
 public void setNameOfService(String nameOfService) {
 	this.nameOfService = nameOfService;
 }
+//TODO
 public Date getDate() {
 	return dateOfUsingService;
 }
+
+//TODO
 public void setDate(Date date) {
 	this.dateOfUsingService = date;
 }

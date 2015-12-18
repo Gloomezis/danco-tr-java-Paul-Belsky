@@ -43,8 +43,10 @@ public void setSummToPaid(int summToPaid) {
 public ArrayList<Service> getServises() {
 	return servises;
 }
-public void setServises(ArrayList<Service> servises) {
-	this.servises = servises;
+
+//add service to arrat servises
+public void setServises(Service servise) {
+	servises.add(servise);
 }
 
 

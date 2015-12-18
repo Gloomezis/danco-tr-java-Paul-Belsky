@@ -94,7 +94,12 @@ public void setGuestHistory(Guest guest) {
 	}
 }
 
-
+@Override
+	public String toString() {
+		System.out.println("Room number: "+number+"\n Room price:"+roomPrice+"\n Sleeping numpers:"+sleepingNumbers
+				+"\n Star category"+starCategory+"\n busy: "+ busy);
+		return super.toString();
+	}
 
 
 
