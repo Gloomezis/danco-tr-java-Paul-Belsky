@@ -13,7 +13,7 @@ int starCategory;
 boolean busy;
 Date dateOfArrival;
 Date dateOfDeparture;
-LinkedList<Guest> guestHistory;
+LinkedList<Guest> guestHistory= new LinkedList<Guest>();
 public HotelRoom(String number, int roomPrice, int sleepingNumbers, int starCategory) {
 	super();
 	this.number = number;
@@ -69,11 +69,19 @@ public Date getDateOfDeparture() {
 public void setDateOfDeparture(Date dateOfDeparture) {
 	this.dateOfDeparture = dateOfDeparture;
 }
+//TODO show guest history with date of him arrival and departure
 public LinkedList<Guest> getGuestHistory() {
 	return guestHistory;
 }
-public void setGuestHistory(LinkedList<Guest> guestHistory) {
-	this.guestHistory = guestHistory;
+//add guest to guesthistory (max numb=3)
+public void setGuestHistory(Guest guest) {
+	int a=guestHistory.size();
+	if (a>=4){
+		guestHistory.addFirst(guest);
+	}else{
+		guestHistory.removeLast();
+		guestHistory.addFirst(guest);
+	}
 }
 
 

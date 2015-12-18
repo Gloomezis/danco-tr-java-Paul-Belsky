@@ -3,62 +3,82 @@ package com.danco.gloomezis;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class Hotel {
-ArrayList<HotelRoom> rooms;
-ArrayList<Service> servises;
-ArrayList<HotelRoom> freeRooms;
-ArrayList<Guest> allGuests;
+//for get method mb use only printLn to console overwriting return tupe
 
-//Sorted by price/sleeping numbers/star category
+public class Hotel {
+ArrayList<HotelRoom> rooms = new ArrayList<HotelRoom>();
+ArrayList<Service> servises= new ArrayList<Service>();
+ArrayList<HotelRoom> freeRooms= new ArrayList<HotelRoom>();
+ArrayList<Guest> allGuests= new ArrayList<Guest>();
+
+//TODO get array of Hotel rooms (Sorted by price/sleeping numbers/star category)
 public ArrayList<HotelRoom> getRooms() {
 	return rooms;
 }
-public void setRooms(ArrayList<HotelRoom> rooms) {
-	this.rooms = rooms;
+// Add room to array rooms
+public void setRooms(HotelRoom room) {
+	rooms.add(room);
 }
+
+//TODO  get array of servises  
 public ArrayList<Service> getServises() {
 	return servises;
 }
-public void setServises(ArrayList<Service> servises) {
-	this.servises = servises;
+
+// Add service to array servises
+public void setServices(Service service) {
+	servises.add(service);
 }
 
-//Sorted by price/sleeping numbers/star category
+//TODO Get free rooms (Sorted by price/sleeping numbers/star category)
 public ArrayList<HotelRoom> getFreeRooms() {
 	return freeRooms;
 }
-public void setFreeRooms(ArrayList<HotelRoom> freeRooms) {
-	this.freeRooms = freeRooms;
+
+//TODO Add room to array free rooms( or change stastys of room )
+public void setFreeRooms(HotelRoom room) {
+	freeRooms.add(room);
 }
 
-//Sorted by alphabet/by date dapartyre
+// TODO Get all free rooms (Sorted by alphabet/by date dapartyre)
 public ArrayList<Guest> getAllGuests() {
 	return allGuests;
 }
-public void setAllGuests(ArrayList<Guest> allGuests) {
-	this.allGuests = allGuests;
+
+//add guest to array Guest
+public void setAllGuests(Guest guest) {
+	allGuests.add(guest);
 }
 
+// show number of all guest
 public void showAllGuestNumber(){
-	
+	System.out.println("All guest number is:"+allGuests.size());
 }
+
+//show number of free rooms
 public void showFreeRoomsNumber(){
-	
+	System.out.println("All free hotel rooms number is: "+freeRooms.size());
 }
+
+//TODO show list of hotel rooms that will  free after date
 public void showFreeRoomsAfterDate(Date date){
 	
 }
 
+// show summ to paid selected guest
 public void showSummToPaidGuest(Guest guest){
-	
+	System.out.println("Summ to paid is: "+guest.summToPaid);
 }
+
+//TODO show last 3 guest of hotel room
 public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom){
-	
+	hotelRoom.getGuestHistory();
 }
-//sorted by price
+//TODO sorted by price
 public void showPriceServiceAndHotelRoom(){
 	
 }
+//TODO
 public void showDetailOfHotelRoom(HotelRoom  hotelRoom){
 	
 }

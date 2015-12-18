@@ -7,6 +7,7 @@ import javax.print.attribute.standard.DateTimeAtCompleted;
 public class Service {
 int price;
 String nameOfService;
+//TODO date type
 Date dateOfUsingService;
 public Service(int price, String nameOfService) {
 	
