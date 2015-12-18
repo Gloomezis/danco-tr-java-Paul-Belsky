@@ -21,6 +21,8 @@ public HotelRoom(String number, int roomPrice, int sleepingNumbers, int starCate
 	this.sleepingNumbers = sleepingNumbers;
 	this.starCategory = starCategory;
 }
+
+//TODO
 public ArrayList<Guest> getGuests() {
 	return guests;
 }
