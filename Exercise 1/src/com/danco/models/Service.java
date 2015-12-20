@@ -1,6 +1,6 @@
 package com.danco.models;
 
-import java.util.Date;
+
 
 
 
@@ -9,7 +9,7 @@ public class Service {
 private int price;
 private String nameOfService;
 //TODO date type
-private Date dateOfUsingService;
+private String dateOfUsingService;
 
 public Service(int price, String nameOfService) {
 	
@@ -29,11 +29,11 @@ public void setNameOfService(String nameOfService) {
 	this.nameOfService = nameOfService;
 }
 
-public Date getDate() {
+public String getDate() {
 	return dateOfUsingService;
 }
 
-public void setDate(Date date) {
+public void setDate(String date) {
 	this.dateOfUsingService = date;
 }
 

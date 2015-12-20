@@ -6,38 +6,39 @@ import com.danco.models.Service;
 import com.danco.storages.ServiceStorage;
 
 public class ServiceService {
-	
-	
-	//singleton
-		private static volatile ServiceService instance;
-		
-		private  ServiceService() {}
-		public static ServiceService getInstance(){
-			if (instance ==null){
-				synchronized (ServiceService.class) {
-					if(instance == null){
-						instance = new ServiceService();
-					}
-					
+
+	// singleton
+	private static volatile ServiceService instance;
+
+	private ServiceService() {
+	}
+
+	public static ServiceService getInstance() {
+		if (instance == null) {
+			synchronized (ServiceService.class) {
+				if (instance == null) {
+					instance = new ServiceService();
 				}
+
 			}
-			return instance;
 		}
-		
+		return instance;
+	}
 
 	ServiceStorage serviceStorage = ServiceStorage.getInstance();
-	
-	//TODO  get array of servises  
-		public ArrayList<Service> getServises() {
-			return serviceStorage.getServises();
-		}
 
-		// Add service to array servises
-		public void setServices(Service service) {
-			serviceStorage.getServises().add(service);
-		}
-		
-		public void showPriceServices() {
-			serviceStorage.showPriceService();
-		}
+	// +Add service to array servises
+	public void AddServices(Service service) {
+		serviceStorage.AddServices(service);
+		;
+	}
+	// TODO sorted by price
+	public void showPriceServices() {
+		serviceStorage.showPriceServices();
+	}
+
+	// +change price of service
+	public void changePriceOfService(Service service, int price) {
+		serviceStorage.changePriceOfService(service, price);
+	}
 }

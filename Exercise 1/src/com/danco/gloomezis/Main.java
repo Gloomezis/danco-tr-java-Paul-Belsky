@@ -6,11 +6,23 @@ import com.danco.models.Service;
 import com.danco.servises.GuestService;
 import com.danco.servises.HotelRoomService;
 import com.danco.servises.ServiceService;
+import com.danco.training.*;
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+		final String FILE_PATH_GUESTS = "src/src/files/guests.txt";
+		TextFileWorker fwGuest = new TextFileWorker(FILE_PATH_GUESTS);
+
+		final String FILE_PATH_HOTELROOMS = "src/src/files/hotelRooms.txt";
+		TextFileWorker fwHotelRoms = new TextFileWorker(FILE_PATH_HOTELROOMS);
+
+		final String FILE_PATH_SERVICES = "src/src/files/services.txt";
+		TextFileWorker fwServices = new TextFileWorker(FILE_PATH_SERVICES);
+		
+		
+
 		// ñreating hotel
 		Hotel hotel = Hotel.getInstance();
 		// creating hotel rooms
@@ -29,49 +41,85 @@ public class Main {
 		// creating servises
 		Service servs1 = new Service(10, "Diner");
 		Service servs2 = new Service(5, "Cleaning room");
-		Service servs3 = new Service(10, "Parking");
+		Service servs3 = new Service(8, "Parking");
 
-		// creating storages in service class
-		
-		
+		// adding service
+		hotel.AddServices(servs1);
+		hotel.AddServices(servs2);
+		hotel.AddServices(servs3);
+		// adding rooms
+		hotel.AddRooms(hr1);
+		hotel.AddRooms(hr2);
+		hotel.AddRooms(hr3);
+		hotel.AddRooms(hr4);
+		// test showing service and rooms sorted by category and price
+		hotel.showPriceServiceAndHotelRoom();
 
-		// creating services
-		GuestService guestService=GuestService.getInstance();
-		HotelRoomService hotelRoomService = HotelRoomService.getInstance();
-		ServiceService serviceService = ServiceService.getInstance();
+		hotel.AddAllGuests(gue1);
+		hotel.AddAllGuests(gue2);
+		hotel.AddAllGuests(gue3);
+		hotel.AddAllGuests(gue4);
+		hotel.AddAllGuests(gue5);
+		hotel.AddAllGuests(gue6);
+		hotel.AddAllGuests(gue7);
 
-		// show number of all guests
-		guestService.showAllGuestNumber();
-
-		// show summ to paid guest(name)
-		guestService.showSummToPaidGuest(gue1);
+		// settle all guest to rooms
+		hotel.settleGuestToHotelRoom(gue1, hr1, "15-12-2015", "18-12-2015");
+		hotel.settleGuestToHotelRoom(gue2, hr2, "16-12-2015", "25-12-2015");
+		hotel.settleGuestToHotelRoom(gue3, hr2, "16-12-2015", "25-12-2015");
+		hotel.settleGuestToHotelRoom(gue4, hr3, "15-12-2015", "24-12-2015");
+		hotel.settleGuestToHotelRoom(gue5, hr3, "15-12-2015", "24-12-2015");
+		hotel.settleGuestToHotelRoom(gue6, hr3, "15-12-2015", "24-12-2015");
+		hotel.settleGuestToHotelRoom(gue7, hr4, "17-12-2015", "19-12-2015");
 
 		// settle a guest to room (2 not settle because have no space in room
-		hotelRoomService.settleGuestToHotelRoom(gue1, hr1);
-		hotelRoomService.settleGuestToHotelRoom(gue2, hr1);
+		hotel.settleGuestToHotelRoom(gue2, hr1, "16-12-2015", "25-12-2015");
 
-		// departe guest gue1 from hotel room hr1
-		hotelRoomService.departGuestFromHotelRoom(hr1);
+		// test showing list of guest and his rooms sorted by alphabet
+		hotel.getAllGuests("alphabet");
+		System.out.println("//////////////////////////////////////////////////////////");
+		hotel.getAllGuests("date");
+
+		// testing showing a free rooms
+		hotel.showNumberOfFreeHoterRoom();
+		hotel.departGuestFromHotelRoom(hr1);
+		hotel.showNumberOfFreeHoterRoom();
+
+		// show number of all guests
+		hotel.showAllGuestNumber();
+
+		// show summ to paid guest(name)
+		hotel.showSummToPaidGuest(gue1);
+
+		// departure guest gue1 from hotel room hr1
+		hotel.departGuestFromHotelRoom(hr1);
 
 		// testing room history
-		hotelRoomService.settleGuestToHotelRoom(gue3, hr1);
-		hotelRoomService.departGuestFromHotelRoom(hr1);
-		hotelRoomService.settleGuestToHotelRoom(gue2, hr1);
-		hotelRoomService.departGuestFromHotelRoom(hr1);
-		hotelRoomService.settleGuestToHotelRoom(gue4, hr1);
-		hotelRoomService.departGuestFromHotelRoom(hr1);
-		hotelRoomService.settleGuestToHotelRoom(gue3, hr1);
-		hotelRoomService.departGuestFromHotelRoom(hr1);
-		hotelRoomService.settleGuestToHotelRoom(gue2, hr1);
-		hotelRoomService.departGuestFromHotelRoom(hr1);
-		hotelRoomService.settleGuestToHotelRoom(gue7, hr1);
-		hotelRoomService.departGuestFromHotelRoom(hr1);
+		hotel.settleGuestToHotelRoom(gue3, hr1, "16-12-2015", "16-12-2015");
+		hotel.departGuestFromHotelRoom(hr1);
+		hotel.settleGuestToHotelRoom(gue2, hr1, "16-12-2015", "17-12-2015");
+		hotel.departGuestFromHotelRoom(hr1);
+		hotel.settleGuestToHotelRoom(gue4, hr1, "17-12-2015", "18-12-2015");
+		hotel.departGuestFromHotelRoom(hr1);
+		hotel.settleGuestToHotelRoom(gue3, hr1, "18-12-2015", "19-12-2015");
+		hotel.departGuestFromHotelRoom(hr1);
+		hotel.settleGuestToHotelRoom(gue2, hr1, "19-12-2015", "20-12-2015");
+		hotel.departGuestFromHotelRoom(hr1);
+		hotel.settleGuestToHotelRoom(gue7, hr1, "21-12-2015", "22-12-2015");
+		hotel.departGuestFromHotelRoom(hr1);
 
 		// show last 3 guests of room hr1
-		hotelRoomService.showLast3GuestOfHotelRoom(hr1);
+		hotel.showLast3GuestOfHotelRoom(hr1);
 
 		// show detail of hotel room
-		hotelRoomService.showDetailOfHotelRoom(hr1);
+		hotel.showDetailOfHotelRoom(hr1);
+
+		// testing change status
+		hotel.changeStatus(hr1);
+		hotel.showDetailOfHotelRoom(hr1);
+		hotel.changeStatus(hr1);
+		hotel.showDetailOfHotelRoom(hr1);
+
 	}
 
 }

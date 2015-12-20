@@ -11,10 +11,12 @@ public class HotelRoom {
 	private int sleepingNumbers;
 	private int starCategory;
 	private boolean busy;
-	private Date dateOfArrival;
-	private Date dateOfDeparture;
+	private String dateOfArrival;
+	private String dateOfDeparture;
 	LinkedList<Guest> guestHistory = new LinkedList<Guest>();
+	private String statys = "in work";
 
+	
 	public HotelRoom(String number, int roomPrice, int sleepingNumbers, int starCategory) {
 		super();
 		this.number = number;
@@ -23,12 +25,12 @@ public class HotelRoom {
 		this.starCategory = starCategory;
 	}
 
-	// TODO
+	// +using to depart guest
 	public ArrayList<Guest> getGuests() {
 		return guests;
 	}
 
-	// add guest to room if it have free space and adding to the guestHistory
+	// +add guest to room if it have free space and adding to the guestHistory
 	public void setGuests(Guest guest) {
 		int a = guests.size();
 		if (a < sleepingNumbers) {
@@ -71,7 +73,7 @@ public class HotelRoom {
 		this.starCategory = starCategory;
 	}
 
-	public boolean isBusy() {
+	public boolean getBusy() {
 		return busy;
 	}
 
@@ -79,23 +81,25 @@ public class HotelRoom {
 		this.busy = busy;
 	}
 
-	public Date getDateOfArrival() {
+	
+
+	public String getDateOfArrival() {
 		return dateOfArrival;
 	}
 
-	public void setDateOfArrival(Date dateOfArrival) {
+	public void setDateOfArrival(String dateOfArrival) {
 		this.dateOfArrival = dateOfArrival;
 	}
 
-	public Date getDateOfDeparture() {
+	public String getDateOfDeparture() {
 		return dateOfDeparture;
 	}
 
-	public void setDateOfDeparture(Date dateOfDeparture) {
+	public void setDateOfDeparture(String dateOfDeparture) {
 		this.dateOfDeparture = dateOfDeparture;
 	}
 
-	// TODO show guest history with date of him arrival and departure
+	// +show guest history with date of him arrival and departure
 	public LinkedList<Guest> getGuestHistory() {
 		return guestHistory;
 	}
@@ -113,9 +117,18 @@ public class HotelRoom {
 
 	@Override
 	public String toString() {
-		System.out.println("Room number: " + number + "\n Room price:" + roomPrice + "\n Sleeping numpers:"
-				+ sleepingNumbers + "\n Star category: " + starCategory + "\n busy: " + busy);
+		System.out.println("Room number: " + number + "\n Room price:" + roomPrice + "\n Sleeping numbers:"
+				+ sleepingNumbers + "\n Star category: " + starCategory + "\n busy: " + busy+"\n status:"+statys);
 		return super.toString();
 	}
+	
+	public String getStatys() {
+		return statys;
+	}
+
+	public void setStatys(String statys) {
+		this.statys = statys;
+	}
+
 
 }

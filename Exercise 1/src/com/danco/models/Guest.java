@@ -6,7 +6,8 @@ import java.util.Date;
 public class Guest {
 
 private String name;
-private Date dateOfDeparture;
+private String dateOfDeparture;
+private String dateOfArrive;
 private String numberOfRoom;
 private int summToPaid;
 private ArrayList<Service> servises;
@@ -22,10 +23,19 @@ public String getName() {
 public void setName(String name) {
 	this.name = name;
 }
-public Date getDateOfDeparture() {
-	return dateOfDeparture;
+public String getDateOfDeparture() {
+	return  dateOfDeparture;
 }
-public void setDateOfDeparture(Date dateOfDeparture) {
+
+public String getDateOfArrive() {
+	return dateOfArrive;
+}
+
+public void setDateOfArrive(String dateOfArrive) {
+	this.dateOfArrive = dateOfArrive;
+}
+
+public void setDateOfDeparture(String dateOfDeparture) {
 	this.dateOfDeparture = dateOfDeparture;
 }
 public String getNumberOfRoom() {
