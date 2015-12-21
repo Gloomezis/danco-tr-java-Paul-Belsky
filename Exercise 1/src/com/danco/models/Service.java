@@ -8,13 +8,13 @@ public class Service {
 	
 private int price;
 private String nameOfService;
-//TODO date type
-private String dateOfUsingService;
+private String dateOfUsingService="not used";
 
 public Service(int price, String nameOfService) {
 	
 	this.price = price;
 	this.nameOfService = nameOfService;
+	
 }
 public int getPrice() {
 	return price;

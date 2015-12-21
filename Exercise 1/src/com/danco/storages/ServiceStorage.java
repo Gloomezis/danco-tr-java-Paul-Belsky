@@ -1,10 +1,13 @@
 package com.danco.storages;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
-import com.danco.models.Guest;
+
 import com.danco.models.Service;
 
 public class ServiceStorage {
@@ -30,7 +33,7 @@ public class ServiceStorage {
 	}
 
 	// +Add service to array servises
-	public void AddServices(Service service) {
+	public void addServices(Service service) {
 		servises.add(service);
 	}
 
@@ -71,5 +74,25 @@ public class ServiceStorage {
 
 		}
 	}
+	
+	// + date of using service comparator
+		public class DateOfUsing implements Comparator<Service> {
 
-}
+			public int compare(Service p, Service q) {
+
+				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+				Date Pdate = null;
+				Date Qdate = null;
+				try {
+					Pdate = df.parse(p.getDate());
+					Qdate = df.parse(q.getDate());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return Pdate.compareTo(Qdate);
+			}
+
+			}
+		}
+
+

@@ -1,7 +1,9 @@
 package com.danco.gloomezis;
 
+
+
+
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.danco.models.Guest;
 import com.danco.models.HotelRoom;
@@ -9,8 +11,6 @@ import com.danco.models.Service;
 import com.danco.servises.GuestService;
 import com.danco.servises.HotelRoomService;
 import com.danco.servises.ServiceService;
-import com.danco.storages.GuestStorage;
-
 
 
 public class Hotel {
@@ -45,27 +45,21 @@ public class Hotel {
 		hotelRoomService.showPriceHotelRoom();
 		serviceService.showPriceServices();
 
-		//////////////////////////
-		///// Hotel Room Methods//
-		//////////////////////////
+		// ////////////////////////
+		// /// Hotel Room Methods//
+		// ////////////////////////
 
 	}
 
-	// TODO get array of Hotel rooms (Sorted by price/sleeping numbers/star
+	//+get array of Hotel rooms all or free (Sorted by price/sleeping numbers/star
 	// category)
-	public ArrayList<HotelRoom> showAllRoms() {
-		return hotelRoomService.showAllRoms();
+	public  void showAllRoms(String sortCondition,String free) {
+		 hotelRoomService.showAllRoms(sortCondition,free);
 	}
 
-	// TODO get array of free rooms (Sorted by price/sleeping numbers/star
-	// category)
-	public ArrayList<HotelRoom> showFreeRoms() {
-		return hotelRoomService.showFreeRoms();
-	}
-
-	// TODO get array of free rooms after date (not sorded)
-	public ArrayList<HotelRoom> showFreeRomsAfterDate() {
-		return hotelRoomService.showFreeRomsAfterDate();
+	// + get array of free rooms after date (not sorded)
+	public void showFreeRomsAfterDate(String sortCondition,String date) {
+		hotelRoomService.showFreeRomsAfterDate(sortCondition,date);
 	}
 
 	// +show number of all free rooms
@@ -84,15 +78,15 @@ public class Hotel {
 	}
 
 	// +settle guest to hotel room
-	
-	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom, String dateOfArrival, String dateOfDeparture) {
+
+	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
+			String dateOfArrival, String dateOfDeparture) {
 		hotelRoomService.settleGuestToHotelRoom(guest, hotelRoom);
 		hotelRoomService.setDateOfArrival(dateOfArrival, hotelRoom);
 		hotelRoomService.setDateOfDeparture(dateOfDeparture, hotelRoom);
-		guestService.setDateOfDeparture(dateOfDeparture,guest);
-		guestService.setDateOfArrive(dateOfArrival,guest);
-		
-
+		guestService.setDateOfDeparture(dateOfDeparture, guest);
+		guestService.setDateOfArrive(dateOfArrival, guest);
+        
 	}
 
 	// + Depart all guest from selected hotel room
@@ -106,8 +100,8 @@ public class Hotel {
 	}
 
 	// + Add room to array rooms
-	public void AddRooms(HotelRoom room) {
-		hotelRoomService.AddRooms(room);
+	public void addRooms(HotelRoom room) {
+		hotelRoomService.addRooms(room);
 	}
 
 	// + change room price of selected room
@@ -116,18 +110,18 @@ public class Hotel {
 		;
 	}
 
-	/////////////////////
-	///// Guest Methods//
-	/////////////////////
+	// ///////////////////
+	// /// Guest Methods//
+	// ///////////////////
 
-	//+ get all guest sorted by alphabet / date of departure
-	public void getAllGuests(String a) {
-		guestService.getAllGuests(a);
+	// + get all guest sorted by alphabet / date of departure
+	public void showAllGuests(String a) {
+		guestService.showAllGuests(a);
 	}
 
 	// + add guest to array Guest
-	public void AddAllGuests(Guest guest) {
-		guestService.AddAllGuests(guest);
+	public void addAllGuests(Guest guest) {
+		guestService.addAllGuests(guest);
 	}
 
 	// + show number of all guest
@@ -140,17 +134,25 @@ public class Hotel {
 		guestService.showSummToPaidGuest(guest);
 	}
 
-	// TODO show services of selected guest and price sorted by date and price
-	public ArrayList<Service> showListOfService(Guest guest) {
-		return guestService.showListOfService(guest);
+	// + show services of selected guest and price sorted by date and price
+	public void showListOfService(Guest guest,String sortCondition) {
+		guestService.showListOfService(guest,sortCondition);
 	}
 
-	///////////////////////
-	///// Service Methods//
-	///////////////////////
+	// add service to selected guest
+	public void addServiceToGuest(Guest guest, Service service) {
+		guestService.addServiceToGuest(guest, service);
+	}
+    
+	public ArrayList<Guest> getAllGuests() {
+		return guestService.getAllGuests();
+	}
+	// /////////////////////
+	// /// Service Methods//
+	// /////////////////////
 	// + add service to array servises
-	public void AddServices(Service service) {
-		serviceService.AddServices(service);
+	public void addServices(Service service) {
+		serviceService.addServices(service);
 	}
 
 	// +change price of service

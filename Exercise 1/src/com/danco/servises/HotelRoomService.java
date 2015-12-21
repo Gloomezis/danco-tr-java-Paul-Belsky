@@ -1,6 +1,6 @@
 package com.danco.servises;
 
-import java.util.ArrayList;
+
 
 import com.danco.models.Guest;
 import com.danco.models.HotelRoom;
@@ -29,19 +29,15 @@ public class HotelRoomService {
 
 	// TODO get array of Hotel rooms (Sorted by price/sleeping numbers/star
 	// category)
-	public ArrayList<HotelRoom> showAllRoms() {
-		return hotelRoomStorage.showAllRooms();
+	public void showAllRoms(String sortCondition, String free) {
+		hotelRoomStorage.showAllRooms(sortCondition, free);
 	}
 
-	// TODO get array of free rooms (Sorted by price/sleeping numbers/star
-	// category)
-	public ArrayList<HotelRoom> showFreeRoms() {
-		return hotelRoomStorage.showFreeRoms();
-	}
+	
 
 	// TODO get array of free rooms after date (not sorded)
-	public ArrayList<HotelRoom> showFreeRomsAfterDate() {
-		return hotelRoomStorage.showFreeRomsAfterDate();
+	public void showFreeRomsAfterDate(String sortCondition,String date) {
+		hotelRoomStorage.showFreeRomsAfterDate(sortCondition,date);
 	}
 
 	// show number of all free rooms
@@ -82,7 +78,7 @@ public class HotelRoomService {
 	}
 
 	// + Add room to array rooms
-	public void AddRooms(HotelRoom room) {
+	public void addRooms(HotelRoom room) {
 		hotelRoomStorage.setRooms(room);
 	}
 

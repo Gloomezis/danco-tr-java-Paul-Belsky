@@ -1,16 +1,16 @@
 package com.danco.models;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class Guest {
 
 private String name;
 private String dateOfDeparture;
 private String dateOfArrive;
-private String numberOfRoom;
+private String numberOfRoom="not setled";
 private int summToPaid;
-private ArrayList<Service> servises;
+private ArrayList<Service> services= new ArrayList<Service>();
 
 public Guest(String name) {
 	
@@ -51,13 +51,21 @@ public void setSummToPaid(int summToPaid) {
 	this.summToPaid = summToPaid;
 }
 public ArrayList<Service> getServises() {
-	return servises;
+return services;
+	
+
+}
+//add service to arrat servises
+public void setServices(Service service) {
+	services.add(service);
 }
 
-//add service to arrat servises
-public void setServises(Service servise) {
-	servises.add(servise);
-}
+@Override
+	public String toString() {
+	String a;
+	return  a=name+","+ dateOfDeparture+","+dateOfArrive+","+numberOfRoom+","+summToPaid;
+		 
+	}
 
 
 

@@ -2,7 +2,7 @@ package com.danco.models;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Date;
+
 
 public class HotelRoom {
 	private ArrayList<Guest> guests = new ArrayList<Guest>();
@@ -36,8 +36,14 @@ public class HotelRoom {
 		if (a < sleepingNumbers) {
 			guests.add(guest);
 			setGuestHistory(guest);
+			
 		} else {
 			System.out.println("no have free sleeping place");
+			
+			//int a=hotelRoom.getGuests().size();
+			//int b=hotelRoom.getSleepingNumbers();
+			//if(a)
+			
 		}
 	}
 
@@ -117,8 +123,7 @@ public class HotelRoom {
 
 	@Override
 	public String toString() {
-		System.out.println("Room number: " + number + "\n Room price:" + roomPrice + "\n Sleeping numbers:"
-				+ sleepingNumbers + "\n Star category: " + starCategory + "\n busy: " + busy+"\n status:"+statys);
+		
 		return super.toString();
 	}
 	

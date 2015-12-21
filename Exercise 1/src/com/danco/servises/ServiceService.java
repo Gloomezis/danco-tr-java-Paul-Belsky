@@ -1,6 +1,6 @@
 package com.danco.servises;
 
-import java.util.ArrayList;
+
 
 import com.danco.models.Service;
 import com.danco.storages.ServiceStorage;
@@ -28,11 +28,11 @@ public class ServiceService {
 	ServiceStorage serviceStorage = ServiceStorage.getInstance();
 
 	// +Add service to array servises
-	public void AddServices(Service service) {
-		serviceStorage.AddServices(service);
+	public void addServices(Service service) {
+		serviceStorage.addServices(service);
 		;
 	}
-	// TODO sorted by price
+	// +sorted by price
 	public void showPriceServices() {
 		serviceStorage.showPriceServices();
 	}
