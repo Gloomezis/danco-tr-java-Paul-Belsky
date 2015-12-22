@@ -75,7 +75,7 @@ public class HotelRoomService {
 
 	// + Add room to array rooms
 	public void addRooms(HotelRoom room) {
-		hotelRoomStorage.setRooms(room);
+		hotelRoomStorage.addRooms(room);
 	}
 
 	// + change room price of selected room

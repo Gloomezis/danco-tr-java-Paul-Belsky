@@ -179,7 +179,7 @@ public class HotelRoomStorage {
 	}
 
 	// +Add room to array rooms
-	public void setRooms(HotelRoom room) {
+	public void addRooms(HotelRoom room) {
 		rooms.add(room);
 	}
 
