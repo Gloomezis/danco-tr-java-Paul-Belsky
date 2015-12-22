@@ -1,7 +1,5 @@
 package com.danco.servises;
 
-
-
 import com.danco.models.Service;
 import com.danco.storages.ServiceStorage;
 
@@ -32,6 +30,7 @@ public class ServiceService {
 		serviceStorage.addServices(service);
 		;
 	}
+
 	// +sorted by price
 	public void showPriceServices() {
 		serviceStorage.showPriceServices();

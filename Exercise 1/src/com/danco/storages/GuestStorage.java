@@ -1,6 +1,6 @@
 package com.danco.storages;
 
-import java.security.AllPermission;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,7 +11,6 @@ import java.util.Date;
 
 import com.danco.models.Guest;
 import com.danco.models.Service;
-
 
 public class GuestStorage {
 
@@ -35,8 +34,6 @@ public class GuestStorage {
 		return instance;
 	}
 
-	
-	
 	// + list of all guest and they hotel rooms sorted by alphabet and date
 	// of departure
 	public void showAllGuests(String a) {
@@ -102,7 +99,7 @@ public class GuestStorage {
 		Date date = Calendar.getInstance().getTime();
 		service.setDate(df.format(date));
 		guest.setServices(service);
-		guest.setSummToPaid(guest.getSummToPaid()+service.getPrice());
+		guest.setSummToPaid(guest.getSummToPaid() + service.getPrice());
 
 	}
 
@@ -116,9 +113,6 @@ public class GuestStorage {
 		guest.setDateOfArrive(dateOfArrive);
 	}
 
-	
-	
-
 	public ArrayList<Guest> getAllGuests() {
 		return allGuests;
 	}
@@ -128,9 +122,9 @@ public class GuestStorage {
 	}
 
 	// ///////////////
-    // / Comparators///
+	// / Comparators///
 	// ///////////////
-	
+
 	// + comparator by name
 	class NameCompare implements Comparator<Guest> {
 

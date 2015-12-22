@@ -3,7 +3,6 @@ package com.danco.models;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-
 public class HotelRoom {
 	private ArrayList<Guest> guests = new ArrayList<Guest>();
 	private String number;
@@ -16,8 +15,8 @@ public class HotelRoom {
 	LinkedList<Guest> guestHistory = new LinkedList<Guest>();
 	private String statys = "in work";
 
-	
-	public HotelRoom(String number, int roomPrice, int sleepingNumbers, int starCategory) {
+	public HotelRoom(String number, int roomPrice, int sleepingNumbers,
+			int starCategory) {
 		super();
 		this.number = number;
 		this.roomPrice = roomPrice;
@@ -36,14 +35,14 @@ public class HotelRoom {
 		if (a < sleepingNumbers) {
 			guests.add(guest);
 			setGuestHistory(guest);
-			
+
 		} else {
 			System.out.println("no have free sleeping place");
-			
-			//int a=hotelRoom.getGuests().size();
-			//int b=hotelRoom.getSleepingNumbers();
-			//if(a)
-			
+
+			// int a=hotelRoom.getGuests().size();
+			// int b=hotelRoom.getSleepingNumbers();
+			// if(a)
+
 		}
 	}
 
@@ -87,8 +86,6 @@ public class HotelRoom {
 		this.busy = busy;
 	}
 
-	
-
 	public String getDateOfArrival() {
 		return dateOfArrival;
 	}
@@ -123,10 +120,10 @@ public class HotelRoom {
 
 	@Override
 	public String toString() {
-		
+
 		return super.toString();
 	}
-	
+
 	public String getStatys() {
 		return statys;
 	}
@@ -134,6 +131,5 @@ public class HotelRoom {
 	public void setStatys(String statys) {
 		this.statys = statys;
 	}
-
 
 }

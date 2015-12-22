@@ -1,26 +1,26 @@
 package com.danco.gloomezis;
 
-import java.util.ArrayList;
-
 import com.danco.models.Guest;
 import com.danco.models.HotelRoom;
 import com.danco.models.Service;
 
-import com.danco.training.*;
+
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		final String FILE_PATH_GUESTS = "src/src/files/guests.txt";
-		TextFileWorker fwGuest = new TextFileWorker(FILE_PATH_GUESTS);
-
-		final String FILE_PATH_HOTELROOMS = "src/src/files/hotelRooms.txt";
-		TextFileWorker fwHotelRoms = new TextFileWorker(FILE_PATH_HOTELROOMS);
-
-		final String FILE_PATH_SERVICES = "src/src/files/services.txt";
-		TextFileWorker fwServices = new TextFileWorker(FILE_PATH_SERVICES);
-
+		/*
+		 * final String FILE_PATH_GUESTS = "src/src/files/guests.txt";
+		 * TextFileWorker fwGuest = new TextFileWorker(FILE_PATH_GUESTS);
+		 * 
+		 * final String FILE_PATH_HOTELROOMS = "src/src/files/hotelRooms.txt";
+		 * TextFileWorker fwHotelRoms = new
+		 * TextFileWorker(FILE_PATH_HOTELROOMS);
+		 * 
+		 * final String FILE_PATH_SERVICES = "src/src/files/services.txt";
+		 * TextFileWorker fwServices = new TextFileWorker(FILE_PATH_SERVICES);
+		 */
 		// ñreating hotel
 		Hotel hotel = Hotel.getInstance();
 
@@ -168,32 +168,21 @@ public class Main {
 
 		// testing show list of all free rooms sorted by condition
 		hotel.showFreeRomsAfterDate("star", "24-12-2015");
-
-		// writing guests to file
-		String[] b = new String[10];
-		ArrayList<Guest> a;
-		int i = 0;
-		for (Guest g : a = hotel.getAllGuests()) {
-			b[i] = g.toString() + " ";
-			i++;
-		}
-		fwGuest.writeToFile(b);
-
-		// reading guest from file
-		String[] c = new String[7];
-		c = fwGuest.readFromFile();
-		String[] e = new String[0];
-		for (String b1 : c) {
-			e = b1.split(",");
-			String name =e[0];
-			String dateOfDeparture1 = e[1];
-			String dateOfArrive = e[2];
-			String numberOfRoom = e[3];
-			String summToPaid = e[4];
-			System.out.println(
-					name + " " + dateOfDeparture1 + " " + dateOfArrive + " " + numberOfRoom + " " + summToPaid);
-
-		}
+		/*
+		 * // writing guests to file String[] b = new String[10];
+		 * ArrayList<Guest> a; int i = 0; for (Guest g : a =
+		 * hotel.getAllGuests()) { b[i] = g.toString() + " "; i++; }
+		 * fwGuest.writeToFile(b);
+		 * 
+		 * // reading guest from file String[] c = new String[7]; c =
+		 * fwGuest.readFromFile(); String[] e = new String[0]; for (String b1 :
+		 * c) { e = b1.split(","); String name =e[0]; String dateOfDeparture1 =
+		 * e[1]; String dateOfArrive = e[2]; String numberOfRoom = e[3]; String
+		 * summToPaid = e[4]; System.out.println( name + " " + dateOfDeparture1
+		 * + " " + dateOfArrive + " " + numberOfRoom + " " + summToPaid);
+		 * 
+		 * }
+		 */
 	}
 
 }

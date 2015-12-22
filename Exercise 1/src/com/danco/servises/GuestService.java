@@ -1,7 +1,5 @@
 package com.danco.servises;
 
-
-
 import java.util.ArrayList;
 
 import com.danco.models.Guest;
@@ -58,17 +56,18 @@ public class GuestService {
 	public void addServiceToGuest(Guest guest, Service service) {
 		guestStorage.addServiceToGuest(guest, service);
 	}
-   
-	//+
+
+	// +
 	public void setDateOfDeparture(String dateOfDeparture, Guest guest) {
 		guestStorage.setDateOfDeparture(dateOfDeparture, guest);
 	}
-   
-	//+
+
+	// +
 	public void setDateOfArrive(String dateOfArrive, Guest guest) {
 		guestStorage.setDateOfArrive(dateOfArrive, guest);
 	}
-	//writing to file
+
+	// writing to file
 	public ArrayList<Guest> getAllGuests() {
 		return guestStorage.getAllGuests();
 	}

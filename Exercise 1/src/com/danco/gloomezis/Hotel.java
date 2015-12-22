@@ -1,8 +1,5 @@
 package com.danco.gloomezis;
 
-
-
-
 import java.util.ArrayList;
 
 import com.danco.models.Guest;
@@ -11,7 +8,6 @@ import com.danco.models.Service;
 import com.danco.servises.GuestService;
 import com.danco.servises.HotelRoomService;
 import com.danco.servises.ServiceService;
-
 
 public class Hotel {
 
@@ -51,15 +47,16 @@ public class Hotel {
 
 	}
 
-	//+get array of Hotel rooms all or free (Sorted by price/sleeping numbers/star
+	// +get array of Hotel rooms all or free (Sorted by price/sleeping
+	// numbers/star
 	// category)
-	public  void showAllRoms(String sortCondition,String free) {
-		 hotelRoomService.showAllRoms(sortCondition,free);
+	public void showAllRoms(String sortCondition, String free) {
+		hotelRoomService.showAllRoms(sortCondition, free);
 	}
 
 	// + get array of free rooms after date (not sorded)
-	public void showFreeRomsAfterDate(String sortCondition,String date) {
-		hotelRoomService.showFreeRomsAfterDate(sortCondition,date);
+	public void showFreeRomsAfterDate(String sortCondition, String date) {
+		hotelRoomService.showFreeRomsAfterDate(sortCondition, date);
 	}
 
 	// +show number of all free rooms
@@ -86,7 +83,7 @@ public class Hotel {
 		hotelRoomService.setDateOfDeparture(dateOfDeparture, hotelRoom);
 		guestService.setDateOfDeparture(dateOfDeparture, guest);
 		guestService.setDateOfArrive(dateOfArrival, guest);
-        
+
 	}
 
 	// + Depart all guest from selected hotel room
@@ -135,18 +132,19 @@ public class Hotel {
 	}
 
 	// + show services of selected guest and price sorted by date and price
-	public void showListOfService(Guest guest,String sortCondition) {
-		guestService.showListOfService(guest,sortCondition);
+	public void showListOfService(Guest guest, String sortCondition) {
+		guestService.showListOfService(guest, sortCondition);
 	}
 
 	// add service to selected guest
 	public void addServiceToGuest(Guest guest, Service service) {
 		guestService.addServiceToGuest(guest, service);
 	}
-    
+
 	public ArrayList<Guest> getAllGuests() {
 		return guestService.getAllGuests();
 	}
+
 	// /////////////////////
 	// /// Service Methods//
 	// /////////////////////

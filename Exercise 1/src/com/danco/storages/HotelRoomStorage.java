@@ -76,8 +76,9 @@ public class HotelRoomStorage {
 
 	// + print rooms inroomPrinterAllOrFree method
 	public void roomPrinter(HotelRoom s) {
-		System.out.println("Room: " + s.getNumber() + " , sleeping numbers: " + s.getSleepingNumbers()
-				+ " , stars category: " + s.getStarCategory() + " , price: " + s.getRoomPrice());
+		System.out.println("Room: " + s.getNumber() + " , sleeping numbers: "
+				+ s.getSleepingNumbers() + " , stars category: "
+				+ s.getStarCategory() + " , price: " + s.getRoomPrice());
 
 	}
 
@@ -116,9 +117,11 @@ public class HotelRoomStorage {
 	// + show last 3 guest of hotel room
 	public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom) {
 		LinkedList<Guest> g = hotelRoom.getGuestHistory();
-		System.out.println("The last 3 guest of hotel room " + hotelRoom.getNumber() + " was:");
+		System.out.println("The last 3 guest of hotel room "
+				+ hotelRoom.getNumber() + " was:");
 		for (Guest a : g) {
-			System.out.println(a.getName() + " arrive " + a.getDateOfArrive() + " ,depart: " + a.getDateOfDeparture());
+			System.out.println(a.getName() + " arrive " + a.getDateOfArrive()
+					+ " ,depart: " + a.getDateOfDeparture());
 		}
 	}
 
@@ -127,7 +130,8 @@ public class HotelRoomStorage {
 
 		Collections.sort(rooms, new PriceCompare());
 		for (HotelRoom s : rooms) {
-			System.out.println("Hotel room: " + s.getNumber() + " , price: " + s.getRoomPrice());
+			System.out.println("Hotel room: " + s.getNumber() + " , price: "
+					+ s.getRoomPrice());
 
 		}
 
@@ -135,9 +139,11 @@ public class HotelRoomStorage {
 
 	// + show detail selected hotel room
 	public void showDetailOfHotelRoom(HotelRoom hotelRoom) {
-		System.out.println("Room number: " + hotelRoom.getNumber() + "\n Room price:" + hotelRoom.getRoomPrice()
-				+ "\n Sleeping numbers:" + hotelRoom.getSleepingNumbers() + "\n Star category: "
-				+ hotelRoom.getStarCategory() + "\n busy: " + hotelRoom.getBusy() + "\n status:"
+		System.out.println("Room number: " + hotelRoom.getNumber()
+				+ "\n Room price:" + hotelRoom.getRoomPrice()
+				+ "\n Sleeping numbers:" + hotelRoom.getSleepingNumbers()
+				+ "\n Star category: " + hotelRoom.getStarCategory()
+				+ "\n busy: " + hotelRoom.getBusy() + "\n status:"
 				+ hotelRoom.getStatys());
 	}
 

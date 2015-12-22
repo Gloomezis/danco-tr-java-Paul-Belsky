@@ -1,7 +1,5 @@
 package com.danco.servises;
 
-
-
 import com.danco.models.Guest;
 import com.danco.models.HotelRoom;
 import com.danco.storages.HotelRoomStorage;
@@ -33,11 +31,9 @@ public class HotelRoomService {
 		hotelRoomStorage.showAllRooms(sortCondition, free);
 	}
 
-	
-
 	// TODO get array of free rooms after date (not sorded)
-	public void showFreeRomsAfterDate(String sortCondition,String date) {
-		hotelRoomStorage.showFreeRomsAfterDate(sortCondition,date);
+	public void showFreeRomsAfterDate(String sortCondition, String date) {
+		hotelRoomStorage.showFreeRomsAfterDate(sortCondition, date);
 	}
 
 	// show number of all free rooms

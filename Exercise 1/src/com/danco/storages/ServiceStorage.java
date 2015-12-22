@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-
 import com.danco.models.Service;
 
 public class ServiceStorage {
@@ -41,7 +40,8 @@ public class ServiceStorage {
 	public void showPriceServices() {
 		Collections.sort(servises, new PriceCompare());
 		for (Service s : servises) {
-			System.out.println("Service: " + s.getNameOfService() + " , price: " + s.getPrice());
+			System.out.println("Service: " + s.getNameOfService()
+					+ " , price: " + s.getPrice());
 
 		}
 	}
@@ -52,9 +52,9 @@ public class ServiceStorage {
 
 	}
 
-	/////////////////
-	/// Comparators///
-	/////////////////
+	// ///////////////
+	// / Comparators///
+	// ///////////////
 
 	// comparator by name
 	class PriceCompare implements Comparator<Service> {
@@ -74,25 +74,23 @@ public class ServiceStorage {
 
 		}
 	}
-	
+
 	// + date of using service comparator
-		public class DateOfUsing implements Comparator<Service> {
+	public class DateOfUsing implements Comparator<Service> {
 
-			public int compare(Service p, Service q) {
+		public int compare(Service p, Service q) {
 
-				DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-				Date Pdate = null;
-				Date Qdate = null;
-				try {
-					Pdate = df.parse(p.getDate());
-					Qdate = df.parse(q.getDate());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return Pdate.compareTo(Qdate);
+			DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+			Date Pdate = null;
+			Date Qdate = null;
+			try {
+				Pdate = df.parse(p.getDate());
+				Qdate = df.parse(q.getDate());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-
-			}
+			return Pdate.compareTo(Qdate);
 		}
 
-
+	}
+}
