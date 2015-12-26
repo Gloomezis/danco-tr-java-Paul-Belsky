@@ -5,13 +5,14 @@ import java.util.ArrayList;
 public class Guest {
 
 	private String name;
-	private String dateOfDeparture;
-	private String dateOfArrive;
+	private String dateOfDeparture="00-00-0000";
+	private String dateOfArrive= "00-00-0000";
 	private String numberOfRoom = "not setled";
-	private int summToPaid;
+	private int summToPaid=0;
 	private ArrayList<Service> services = new ArrayList<Service>();
 
 	String a;
+
 	public Guest(String name) {
 
 		this.name = name;
@@ -67,13 +68,9 @@ public class Guest {
 		services.add(service);
 	}
 
-	@Override
-	public String toString() {
-		
-		
-		return a = name + "," + dateOfDeparture + "," + dateOfArrive + ","
-				+ numberOfRoom + "," + summToPaid;
-
+	public String toString(){
+	
+		return (new StringBuilder(name+","+dateOfArrive+","+dateOfDeparture+","+numberOfRoom+","+summToPaid).toString());
+	
 	}
-
 }

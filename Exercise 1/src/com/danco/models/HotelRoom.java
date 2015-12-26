@@ -10,13 +10,12 @@ public class HotelRoom {
 	private int sleepingNumbers;
 	private int starCategory;
 	private boolean busy;
-	private String dateOfArrival;
-	private String dateOfDeparture;
-	LinkedList<Guest> guestHistory = new LinkedList<Guest>();
+	private String dateOfArrival="00-00-0000";
+	private String dateOfDeparture="00-00-0000";
+	private LinkedList<Guest> guestHistory = new LinkedList<Guest>();
 	private String statys = "in work";
 
-	public HotelRoom(String number, int roomPrice, int sleepingNumbers,
-			int starCategory) {
+	public HotelRoom(String number, int roomPrice, int sleepingNumbers, int starCategory) {
 		super();
 		this.number = number;
 		this.roomPrice = roomPrice;
@@ -38,10 +37,6 @@ public class HotelRoom {
 
 		} else {
 			System.out.println("no have free sleeping place");
-
-			// int a=hotelRoom.getGuests().size();
-			// int b=hotelRoom.getSleepingNumbers();
-			// if(a)
 
 		}
 	}
@@ -118,11 +113,8 @@ public class HotelRoom {
 		}
 	}
 
-	@Override
-	public String toString() {
+	
 
-		return super.toString();
-	}
 
 	public String getStatys() {
 		return statys;
