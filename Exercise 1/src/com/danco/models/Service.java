@@ -1,10 +1,12 @@
 package com.danco.models;
 
+import java.util.Date;
+
 public class Service {
 
 	private int price;
 	private String nameOfService;
-	private String dateOfUsingService = "not used";
+	private Date dateOfUsingService = new Date(00-00-0000);
 
 	public Service(int price, String nameOfService) {
 
@@ -29,11 +31,11 @@ public class Service {
 		this.nameOfService = nameOfService;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return dateOfUsingService;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.dateOfUsingService = date;
 	}
 

@@ -32,6 +32,8 @@ public class HotelRoomStorage {
 
 	ArrayList<HotelRoom> rooms = new ArrayList<HotelRoom>();
 
+	DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+
 	// singleton
 	private static HotelRoomStorage instance;
 
@@ -79,8 +81,9 @@ public class HotelRoomStorage {
 	// TODO returnStatement
 	// + print rooms inroomPrinterAllOrFree method
 	public void roomPrinter(HotelRoom s) {
-		System.out.println(new StringBuilder(String.format(ROOM_PRINTER_FORMAT, s.getNumber(), s.getSleepingNumbers(),
-				s.getStarCategory(), s.getRoomPrice())));
+		System.out.println(new StringBuilder(String.format(ROOM_PRINTER_FORMAT,
+				s.getNumber(), s.getSleepingNumbers(), s.getStarCategory(),
+				s.getRoomPrice())));
 
 	}
 
@@ -104,16 +107,33 @@ public class HotelRoomStorage {
 
 	// +
 	public void setDateOfArrival(String dateOfArrival, HotelRoom hotelRoom) {
-		hotelRoom.setDateOfArrival(dateOfArrival);
+
+		Date Pdate = null;
+		try {
+			Pdate = df.parse(dateOfArrival);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		hotelRoom.setDateOfArrival(Pdate);
+
 	}
 
 	// +
 	public void setDateOfDeparture(String dateOfDeparture, HotelRoom hotelRoom) {
-		hotelRoom.setDateOfDeparture(dateOfDeparture);
+
+		Date Pdate = null;
+		try {
+			Pdate = df.parse(dateOfDeparture);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		hotelRoom.setDateOfDeparture(Pdate);
+		;
 	}
 
 	// + settle guest to hotel room
-	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom, String dateOfArrival, String dateOfDeparture) {
+	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
+			String dateOfArrival, String dateOfDeparture) {
 		hotelRoom.setGuests(guest);
 
 		setDateOfArrival(dateOfArrival, hotelRoom);
@@ -137,8 +157,9 @@ public class HotelRoomStorage {
 	// TODO returnStatement
 	// + show detail selected hotel room
 	public void showDetailOfHotelRoom(HotelRoom hotelRoom) {
-		System.out.println(new StringBuilder(String.format(ROOM_DETAIL_FORMAT, hotelRoom.getNumber(),
-				hotelRoom.getRoomPrice(), hotelRoom.getSleepingNumbers(), hotelRoom.getStarCategory(),
+		System.out.println(new StringBuilder(String.format(ROOM_DETAIL_FORMAT,
+				hotelRoom.getNumber(), hotelRoom.getRoomPrice(),
+				hotelRoom.getSleepingNumbers(), hotelRoom.getStarCategory(),
 				hotelRoom.getBusy(), hotelRoom.getStatys())));
 
 	}
@@ -148,13 +169,13 @@ public class HotelRoomStorage {
 	// numbers/star category)
 	public void showFreeRomsAfterDate(String sortCondition, String date) {
 		sortRooms(sortCondition);
-		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+
 		Date Pdate = null;
 		Date Qdate = null;
 		for (HotelRoom s : rooms) {
 			try {
 				Pdate = df.parse(date);
-				Qdate = df.parse(s.getDateOfDeparture());
+				Qdate = s.getDateOfDeparture();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -168,10 +189,13 @@ public class HotelRoomStorage {
 	// + show last 3 guest of hotel room
 	public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom) {
 		LinkedList<Guest> g = hotelRoom.getGuestHistory();
-		StringBuilder sb = new StringBuilder(String.format(LAST_3_GUEST_FORMAT, hotelRoom.getNumber()));
+		StringBuilder sb = new StringBuilder(String.format(LAST_3_GUEST_FORMAT,
+				hotelRoom.getNumber()));
 
 		for (Guest a : g) {
-			sb.append(String.format(LAST_GUEST_FORMAT, a.getName(), a.getDateOfArrive(), a.getDateOfDeparture()));
+			sb.append(String.format(LAST_GUEST_FORMAT, a.getName(),
+					df.format(a.getDateOfArrive()),
+					df.format(a.getDateOfDeparture())));
 
 		}
 		System.out.println(sb);
@@ -186,7 +210,8 @@ public class HotelRoomStorage {
 				n++;
 			}
 		}
-		System.out.println(new StringBuilder(String.format(FREE_ROOM_NUMB_FORMAT, n)));
+		System.out.println(new StringBuilder(String.format(
+				FREE_ROOM_NUMB_FORMAT, n)));
 	}
 
 	// TODO returnStatement
@@ -196,7 +221,8 @@ public class HotelRoomStorage {
 		Collections.sort(rooms, new HotelRoomPriceComparator());
 		StringBuilder sb = new StringBuilder(100);
 		for (HotelRoom s : rooms) {
-			sb.append(String.format(HOTEL_ROOM_FORMAT, s.getNumber(), s.getRoomPrice()));
+			sb.append(String.format(HOTEL_ROOM_FORMAT, s.getNumber(),
+					s.getRoomPrice()));
 		}
 		System.out.println(sb);
 	}

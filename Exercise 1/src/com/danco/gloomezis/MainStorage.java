@@ -14,7 +14,6 @@ public class MainStorage {
 	GuestStorage guestStorage;
 	HotelRoomStorage hotelRoomStorage;
 	ServiceStorage serviceStorage;
-	
 
 	// singleton
 	private static MainStorage instance;
@@ -72,8 +71,10 @@ public class MainStorage {
 
 	// +settle guest to hotel room
 
-	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom, String dateOfArrival, String dateOfDeparture) {
-		hotelRoomStorage.settleGuestToHotelRoom(guest, hotelRoom, dateOfArrival, dateOfDeparture);
+	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
+			String dateOfArrival, String dateOfDeparture) {
+		hotelRoomStorage.settleGuestToHotelRoom(guest, hotelRoom,
+				dateOfArrival, dateOfDeparture);
 		guestStorage.setDates(dateOfArrival, dateOfDeparture, guest);
 
 	}

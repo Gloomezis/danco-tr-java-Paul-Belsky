@@ -41,7 +41,8 @@ public class ServiceStorage {
 		Collections.sort(servises, new ServicePriceComparator());
 		StringBuilder sb = new StringBuilder(40);
 		for (Service s : servises) {
-			sb.append(String.format(SERVICE_FORMAT, s.getNameOfService(), s.getPrice()));
+			sb.append(String.format(SERVICE_FORMAT, s.getNameOfService(),
+					s.getPrice()));
 
 		}
 		System.out.println(sb);

@@ -27,7 +27,7 @@ public class GuestStorage {
 	private String PRICE = "price";
 
 	ArrayList<Guest> allGuests = new ArrayList<Guest>();
-
+	DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 	// singleton
 	private static GuestStorage instance;
 
@@ -48,9 +48,9 @@ public class GuestStorage {
 
 	// + add service to selected guest
 	public void addServiceToGuest(Guest guest, Service service) {
-		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+
 		Date date = Calendar.getInstance().getTime();
-		service.setDate(df.format(date));
+		service.setDate(date);
 		guest.setServices(service);
 		guest.setSummToPaid(guest.getSummToPaid() + service.getPrice());
 
@@ -64,25 +64,42 @@ public class GuestStorage {
 		this.allGuests = allGuests;
 	}
 
-	public void setDates(String dateOfArrive, String dateOfDeparture, Guest guest) {
+	public void setDates(String dateOfArrive, String dateOfDeparture,
+			Guest guest) {
 		setDateOfArrive(dateOfArrive, guest);
 		setDateOfDeparture(dateOfDeparture, guest);
 	}
 
 	// +
 	public void setDateOfArrive(String dateOfArrive, Guest guest) {
-		guest.setDateOfArrive(dateOfArrive);
+
+		Date Pdate = null;
+		try {
+			Pdate = df.parse(dateOfArrive);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		guest.setDateOfArrive(Pdate);
 	}
 
 	// +
 	public void setDateOfDeparture(String dateOfDeparture, Guest guest) {
-		guest.setDateOfDeparture(dateOfDeparture);
+
+		Date Pdate = null;
+		try {
+			Pdate = df.parse(dateOfDeparture);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		guest.setDateOfDeparture(Pdate);
+
 	}
 
 	// TODO returnStatement
 	// +show number of all guest
 	public void showAllGuestNumber() {
-		System.out.println(new StringBuilder(String.format(ALL_GUEST_NUMB_FORMAT, allGuests.size())));
+		System.out.println(new StringBuilder(String.format(
+				ALL_GUEST_NUMB_FORMAT, allGuests.size())));
 
 	}
 
@@ -97,14 +114,18 @@ public class GuestStorage {
 			Collections.sort(allGuests, new GuestNameComparator());
 
 			for (Guest s : allGuests) {
-				sb.append(String.format(GUEST_FORMAT, s.getName(), s.getNumberOfRoom(), s.getDateOfDeparture()));
+				sb.append(String.format(GUEST_FORMAT, s.getName(),
+						s.getNumberOfRoom(), df.format(s.getDateOfDeparture())));
 
 			}
 		} else {
 			if (a.equals(DATE)) {
-				Collections.sort(allGuests, new GuestDateOfDepartureComparator());
+				Collections.sort(allGuests,
+						new GuestDateOfDepartureComparator());
 				for (Guest s : allGuests) {
-					sb.append(String.format(GUEST_FORMAT, s.getName(), s.getNumberOfRoom(), s.getDateOfDeparture()));
+					sb.append(String.format(GUEST_FORMAT, s.getName(),
+							s.getNumberOfRoom(),
+							df.format(s.getDateOfDeparture())));
 
 				}
 			} else {
@@ -130,8 +151,10 @@ public class GuestStorage {
 			}
 		}
 		for (Service c : s) {
-			System.out.println(
-					new StringBuilder(String.format(SERVICE_FORMAT, c.getNameOfService(), c.getPrice(), c.getDate())));
+			System.out
+					.println(new StringBuilder(String.format(SERVICE_FORMAT,
+							c.getNameOfService(), c.getPrice(),
+							df.format(c.getDate()))));
 
 		}
 	}
@@ -139,7 +162,8 @@ public class GuestStorage {
 	// TODO returnStatement
 	// +show summ to paid selected guest
 	public void showSummToPaidGuest(Guest guest) {
-		System.out.println(new StringBuilder(String.format(SUMM_TO_PAID_FORMAT, guest.getSummToPaid())));
+		System.out.println(new StringBuilder(String.format(SUMM_TO_PAID_FORMAT,
+				guest.getSummToPaid())));
 
 	}
 

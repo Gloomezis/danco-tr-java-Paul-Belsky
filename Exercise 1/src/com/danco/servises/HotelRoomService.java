@@ -5,10 +5,9 @@ import com.danco.models.Guest;
 import com.danco.models.HotelRoom;
 
 public class HotelRoomService {
-	MainStorage mainStorage= MainStorage.getInstance();
+	MainStorage mainStorage = MainStorage.getInstance();
 
-
-	//  get array of Hotel rooms (Sorted by price/sleeping numbers/star
+	// get array of Hotel rooms (Sorted by price/sleeping numbers/star
 	// category)
 	public void showAllRoms(String sortCondition, String free) {
 		mainStorage.showAllRooms(sortCondition, free);
@@ -29,7 +28,6 @@ public class HotelRoomService {
 		mainStorage.showLast3GuestOfHotelRoom(hotelRoom);
 	}
 
-	
 	// +
 	public void showDetailOfHotelRoom(HotelRoom hotelRoom) {
 		mainStorage.showDetailOfHotelRoom(hotelRoom);
@@ -37,8 +35,10 @@ public class HotelRoomService {
 	}
 
 	// + settle guest to hotel room
-	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,String dateOfArrive, String dateOfDeparture) {
-		mainStorage.settleGuestToHotelRoom(guest, hotelRoom,dateOfArrive,dateOfDeparture);
+	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
+			String dateOfArrive, String dateOfDeparture) {
+		mainStorage.settleGuestToHotelRoom(guest, hotelRoom, dateOfArrive,
+				dateOfDeparture);
 
 	}
 
@@ -63,5 +63,3 @@ public class HotelRoomService {
 		;
 	}
 }
-	
-	

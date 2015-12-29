@@ -1,6 +1,7 @@
 package com.danco.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class HotelRoom {
@@ -10,12 +11,13 @@ public class HotelRoom {
 	private int sleepingNumbers;
 	private int starCategory;
 	private boolean busy;
-	private String dateOfArrival="00-00-0000";
-	private String dateOfDeparture="00-00-0000";
+	private Date dateOfArrival = new Date(00-00-0000);
+	private Date dateOfDeparture = new Date(00-00-0000);
 	private LinkedList<Guest> guestHistory = new LinkedList<Guest>();
 	private String statys = "in work";
 
-	public HotelRoom(String number, int roomPrice, int sleepingNumbers, int starCategory) {
+	public HotelRoom(String number, int roomPrice, int sleepingNumbers,
+			int starCategory) {
 		super();
 		this.number = number;
 		this.roomPrice = roomPrice;
@@ -81,19 +83,19 @@ public class HotelRoom {
 		this.busy = busy;
 	}
 
-	public String getDateOfArrival() {
+	public Date getDateOfArrival() {
 		return dateOfArrival;
 	}
 
-	public void setDateOfArrival(String dateOfArrival) {
+	public void setDateOfArrival(Date dateOfArrival) {
 		this.dateOfArrival = dateOfArrival;
 	}
 
-	public String getDateOfDeparture() {
+	public Date getDateOfDeparture() {
 		return dateOfDeparture;
 	}
 
-	public void setDateOfDeparture(String dateOfDeparture) {
+	public void setDateOfDeparture(Date dateOfDeparture) {
 		this.dateOfDeparture = dateOfDeparture;
 	}
 
@@ -112,9 +114,6 @@ public class HotelRoom {
 			guestHistory.addFirst(guest);
 		}
 	}
-
-	
-
 
 	public String getStatys() {
 		return statys;

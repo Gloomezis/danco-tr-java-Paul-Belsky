@@ -38,11 +38,11 @@ public class TxtWorker {
 	public ArrayList<String> readGuests() {
 		String[] c = new String[10];
 		c = fw.readFromFile();
-		ArrayList <String> s= new ArrayList<String>();
+		ArrayList<String> s = new ArrayList<String>();
 		String[] e = new String[5];
 		for (String b1 : c) {
-			if (b1.equals("null")) {}
-			else{
+			if (b1.equals("null")) {
+			} else {
 				e = b1.split(",");
 				// for(String f:e){
 				// System.out.println(f);
@@ -53,8 +53,9 @@ public class TxtWorker {
 				String dateOfArrive = e[2];
 				String numberOfRoom = e[3];
 				String summToPaid = e[4];
-				System.out.println((new StringBuilder(
-						name + "," + dateOfDeparture + "," + dateOfArrive + "," + numberOfRoom + "," + summToPaid)).toString());
+				System.out.println((new StringBuilder(name + ","
+						+ dateOfDeparture + "," + dateOfArrive + ","
+						+ numberOfRoom + "," + summToPaid)).toString());
 			}
 		}
 		return s;

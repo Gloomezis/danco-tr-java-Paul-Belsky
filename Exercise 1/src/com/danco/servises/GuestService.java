@@ -7,14 +7,10 @@ import com.danco.models.Guest;
 import com.danco.models.Service;
 
 public class GuestService {
-	MainStorage mainStorage= MainStorage.getInstance();
-
-
+	MainStorage mainStorage = MainStorage.getInstance();
 
 	public GuestService() {
 	}
-
-	
 
 	// +show number of all guest
 	public void showAllGuestNumber() {
@@ -47,14 +43,14 @@ public class GuestService {
 	}
 
 	// +
-//	public void setDateOfDeparture(String dateOfDeparture, Guest guest) {
-//		mainStorage.setDateOfDeparture(dateOfDeparture, guest);
-//	}
+	// public void setDateOfDeparture(String dateOfDeparture, Guest guest) {
+	// mainStorage.setDateOfDeparture(dateOfDeparture, guest);
+	// }
 
 	// +
-//	public void setDateOfArrive(String dateOfArrive, Guest guest) {
-//		mainStorage.setDateOfArrive(dateOfArrive, guest);
-//	}
+	// public void setDateOfArrive(String dateOfArrive, Guest guest) {
+	// mainStorage.setDateOfArrive(dateOfArrive, guest);
+	// }
 
 	// writing to file
 	public ArrayList<Guest> getAllGuests() {

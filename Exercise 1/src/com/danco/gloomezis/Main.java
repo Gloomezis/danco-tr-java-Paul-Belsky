@@ -13,25 +13,24 @@ import com.danco.training.TextFileWorker;
 public class Main {
 
 	public static void main(String[] args) {
-	//	
-		String DATE_FORMAT="dd-MM-yyyy";
+		//
+		String DATE_FORMAT = "dd-MM-yyyy";
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-		
+
 		Date date = null;
-		String dateString="18-12-2015";
-			try {
-				date=df.parse(dateString);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			System.out.println(date.toString());
-			
-    //
+		String dateString = "18-12-2015";
+		try {
+			date = df.parse(dateString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		System.out.println(date.toString());
+
+		//
 		final String FILE_PATH_GUESTS = "src/src/files/guests.txt";
 		TextFileWorker fwGuest = new TextFileWorker(FILE_PATH_GUESTS);
 		TxtWorker guestTxtWorker = new TxtWorker(fwGuest);
-		
-		
+
 		MainStorage mainStorage = MainStorage.getInstance();
 
 		// creating hotel rooms
@@ -39,8 +38,8 @@ public class Main {
 		HotelRoom hr2 = new HotelRoom("102", 50, 2, 4);
 		HotelRoom hr3 = new HotelRoom("201", 75, 3, 3);
 		HotelRoom hr4 = new HotelRoom("301", 200, 1, 5);
-		HotelRoom hr5= new HotelRoom("103",65,1,2);
-		
+		HotelRoom hr5 = new HotelRoom("103", 65, 1, 2);
+
 		// creating guests
 		Guest gue1 = new Guest("Paul");
 		Guest gue2 = new Guest("Linda");
@@ -78,16 +77,24 @@ public class Main {
 		mainStorage.addGuest(gue8);
 
 		// settle all guest to rooms
-		mainStorage.settleGuestToHotelRoom(gue1, hr1, "15-12-2015", "18-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue2, hr2, "16-12-2015", "25-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue3, hr2, "16-12-2015", "25-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue4, hr3, "15-12-2015", "24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue5, hr3, "15-12-2015", "24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue6, hr3, "15-12-2015", "24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue7, hr4, "17-12-2015", "19-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue1, hr1, "15-12-2015",
+				"18-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue2, hr2, "16-12-2015",
+				"25-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue3, hr2, "16-12-2015",
+				"25-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue4, hr3, "15-12-2015",
+				"24-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue5, hr3, "15-12-2015",
+				"24-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue6, hr3, "15-12-2015",
+				"24-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue7, hr4, "17-12-2015",
+				"19-12-2015");
 
 		// settle a guest to room (2 not settle because have no space in room
-		mainStorage.settleGuestToHotelRoom(gue2, hr1, "16-12-2015", "25-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue2, hr1, "16-12-2015",
+				"25-12-2015");
 
 		// test showing list of guest and his rooms sorted by alphabet
 		System.out.println("//////////////by alphabet////////////////////");
@@ -110,19 +117,25 @@ public class Main {
 		mainStorage.departGuestFromHotelRoom(hr1);
 
 		// testing room history
-		mainStorage.settleGuestToHotelRoom(gue3, hr1, "16-12-2015", "16-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue3, hr1, "16-12-2015",
+				"16-12-2015");
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue2, hr1, "16-12-2015", "17-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue2, hr1, "16-12-2015",
+				"17-12-2015");
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue4, hr1, "17-12-2015", "18-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue4, hr1, "17-12-2015",
+				"18-12-2015");
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue3, hr1, "18-12-2015", "19-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue3, hr1, "18-12-2015",
+				"19-12-2015");
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue2, hr1, "19-12-2015", "20-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue2, hr1, "19-12-2015",
+				"20-12-2015");
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue7, hr1, "21-12-2015", "22-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue7, hr1, "21-12-2015",
+				"22-12-2015");
 		mainStorage.departGuestFromHotelRoom(hr1);
-        System.out.println("///////////////////////last 3 guest of room 101");
+		System.out.println("///////////////////////last 3 guest of room 101");
 		// show last 3 guests of room hr1
 		mainStorage.showLast3GuestOfHotelRoom(hr1);
 
@@ -172,11 +185,16 @@ public class Main {
 		mainStorage.showAllRooms("star", "free");
 		// hotel.settleGuestToHotelRoom(gue1, hr1, "15-12-2015", "18-12-2015");
 		// hotel.settleGuestToHotelRoom(gue2, hr2, "16-12-2015", "25-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue3, hr2, "16-12-2015", "25-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue4, hr3, "15-12-2015", "24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue5, hr3, "15-12-2015", "24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue6, hr3, "15-12-2015", "24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue7, hr4, "17-12-2015", "19-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue3, hr2, "16-12-2015",
+				"25-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue4, hr3, "15-12-2015",
+				"24-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue5, hr3, "15-12-2015",
+				"24-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue6, hr3, "15-12-2015",
+				"24-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue7, hr4, "17-12-2015",
+				"19-12-2015");
 		System.out.println("free Rooms by price");
 		mainStorage.showAllRooms("price", "free");
 		mainStorage.showDetailOfHotelRoom(hr1);
@@ -185,12 +203,10 @@ public class Main {
 
 		// testing show list of all free rooms sorted by condition
 		mainStorage.showFreeRomsAfterDate("star", "24-12-2015");
-		
+
 		guestTxtWorker.writeGuests();
 		guestTxtWorker.readGuests();
-		
-		
-		
+
 	}
 
 }
