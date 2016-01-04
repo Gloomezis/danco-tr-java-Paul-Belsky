@@ -4,8 +4,15 @@ import java.util.Comparator;
 
 import com.danco.models.HotelRoom;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HotelRoomStarComparator.
+ */
 public class HotelRoomStarComparator implements Comparator<HotelRoom> {
 
+	/* (non-Javadoc)
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	 */
 	@Override
 	public int compare(HotelRoom hotelRoom1, HotelRoom hotelRoom2) {
 

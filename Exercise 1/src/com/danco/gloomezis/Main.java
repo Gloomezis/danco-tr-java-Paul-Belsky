@@ -1,35 +1,34 @@
 package com.danco.gloomezis;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.danco.models.Guest;
 import com.danco.models.HotelRoom;
 import com.danco.models.Service;
-import com.danco.training.TextFileWorker;
 
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Main.
+ */
 public class Main {
 
+	//final static String FILE_PATH_GUESTS = "src/src/files/guests.txt";
+	
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
-		//
-		String DATE_FORMAT = "dd-MM-yyyy";
-		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+		
 
-		Date date = null;
-		String dateString = "18-12-2015";
-		try {
-			date = df.parse(dateString);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		System.out.println(date.toString());
-
-		//
-		final String FILE_PATH_GUESTS = "src/src/files/guests.txt";
-		TextFileWorker fwGuest = new TextFileWorker(FILE_PATH_GUESTS);
-		TxtWorker guestTxtWorker = new TxtWorker(fwGuest);
+		
+		
+	//	TextFileWorker fwGuest = new TextFileWorker(FILE_PATH_GUESTS);
+	//	TxtWorker guestTxtWorker=new TxtWorker(fwGuest);
+		
+		
 
 		MainStorage mainStorage = MainStorage.getInstance();
 
@@ -77,24 +76,24 @@ public class Main {
 		mainStorage.addGuest(gue8);
 
 		// settle all guest to rooms
-		mainStorage.settleGuestToHotelRoom(gue1, hr1, "15-12-2015",
-				"18-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue2, hr2, "16-12-2015",
-				"25-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue3, hr2, "16-12-2015",
-				"25-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue4, hr3, "15-12-2015",
-				"24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue5, hr3, "15-12-2015",
-				"24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue6, hr3, "15-12-2015",
-				"24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue7, hr4, "17-12-2015",
-				"19-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue1, hr1, new GregorianCalendar(2015, 11, 15).getTime(), 
+				new GregorianCalendar(2015,11,18).getTime());
+		mainStorage.settleGuestToHotelRoom(gue2, hr2, new GregorianCalendar(2015,11,16).getTime(),
+				new GregorianCalendar(2015,11,25).getTime());
+		mainStorage.settleGuestToHotelRoom(gue3, hr2, new GregorianCalendar(2015,11,16).getTime(),
+				new GregorianCalendar(2015,11,25).getTime());
+		mainStorage.settleGuestToHotelRoom(gue4, hr3, new GregorianCalendar(2015,11,15).getTime(),
+				new GregorianCalendar(2015,11,25).getTime());
+		mainStorage.settleGuestToHotelRoom(gue5, hr3, new GregorianCalendar(2015,11,15).getTime(),
+				new GregorianCalendar(2015,11,24).getTime());
+		mainStorage.settleGuestToHotelRoom(gue6, hr3, new GregorianCalendar(2015,11,15).getTime(),
+				new GregorianCalendar(2015,11,24).getTime());
+		mainStorage.settleGuestToHotelRoom(gue7, hr4, new GregorianCalendar(2015,11,17).getTime(),
+				new GregorianCalendar(2015,11,19).getTime());
 
 		// settle a guest to room (2 not settle because have no space in room
-		mainStorage.settleGuestToHotelRoom(gue2, hr1, "16-12-2015",
-				"25-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue2, hr1, new GregorianCalendar(2015,11,16).getTime(),
+				new GregorianCalendar(2015,11,25).getTime());
 
 		// test showing list of guest and his rooms sorted by alphabet
 		System.out.println("//////////////by alphabet////////////////////");
@@ -117,23 +116,23 @@ public class Main {
 		mainStorage.departGuestFromHotelRoom(hr1);
 
 		// testing room history
-		mainStorage.settleGuestToHotelRoom(gue3, hr1, "16-12-2015",
-				"16-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue3, hr1, new GregorianCalendar(2015,11,15).getTime(),
+				new GregorianCalendar(2015,11,16).getTime());
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue2, hr1, "16-12-2015",
-				"17-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue2, hr1, new GregorianCalendar(2015,11,16).getTime(),
+				new GregorianCalendar(2015,11,17).getTime());
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue4, hr1, "17-12-2015",
-				"18-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue4, hr1, new GregorianCalendar(2015,11,17).getTime(),
+				new GregorianCalendar(2015,11,18).getTime());
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue3, hr1, "18-12-2015",
-				"19-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue3, hr1, new GregorianCalendar(2015,11,18).getTime(),
+				new GregorianCalendar(2015,11,19).getTime());
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue2, hr1, "19-12-2015",
-				"20-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue2, hr1, new GregorianCalendar(2015,11,19).getTime(),
+				new GregorianCalendar(2015,11,20).getTime());
 		mainStorage.departGuestFromHotelRoom(hr1);
-		mainStorage.settleGuestToHotelRoom(gue7, hr1, "21-12-2015",
-				"22-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue7, hr1,new GregorianCalendar(2015,11,21).getTime(),
+				new GregorianCalendar(2015,11,22).getTime());
 		mainStorage.departGuestFromHotelRoom(hr1);
 		System.out.println("///////////////////////last 3 guest of room 101");
 		// show last 3 guests of room hr1
@@ -143,6 +142,7 @@ public class Main {
 		mainStorage.showDetailOfHotelRoom(hr1);
 
 		// testing change status
+		System.out.println("///////////////////////Change status");
 		mainStorage.changeStatus(hr1);
 		mainStorage.showDetailOfHotelRoom(hr1);
 		mainStorage.changeStatus(hr1);
@@ -185,16 +185,16 @@ public class Main {
 		mainStorage.showAllRooms("star", "free");
 		// hotel.settleGuestToHotelRoom(gue1, hr1, "15-12-2015", "18-12-2015");
 		// hotel.settleGuestToHotelRoom(gue2, hr2, "16-12-2015", "25-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue3, hr2, "16-12-2015",
-				"25-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue4, hr3, "15-12-2015",
-				"24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue5, hr3, "15-12-2015",
-				"24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue6, hr3, "15-12-2015",
-				"24-12-2015");
-		mainStorage.settleGuestToHotelRoom(gue7, hr4, "17-12-2015",
-				"19-12-2015");
+		mainStorage.settleGuestToHotelRoom(gue3, hr2, new GregorianCalendar(2015,11,16).getTime(), 
+				new GregorianCalendar(2015,11,25).getTime());
+		mainStorage.settleGuestToHotelRoom(gue4, hr3, new GregorianCalendar(2015,11,15).getTime(),
+				new GregorianCalendar(2015,11,24).getTime());
+		mainStorage.settleGuestToHotelRoom(gue5, hr3, new GregorianCalendar(2015,11,15).getTime(),
+				new GregorianCalendar(2015,11,24).getTime());
+		mainStorage.settleGuestToHotelRoom(gue6, hr3, new GregorianCalendar(2015,11,15).getTime(),
+				new GregorianCalendar(2015,11,24).getTime());
+		mainStorage.settleGuestToHotelRoom(gue7, hr4, new GregorianCalendar(2015,11,17).getTime(),
+				new GregorianCalendar(2015,11,19).getTime());
 		System.out.println("free Rooms by price");
 		mainStorage.showAllRooms("price", "free");
 		mainStorage.showDetailOfHotelRoom(hr1);
@@ -202,11 +202,14 @@ public class Main {
 		mainStorage.showDetailOfHotelRoom(hr3);
 
 		// testing show list of all free rooms sorted by condition
-		mainStorage.showFreeRomsAfterDate("star", "24-12-2015");
+		mainStorage.showFreeRomsAfterDate("star", new GregorianCalendar(2015,11,24).getTime());
 
-		guestTxtWorker.writeGuests();
-		guestTxtWorker.readGuests();
+		
 
+	//guestTxtWorker.writeGuests();
+    // guestTxtWorker.readGuests();
+		mainStorage.writeGuestToFile();
+		mainStorage.readGuestFromFile();
 	}
 
 }

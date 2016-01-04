@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.danco.comparators.HotelRoomPriceComparator;
 import com.danco.comparators.HotelRoomSleepingNumberComparator;
@@ -13,63 +14,101 @@ import com.danco.comparators.HotelRoomStarComparator;
 import com.danco.models.Guest;
 import com.danco.models.HotelRoom;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HotelRoomStorage.
+ */
 public class HotelRoomStorage {
 
-	private final String DATE_FORMAT = "dd-MM-yyyy";
-	private final String IN_WORK = "in work";
-	private final String UNDER_REPAIR = "under repair/serviced";
-	private final String NOT_SETLED = "not setled";
-	private final String SORT_COND_PRICE = "price";
-	private final String SORT_COND_SLEEP_N = "sleepN";
-	private final String SORT_COND_STAR = "star";
-	private final String ROOM_PRINTER_FORMAT = "room: %s  , sleeping numbers: %d,  stars category: %d,  price: %d";
-	private final String ROOM_DETAIL_FORMAT = "room number: %s,  room price: %d , sleeping numbers: %d, stars category: %d , busy: %s , status: %s";
-	private final String LAST_3_GUEST_FORMAT = "The last 3 guest of hotel room: %s \n";
-	private final String LAST_GUEST_FORMAT = " Name : %s, arrive: %s , depart : %s \n";
-	private final String FREE_ROOM_NUMB_FORMAT = "free room: %d";
-	private final String HOTEL_ROOM_FORMAT = "Hotel room: %s, price: %d \n";
-	private final String FREE = "free";
+	/** The Constant DATE_FORMAT. */
+	private static final  String DATE_FORMAT = "dd-MM-yyyy";
+	
+	/** The Constant IN_WORK. */
+	private static final  String IN_WORK = "in work";
+	
+	/** The Constant NOT_SETLED. */
+	private static final  String NOT_SETLED = "not setled";
+	
+	/** The Constant SORT_COND_PRICE. */
+	private static final  String SORT_COND_PRICE = "price";
+	
+	/** The Constant SORT_COND_SLEEP_N. */
+	private static final  String SORT_COND_SLEEP_N = "sleepN";
+	
+	/** The Constant SORT_COND_STAR. */
+	private static final  String SORT_COND_STAR = "star";
+	
+	/** The Constant ROOM_PRINTER_FORMAT. */
+	private static final  String ROOM_PRINTER_FORMAT = "room: %s  , sleeping numbers: %d,  stars category: %d,  price: %d";
+	
+	/** The Constant ROOM_DETAIL_FORMAT. */
+	private static final  String ROOM_DETAIL_FORMAT = "room number: %s,  room price: %d , sleeping numbers: %d, stars category: %d , busy: %s , status: %s";
+	
+	/** The Constant LAST_3_GUEST_FORMAT. */
+	private static final  String LAST_3_GUEST_FORMAT = "The last 3 guest of hotel room: %s \n";
+	
+	/** The Constant LAST_GUEST_FORMAT. */
+	private static final  String LAST_GUEST_FORMAT = " Name : %s, arrive: %s , depart : %s \n";
+	
+	/** The Constant FREE_ROOM_NUMB_FORMAT. */
+	private static final  String FREE_ROOM_NUMB_FORMAT = "free room: %d";
+	
+	/** The Constant HOTEL_ROOM_FORMAT. */
+	private static final  String HOTEL_ROOM_FORMAT = "Hotel room: %s, price: %d \n";
+	
+	/** The Constant FREE. */
+	private static final  String FREE = "free";
 
-	ArrayList<HotelRoom> rooms = new ArrayList<HotelRoom>();
+	/** The rooms. */
+	List<HotelRoom> rooms = new ArrayList<HotelRoom>();
 
+	/** The df. */
 	DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
-	// singleton
-	private static HotelRoomStorage instance;
 
-	public static HotelRoomStorage getInstance() {
-		if (instance == null) {
-			instance = new HotelRoomStorage();
-		}
-
-		return instance;
-	}
-
-	private HotelRoomStorage() {
-	}
-
-	// +Add room to array rooms
+	/**
+	 * Adds the rooms.
+	 *
+	 * @param room the room
+	 */
+	
 	public void addRooms(HotelRoom room) {
 		rooms.add(room);
 	}
 
-	// + change room price of selected room
+	/**
+	 * Change price of hotel room.
+	 *
+	 * @param hotelRoom the hotel room
+	 * @param roomPrice the room price
+	 */
+	
 	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice) {
 		hotelRoom.setRoomPrice(roomPrice);
 	}
 
-	// + change status selected hotel room
+	/**
+	 * Change status.
+	 *
+	 * @param hotelRoom the hotel room
+	 */
+	
 	public void changeStatus(HotelRoom hotelRoom) {
 
 		if (hotelRoom.getStatys() == IN_WORK) {
-			hotelRoom.setStatys(UNDER_REPAIR);
+			hotelRoom.setStatys(false);
 		} else {
-			hotelRoom.setStatys(IN_WORK);
+			hotelRoom.setStatys(true);
 
 		}
 	}
 
-	// + depart all guest from hotel number
+	/**
+	 * Depart guest from hotel room.
+	 *
+	 * @param hotelRoom the hotel room
+	 */
+	
 	public void departGuestFromHotelRoom(HotelRoom hotelRoom) {
 		for (Guest a : hotelRoom.getGuests()) {
 			a.setNumberOfRoom(NOT_SETLED);
@@ -79,21 +118,31 @@ public class HotelRoomStorage {
 	}
 
 	// TODO returnStatement
-	// + print rooms inroomPrinterAllOrFree method
+	/**
+	 * Room printer.
+	 *
+	 * @param s the s
+	 */
+	
 	public void roomPrinter(HotelRoom s) {
-		System.out.println(new StringBuilder(String.format(ROOM_PRINTER_FORMAT,
+		System.out.println(String.format(ROOM_PRINTER_FORMAT,
 				s.getNumber(), s.getSleepingNumbers(), s.getStarCategory(),
-				s.getRoomPrice())));
+				s.getRoomPrice()));
 
 	}
 
 	// TODO returnStatement
-	// + print rooms in showAllRooms method in change conditions (free room only
-	// or all rooms)
+	
+	/**
+	 * Room printer all or free.
+	 *
+	 * @param free the free
+	 */
+	
 	public void roomPrinterAllOrFree(String free) {
-		if (free.equals(FREE)) {
+		if (FREE.equals(free)) {
 			for (HotelRoom s : rooms) {
-				if (s.getBusy() == false) {
+				if (!s.getBusy()) {
 					roomPrinter(s);
 				} else {
 				}
@@ -105,35 +154,45 @@ public class HotelRoomStorage {
 		}
 	}
 
-	// +
-	public void setDateOfArrival(String dateOfArrival, HotelRoom hotelRoom) {
+	/**
+	 * Sets the date of arrival.
+	 *
+	 * @param dateOfArrival the date of arrival
+	 * @param hotelRoom the hotel room
+	 */
+	
+	public void setDateOfArrival(Date dateOfArrival, HotelRoom hotelRoom) {
 
-		Date Pdate = null;
-		try {
-			Pdate = df.parse(dateOfArrival);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		hotelRoom.setDateOfArrival(Pdate);
+		
+		hotelRoom.setDateOfArrival(dateOfArrival);
 
 	}
 
-	// +
-	public void setDateOfDeparture(String dateOfDeparture, HotelRoom hotelRoom) {
+	/**
+	 * Sets the date of departure.
+	 *
+	 * @param dateOfDeparture the date of departure
+	 * @param hotelRoom the hotel room
+	 */
+	
+	public void setDateOfDeparture(Date dateOfDeparture, HotelRoom hotelRoom) {
 
-		Date Pdate = null;
-		try {
-			Pdate = df.parse(dateOfDeparture);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		hotelRoom.setDateOfDeparture(Pdate);
-		;
+		
+		hotelRoom.setDateOfDeparture(dateOfDeparture);
+		
 	}
 
-	// + settle guest to hotel room
+	/**
+	 * Settle guest to hotel room.
+	 *
+	 * @param guest the guest
+	 * @param hotelRoom the hotel room
+	 * @param dateOfArrival the date of arrival
+	 * @param dateOfDeparture the date of departure
+	 */
+	
 	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
-			String dateOfArrival, String dateOfDeparture) {
+			Date dateOfArrival, Date dateOfDeparture) {
 		hotelRoom.setGuests(guest);
 
 		setDateOfArrival(dateOfArrival, hotelRoom);
@@ -148,37 +207,52 @@ public class HotelRoomStorage {
 	}
 
 	// TODO returnStatement
-	// +show all rooms or free rooms sorted by condition
+	/**
+	 * Show all rooms.
+	 *
+	 * @param sortCondition the sort condition
+	 * @param free the free
+	 */
+	
 	public void showAllRooms(String sortCondition, String free) {
 		sortRooms(sortCondition);
 		roomPrinterAllOrFree(free);
 	}
 
 	// TODO returnStatement
-	// + show detail selected hotel room
+	/**
+	 * Show detail of hotel room.
+	 *
+	 * @param hotelRoom the hotel room
+	 */
+	
 	public void showDetailOfHotelRoom(HotelRoom hotelRoom) {
-		System.out.println(new StringBuilder(String.format(ROOM_DETAIL_FORMAT,
+		System.out.println(String.format(ROOM_DETAIL_FORMAT,
 				hotelRoom.getNumber(), hotelRoom.getRoomPrice(),
 				hotelRoom.getSleepingNumbers(), hotelRoom.getStarCategory(),
-				hotelRoom.getBusy(), hotelRoom.getStatys())));
+				hotelRoom.getBusy(), hotelRoom.getStatys()));
 
 	}
 
 	// TODO returnStatement
-	// + show array of free Hotel rooms after date (Sorted by price/sleeping
-	// numbers/star category)
-	public void showFreeRomsAfterDate(String sortCondition, String date) {
+	
+	/**
+	 * Show free roms after date.
+	 *
+	 * @param sortCondition the sort condition
+	 * @param date the date
+	 */
+	
+	public void showFreeRomsAfterDate(String sortCondition, Date date) {
 		sortRooms(sortCondition);
 
 		Date Pdate = null;
 		Date Qdate = null;
 		for (HotelRoom s : rooms) {
-			try {
-				Pdate = df.parse(date);
+			
+				Pdate = date;
 				Qdate = s.getDateOfDeparture();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
 			if (Pdate.compareTo(Qdate) > 0) {
 				roomPrinter(s);
 			}
@@ -186,7 +260,12 @@ public class HotelRoomStorage {
 	}
 
 	// TODO returnStatement
-	// + show last 3 guest of hotel room
+	/**
+	 * Show last3 guest of hotel room.
+	 *
+	 * @param hotelRoom the hotel room
+	 */
+	
 	public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom) {
 		LinkedList<Guest> g = hotelRoom.getGuestHistory();
 		StringBuilder sb = new StringBuilder(String.format(LAST_3_GUEST_FORMAT,
@@ -202,7 +281,10 @@ public class HotelRoomStorage {
 	}
 
 	// TODO returnStatement
-	// + show number of all free rooms
+	/**
+	 * Show number of free hotel rooms.
+	 */
+	
 	public void showNumberOfFreeHotelRooms() {
 		int n = 0;
 		for (HotelRoom a : rooms) {
@@ -210,12 +292,15 @@ public class HotelRoomStorage {
 				n++;
 			}
 		}
-		System.out.println(new StringBuilder(String.format(
-				FREE_ROOM_NUMB_FORMAT, n)));
+		System.out.println(String.format(
+				FREE_ROOM_NUMB_FORMAT, n));
 	}
 
 	// TODO returnStatement
-	// + show price hotel room sorted by price
+	/**
+	 * Show price hotel room.
+	 */
+	
 	public void showPriceHotelRoom() {
 
 		Collections.sort(rooms, new HotelRoomPriceComparator());
@@ -228,8 +313,13 @@ public class HotelRoomStorage {
 	}
 
 	// TODO returnStatement
-	// + show array of Hotel rooms (Sorted by price/sleeping numbers/star
-	// category)
+	
+	/**
+	 * Sort rooms.
+	 *
+	 * @param sortCondition the sort condition
+	 */
+	
 	public void sortRooms(String sortCondition) {
 		switch (sortCondition) {
 		case SORT_COND_PRICE:

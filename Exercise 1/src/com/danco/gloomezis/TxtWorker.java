@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import com.danco.models.Guest;
 import com.danco.training.TextFileWorker;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TxtWorker.
+ */
 public class TxtWorker {
-	MainStorage mainStorage = MainStorage.getInstance();
+	//MainStorage mainStorage = MainStorage.getInstance();
 
-	TextFileWorker fw;
+	/** The fw. */
+	private TextFileWorker fw;
 
 	/*
 	 * final String FILE_PATH_HOTELROOMS = "src/src/files/hotelRooms.txt";
@@ -18,11 +23,21 @@ public class TxtWorker {
 	 * TextFileWorker fwServices = new TextFileWorker(FILE_PATH_SERVICES);
 	 */
 
+	/**
+	 * Instantiates a new txt worker.
+	 *
+	 * @param fw the fw
+	 */
 	public TxtWorker(TextFileWorker fw) {
 		this.fw = fw;
 	}
 
-	public void writeGuests() {
+	/**
+	 * Write guests.
+	 *
+	 * @param mainStorage the main storage
+	 */
+	public void writeGuests(MainStorage mainStorage) {
 
 		String[] b = new String[10];
 
@@ -35,6 +50,11 @@ public class TxtWorker {
 
 	}
 
+	/**
+	 * Read guests.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<String> readGuests() {
 		String[] c = new String[10];
 		c = fw.readFromFile();
@@ -53,9 +73,9 @@ public class TxtWorker {
 				String dateOfArrive = e[2];
 				String numberOfRoom = e[3];
 				String summToPaid = e[4];
-				System.out.println((new StringBuilder(name + ","
-						+ dateOfDeparture + "," + dateOfArrive + ","
-						+ numberOfRoom + "," + summToPaid)).toString());
+				System.out.println((new StringBuilder(name).append(",").append(
+						dateOfDeparture).append(",").append(dateOfArrive).append(",").append(numberOfRoom)
+						.append(",").append(summToPaid)).toString());
 			}
 		}
 		return s;

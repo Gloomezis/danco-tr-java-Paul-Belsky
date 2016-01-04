@@ -1,59 +1,95 @@
 package com.danco.servises;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.danco.gloomezis.MainStorage;
 import com.danco.models.Guest;
 import com.danco.models.Service;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GuestService.
+ */
 public class GuestService {
+	
+	/** The main storage. */
 	MainStorage mainStorage = MainStorage.getInstance();
 
+	/**
+	 * Instantiates a new guest service.
+	 */
 	public GuestService() {
 	}
 
-	// +show number of all guest
+	/**
+	 * Show all guest number.
+	 */
+	
 	public void showAllGuestNumber() {
 		mainStorage.showAllGuestNumber();
 	}
 
-	// +show summ to paid guest
+	/**
+	 * Show summ to paid guest.
+	 *
+	 * @param guest the guest
+	 */
+	
 	public void showSummToPaidGuest(Guest guest) {
 		mainStorage.showSummToPaidGuest(guest);
 	}
 
-	// + get all guest sorted by alphabet / date of departure
+	/**
+	 * Show all guests.
+	 *
+	 * @param a the a
+	 */
+	
 	public void showAllGuests(String a) {
 		mainStorage.showAllGuests(a);
 	}
 
-	// + add guest to array Guest
+	/**
+	 * Adds the all guests.
+	 *
+	 * @param guest the guest
+	 */
+	
 	public void addAllGuests(Guest guest) {
 		mainStorage.addGuest(guest);
 	}
 
-	// +show services of selected guest and price sorted by date and price
+	/**
+	 * Show list of service.
+	 *
+	 * @param guest the guest
+	 * @param sortCondition the sort condition
+	 */
+	
 	public void showListOfService(Guest guest, String sortCondition) {
 		mainStorage.showListOfService(guest, sortCondition);
 	}
 
-	// add service to selected guest
+	/**
+	 * Adds the service to guest.
+	 *
+	 * @param guest the guest
+	 * @param service the service
+	 */
+	
 	public void addServiceToGuest(Guest guest, Service service) {
 		mainStorage.addServiceToGuest(guest, service);
 	}
 
-	// +
-	// public void setDateOfDeparture(String dateOfDeparture, Guest guest) {
-	// mainStorage.setDateOfDeparture(dateOfDeparture, guest);
-	// }
+	
 
-	// +
-	// public void setDateOfArrive(String dateOfArrive, Guest guest) {
-	// mainStorage.setDateOfArrive(dateOfArrive, guest);
-	// }
-
-	// writing to file
-	public ArrayList<Guest> getAllGuests() {
+	/**
+	 * Gets the all guests.
+	 *
+	 * @return the all guests
+	 */
+	
+	public List<Guest> getAllGuests() {
 		return mainStorage.getAllGuests();
 	}
 }

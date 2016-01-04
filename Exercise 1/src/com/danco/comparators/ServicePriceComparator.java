@@ -4,8 +4,15 @@ import java.util.Comparator;
 
 import com.danco.models.Service;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServicePriceComparator.
+ */
 public class ServicePriceComparator implements Comparator<Service> {
 
+	/* (non-Javadoc)
+	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+	 */
 	@Override
 	public int compare(Service service1, Service service2) {
 

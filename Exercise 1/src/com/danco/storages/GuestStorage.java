@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import com.danco.comparators.GuestDateOfDepartureComparator;
 import com.danco.comparators.GuestNameComparator;
@@ -14,39 +15,65 @@ import com.danco.comparators.ServicePriceComparator;
 import com.danco.models.Guest;
 import com.danco.models.Service;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GuestStorage.
+ */
 public class GuestStorage {
 
-	private String DATE_FORMAT = "dd-MM-yyyy";
-	private String GUEST_FORMAT = "Guest: %s , room: %s , date of departure: %s \n";
-	private String ALL_GUEST_NUMB_FORMAT = "All guest number is: %d";
-	private String SERVICE_FORMAT = "service : %s, price: %d, date: %s ";
-	private String SUMM_TO_PAID_FORMAT = "Summ to paid is: %d";
-	private String WRONG_SORT_CONDITION = "wrong sorted condition";
-	private String ALPHABET = "alphabet";
-	private String DATE = "date";
-	private String PRICE = "price";
+	/** The Constant DATE_FORMAT. */
+	private static final  String DATE_FORMAT = "dd-MM-yyyy";
+	
+	/** The Constant GUEST_FORMAT. */
+	private static final  String GUEST_FORMAT = "Guest: %s , room: %s , date of departure: %s \n";
+	
+	/** The Constant ALL_GUEST_NUMB_FORMAT. */
+	private static final  String ALL_GUEST_NUMB_FORMAT = "All guest number is: %d";
+	
+	/** The Constant SERVICE_FORMAT. */
+	private static final  String SERVICE_FORMAT = "service : %s, price: %d, date: %s ";
+	
+	/** The Constant SUMM_TO_PAID_FORMAT. */
+	private static final  String SUMM_TO_PAID_FORMAT = "Summ to paid is: %d";
+	
+	/** The Constant WRONG_SORT_CONDITION. */
+	private static final  String WRONG_SORT_CONDITION = "wrong sorted condition";
+	
+	/** The Constant ALPHABET. */
+	private static final  String ALPHABET = "alphabet";
+	
+	/** The Constant DATE. */
+	private static final  String DATE = "date";
+	
+	/** The Constant PRICE. */
+	private static final  String PRICE = "price";
 
-	ArrayList<Guest> allGuests = new ArrayList<Guest>();
-	DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-	// singleton
-	private static GuestStorage instance;
+	/** The all guests. */
+	private List<Guest> allGuests = new ArrayList<Guest>();
+	
+	/** The df. */
+	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+	
+	
+	
 
-	public static GuestStorage getInstance() {
-		if (instance == null) {
-			instance = new GuestStorage();
-		}
-		return instance;
-	}
-
-	private GuestStorage() {
-	}
-
-	// +add guest to array Guest
+	/**
+	 * Adds the guest.
+	 *
+	 * @param guest the guest
+	 */
+	
 	public void addGuest(Guest guest) {
 		allGuests.add(guest);
 	}
 
-	// + add service to selected guest
+	/**
+	 * Adds the service to guest.
+	 *
+	 * @param guest the guest
+	 * @param service the service
+	 */
+	
 	public void addServiceToGuest(Guest guest, Service service) {
 
 		Date date = Calendar.getInstance().getTime();
@@ -56,60 +83,87 @@ public class GuestStorage {
 
 	}
 
-	public ArrayList<Guest> getAllGuests() {
+	/**
+	 * Gets the all guests.
+	 *
+	 * @return the all guests
+	 */
+	public List<Guest> getAllGuests() {
 		return allGuests;
 	}
 
+	/**
+	 * Sets the all guests.
+	 *
+	 * @param allGuests the new all guests
+	 */
 	public void setAllGuests(ArrayList<Guest> allGuests) {
 		this.allGuests = allGuests;
 	}
 
-	public void setDates(String dateOfArrive, String dateOfDeparture,
+	/**
+	 * Sets the dates.
+	 *
+	 * @param dateOfArrive the date of arrive
+	 * @param dateOfDeparture the date of departure
+	 * @param guest the guest
+	 */
+	public void setDates(Date dateOfArrive, Date dateOfDeparture,
 			Guest guest) {
 		setDateOfArrive(dateOfArrive, guest);
 		setDateOfDeparture(dateOfDeparture, guest);
 	}
 
+	/**
+	 * Sets the date of arrive.
+	 *
+	 * @param dateOfArrive the date of arrive
+	 * @param guest the guest
+	 */
 	// +
-	public void setDateOfArrive(String dateOfArrive, Guest guest) {
+	public void setDateOfArrive(Date dateOfArrive, Guest guest) {
 
-		Date Pdate = null;
-		try {
-			Pdate = df.parse(dateOfArrive);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		guest.setDateOfArrive(Pdate);
+		
+		guest.setDateOfArrive(dateOfArrive);
 	}
 
+	/**
+	 * Sets the date of departure.
+	 *
+	 * @param dateOfDeparture the date of departure
+	 * @param guest the guest
+	 */
 	// +
-	public void setDateOfDeparture(String dateOfDeparture, Guest guest) {
+	public void setDateOfDeparture(Date dateOfDeparture, Guest guest) {
 
-		Date Pdate = null;
-		try {
-			Pdate = df.parse(dateOfDeparture);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		guest.setDateOfDeparture(Pdate);
+		
+		guest.setDateOfDeparture(dateOfDeparture);
 
 	}
 
 	// TODO returnStatement
-	// +show number of all guest
+	/**
+	 * Show all guest number.
+	 */
+	
 	public void showAllGuestNumber() {
-		System.out.println(new StringBuilder(String.format(
-				ALL_GUEST_NUMB_FORMAT, allGuests.size())));
+		System.out.println(String.format(
+				ALL_GUEST_NUMB_FORMAT, allGuests.size()));
 
 	}
 
 	// TODO returnStatement
 	// + list of all guest and they hotel rooms sorted by alphabet and date
-	// of departure
+	/**
+	 * Show all guests.
+	 *
+	 * @param a the a
+	 */
+	
 	public void showAllGuests(String a) {
 
 		StringBuilder sb = new StringBuilder(500);
-		if (a.equals(ALPHABET)) {
+		if (ALPHABET.equals(a)) {
 
 			Collections.sort(allGuests, new GuestNameComparator());
 
@@ -119,7 +173,7 @@ public class GuestStorage {
 
 			}
 		} else {
-			if (a.equals(DATE)) {
+			if (DATE.equals(a)) {
 				Collections.sort(allGuests,
 						new GuestDateOfDepartureComparator());
 				for (Guest s : allGuests) {
@@ -136,15 +190,21 @@ public class GuestStorage {
 	}
 
 	// TODO returnStatement
-	// +show services of selected guest and price sorted by date and price
+	/**
+	 * Show list of service.
+	 *
+	 * @param guest the guest
+	 * @param sortCondinion the sort condinion
+	 */
+	
 	public void showListOfService(Guest guest, String sortCondinion) {
-		ArrayList<Service> s = guest.getServises();
+		List<Service> s = guest.getServises();
 		System.out.println(guest.getName() + ":");
 
-		if (sortCondinion.equals(PRICE)) {
+		if (PRICE.equals(sortCondinion)) {
 			Collections.sort(s, new ServicePriceComparator());
 		} else {
-			if (sortCondinion.equals(DATE)) {
+			if (DATE.equals(sortCondinion)) {
 				Collections.sort(s, new ServiceDateOfUsingComparator());
 			} else {
 				System.out.println(WRONG_SORT_CONDITION);
@@ -152,18 +212,23 @@ public class GuestStorage {
 		}
 		for (Service c : s) {
 			System.out
-					.println(new StringBuilder(String.format(SERVICE_FORMAT,
+					.println(String.format(SERVICE_FORMAT,
 							c.getNameOfService(), c.getPrice(),
-							df.format(c.getDate()))));
+							df.format(c.getDate())));
 
 		}
 	}
 
 	// TODO returnStatement
-	// +show summ to paid selected guest
+	/**
+	 * Show summ to paid guest.
+	 *
+	 * @param guest the guest
+	 */
+	
 	public void showSummToPaidGuest(Guest guest) {
-		System.out.println(new StringBuilder(String.format(SUMM_TO_PAID_FORMAT,
-				guest.getSummToPaid())));
+		System.out.println(String.format(SUMM_TO_PAID_FORMAT,
+				guest.getSummToPaid()));
 
 	}
 
