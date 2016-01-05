@@ -27,13 +27,14 @@ public class MainStorage {
 	private ServiceStorage serviceStorage;
 	
 	/** The file path guests. */
-	final String FILE_PATH_GUESTS = "src/src/files/guests.txt";
+	final String FILE_PATH_GUESTS = "guests.txt";
 	
 	/** The fw guest. */
 	TextFileWorker fwGuest; 
 	
 	/** The guest txt worker. */
 	TxtWorker guestTxtWorker;
+	
 	
 
 
