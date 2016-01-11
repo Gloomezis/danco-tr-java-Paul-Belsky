@@ -55,7 +55,17 @@ public class GuestStorage {
 	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 	
 	
-	
+	/**
+	 * Creates the guest.
+	 *
+	 * @param name the name
+	 * @return the guest
+	 */
+	public Guest createGuest(String name){
+		Guest guest = new Guest(name);
+		return 	guest;
+		
+	}
 
 	/**
 	 * Adds the guest.
@@ -83,6 +93,26 @@ public class GuestStorage {
 
 	}
 
+	
+	
+	/**
+	 * Gets the guest by name.
+	 *
+	 * @param NameOfGuest the name of guest
+	 * @return the guest by name
+	 */
+	public Guest getGuestByName(String NameOfGuest) {
+		
+		Guest g = null;
+		for(Guest gue:allGuests){
+			if(gue.getName().equals(NameOfGuest)){
+				g=gue;
+			}
+		}
+		return g;
+	}
+	
+	
 	/**
 	 * Gets the all guests.
 	 *

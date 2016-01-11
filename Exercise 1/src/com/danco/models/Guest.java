@@ -164,7 +164,8 @@ public class Guest {
 	 */
 	public String toString() {
 
-		return (new StringBuilder(name).append(",")
+		return (new StringBuilder(50).append(name)
+				.append(",")
 				.append(df.format(dateOfArrive))
 				.append(",")
 				.append(df.format(dateOfDeparture))

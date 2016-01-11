@@ -11,6 +11,26 @@ public class ServiceService {
 
 	/** The main storage. */
 	MainStorage mainStorage = MainStorage.getInstance();
+	
+private static ServiceService instance;
+	
+	
+	public static ServiceService getInstance() {
+		if (instance == null) {
+			instance = new ServiceService();
+		}
+		return instance;
+	}
+	
+
+	private  ServiceService() {
+		
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Adds the services.
@@ -27,7 +47,7 @@ public class ServiceService {
 	 * Show price services.
 	 */
 	
-	public void showPriceServices() {
+	public void showPriceServiceAndHotelRoom() {
 		mainStorage.showPriceServiceAndHotelRoom();
 
 	}
@@ -42,4 +62,6 @@ public class ServiceService {
 	public void changePriceOfService(Service service, int price) {
 		mainStorage.changePriceOfService(service, price);
 	}
+	
+	
 }

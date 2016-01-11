@@ -1,0 +1,39 @@
+Wed Jan 06 15:08:58 GMT+03:00 2016 SEVERE Error message :5
+com.danco.gloomezis.TxtWorker.writeGuests(TxtWorker.java:40)
+
+com.danco.gloomezis.MainStorage.writeGuestToFile(MainStorage.java:74)
+
+com.danco.gloomezis.Main.main(Main.java:224)
+
+Wed Jan 06 15:08:58 GMT+03:00 2016 INFO cause :null
+Wed Jan 06 15:10:26 GMT+03:00 2016 SEVERE Error message :5
+com.danco.gloomezis.TxtWorker.writeGuests(TxtWorker.java:40)
+com.danco.gloomezis.MainStorage.writeGuestToFile(MainStorage.java:74)
+com.danco.gloomezis.Main.main(Main.java:224)
+
+Wed Jan 06 15:10:26 GMT+03:00 2016 INFO cause :null
+Wed Jan 06 15:11:45 GMT+03:00 2016 SEVERE Error message :5
+com.danco.gloomezis.TxtWorker.writeGuests(TxtWorker.java:40)
+com.danco.gloomezis.MainStorage.writeGuestToFile(MainStorage.java:74)
+com.danco.gloomezis.Main.main(Main.java:224)
+
+Wed Jan 06 15:11:45 GMT+03:00 2016 INFO cause :null
+Wed Jan 06 15:14:18 GMT+03:00 2016 SEVERE Error message :5
+com.danco.gloomezis.TxtWorker.writeGuests(TxtWorker.java:40)
+com.danco.gloomezis.MainStorage.writeGuestToFile(MainStorage.java:74)
+com.danco.gloomezis.Main.main(Main.java:224)
+
+Wed Jan 06 15:14:18 GMT+03:00 2016 INFO cause :null
+Wed Jan 06 15:17:39 GMT+03:00 2016 SEVERE Error message :5
+com.danco.gloomezis.TxtWorker.writeGuests(TxtWorker.java:40)
+com.danco.gloomezis.MainStorage.writeGuestToFile(MainStorage.java:74)
+com.danco.gloomezis.Main.main(Main.java:224)
+java.lang.ArrayIndexOutOfBoundsException: 5
+Wed Jan 06 15:17:39 GMT+03:00 2016 INFO cause :null
+Wed Jan 06 20:34:04 GMT+03:00 2016 SEVERE Error message :5java.lang.ArrayIndexOutOfBoundsException: 5
+com.danco.gloomezis.TxtWorker.writeGuests(TxtWorker.java:40)
+com.danco.gloomezis.MainStorage.writeGuestToFile(MainStorage.java:74)
+com.danco.servises.GuestService.writeGuestToFile(GuestService.java:27)
+com.danco.gloomezis.Main.main(Main.java:222)
+
+Wed Jan 06 20:34:04 GMT+03:00 2016 INFO cause :null

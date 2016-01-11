@@ -16,6 +16,27 @@ public class HotelRoomService {
 	MainStorage mainStorage = MainStorage.getInstance();
 
 	
+private static HotelRoomService instance;
+	
+	
+	public static HotelRoomService getInstance() {
+		if (instance == null) {
+			instance = new HotelRoomService();
+		}
+		return instance;
+	}
+	
+	
+	private  HotelRoomService() {
+		
+	}
+	
+	
+	
+	
+	
+
+	
 	/**
 	 * Show all roms.
 	 *
@@ -23,7 +44,7 @@ public class HotelRoomService {
 	 * @param free the free
 	 */
 	
-	public void showAllRoms(String sortCondition, String free) {
+	public void showAllRooms(String sortCondition, String free) {
 		mainStorage.showAllRooms(sortCondition, free);
 	}
 
@@ -43,7 +64,7 @@ public class HotelRoomService {
 	 */
 	
 	public void showNumberOfFreeHotelRooms() {
-		mainStorage.showNumberOfFreeHoterRooms();
+		mainStorage.showNumberOfFreeHotelRooms();
 	}
 
 	/**

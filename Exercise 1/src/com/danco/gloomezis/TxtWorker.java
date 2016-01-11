@@ -1,5 +1,6 @@
 package com.danco.gloomezis;
 
+
 import java.util.ArrayList;
 
 import com.danco.models.Guest;
@@ -10,18 +11,11 @@ import com.danco.training.TextFileWorker;
  * The Class TxtWorker.
  */
 public class TxtWorker {
-	//MainStorage mainStorage = MainStorage.getInstance();
+	
 
 	/** The fw. */
 	private TextFileWorker fw;
 
-	/*
-	 * final String FILE_PATH_HOTELROOMS = "src/src/files/hotelRooms.txt";
-	 * TextFileWorker fwHotelRoms = new TextFileWorker(FILE_PATH_HOTELROOMS);
-	 * 
-	 * final String FILE_PATH_SERVICES = "src/src/files/services.txt";
-	 * TextFileWorker fwServices = new TextFileWorker(FILE_PATH_SERVICES);
-	 */
 
 	/**
 	 * Instantiates a new txt worker.
@@ -37,8 +31,8 @@ public class TxtWorker {
 	 *
 	 * @param mainStorage the main storage
 	 */
-	public void writeGuests(MainStorage mainStorage) {
-
+	public void writeGuests(MainStorage mainStorage) throws ArrayIndexOutOfBoundsException{
+	//	java.lang.ArrayIndexOutOfBoundsException
 		String[] b = new String[10];
 
 		int i = 0;
@@ -56,6 +50,7 @@ public class TxtWorker {
 	 * @return the array list
 	 */
 	public ArrayList<String> readGuests() {
+//		java.lang.ArrayIndexOutOfBoundsException
 		String[] c = new String[10];
 		c = fw.readFromFile();
 		ArrayList<String> s = new ArrayList<String>();
@@ -64,9 +59,7 @@ public class TxtWorker {
 			if (b1.equals("null")) {
 			} else {
 				e = b1.split(",");
-				// for(String f:e){
-				// System.out.println(f);
-				// }
+				
 
 				String name = e[0];
 				String dateOfDeparture = e[1];

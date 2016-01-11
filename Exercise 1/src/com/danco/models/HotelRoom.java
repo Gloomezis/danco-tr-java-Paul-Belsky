@@ -1,5 +1,7 @@
 package com.danco.models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -10,6 +12,13 @@ import java.util.List;
  * The Class HotelRoom.
  */
 public class HotelRoom {
+	
+	
+	/** The Constant DATE_FORMAT. */
+	private static final String DATE_FORMAT = "dd-MM-yyyy";
+	
+	/** The df. */
+	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 	
 	/** The Constant IN_WORK. */
 	private static final  String IN_WORK = "in work";
@@ -270,4 +279,24 @@ public class HotelRoom {
 		this.statys = statys;
 	}
 
+	 
+		public String toString() {
+
+			return (new StringBuilder(50).append(number)
+					.append(",")
+					.append(roomPrice)
+					.append(",")
+					.append(sleepingNumbers)
+					.append(",")
+					.append(starCategory)
+					.append(",")
+					.append(busy)
+					.append(",")
+					.append(df.format(dateOfArrival))
+					.append(",")
+					.append(df.format(dateOfDeparture))
+					.append(",")
+					.append(statys).toString());
+		}
+	
 }

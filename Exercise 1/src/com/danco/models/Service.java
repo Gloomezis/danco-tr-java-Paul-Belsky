@@ -1,5 +1,7 @@
 package com.danco.models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 // TODO: Auto-generated Javadoc
@@ -7,6 +9,12 @@ import java.util.Date;
  * The Class Service.
  */
 public class Service {
+	
+	/** The Constant DATE_FORMAT. */
+	private static final String DATE_FORMAT = "dd-MM-yyyy";
+	
+	/** The df. */
+	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
 	/** The price. */
 	private int price;
@@ -82,6 +90,17 @@ public class Service {
 	 */
 	public void setDate(Date date) {
 		this.dateOfUsingService = date;
+	}
+	
+	
+	public String toString() {
+
+		return (new StringBuilder().append(price)
+				.append(",")
+				.append(nameOfService)
+				.append(",")
+				.append(df.format(dateOfUsingService))
+				.toString());
 	}
 
 }

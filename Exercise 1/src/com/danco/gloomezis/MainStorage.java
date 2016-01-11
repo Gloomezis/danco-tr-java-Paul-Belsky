@@ -1,5 +1,6 @@
 package com.danco.gloomezis;
 
+
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class MainStorage {
 		hotelRoomStorage = new HotelRoomStorage();
 		serviceStorage = new ServiceStorage();
 		fwGuest = new TextFileWorker(FILE_PATH_GUESTS);
+	//	java.lang.IllegalArgumentException
 		guestTxtWorker=new TxtWorker(fwGuest);
 	}
 
@@ -74,8 +76,9 @@ public class MainStorage {
 	
 	/**
 	 * Read guest from file.
+	 * 
 	 */
-	public void readGuestFromFile(){
+	public void readGuestFromFile() {
 	guestTxtWorker.readGuests();
 	}
 
@@ -87,13 +90,24 @@ public class MainStorage {
 		
 		hotelRoomStorage.showPriceHotelRoom();
 		serviceStorage.showPriceServices();
-
-		// ////////////////////////
-		// /// Hotel Room Methods//
-		// ////////////////////////
-
 	}
+	
+		//////////////////////////
+		///// Hotel Room Methods//
+		//////////////////////////
 
+	
+
+	/**
+		 * Gets the hotel room by number.
+		 *
+		 * @param NumberOfRoom the number of room
+		 * @return the hotel room by number
+		 */
+		public HotelRoom getHotelRoomByNumber(String NumberOfRoom) {
+		return hotelRoomStorage.getHotelRoomByNumber(NumberOfRoom);
+	}
+	
 	
 	/**
 	 * Show all rooms.
@@ -121,7 +135,7 @@ public class MainStorage {
 	 * Show number of free hoter rooms.
 	 */
 	
-	public void showNumberOfFreeHoterRooms() {
+	public void showNumberOfFreeHotelRooms() {
 		hotelRoomStorage.showNumberOfFreeHotelRooms();
 	}
 
@@ -183,6 +197,20 @@ public class MainStorage {
 		hotelRoomStorage.changeStatus(hotelRoom);
 	}
 
+	
+	/**
+	 * Creates the hotel room.
+	 *
+	 * @param name the name
+	 * @param roomPrice the room price
+	 * @param sleepingNumbers the sleeping numbers
+	 * @param starCategory the star category
+	 * @return the hotel room
+	 */
+	public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers,int starCategory){
+		return hotelRoomStorage.createHotelRoom(name, roomPrice, sleepingNumbers, starCategory);
+	}
+	
 	/**
 	 * Adds the rooms.
 	 *
@@ -210,9 +238,31 @@ public class MainStorage {
 	// ///////////////////
 
 	/**
+	 * Creates the guest.
+	 *
+	 * @param name the name
+	 * @return the guest
+	 */
+	public Guest createGuest(String name){
+		return guestStorage.createGuest(name);
+		
+	}
+	
+	/**
+	 * Gets the guest by name.
+	 *
+	 * @param NameOfGuest the name of guest
+	 * @return the guest by name
+	 */
+	public Guest getGuestByName(String NameOfGuest) {
+		
+		return guestStorage.getGuestByName(NameOfGuest);
+	}
+	
+	/**
 	 * Show all guests.
 	 *
-	 * @param a the a
+	 * @param sortCondition the sort condition
 	 */
 	
 	public void showAllGuests(String sortCondition) {
@@ -281,6 +331,33 @@ public class MainStorage {
 	// /////////////////////
 	// /// Service Methods//
 	// /////////////////////
+	
+	
+	
+	/**
+	 * Gets the service by name.
+	 *
+	 * @param nameOfService the name of service
+	 * @return the service by name
+	 */
+	public Service getServiceByName(String nameOfService) {
+		return serviceStorage.getServiceByName(nameOfService);
+	}
+	
+	
+	
+	/**
+	 * Creates the service.
+	 *
+	 * @param nameOfService the name of service
+	 * @param price the price
+	 * @return the service
+	 */
+	public Service createService(String nameOfService, int price){
+		return serviceStorage.createService(nameOfService, price);
+		
+		
+	}
 	/**
 	 * Adds the services.
 	 *
@@ -300,5 +377,13 @@ public class MainStorage {
 	
 	public void changePriceOfService(Service service, int price) {
 		serviceStorage.changePriceOfService(service, price);
+	}
+	
+	
+	/**
+	 * Exit program.
+	 */
+	public void exitProgram(){
+		System.exit(0);
 	}
 }

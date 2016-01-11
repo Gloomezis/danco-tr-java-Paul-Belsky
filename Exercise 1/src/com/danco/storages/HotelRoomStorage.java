@@ -66,6 +66,39 @@ public class HotelRoomStorage {
 	DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
 
+	
+/**
+ * Gets the hotel room by number.
+ *
+ * @param NumberOfRoom the number of room
+ * @return the hotel room by number
+ */
+public HotelRoom getHotelRoomByNumber(String NumberOfRoom) {
+		
+		HotelRoom hr = null;
+		for(HotelRoom hroom:rooms){
+			if(hroom.getNumber().equals(NumberOfRoom)){
+				hr=hroom;
+			}
+		}
+		return hr;
+	}
+	
+/**
+ * Creates the hotel room.
+ *
+ * @param name the name
+ * @param roomPrice the room price
+ * @param sleepingNumbers the sleeping numbers
+ * @param starCategory the star category
+ * @return the hotel room
+ */
+public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers,int starCategory){
+	HotelRoom hotelRoom = new HotelRoom(name,roomPrice,sleepingNumbers,starCategory);
+	return 	hotelRoom;
+	
+}
+	
 	/**
 	 * Adds the rooms.
 	 *
@@ -268,7 +301,7 @@ public class HotelRoomStorage {
 	
 	public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom) {
 		LinkedList<Guest> g = hotelRoom.getGuestHistory();
-		StringBuilder sb = new StringBuilder(String.format(LAST_3_GUEST_FORMAT,
+		StringBuilder sb = new StringBuilder(500).append(String.format(LAST_3_GUEST_FORMAT,
 				hotelRoom.getNumber()));
 
 		for (Guest a : g) {
@@ -330,6 +363,7 @@ public class HotelRoomStorage {
 			break;
 		case SORT_COND_STAR:
 			Collections.sort(rooms, new HotelRoomStarComparator());
+			break;
 		default:
 			break;
 		}
