@@ -4,9 +4,11 @@ package com.danco.gloomezis;
 import java.util.Date;
 import java.util.List;
 
-import com.danco.models.Guest;
-import com.danco.models.HotelRoom;
-import com.danco.models.Service;
+import org.apache.log4j.Logger;
+
+import com.danco.model.Guest;
+import com.danco.model.HotelRoom;
+import com.danco.model.Service;
 import com.danco.storages.GuestStorage;
 import com.danco.storages.HotelRoomStorage;
 import com.danco.storages.ServiceStorage;
@@ -36,6 +38,8 @@ public class MainStorage {
 	/** The guest txt worker. */
 	TxtWorker guestTxtWorker;
 	
+	final Logger LOG1=Logger.getLogger(MainStorage.class.getName());
+	
 	
 
 
@@ -50,7 +54,13 @@ public class MainStorage {
 		guestStorage = new GuestStorage();
 		hotelRoomStorage = new HotelRoomStorage();
 		serviceStorage = new ServiceStorage();
+		try {
+		
 		fwGuest = new TextFileWorker(FILE_PATH_GUESTS);
+	
+		} catch (IllegalArgumentException e) {
+			LOG1.error("File not found",e);	
+		}
 	//	java.lang.IllegalArgumentException
 		guestTxtWorker=new TxtWorker(fwGuest);
 	}
@@ -70,7 +80,7 @@ public class MainStorage {
 	/**
 	 * Write guest to file.
 	 */
-	public void writeGuestToFile(){
+	public void writeGuestToFile() throws ArrayIndexOutOfBoundsException, NullPointerException{
 	guestTxtWorker.writeGuests(getInstance());
 	}
 	
@@ -78,7 +88,7 @@ public class MainStorage {
 	 * Read guest from file.
 	 * 
 	 */
-	public void readGuestFromFile() {
+	public void readGuestFromFile() throws ArrayIndexOutOfBoundsException, NullPointerException{
 	guestTxtWorker.readGuests();
 	}
 
@@ -127,7 +137,7 @@ public class MainStorage {
 	 * @param date the date
 	 */
 	
-	public void showFreeRomsAfterDate(String sortCondition, Date date) {
+	public void showFreeRomsAfterDate(String sortCondition, Date date)  throws NullPointerException{
 		hotelRoomStorage.showFreeRomsAfterDate(sortCondition, date);
 	}
 
@@ -145,7 +155,7 @@ public class MainStorage {
 	 * @param hotelRoom the hotel room
 	 */
 	
-	public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom) {
+	public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom) throws NullPointerException{
 		hotelRoomStorage.showLast3GuestOfHotelRoom(hotelRoom);
 	}
 
@@ -155,7 +165,7 @@ public class MainStorage {
 	 * @param hotelRoom the hotel room
 	 */
 	
-	public void showDetailOfHotelRoom(HotelRoom hotelRoom) {
+	public void showDetailOfHotelRoom(HotelRoom hotelRoom) throws NullPointerException{
 		hotelRoomStorage.showDetailOfHotelRoom(hotelRoom);
 	}
 
@@ -170,7 +180,7 @@ public class MainStorage {
 	 * @param dateOfDeparture the date of departure
 	 */
 	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
-			Date dateOfArrival, Date dateOfDeparture) {
+			Date dateOfArrival, Date dateOfDeparture) throws NullPointerException{
 		hotelRoomStorage.settleGuestToHotelRoom(guest, hotelRoom,
 				dateOfArrival, dateOfDeparture);
 		guestStorage.setDates(dateOfArrival, dateOfDeparture, guest);
@@ -183,7 +193,7 @@ public class MainStorage {
 	 * @param hotelRoom the hotel room
 	 */
 	
-	public void departGuestFromHotelRoom(HotelRoom hotelRoom) {
+	public void departGuestFromHotelRoom(HotelRoom hotelRoom) throws NullPointerException{
 		hotelRoomStorage.departGuestFromHotelRoom(hotelRoom);
 	}
 
@@ -193,7 +203,7 @@ public class MainStorage {
 	 * @param hotelRoom the hotel room
 	 */
 	
-	public void changeStatus(HotelRoom hotelRoom) {
+	public void changeStatus(HotelRoom hotelRoom) throws NullPointerException{
 		hotelRoomStorage.changeStatus(hotelRoom);
 	}
 
@@ -228,7 +238,7 @@ public class MainStorage {
 	 * @param roomPrice the room price
 	 */
 	
-	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice) {
+	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice)  throws NullPointerException {
 		hotelRoomStorage.changePriceOfHotelRoom(hotelRoom, roomPrice);
 		;
 	}
@@ -293,7 +303,7 @@ public class MainStorage {
 	 * @param guest the guest
 	 */
 	
-	public void showSummToPaidGuest(Guest guest) {
+	public void showSummToPaidGuest(Guest guest) throws NullPointerException{
 		guestStorage.showSummToPaidGuest(guest);
 	}
 
@@ -304,7 +314,7 @@ public class MainStorage {
 	 * @param sortCondition the sort condition
 	 */
 	
-	public void showListOfService(Guest guest, String sortCondition) {
+	public void showListOfService(Guest guest, String sortCondition) throws NullPointerException {
 		guestStorage.showListOfService(guest, sortCondition);
 	}
 
@@ -315,7 +325,7 @@ public class MainStorage {
 	 * @param service the service
 	 */
 	
-	public void addServiceToGuest(Guest guest, Service service) {
+	public void addServiceToGuest(Guest guest, Service service) throws NullPointerException{
 		guestStorage.addServiceToGuest(guest, service);
 	}
 
@@ -375,7 +385,7 @@ public class MainStorage {
 	 * @param price the price
 	 */
 	
-	public void changePriceOfService(Service service, int price) {
+	public void changePriceOfService(Service service, int price) throws NullPointerException {
 		serviceStorage.changePriceOfService(service, price);
 	}
 	

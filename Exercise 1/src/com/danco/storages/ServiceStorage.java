@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.danco.comparators.ServicePriceComparator;
-import com.danco.models.Service;
+import com.danco.comparator.ServicePriceComparator;
+import com.danco.model.Service;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -71,7 +71,7 @@ public class ServiceStorage {
 	 *            the price
 	 */
 
-	public void changePriceOfService(Service service, int price) {
+	public void changePriceOfService(Service service, int price) throws NullPointerException {
 		service.setPrice(price);
 	}
 
@@ -81,9 +81,12 @@ public class ServiceStorage {
 	 */
 
 	public void showPriceServices() {
-		Collections.sort(servises, new ServicePriceComparator());
+		
+		List<Service> servisesForSort = new ArrayList<Service>(servises);
+		
+		Collections.sort(servisesForSort, new ServicePriceComparator());
 		StringBuilder sb = new StringBuilder(40);
-		for (Service s : servises) {
+		for (Service s : servisesForSort) {
 			sb.append(String.format(SERVICE_FORMAT, s.getNameOfService(), s.getPrice()));
 
 		}

@@ -8,11 +8,11 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.danco.comparators.HotelRoomPriceComparator;
-import com.danco.comparators.HotelRoomSleepingNumberComparator;
-import com.danco.comparators.HotelRoomStarComparator;
-import com.danco.models.Guest;
-import com.danco.models.HotelRoom;
+import com.danco.comparator.HotelRoomPriceComparator;
+import com.danco.comparator.HotelRoomSleepingNumberComparator;
+import com.danco.comparator.HotelRoomStarComparator;
+import com.danco.model.Guest;
+import com.danco.model.HotelRoom;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -60,10 +60,12 @@ public class HotelRoomStorage {
 	private static final  String FREE = "free";
 
 	/** The rooms. */
-	List<HotelRoom> rooms = new ArrayList<HotelRoom>();
+	private List<HotelRoom> rooms = new ArrayList<HotelRoom>();
 
 	/** The df. */
-	DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+	
+	private List<HotelRoom> roomsForSort;
 
 
 	
@@ -116,7 +118,7 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 * @param roomPrice the room price
 	 */
 	
-	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice) {
+	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice) throws NullPointerException {
 		hotelRoom.setRoomPrice(roomPrice);
 	}
 
@@ -126,7 +128,7 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 * @param hotelRoom the hotel room
 	 */
 	
-	public void changeStatus(HotelRoom hotelRoom) {
+	public void changeStatus(HotelRoom hotelRoom) throws NullPointerException{
 
 		if (hotelRoom.getStatys() == IN_WORK) {
 			hotelRoom.setStatys(false);
@@ -142,7 +144,7 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 * @param hotelRoom the hotel room
 	 */
 	
-	public void departGuestFromHotelRoom(HotelRoom hotelRoom) {
+	public void departGuestFromHotelRoom(HotelRoom hotelRoom) throws NullPointerException{
 		for (Guest a : hotelRoom.getGuests()) {
 			a.setNumberOfRoom(NOT_SETLED);
 		}
@@ -174,14 +176,14 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	
 	public void roomPrinterAllOrFree(String free) {
 		if (FREE.equals(free)) {
-			for (HotelRoom s : rooms) {
+			for (HotelRoom s : roomsForSort) {
 				if (!s.getBusy()) {
 					roomPrinter(s);
 				} else {
 				}
 			}
 		} else {
-			for (HotelRoom s : rooms) {
+			for (HotelRoom s : roomsForSort) {
 				roomPrinter(s);
 			}
 		}
@@ -225,7 +227,7 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 */
 	
 	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
-			Date dateOfArrival, Date dateOfDeparture) {
+			Date dateOfArrival, Date dateOfDeparture) throws NullPointerException{
 		hotelRoom.setGuests(guest);
 
 		setDateOfArrival(dateOfArrival, hotelRoom);
@@ -248,6 +250,7 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 */
 	
 	public void showAllRooms(String sortCondition, String free) {
+		roomsForSort = new ArrayList<HotelRoom>(rooms);
 		sortRooms(sortCondition);
 		roomPrinterAllOrFree(free);
 	}
@@ -259,7 +262,7 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 * @param hotelRoom the hotel room
 	 */
 	
-	public void showDetailOfHotelRoom(HotelRoom hotelRoom) {
+	public void showDetailOfHotelRoom(HotelRoom hotelRoom) throws NullPointerException{
 		System.out.println(String.format(ROOM_DETAIL_FORMAT,
 				hotelRoom.getNumber(), hotelRoom.getRoomPrice(),
 				hotelRoom.getSleepingNumbers(), hotelRoom.getStarCategory(),
@@ -276,17 +279,18 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 * @param date the date
 	 */
 	
-	public void showFreeRomsAfterDate(String sortCondition, Date date) {
+	public void showFreeRomsAfterDate(String sortCondition, Date date) throws NullPointerException {
+		roomsForSort = new ArrayList<HotelRoom>(rooms);
 		sortRooms(sortCondition);
 
-		Date Pdate = null;
-		Date Qdate = null;
-		for (HotelRoom s : rooms) {
+		Date pDate = null;
+		Date qDate = null;
+		for (HotelRoom s : roomsForSort) {
 			
-				Pdate = date;
-				Qdate = s.getDateOfDeparture();
+				pDate = date;
+				qDate = s.getDateOfDeparture();
 			
-			if (Pdate.compareTo(Qdate) > 0) {
+			if (pDate.compareTo(qDate) > 0) {
 				roomPrinter(s);
 			}
 		}
@@ -299,7 +303,7 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 * @param hotelRoom the hotel room
 	 */
 	
-	public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom) {
+	public void showLast3GuestOfHotelRoom(HotelRoom hotelRoom) throws NullPointerException{
 		LinkedList<Guest> g = hotelRoom.getGuestHistory();
 		StringBuilder sb = new StringBuilder(500).append(String.format(LAST_3_GUEST_FORMAT,
 				hotelRoom.getNumber()));
@@ -335,10 +339,10 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	 */
 	
 	public void showPriceHotelRoom() {
-
-		Collections.sort(rooms, new HotelRoomPriceComparator());
+		roomsForSort = new ArrayList<HotelRoom>(rooms);
+		Collections.sort(roomsForSort, new HotelRoomPriceComparator());
 		StringBuilder sb = new StringBuilder(100);
-		for (HotelRoom s : rooms) {
+		for (HotelRoom s : roomsForSort) {
 			sb.append(String.format(HOTEL_ROOM_FORMAT, s.getNumber(),
 					s.getRoomPrice()));
 		}
@@ -356,13 +360,13 @@ public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers
 	public void sortRooms(String sortCondition) {
 		switch (sortCondition) {
 		case SORT_COND_PRICE:
-			Collections.sort(rooms, new HotelRoomPriceComparator());
+			Collections.sort(roomsForSort, new HotelRoomPriceComparator());
 			break;
 		case SORT_COND_SLEEP_N:
-			Collections.sort(rooms, new HotelRoomSleepingNumberComparator());
+			Collections.sort(roomsForSort, new HotelRoomSleepingNumberComparator());
 			break;
 		case SORT_COND_STAR:
-			Collections.sort(rooms, new HotelRoomStarComparator());
+			Collections.sort(roomsForSort, new HotelRoomStarComparator());
 			break;
 		default:
 			break;

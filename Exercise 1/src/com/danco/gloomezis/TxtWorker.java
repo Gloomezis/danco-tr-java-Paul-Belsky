@@ -3,7 +3,7 @@ package com.danco.gloomezis;
 
 import java.util.ArrayList;
 
-import com.danco.models.Guest;
+import com.danco.model.Guest;
 import com.danco.training.TextFileWorker;
 
 // TODO: Auto-generated Javadoc
@@ -31,10 +31,9 @@ public class TxtWorker {
 	 *
 	 * @param mainStorage the main storage
 	 */
-	public void writeGuests(MainStorage mainStorage) throws ArrayIndexOutOfBoundsException{
+	public void writeGuests(MainStorage mainStorage) throws ArrayIndexOutOfBoundsException, NullPointerException{
 	//	java.lang.ArrayIndexOutOfBoundsException
-		String[] b = new String[10];
-
+		String[] b = new String[20];
 		int i = 0;
 		for (Guest g : mainStorage.getAllGuests()) {
 			b[i] = g.toString();
@@ -49,7 +48,7 @@ public class TxtWorker {
 	 *
 	 * @return the array list
 	 */
-	public ArrayList<String> readGuests() {
+	public ArrayList<String> readGuests() throws ArrayIndexOutOfBoundsException, NullPointerException{
 //		java.lang.ArrayIndexOutOfBoundsException
 		String[] c = new String[10];
 		c = fw.readFromFile();

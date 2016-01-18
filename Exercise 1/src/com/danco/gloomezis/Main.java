@@ -3,13 +3,15 @@ package com.danco.gloomezis;
 import java.io.FileNotFoundException;
 import java.util.GregorianCalendar;
 
-import com.danco.command.CommandManager;
-import com.danco.models.Guest;
-import com.danco.models.HotelRoom;
-import com.danco.models.Service;
-import com.danco.servises.GuestService;
-import com.danco.servises.HotelRoomService;
-import com.danco.servises.ServiceService;
+import org.apache.log4j.PropertyConfigurator;
+
+import com.danco.model.Guest;
+import com.danco.model.HotelRoom;
+import com.danco.model.Service;
+import com.danco.serviñe.GuestService;
+import com.danco.serviñe.HotelRoomService;
+import com.danco.serviñe.ServiceService;
+import com.danco.ui.Controller;
 
 
 // TODO: Auto-generated Javadoc
@@ -18,6 +20,9 @@ import com.danco.servises.ServiceService;
  */
 public class Main {
 
+	
+	
+	
 	//final static String FILE_PATH_GUESTS = "src/src/files/guests.txt";
 	
 	/**
@@ -27,6 +32,10 @@ public class Main {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
+		
+		
+		PropertyConfigurator.configure("log4j.properties");
+		
 		
 
 //final String FILE_PATH_LOG = "test.log";
@@ -235,9 +244,10 @@ public class Main {
 	guestService.readGuestFromFile();
 	
 	
-	CommandManager commandManager = new CommandManager();
-	commandManager.getTask();
-	
+//	CommandManager commandManager = new CommandManager();
+//	commandManager.getTask();
+	Controller controller = new Controller();
+	controller.run();
 
 		}
 	

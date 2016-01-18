@@ -8,12 +8,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import com.danco.comparators.GuestDateOfDepartureComparator;
-import com.danco.comparators.GuestNameComparator;
-import com.danco.comparators.ServiceDateOfUsingComparator;
-import com.danco.comparators.ServicePriceComparator;
-import com.danco.models.Guest;
-import com.danco.models.Service;
+import com.danco.comparator.GuestDateOfDepartureComparator;
+import com.danco.comparator.GuestNameComparator;
+import com.danco.comparator.ServiceDateOfUsingComparator;
+import com.danco.comparator.ServicePriceComparator;
+import com.danco.model.Guest;
+import com.danco.model.Service;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -55,6 +55,7 @@ public class GuestStorage {
 	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 	
 	
+	
 	/**
 	 * Creates the guest.
 	 *
@@ -84,7 +85,7 @@ public class GuestStorage {
 	 * @param service the service
 	 */
 	
-	public void addServiceToGuest(Guest guest, Service service) {
+	public void addServiceToGuest(Guest guest, Service service) throws NullPointerException{
 
 		Date date = Calendar.getInstance().getTime();
 		service.setDate(date);
@@ -193,20 +194,22 @@ public class GuestStorage {
 	public void showAllGuests(String a) {
 
 		StringBuilder sb = new StringBuilder(500);
+		List<Guest> allGuestsForSort = new ArrayList<Guest>(allGuests);
+		
 		if (ALPHABET.equals(a)) {
+			
+			Collections.sort(allGuestsForSort, new GuestNameComparator());
 
-			Collections.sort(allGuests, new GuestNameComparator());
-
-			for (Guest s : allGuests) {
+			for (Guest s : allGuestsForSort) {
 				sb.append(String.format(GUEST_FORMAT, s.getName(),
 						s.getNumberOfRoom(), df.format(s.getDateOfDeparture())));
 
 			}
 		} else {
 			if (DATE.equals(a)) {
-				Collections.sort(allGuests,
+				Collections.sort(allGuestsForSort,
 						new GuestDateOfDepartureComparator());
-				for (Guest s : allGuests) {
+				for (Guest s : allGuestsForSort) {
 					sb.append(String.format(GUEST_FORMAT, s.getName(),
 							s.getNumberOfRoom(),
 							df.format(s.getDateOfDeparture())));
@@ -227,7 +230,7 @@ public class GuestStorage {
 	 * @param sortCondinion the sort condinion
 	 */
 	
-	public void showListOfService(Guest guest, String sortCondinion) {
+	public void showListOfService(Guest guest, String sortCondinion) throws NullPointerException{
 		List<Service> s = guest.getServises();
 		System.out.println(guest.getName() + ":");
 
@@ -256,7 +259,7 @@ public class GuestStorage {
 	 * @param guest the guest
 	 */
 	
-	public void showSummToPaidGuest(Guest guest) {
+	public void showSummToPaidGuest(Guest guest) throws NullPointerException{
 		System.out.println(String.format(SUMM_TO_PAID_FORMAT,
 				guest.getSummToPaid()));
 
