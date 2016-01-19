@@ -34,15 +34,6 @@ public class MenuItems implements IMenu{
 		this.title = title;
 	}
 
-	/**
-	 * Sets the executer.
-	 *
-	 * @param command the new executer
-	 */
-	public void setExecuter(Command command) {
-		this.command = command;
-	}
-
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMenu#getTitle()
 	 */

@@ -48,7 +48,7 @@ public class Navigator {
 	 *
 	 * @return true, if successful
 	 */
-	public boolean Navigate() {
+	public boolean navigate() {
 		int inputNumber = inputNumber();
 		if (inputNumber <= 0 || inputNumber > currentMenu.getMenuItems().size()) {
 			System.out.println(NUMBER_NOT_EXIST);

@@ -20,7 +20,7 @@ public class Controller {
 		navigator.printMenu();
 		System.out.println(SEPARATOR);
 
-		while (navigator.Navigate() == true) {
+		while (navigator.navigate() == true) {
 			System.out.println(SEPARATOR);
 
 		}
