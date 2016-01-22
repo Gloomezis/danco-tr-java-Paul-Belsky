@@ -1,1 +1,3 @@
 dataFileName=newSerialisationFile.ser
+StatusChange=false
+GuestHistorySize=4

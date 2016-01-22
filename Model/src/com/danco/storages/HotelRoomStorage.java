@@ -49,6 +49,8 @@ public class HotelRoomStorage implements Serializable {
 	/** The rooms for sort. */
 	private List<HotelRoom> roomsForSort;
 
+
+
 	/**
 	 * Gets the hotel room by number.
 	 *
@@ -129,13 +131,14 @@ public class HotelRoomStorage implements Serializable {
 	 */
 
 	public void changeStatus(HotelRoom hotelRoom) throws Exception {
+	
 
 		if (hotelRoom.getStatys() == IN_WORK) {
 			hotelRoom.setStatys(false);
 		} else {
 			hotelRoom.setStatys(true);
-
 		}
+		
 	}
 
 	/**
@@ -151,7 +154,7 @@ public class HotelRoomStorage implements Serializable {
 		for (Guest a : hotelRoom.getGuests()) {
 			a.setNumberOfRoom(NOT_SETLED);
 		}
-		hotelRoom.getGuests().clear();
+		hotelRoom.clearGuest();
 		hotelRoom.setBusy(false);
 	}
 

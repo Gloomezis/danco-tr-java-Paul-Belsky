@@ -55,8 +55,8 @@ public class MainStorage implements Serializable{
 	 */
 	public static MainStorage getInstance() {
 		if (instance == null) {
-//			
-//			instance = new MainStorage();
+			
+		//	instance = new MainStorage();
 			instance = SerializeController.getInstance().serialFromFile();  
 		}
 		return instance;

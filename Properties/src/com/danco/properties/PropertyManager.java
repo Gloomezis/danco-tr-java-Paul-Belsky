@@ -80,7 +80,28 @@ public class PropertyManager {
 
 	}
 	
+	/**
+	 * Gets the status change property.
+	 *
+	 * @return the status change property
+	 */
+	public boolean getStatusChangeProperty() {
+		String StatusChangeProperty = properties.getProperty("StatusChange");
+		return Boolean.parseBoolean(StatusChangeProperty);
+
+	}
 	
+	/**
+	 * Gets the guest history size property.
+	 *
+	 * @return the guest history size property
+	 */
+	public int getGuestHistorySizeProperty() {
+		String GuestHistorySizeProperty = properties.getProperty("GuestHistorySize");
+		return Integer.parseInt(GuestHistorySizeProperty);
+		
+
+	}
 	
 	
 }

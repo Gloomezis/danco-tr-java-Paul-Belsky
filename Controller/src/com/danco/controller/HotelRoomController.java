@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.danco.model.Guest;
 import com.danco.model.HotelRoom;
+import com.danco.properties.PropertyManager;
 import com.danco.serviñe.GuestService;
 import com.danco.serviñe.HotelRoomService;
 import com.danco.util.InputManager;
@@ -281,13 +282,18 @@ public class HotelRoomController {
 	 */
 
 	public void changeStatus() {
-
+		
+		boolean statusChangeProperty = PropertyManager.getInstance().getStatusChangeProperty();
+		if(statusChangeProperty==true){
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
 
 		String userInputHotelRoomNumber = InputManager.getInstance().userInputString();
 		HotelRoom hr = HotelRoomService.getInstance().getHotelRoomByNumber(userInputHotelRoomNumber);
 
-		hotelRoomService.changeStatus(hr);
+		hotelRoomService.changeStatus(hr);}
+		else{
+		System.out.println("Blocked by property manager");
+		}
 	}
 
 	/**

@@ -12,9 +12,8 @@ import java.util.List;
 /**
  * The Class HotelRoom.
  */
-public class HotelRoom implements Serializable,Cloneable {
-	
-	
+public class HotelRoom implements Serializable, Cloneable {
+
 	/**
 	 * 
 	 */
@@ -22,53 +21,57 @@ public class HotelRoom implements Serializable,Cloneable {
 
 	/** The Constant DATE_FORMAT. */
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
-	
+
 	/** The df. */
 	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-	
+
 	/** The Constant IN_WORK. */
-	private static final  String IN_WORK = "in work";
-	
+	private static final String IN_WORK = "in work";
+
 	/** The Constant UNDER_REPAIR. */
-	private static final  String UNDER_REPAIR = "under repair/serviced";
-	
+	private static final String UNDER_REPAIR = "under repair/serviced";
+
 	/** The guests. */
 	private List<Guest> guests = new ArrayList<Guest>();
-	
+
 	/** The number. */
 	private String number;
-	
+
 	/** The room price. */
 	private int roomPrice;
-	
+
 	/** The sleeping numbers. */
 	private int sleepingNumbers;
-	
+
 	/** The star category. */
 	private int starCategory;
-	
+
 	/** The busy. */
 	private boolean busy;
-	
+
 	/** The date of arrival. */
 	private Date dateOfArrival = new Date();
-	
+
 	/** The date of departure. */
 	private Date dateOfDeparture = new Date();
-	
+
 	/** The guest history. */
 	private LinkedList<Guest> guestHistory = new LinkedList<Guest>();
-	
+
 	/** The statys. */
 	private boolean statys = true;
 
 	/**
 	 * Instantiates a new hotel room.
 	 *
-	 * @param number the number
-	 * @param roomPrice the room price
-	 * @param sleepingNumbers the sleeping numbers
-	 * @param starCategory the star category
+	 * @param number
+	 *            the number
+	 * @param roomPrice
+	 *            the room price
+	 * @param sleepingNumbers
+	 *            the sleeping numbers
+	 * @param starCategory
+	 *            the star category
 	 */
 	public HotelRoom(String number, int roomPrice, int sleepingNumbers,
 			int starCategory) {
@@ -84,7 +87,7 @@ public class HotelRoom implements Serializable,Cloneable {
 	 *
 	 * @return the guests
 	 */
-	
+
 	public List<Guest> getGuests() {
 		return guests;
 	}
@@ -92,19 +95,23 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the guests.
 	 *
-	 * @param guest the new guests
+	 * @param guest
+	 *            the new guests
 	 */
-	
+
 	public void setGuests(Guest guest) {
 		int a = guests.size();
 		if (a < sleepingNumbers) {
 			guests.add(guest);
 			setGuestHistory(guest);
-
-		} else {
-			System.out.println("no have free sleeping place");
-
 		}
+		else{ System.out.println("No free place");}
+		
+	}
+
+	public void clearGuest() {
+		guests.removeAll(guests);
+		busy = false;
 	}
 
 	/**
@@ -119,7 +126,8 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the number.
 	 *
-	 * @param number the new number
+	 * @param number
+	 *            the new number
 	 */
 	public void setNumber(String number) {
 		this.number = number;
@@ -137,7 +145,8 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the room price.
 	 *
-	 * @param roomPrice the new room price
+	 * @param roomPrice
+	 *            the new room price
 	 */
 	public void setRoomPrice(int roomPrice) {
 		this.roomPrice = roomPrice;
@@ -155,7 +164,8 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the sleeping numbers.
 	 *
-	 * @param sleepingNumbers the new sleeping numbers
+	 * @param sleepingNumbers
+	 *            the new sleeping numbers
 	 */
 	public void setSleepingNumbers(int sleepingNumbers) {
 		this.sleepingNumbers = sleepingNumbers;
@@ -173,7 +183,8 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the star category.
 	 *
-	 * @param starCategory the new star category
+	 * @param starCategory
+	 *            the new star category
 	 */
 	public void setStarCategory(int starCategory) {
 		this.starCategory = starCategory;
@@ -191,7 +202,8 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the busy.
 	 *
-	 * @param busy the new busy
+	 * @param busy
+	 *            the new busy
 	 */
 	public void setBusy(boolean busy) {
 		this.busy = busy;
@@ -209,7 +221,8 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the date of arrival.
 	 *
-	 * @param dateOfArrival the new date of arrival
+	 * @param dateOfArrival
+	 *            the new date of arrival
 	 */
 	public void setDateOfArrival(Date dateOfArrival) {
 		this.dateOfArrival = dateOfArrival;
@@ -227,7 +240,8 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the date of departure.
 	 *
-	 * @param dateOfDeparture the new date of departure
+	 * @param dateOfDeparture
+	 *            the new date of departure
 	 */
 	public void setDateOfDeparture(Date dateOfDeparture) {
 		this.dateOfDeparture = dateOfDeparture;
@@ -238,7 +252,7 @@ public class HotelRoom implements Serializable,Cloneable {
 	 *
 	 * @return the guest history
 	 */
-	
+
 	public LinkedList<Guest> getGuestHistory() {
 		return guestHistory;
 	}
@@ -246,10 +260,13 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the guest history.
 	 *
-	 * @param guest the new guest history
+	 * @param guest
+	 *            the new guest history
 	 */
-	
+
 	public void setGuestHistory(Guest guest) {
+
+		///int guestHistorySizeProperty = PropertyManager.getInstance().getGuestHistorySizeProperty();
 		int a = guestHistory.size();
 		if (a < 3) {
 			guestHistory.addFirst(guest);
@@ -266,11 +283,11 @@ public class HotelRoom implements Serializable,Cloneable {
 	 */
 	public String getStatys() {
 		String st;
-		if (statys == false){
-			st = UNDER_REPAIR;}
-		else{
+		if (statys == false) {
+			st = UNDER_REPAIR;
+		} else {
 			st = IN_WORK;
-			
+
 		}
 		return st;
 	}
@@ -278,37 +295,27 @@ public class HotelRoom implements Serializable,Cloneable {
 	/**
 	 * Sets the statys.
 	 *
-	 * @param statys the new statys
+	 * @param statys
+	 *            the new statys
 	 */
 	public void setStatys(boolean statys) {
-		
+
 		this.statys = statys;
 	}
 
-	 
-		public String toString() {
+	public String toString() {
 
-			return (new StringBuilder(50).append(number)
-					.append(",")
-					.append(roomPrice)
-					.append(",")
-					.append(sleepingNumbers)
-					.append(",")
-					.append(starCategory)
-					.append(",")
-					.append(busy)
-					.append(",")
-					.append(df.format(dateOfArrival))
-					.append(",")
-					.append(df.format(dateOfDeparture))
-					.append(",")
-					.append(statys).toString());
-		}
-		
-		
-		public HotelRoom clone() throws CloneNotSupportedException{
-			 return (HotelRoom) super.clone();
-			
-			}
-	
+		return (new StringBuilder(50).append(number).append(",")
+				.append(roomPrice).append(",").append(sleepingNumbers)
+				.append(",").append(starCategory).append(",").append(busy)
+				.append(",").append(df.format(dateOfArrival)).append(",")
+				.append(df.format(dateOfDeparture)).append(",").append(statys)
+				.toString());
+	}
+
+	public HotelRoom clone() throws CloneNotSupportedException {
+		return (HotelRoom) super.clone();
+
+	}
+
 }
