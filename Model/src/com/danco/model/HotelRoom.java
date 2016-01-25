@@ -47,7 +47,7 @@ public class HotelRoom implements Serializable, Cloneable {
 	private int starCategory;
 
 	/** The busy. */
-	private boolean busy;
+	private boolean busy=false;
 
 	/** The date of arrival. */
 	private Date dateOfArrival = new Date();

@@ -281,5 +281,14 @@ public class HotelRoomService {
 			return null;
 		}
 	}
+	
+	public List<HotelRoom> getRooms() {
+		try {
+		return mainStorage.getRooms();
+		} catch (Exception e) {
+			LOG1.error("Exception", e);
+			return null;
+		}
+	}
 
 }

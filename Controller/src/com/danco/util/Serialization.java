@@ -16,7 +16,7 @@ import com.danco.storages.MainStorage;
  * The Class Serialization.
  */
 public class Serialization {
-	
+
 	/** The LO g1. */
 	private final Logger LOG1 = Logger.getLogger(Serialization.class.getName());
 
@@ -24,30 +24,31 @@ public class Serialization {
 	 * Serial to file.
 	 */
 	public void serialToFile() {
-		 MainStorage serializeMainStorage = MainStorage.getInstance();
-		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(PropertyManager.getInstance().getSerialiseFileName()))) {
+		MainStorage serializeMainStorage = MainStorage.getInstance();
+		try (ObjectOutputStream out = new ObjectOutputStream(
+				new FileOutputStream(PropertyManager.getInstance().getSerialiseFileName()))) {
 			out.writeObject(serializeMainStorage);
 			out.close();
 		} catch (IOException e) {
 			LOG1.error("Exception", e);
-			
+
 		}
 	}
 
 	/**
 	 * Serial from file.
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public MainStorage serialFromFile() {
 		MainStorage mainStorage = null;
-		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(PropertyManager.getInstance().getSerialiseFileName()))) {
-			
-			 mainStorage = (MainStorage) in.readObject();
+		try (ObjectInputStream in = new ObjectInputStream(
+				new FileInputStream(PropertyManager.getInstance().getSerialiseFileName()))) {
+			mainStorage = (MainStorage) in.readObject();
 			in.close();
 
 		} catch (Exception e) {
 			LOG1.error("Exception", e);
-			
 
 		}
 		return mainStorage;

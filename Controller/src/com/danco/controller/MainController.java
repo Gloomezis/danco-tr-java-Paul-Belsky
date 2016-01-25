@@ -10,6 +10,12 @@ public class MainController {
 	GuestController guestController = new GuestController();
 	HotelRoomController hotelRoomController = new HotelRoomController();
 	ServiceController serviceController = new ServiceController();
+	
+	
+	
+	/** The import export csv controller. */
+	private ImportExportCsvController importExportCsvController = ImportExportCsvController.getInstance();
+
 
 	/** The instance. */
 	private static MainController instance;
@@ -271,6 +277,58 @@ public class MainController {
 			serviceController.changePriceOfService();
 		
 	}
+	
+	
+	
+	/**
+	 * Guest read csv file.
+	 */
+	public void guestReadCsvFile() {
+		importExportCsvController.guestReadCsvFile();
+		
+	}
+	
+	/**
+	 * Guest write csv file.
+	 */
+	public void guestWriteCsvFile() {
+		importExportCsvController.guestWriteCsvFile();
+	}
+	
+
+	/**
+	 * Hotel room read csv file.
+	 */
+	public void hotelRoomReadCsvFile() {
+		importExportCsvController.hotelRoomReadCsvFile();
+		
+	}
+	
+	/**
+	 * Hotel room write csv file.
+	 */
+	public void hotelRoomWriteCsvFile() {
+		importExportCsvController.hotelRoomWriteCsvFile();
+		
+	}
+	
+
+	/**
+	 * Service read csv file.
+	 */
+	public void serviceReadCsvFile() {
+		importExportCsvController.serviceReadCsvFile();
+	}
+	
+	/**
+	 * Service write csv file.
+	 */
+	public void serviceWriteCsvFile() {
+		importExportCsvController.serviceWriteCsvFile();
+		
+	}
+
+
 
 
 	
