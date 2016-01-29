@@ -392,4 +392,12 @@ public class HotelRoomStorage implements Serializable {
 
 	}
 
+	public List<HotelRoom> getRooms() {
+		return rooms;
+	}
+
+	
+	
+	
+
 }

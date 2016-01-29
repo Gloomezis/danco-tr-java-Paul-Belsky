@@ -1,6 +1,12 @@
 package com.danco.ui;
 
 import com.danco.command.ExitCommand;
+import com.danco.command.ImportExportCSVCommand.GuestReadCsvFile;
+import com.danco.command.ImportExportCSVCommand.GuestWriteCsvFile;
+import com.danco.command.ImportExportCSVCommand.HotelRoomReadCsvFile;
+import com.danco.command.ImportExportCSVCommand.HotelRoomWriteCsvFile;
+import com.danco.command.ImportExportCSVCommand.ServiceReadCsvFile;
+import com.danco.command.ImportExportCSVCommand.ServiceWriteCsvFile;
 import com.danco.command.guestCommand.AddGuest;
 import com.danco.command.guestCommand.AddServiceToGuest;
 import com.danco.command.guestCommand.ShowAllGuestNumber;
@@ -156,6 +162,7 @@ public class Builder {
 		Menu threeAddMenu = new Menu(ADD, rootMenu);
 		Menu threeEditMenu = new Menu(EDIT, rootMenu);
 		Menu threeShowMenu = new Menu(SHOW, rootMenu);
+		Menu fourMenu = new Menu("Import/Export", rootMenu);
 
 		/*
 		 * guest operation menu
@@ -220,6 +227,18 @@ public class Builder {
 		threeShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS, new ShowPriceServiceAndHotelRoom()));
 		threeShowMenu.getMenuItems().add(new MenuItems(BACK, null));
+		
+		/*
+		 * Import/Export menu
+		 */
+		
+		fourMenu.getMenuItems().add(new MenuItems("read guest from file", new GuestReadCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems("write guest to file", new GuestWriteCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems("read hotel room from file", new HotelRoomReadCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems("write hotel room to file", new HotelRoomWriteCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems("read service from file", new ServiceReadCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems("write service to file", new ServiceWriteCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*
 		 * Root menu
@@ -227,6 +246,7 @@ public class Builder {
 		rootMenu.getMenuItems().add(firstMenu);
 		rootMenu.getMenuItems().add(secondMenu);
 		rootMenu.getMenuItems().add(threeMenu);
+		rootMenu.getMenuItems().add(fourMenu);
 		rootMenu.getMenuItems().add(new MenuItems(EXIT, new ExitCommand()));
 
 		return rootMenu;

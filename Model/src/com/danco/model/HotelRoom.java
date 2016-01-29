@@ -8,10 +8,15 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.danco.anotation.Printable;
+import com.danco.anotation.PrintableObject;
+import com.danco.anotation.PrintableRef;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class HotelRoom.
  */
+@PrintableObject(name ="Hotel room")
 public class HotelRoom implements Serializable, Cloneable {
 
 	/**
@@ -35,30 +40,39 @@ public class HotelRoom implements Serializable, Cloneable {
 	private List<Guest> guests = new ArrayList<Guest>();
 
 	/** The number. */
+	@Printable(name = "Hotel room number", order = 1)
 	private String number;
 
 	/** The room price. */
+	@Printable(name = "room price", order = 2)
 	private int roomPrice;
 
 	/** The sleeping numbers. */
+	@Printable(name = "Sleeping numbers", order = 3)
 	private int sleepingNumbers;
 
 	/** The star category. */
+	@Printable(name = "Star category", order = 4)
 	private int starCategory;
 
 	/** The busy. */
-	private boolean busy;
+	@Printable(name = "Busy", order = 5)
+	private boolean busy=false;
 
 	/** The date of arrival. */
+	@Printable(name = "Date of arrive", order = 6)
 	private Date dateOfArrival = new Date();
 
 	/** The date of departure. */
+	@Printable(name = "Date of depart", order = 7)
 	private Date dateOfDeparture = new Date();
 
 	/** The guest history. */
+	@PrintableRef(name= "Guest history",isDetailedView = false,order=8)
 	private LinkedList<Guest> guestHistory = new LinkedList<Guest>();
 
 	/** The statys. */
+	@Printable(name = "Status", order = 1)
 	private boolean statys = true;
 
 	/**

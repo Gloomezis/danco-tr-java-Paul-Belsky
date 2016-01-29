@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import com.danco.controller.SerializeController;
 import com.danco.model.Guest;
 import com.danco.model.HotelRoom;
 import com.danco.model.Service;
@@ -56,10 +55,18 @@ public class MainStorage implements Serializable{
 	public static MainStorage getInstance() {
 		if (instance == null) {
 			
-		//	instance = new MainStorage();
-			instance = SerializeController.getInstance().serialFromFile();  
+			instance = new MainStorage();
+			//instance = MainController.getInstance().serialFromFile();  
 		}
 		return instance;
+	}
+	
+	public static void setInstance(MainStorage mainStorage) {
+		
+			
+			instance = mainStorage;
+		
+		
 	}
 
 
@@ -274,6 +281,10 @@ public class MainStorage implements Serializable{
 	public HotelRoom cloneHotelRoom(HotelRoom room) throws CloneNotSupportedException {
 		return hotelRoomStorage.cloneHotelRoom(room);
 	}
+	
+	public List<HotelRoom> getRooms() {
+		return hotelRoomStorage.getRooms();
+	}
 
 	// ///////////////////
 	// /// Guest Methods//
@@ -467,6 +478,11 @@ public class MainStorage implements Serializable{
 	 * @throws Exception
 	 *             the exception
 	 */
+	
+	public List<Service> getServises() {
+		return serviceStorage.getServises();
+	}
+	
 	public void exitProgram() throws Exception {
 		System.exit(0);
 	}

@@ -1,17 +1,11 @@
 package com.danco.ui;
 
 import java.io.FileNotFoundException;
-import java.util.GregorianCalendar;
 
 import org.apache.log4j.PropertyConfigurator;
 
 import com.danco.controller.SerializeController;
-import com.danco.model.Guest;
-import com.danco.model.HotelRoom;
-import com.danco.model.Service;
-import com.danco.serviñe.GuestService;
-import com.danco.serviñe.HotelRoomService;
-import com.danco.serviñe.ServiceService;
+import com.danco.storages.MainStorage;
 
 
 // TODO: Auto-generated Javadoc
@@ -237,7 +231,7 @@ public class Start {
 	
        
 	 
-     
+    MainStorage.setInstance(SerializeController.getInstance().serialFromFile());  
 	Controller controller = new Controller();
 	controller.run();
 	SerializeController.getInstance().serialToFile();

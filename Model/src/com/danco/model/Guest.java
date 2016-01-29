@@ -7,46 +7,57 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.danco.anotation.Printable;
+import com.danco.anotation.PrintableObject;
+import com.danco.anotation.PrintableRef;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Guest.
  */
-public class Guest implements Serializable{
+@PrintableObject(name = "Guest")
+public class Guest implements Serializable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The Constant DATE_FORMAT. */
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
-	
+
 	/** The df. */
 	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
 	/** The name. */
+	@Printable(name = "Guest name", order = 1)
 	private String name;
-	
+
 	/** The date of departure. */
+	// TODO object
+	@Printable(name = "Date of departure", order = 4)
 	private Date dateOfDeparture = new Date();
-	
+
 	/** The date of arrive. */
+	// TODO object
+	@Printable(name = "Date of arrive", order = 3)
 	private Date dateOfArrive = new Date();
-	
+
 	/** The number of room. */
+	@Printable(name = "Number seatled room", order = 2)
 	private String numberOfRoom = "not setled";
-	
+
 	/** The summ to paid. */
+	@Printable(name = "Number seatled room", order = 5)
 	private int summToPaid = 0;
-	
+
 	/** The services. */
+	@PrintableRef(name = "Used services", order = 6, isDetailedView = false)
 	private List<Service> services = new ArrayList<Service>();
 
-	
 	/**
 	 * Instantiates a new guest.
 	 *
-	 * @param name the name
+	 * @param name
+	 *            the name
 	 */
 	public Guest(String name) {
 
@@ -65,7 +76,8 @@ public class Guest implements Serializable{
 	/**
 	 * Sets the name.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -83,7 +95,8 @@ public class Guest implements Serializable{
 	/**
 	 * Sets the date of departure.
 	 *
-	 * @param dateOfDeparture the new date of departure
+	 * @param dateOfDeparture
+	 *            the new date of departure
 	 */
 	public void setDateOfDeparture(Date dateOfDeparture) {
 		this.dateOfDeparture = dateOfDeparture;
@@ -101,7 +114,8 @@ public class Guest implements Serializable{
 	/**
 	 * Sets the date of arrive.
 	 *
-	 * @param dateOfArrive the new date of arrive
+	 * @param dateOfArrive
+	 *            the new date of arrive
 	 */
 	public void setDateOfArrive(Date dateOfArrive) {
 		this.dateOfArrive = dateOfArrive;
@@ -119,7 +133,8 @@ public class Guest implements Serializable{
 	/**
 	 * Sets the number of room.
 	 *
-	 * @param numberOfRoom the new number of room
+	 * @param numberOfRoom
+	 *            the new number of room
 	 */
 	public void setNumberOfRoom(String numberOfRoom) {
 		this.numberOfRoom = numberOfRoom;
@@ -137,7 +152,8 @@ public class Guest implements Serializable{
 	/**
 	 * Sets the summ to paid.
 	 *
-	 * @param summToPaid the new summ to paid
+	 * @param summToPaid
+	 *            the new summ to paid
 	 */
 	public void setSummToPaid(int summToPaid) {
 		this.summToPaid = summToPaid;
@@ -156,27 +172,24 @@ public class Guest implements Serializable{
 	/**
 	 * Sets the services.
 	 *
-	 * @param service the new services
+	 * @param service
+	 *            the new services
 	 */
-	
+
 	public void setServices(Service service) {
 		services.add(service);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 
-		return (new StringBuilder(50).append(name)
-				.append(",")
-				.append(df.format(dateOfArrive))
-				.append(",")
-				.append(df.format(dateOfDeparture))
-				.append(",")
-				.append(numberOfRoom)
-				.append(",")
-				.append(summToPaid).toString());
+		return (new StringBuilder(50).append(name).append(",").append(df.format(dateOfArrive)).append(",")
+				.append(df.format(dateOfDeparture)).append(",").append(numberOfRoom).append(",").append(summToPaid)
+				.toString());
 
 	}
 }

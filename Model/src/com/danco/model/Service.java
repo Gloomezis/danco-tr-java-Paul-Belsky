@@ -5,10 +5,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.danco.anotation.Printable;
+import com.danco.anotation.PrintableObject;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Service.
  */
+@PrintableObject(name ="service")
 public class Service implements Serializable{
 	
 	/**
@@ -23,9 +27,11 @@ public class Service implements Serializable{
 	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
 	/** The price. */
+	@Printable(name="Price",order=2)
 	private int price;
 	
 	/** The name of service. */
+	@Printable(name="Service name",order=1)
 	private String nameOfService;
 	
 	/** The date of using service. */

@@ -98,7 +98,7 @@ public class ServiceService {
 	 * Show price services.
 	 */
 
-	public  List<Service> showPriceService() {
+	public List<Service> showPriceService() {
 		try {
 			return mainStorage.showPriceService();
 		} catch (Exception e) {
@@ -118,10 +118,24 @@ public class ServiceService {
 
 	public void changePriceOfService(Service service, int price) {
 		try {
-			 mainStorage.changePriceOfService(service, price);
+			mainStorage.changePriceOfService(service, price);
 		} catch (Exception e) {
 			LOG1.error("Wrong service name", e);
-			
+
+		}
+	}
+
+	/**
+	 * Gets the servises.
+	 *
+	 * @return the servises
+	 */
+	public List<Service> getServises() {
+		try {
+			return mainStorage.getServises();
+		} catch (Exception e) {
+			LOG1.error("Exception", e);
+			return null;
 		}
 	}
 
