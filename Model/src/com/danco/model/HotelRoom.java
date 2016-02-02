@@ -36,9 +36,6 @@ public class HotelRoom implements Serializable, Cloneable {
 	/** The Constant UNDER_REPAIR. */
 	private static final String UNDER_REPAIR = "under repair/serviced";
 
-	/** The guests. */
-	private List<Guest> guests = new ArrayList<Guest>();
-
 	/** The number. */
 	@Printable(name = "Hotel room number", order = 1)
 	private String number;
@@ -66,14 +63,20 @@ public class HotelRoom implements Serializable, Cloneable {
 	/** The date of departure. */
 	@Printable(name = "Date of depart", order = 7)
 	private Date dateOfDeparture = new Date();
+	
+	/** The statys. */
+	@Printable(name = "Status", order = 8)
+	private boolean statys = true;
+	
+	/** The guests. */
+	@PrintableRef(name= "guests",isDetailedView = false,order=9,isRecursive=true)
+	private List<Guest> guests = new ArrayList<Guest>();
 
 	/** The guest history. */
-	@PrintableRef(name= "Guest history",isDetailedView = false,order=8)
+	@PrintableRef(name= "Guest history",isDetailedView = false,order=10,isRecursive=true)
 	private LinkedList<Guest> guestHistory = new LinkedList<Guest>();
 
-	/** The statys. */
-	@Printable(name = "Status", order = 1)
-	private boolean statys = true;
+	
 
 	/**
 	 * Instantiates a new hotel room.

@@ -8,14 +8,18 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.danco.cvs.ICsvFileWriter;
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.HotelRoom;
-import com.danco.serviñe.HotelRoomService;
+import com.danco.servise.api.IHotelRoomService;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class HotelRoomCsvFileWriter.
  */
 public class HotelRoomCsvFileWriter implements ICsvFileWriter{
+	
+	private IHotelRoomService hotelRoomService = (IHotelRoomService)DependencyInjectionManager.getClassInstance(IHotelRoomService.class);
 
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
@@ -54,7 +58,7 @@ public class HotelRoomCsvFileWriter implements ICsvFileWriter{
 
 				// Add a new line separator after the header
 				fileWriter.append(NEW_LINE_SEPARATOR);
-				List<HotelRoom> hotelRooms= HotelRoomService.getInstance().getRooms();
+				List<HotelRoom> hotelRooms= hotelRoomService.getRooms();
 
 				// Write a new student object list to the CSV file
 				for (HotelRoom hotelRoom : hotelRooms) {

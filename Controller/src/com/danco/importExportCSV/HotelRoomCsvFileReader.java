@@ -7,15 +7,19 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.danco.cvs.ICsvFileReader;
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.HotelRoom;
-import com.danco.serviñe.HotelRoomService;
-import com.danco.util.PrintUtil;
+import com.danco.servise.api.IHotelRoomService;
+import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class HotelRoomCsvFileReader.
  */
 public class HotelRoomCsvFileReader implements ICsvFileReader {
+	
+	private IHotelRoomService hotelRoomService = (IHotelRoomService)DependencyInjectionManager.getClassInstance(IHotelRoomService.class);
 
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
@@ -47,7 +51,7 @@ public class HotelRoomCsvFileReader implements ICsvFileReader {
 	private static final int HOTEL_ROOM_STATUS = 7;
 
 	/** The print util. */
-	PrintUtil printUtil = new PrintUtil();
+	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
 
 	/* (non-Javadoc)
 	 * @see com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
@@ -97,7 +101,7 @@ public class HotelRoomCsvFileReader implements ICsvFileReader {
 
 					// uniq add entity
 					int a = 1;
-					List<HotelRoom> hotelRooms = HotelRoomService.getInstance().getRooms();
+					List<HotelRoom> hotelRooms = hotelRoomService.getRooms();
 					for (HotelRoom hotelRoom : hotelRooms) {
 						if (hotelRoom.getNumber().equals(tokens[HOTEL_ROOM_NUMBER])) {
 							a = -1;
@@ -105,7 +109,7 @@ public class HotelRoomCsvFileReader implements ICsvFileReader {
 					}
 					if (a != -1) {
 
-						HotelRoomService.getInstance().addRooms(hotelRoomReaded);
+						hotelRoomService.addRooms(hotelRoomReaded);
 						printUtil.printString(hotelRoomReaded.toString());
 
 					} else {

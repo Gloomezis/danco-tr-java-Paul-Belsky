@@ -11,14 +11,18 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.danco.cvs.ICsvFileWriter;
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Guest;
-import com.danco.serviñe.GuestService;
+import com.danco.servise.api.IGuestService;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class GuestCsvFileWriter.
  */
 public class GuestCsvFileWriter implements ICsvFileWriter {
+	
+	private IGuestService guestService = (IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
 
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
@@ -57,7 +61,7 @@ public class GuestCsvFileWriter implements ICsvFileWriter {
 
 			// Add a new line separator after the header
 			fileWriter.append(NEW_LINE_SEPARATOR);
-			List<Guest> guests = GuestService.getInstance().getAllGuests();
+			List<Guest> guests = guestService.getAllGuests();
 
 			// Write a new student object list to the CSV file
 			for (Guest guest : guests) {

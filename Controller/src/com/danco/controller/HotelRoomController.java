@@ -5,13 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Guest;
 import com.danco.model.HotelRoom;
 import com.danco.properties.PropertyManager;
-import com.danco.serviñe.GuestService;
-import com.danco.serviñe.HotelRoomService;
-import com.danco.util.InputManager;
-import com.danco.util.PrintUtil;
+import com.danco.servise.api.IGuestService;
+import com.danco.servise.api.IHotelRoomService;
+import com.danco.utils.IInputManager;
+import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -20,9 +21,13 @@ import com.danco.util.PrintUtil;
 public class HotelRoomController {
 
 	/** The hotel room service. */
-	private HotelRoomService hotelRoomService = HotelRoomService.getInstance();
+	private IHotelRoomService hotelRoomService = (IHotelRoomService)DependencyInjectionManager.getClassInstance(IHotelRoomService.class);
+	
+	private IGuestService guestService = (IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
 
-	private PrintUtil printUtil = new PrintUtil();
+	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
+	
+	private IInputManager inputManager = (IInputManager)DependencyInjectionManager.getClassInstance(IInputManager.class);
 
 	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
 	private static final String HOTEL_ROOM_INPUT_MESSAGE = "Enter hotel room number";
@@ -101,7 +106,7 @@ public class HotelRoomController {
 
 		printUtil.printString(SORT_INPUT_MESSAGE);
 
-		String userInputSortCondition = InputManager.getInstance().userInputString();
+		String userInputSortCondition = inputManager.userInputString();
 
 		List<HotelRoom> freeRooms =  hotelRoomService.showAllRooms(userInputSortCondition, FREE1);
 		
@@ -124,7 +129,7 @@ public class HotelRoomController {
 
 		printUtil.printString(SORT_INPUT_MESSAGE);
 
-		String userInputSortCondition = InputManager.getInstance().userInputString();
+		String userInputSortCondition = inputManager.userInputString();
 		List<HotelRoom> freeRooms = hotelRoomService.showAllRooms(userInputSortCondition, FREE);
 
 		for (HotelRoom s : freeRooms) {
@@ -144,10 +149,10 @@ public class HotelRoomController {
 
 	public void showFreeRomsAfterDate() {
 		printUtil.printString(SORT_INPUT_MESSAGE);
-		String userInputSortCondition = InputManager.getInstance().userInputString();
+		String userInputSortCondition = inputManager.userInputString();
 
 		printUtil.printString(DATE_INPUT_MESSAGE);
-		Date date = InputManager.getInstance().userInputDate();
+		Date date = inputManager.userInputDate();
 
 		List<HotelRoom> freeRoomsAfterDate=hotelRoomService.showFreeRomsAfterDate(userInputSortCondition, date);
 		
@@ -179,8 +184,8 @@ public class HotelRoomController {
 
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
 
-		String userInputHotelRoomNumber = InputManager.getInstance().userInputString();
-		HotelRoom hr = HotelRoomService.getInstance().getHotelRoomByNumber(userInputHotelRoomNumber);
+		String userInputHotelRoomNumber = inputManager.userInputString();
+		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
 
 		List<Guest> last3Guest = hotelRoomService.showLast3GuestOfHotelRoom(hr);
 
@@ -205,8 +210,8 @@ public class HotelRoomController {
 
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
 
-		String userInputHotelRoomNumber = InputManager.getInstance().userInputString();
-		HotelRoom hr = HotelRoomService.getInstance().getHotelRoomByNumber(userInputHotelRoomNumber);
+		String userInputHotelRoomNumber = inputManager.userInputString();
+		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
 
 		String detail = hotelRoomService.showDetailOfHotelRoom(hr);
 
@@ -240,20 +245,20 @@ public class HotelRoomController {
 	public void settleGuestToHotelRoom() {
 
 		printUtil.printString(GUEST_INPUT_MESSAGE);
-		String userInputGuestName = InputManager.getInstance().userInputString();
-		Guest g = GuestService.getInstance().getGuestByName(userInputGuestName);
+		String userInputGuestName = inputManager.userInputString();
+		Guest g = guestService.getGuestByName(userInputGuestName);
 
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomNumber = InputManager.getInstance().userInputString();
-		HotelRoom hr = HotelRoomService.getInstance().getHotelRoomByNumber(userInputHotelRoomNumber);
+		String userInputHotelRoomNumber = inputManager.userInputString();
+		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
 
 		printUtil.printString(DATE_ARRIVE_INPUT_MESSAGE);
-		Date userinpitDateOfArrive = InputManager.getInstance().userInputDate();
+		Date userinpitDateOfArrive = inputManager.userInputDate();
 
 		printUtil.printString(DATE_DEPARTURE_INPUT_MESSAGE);
-		Date userInputDateOfDeparture = InputManager.getInstance().userInputDate();
+		Date userInputDateOfDeparture = inputManager.userInputDate();
 
-		HotelRoomService.getInstance().settleGuestToHotelRoom(g, hr, userinpitDateOfArrive, userInputDateOfDeparture);
+		hotelRoomService.settleGuestToHotelRoom(g, hr, userinpitDateOfArrive, userInputDateOfDeparture);
 
 		hotelRoomService.settleGuestToHotelRoom(g, hr, userinpitDateOfArrive, userInputDateOfDeparture);
 	}
@@ -268,8 +273,8 @@ public class HotelRoomController {
 	public void departGuestFromHotelRoom() {
 
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomNumber = InputManager.getInstance().userInputString();
-		HotelRoom hr = HotelRoomService.getInstance().getHotelRoomByNumber(userInputHotelRoomNumber);
+		String userInputHotelRoomNumber = inputManager.userInputString();
+		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
 
 		hotelRoomService.departGuestFromHotelRoom(hr);
 	}
@@ -287,8 +292,8 @@ public class HotelRoomController {
 		if(statusChangeProperty==true){
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
 
-		String userInputHotelRoomNumber = InputManager.getInstance().userInputString();
-		HotelRoom hr = HotelRoomService.getInstance().getHotelRoomByNumber(userInputHotelRoomNumber);
+		String userInputHotelRoomNumber = inputManager.userInputString();
+		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
 
 		hotelRoomService.changeStatus(hr);}
 		else{
@@ -306,18 +311,18 @@ public class HotelRoomController {
 	public void addRooms() {
 
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomName = InputManager.getInstance().userInputString();
+		String userInputHotelRoomName = inputManager.userInputString();
 
 		printUtil.printString(PRICE_INPUT_MESSAGE);
-		int userInputRoomPrice = InputManager.getInstance().userInputInt();
+		int userInputRoomPrice = inputManager.userInputInt();
 
 		printUtil.printString(SLEEPING_NUMBERS_INPUT_MESSAGE);
-		int userInputSleepingNumbers = InputManager.getInstance().userInputInt();
+		int userInputSleepingNumbers = inputManager.userInputInt();
 
 		printUtil.printString(STAR_CATEGORY_INPUT_MESSAGE);
-		int userInputStarCategory = InputManager.getInstance().userInputInt();
+		int userInputStarCategory = inputManager.userInputInt();
 
-		HotelRoom hr = HotelRoomService.getInstance().createHotelRoom(userInputHotelRoomName, userInputRoomPrice,
+		HotelRoom hr = hotelRoomService.createHotelRoom(userInputHotelRoomName, userInputRoomPrice,
 				userInputSleepingNumbers, userInputStarCategory);
 
 		hotelRoomService.addRooms(hr);
@@ -335,11 +340,11 @@ public class HotelRoomController {
 	public void changePriceOfHotelRoom() {
 
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomNumber = InputManager.getInstance().userInputString();
-		HotelRoom hr = HotelRoomService.getInstance().getHotelRoomByNumber(userInputHotelRoomNumber);
+		String userInputHotelRoomNumber = inputManager.userInputString();
+		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
 
 		printUtil.printString(PRICE_INPUT_MESSAGE1);
-		int userInputRoomPrice = InputManager.getInstance().userInputInt();
+		int userInputRoomPrice = inputManager.userInputInt();
 
 		hotelRoomService.changePriceOfHotelRoom(hr, userInputRoomPrice);
 	}
@@ -355,25 +360,25 @@ public class HotelRoomController {
 
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
 
-		String userInputHotelRoomNumber = InputManager.getInstance().userInputString();
-		HotelRoom hr = HotelRoomService.getInstance().getHotelRoomByNumber(userInputHotelRoomNumber);
+		String userInputHotelRoomNumber = inputManager.userInputString();
+		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
 		HotelRoom hotelRoom = hotelRoomService.cloneHotelRoom(hr);
 		
 		printUtil.printString(NEW_HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomNumberModify = InputManager.getInstance().userInputString();
+		String userInputHotelRoomNumberModify = inputManager.userInputString();
 		hotelRoom.setNumber(userInputHotelRoomNumberModify);
 		
 		printUtil.printString(MODIFY_QUESTION);
-		String modify = InputManager.getInstance().userInputString();
+		String modify = inputManager.userInputString();
 		if (modify.equals("YES")){
 	    printUtil.printString(PRICE_INPUT_MESSAGE);	
-	    int roomPriceModify = InputManager.getInstance().userInputInt();
+	    int roomPriceModify = inputManager.userInputInt();
 		hotelRoom.setRoomPrice(roomPriceModify);
 		printUtil.printString(SLEEPING_NUMBERS_INPUT_MESSAGE);	
-	    int sleepingNumberModify = InputManager.getInstance().userInputInt();
+	    int sleepingNumberModify = inputManager.userInputInt();
 		hotelRoom.setSleepingNumbers(sleepingNumberModify);
 		printUtil.printString(STAR_CATEGORY_INPUT_MESSAGE);	
-	    int starModify = InputManager.getInstance().userInputInt();
+	    int starModify = inputManager.userInputInt();
 		hotelRoom.setStarCategory(starModify);
 		}
 		// TODO write methods to format room

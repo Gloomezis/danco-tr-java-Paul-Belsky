@@ -20,7 +20,7 @@ public class Navigator {
 	private static final String SEPARATOR = "-----------------";
 
 	/** The reader. */
-	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
 	/** The current menu. */
 	private Menu currentMenu;

@@ -9,15 +9,19 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.danco.cvs.ICsvFileReader;
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Guest;
-import com.danco.serviñe.GuestService;
-import com.danco.util.PrintUtil;
+import com.danco.servise.api.IGuestService;
+import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class GuestCsvFileReader.
  */
 public class GuestCsvFileReader implements ICsvFileReader {
+	
+	private IGuestService guestService = (IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
 
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
@@ -43,7 +47,7 @@ public class GuestCsvFileReader implements ICsvFileReader {
 	private final Logger LOG1 = Logger.getLogger(GuestCsvFileWriter.class.getName());
 
 	/** The print util. */
-	PrintUtil printUtil = new PrintUtil();
+	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
 
 	/* (non-Javadoc)
 	 * @see com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
@@ -91,7 +95,7 @@ public class GuestCsvFileReader implements ICsvFileReader {
 
 					// uniq add entity
 					int a = 1;
-					List<Guest> guests = GuestService.getInstance().getAllGuests();
+					List<Guest> guests = guestService.getAllGuests();
 					for (Guest guest1 : guests) {
 						if (guest1.getName().equals(tokens[USER_NAME])) {
 							a = -1;
@@ -99,7 +103,7 @@ public class GuestCsvFileReader implements ICsvFileReader {
 					}
 					if (a != -1) {
 
-						GuestService.getInstance().addGuest(guestReaded);
+						guestService.addGuest(guestReaded);
 						printUtil.printString(guestReaded.toString());
 
 					} else {

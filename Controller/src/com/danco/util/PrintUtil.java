@@ -1,25 +1,29 @@
 package com.danco.util;
 
+import com.danco.utils.IPrintUtil;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class printUtil.
  */
-public class PrintUtil {
+public class PrintUtil implements IPrintUtil {
 	
-	/**
-	 * Prints the string.
-	 *
-	 * @param out the out
+	public PrintUtil(){
+		
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.danco.util.IPrintUtils#printString(java.lang.String)
 	 */
+	@Override
 	public void printString(String out) {
 		System.out.println(out);
 	}
 
-	/**
-	 * Prints the string.
-	 *
-	 * @param out the out
+	/* (non-Javadoc)
+	 * @see com.danco.util.IPrintUtils#printString(java.lang.String[])
 	 */
+	@Override
 	public void printString(String[] out) {
 		System.out.println(out);
 	} 

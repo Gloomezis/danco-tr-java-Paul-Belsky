@@ -1,336 +1,293 @@
 package com.danco.controller;
 
+import com.danco.controller.api.IImportExportCsvController;
+import com.danco.controller.api.IMainController;
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class MainController.
  */
-public class MainController {
+public class MainController implements IMainController {
 
 	/** The hotel room controller. */
-	GuestController guestController = new GuestController();
-	HotelRoomController hotelRoomController = new HotelRoomController();
-	ServiceController serviceController = new ServiceController();
-	
-	
-	
-	/** The import export csv controller. */
-	private ImportExportCsvController importExportCsvController = ImportExportCsvController.getInstance();
+	private GuestController guestController = new GuestController();
 
+	/** The hotel room controller. */
+	private HotelRoomController hotelRoomController = new HotelRoomController();
+
+	/** The service controller. */
+	private ServiceController serviceController = new ServiceController();
+
+	/** The import export csv controller. */
+	private IImportExportCsvController importExportCsvController = (IImportExportCsvController)DependencyInjectionManager.getClassInstance(IImportExportCsvController.class); 
 
 	/** The instance. */
-	private static MainController instance;
-
+	//private static IMainController instance;
+    //private MainController(){
+    //    }
 	/**
 	 * Gets the single instance of MainController.
 	 *
 	 * @return single instance of MainController
 	 */
-	public static MainController getInstance() {
-		if (instance == null) {
-			instance = new MainController();
-		}
-		return instance;
-	}
+	//public static IMainController getInstance() {
+	//	if (instance == null) {
+	//		instance = new MainController();
+	//	}
+	//	return instance;
+	//}
 
-
-	/**
-	 * Adds the guest.
-	 *
-	 * @param guest the guest
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#addGuest()
 	 */
+	@Override
 	public void addGuest() {
 		guestController.addGuest();
 	}
 
-	/**
-	 * Show all guest number.
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showAllGuestNumber()
 	 */
 
+	@Override
 	public void showAllGuestNumber() {
 		guestController.showAllGuestNumber();
 	}
 
-	/**
-	 * Show summ to paid guest.
-	 *
-	 * @param guest
-	 *            the guest
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showSummToPaidGuest()
 	 */
 
+	@Override
 	public void showSummToPaidGuest() {
 		guestController.showSummToPaidGuest();
 	}
 
-	/**
-	 * Show all guests.
-	 *
-	 * @param a
-	 *            the a
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showAllGuests()
 	 */
 
+	@Override
 	public void showAllGuests() {
 		guestController.showAllGuests();
 	}
 
-	/**
-	 * Show list of service.
-	 *
-	 * @param guest
-	 *            the guest
-	 * @param sortCondition
-	 *            the sort condition
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showListOfService()
 	 */
 
+	@Override
 	public void showListOfService() {
 		guestController.showListOfService();
 	}
 
-	/**
-	 * Adds the service to guest.
-	 *
-	 * @param guest
-	 *            the guest
-	 * @param service
-	 *            the service
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#addServiceToGuest()
 	 */
 
+	@Override
 	public void addServiceToGuest() {
 		guestController.addServiceToGuest();
 	}
 
-	/**
-	 * Gets the all guests.
-	 *
-	 * @return the all guests
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#getAllGuests()
 	 */
 
+	@Override
 	public void getAllGuests() {
 		guestController.getAllGuests();
 	}
 
-
-	/**
-	 * Show all roms.
-	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param free
-	 *            the free
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showAllRooms()
 	 */
 
+	@Override
 	public void showAllRooms() {
 		hotelRoomController.showAllRooms();
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showAllFreeRooms()
+	 */
+	@Override
 	public void showAllFreeRooms() {
 		hotelRoomController.showAllFreeRooms();
-		
+
 	}
 
-	/**
-	 * Show free roms after date.
-	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param date
-	 *            the date
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showFreeRomsAfterDate()
 	 */
 
+	@Override
 	public void showFreeRomsAfterDate() {
 		hotelRoomController.showFreeRomsAfterDate();
 	}
 
-	/**
-	 * Show number of free hotel rooms.
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showNumberOfFreeHotelRooms()
 	 */
 
+	@Override
 	public void showNumberOfFreeHotelRooms() {
 		hotelRoomController.showNumberOfFreeHotelRooms();
 	}
 
-	/**
-	 * Show last3 guest of hotel room.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showLast3GuestOfHotelRoom()
 	 */
 
+	@Override
 	public void showLast3GuestOfHotelRoom() {
 		hotelRoomController.showLast3GuestOfHotelRoom();
 	}
 
-	/**
-	 * Show detail of hotel room.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showDetailOfHotelRoom()
 	 */
 
+	@Override
 	public void showDetailOfHotelRoom() {
 		hotelRoomController.showDetailOfHotelRoom();
 	}
 
-	/**
-	 * Settle guest to hotel room.
-	 *
-	 * @param guest
-	 *            the guest
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @param dateOfArrive
-	 *            the date of arrive
-	 * @param dateOfDeparture
-	 *            the date of departure
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#settleGuestToHotelRoom()
 	 */
 
+	@Override
 	public void settleGuestToHotelRoom() {
 		hotelRoomController.settleGuestToHotelRoom();
 	}
 
-	/**
-	 * Depart guest from hotel room.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#departGuestFromHotelRoom()
 	 */
 
+	@Override
 	public void departGuestFromHotelRoom() {
 		hotelRoomController.departGuestFromHotelRoom();
 	}
 
-	/**
-	 * Change status.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#changeStatus()
 	 */
 
+	@Override
 	public void changeStatus() {
 		hotelRoomController.changeStatus();
 	}
 
-	/**
-	 * Adds the rooms.
-	 *
-	 * @param room
-	 *            the room
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#addRooms()
 	 */
 
+	@Override
 	public void addRooms() {
 		hotelRoomController.addRooms();
 	}
 
-	/**
-	 * Change price of hotel room.
-	 *
-	 * @param hotelRoom the hotel room
-	 * @param roomPrice the room price
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#changePriceOfHotelRoom()
 	 */
 
+	@Override
 	public void changePriceOfHotelRoom() {
 		hotelRoomController.changePriceOfHotelRoom();
 	}
-	
-	/**
-	 * Clone.
-	 *
-	 * @param room the room
-	 * @return the hotel room
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#cloneHotelRoom()
 	 */
+	@Override
 	public void cloneHotelRoom() {
-		 hotelRoomController.cloneHotelRoom();
+		hotelRoomController.cloneHotelRoom();
 
 	}
-	
 
-	/**
-	 * Adds the services.
-	 *
-	 * @param service
-	 *            the service
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#addServices()
 	 */
 
+	@Override
 	public void addServices() {
-			serviceController.addServices();
+		serviceController.addServices();
 	}
 
-	/**
-	 * Show price services.
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showPriceServiceAndHotelRoom()
 	 */
 
+	@Override
 	public void showPriceServiceAndHotelRoom() {
-			serviceController.showPriceService();
-			hotelRoomController.showPriceHotelRoom();
-			
+		serviceController.showPriceService();
+		hotelRoomController.showPriceHotelRoom();
+
 	}
 
-	/**
-	 * Change price of service.
-	 *
-	 * @param service
-	 *            the service
-	 * @param price
-	 *            the price
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#changePriceOfService()
 	 */
 
+	@Override
 	public void changePriceOfService() {
-			serviceController.changePriceOfService();
-		
+		serviceController.changePriceOfService();
+
 	}
-	
-	
-	
-	/**
-	 * Guest read csv file.
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#guestReadCsvFile()
 	 */
+	@Override
 	public void guestReadCsvFile() {
 		importExportCsvController.guestReadCsvFile();
-		
+
 	}
-	
-	/**
-	 * Guest write csv file.
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#guestWriteCsvFile()
 	 */
+	@Override
 	public void guestWriteCsvFile() {
 		importExportCsvController.guestWriteCsvFile();
 	}
-	
 
-	/**
-	 * Hotel room read csv file.
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#hotelRoomReadCsvFile()
 	 */
+	@Override
 	public void hotelRoomReadCsvFile() {
 		importExportCsvController.hotelRoomReadCsvFile();
-		
+
 	}
-	
-	/**
-	 * Hotel room write csv file.
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#hotelRoomWriteCsvFile()
 	 */
+	@Override
 	public void hotelRoomWriteCsvFile() {
 		importExportCsvController.hotelRoomWriteCsvFile();
-		
-	}
-	
 
-	/**
-	 * Service read csv file.
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#serviceReadCsvFile()
 	 */
+	@Override
 	public void serviceReadCsvFile() {
 		importExportCsvController.serviceReadCsvFile();
 	}
-	
-	/**
-	 * Service write csv file.
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#serviceWriteCsvFile()
 	 */
+	@Override
 	public void serviceWriteCsvFile() {
 		importExportCsvController.serviceWriteCsvFile();
-		
+
 	}
-
-
-
-
-	
 
 }

@@ -40,97 +40,97 @@ public class Builder {
 
 	/** The Constant ROOT. */
 	public static final String ROOT = "Root";
-	
+
 	/** The Constant GUEST_OPERATION. */
 	public static final String GUEST_OPERATION = "Guest operation";
-	
+
 	/** The Constant HOTEL_ROOMS_OPERATION. */
 	public static final String HOTEL_ROOMS_OPERATION = "Hotel rooms operation";
-	
+
 	/** The Constant SERVICES_OPERATION. */
 	public static final String SERVICES_OPERATION = "Services operations";
-	
+
 	/** The Constant ADD. */
 	public static final String ADD = "add";
-	
+
 	/** The Constant SHOW. */
 	public static final String SHOW = "show";
-	
+
 	/** The Constant EDIT. */
 	public static final String EDIT = "Edit";
-	
+
 	/** The Constant BACK. */
 	public static final String BACK = "Back";
-	
+
 	/** The Constant EXIT. */
 	public static final String EXIT = "Exit";
-	
+
 	/** The Constant READ_GUEST_FROM_FILE. */
 	public static final String READ_GUEST_FROM_FILE = "Read guest from file";
-	
+
 	/** The Constant WRITE_GUEST_TO_FILE. */
 	public static final String WRITE_GUEST_TO_FILE = "Write guest to file";
-	
+
 	/** The Constant ADD_GUEST. */
 	public static final String ADD_GUEST = "Add guest";
-	
+
 	/** The Constant ADD_SERVICE_TO_GUEST. */
 	public static final String ADD_SERVICE_TO_GUEST = "Add service to guest";
-	
+
 	/** The Constant SHOW_ALL_GUEST_NUMBER. */
 	public static final String SHOW_ALL_GUEST_NUMBER = "Show all guest number";
-	
+
 	/** The Constant SHOW_ALL_GUESTS. */
 	public static final String SHOW_ALL_GUESTS = "Show all guests";
-	
+
 	/** The Constant SHOW_LIST_SERVICES. */
 	public static final String SHOW_LIST_SERVICES = "Show list services";
-	
+
 	/** The Constant SHOW_SUMM_TO_PAID_GUEST. */
 	public static final String SHOW_SUMM_TO_PAID_GUEST = "Show summ to paid selected guest";
-	
+
 	/** The Constant DEPART_GUEST_FROM_HOTEL_ROOM. */
 	public static final String DEPART_GUEST_FROM_HOTEL_ROOM = "Depart guest from hotel room";
-	
+
 	/** The Constant SETTLE_GUEST_TO_HOTEL_ROOM. */
 	public static final String SETTLE_GUEST_TO_HOTEL_ROOM = "Settle guest to hotel room";
-	
+
 	/** The Constant ADD_ROOM. */
 	public static final String ADD_ROOM = "Add room";
-	
+
 	/** The Constant CHANGE_PRICE_HOTEL_ROOM. */
 	public static final String CHANGE_PRICE_HOTEL_ROOM = "Change price of hotel room";
-	
+
 	/** The Constant CHANGE_STATUS. */
 	public static final String CHANGE_STATUS = "Change  status";
-	
+
 	/** The Constant SHOW_NUMBER_FREE_HOTEL_ROOMS. */
 	public static final String SHOW_NUMBER_FREE_HOTEL_ROOMS = "Show number of free hotel rooms";
-	
+
 	/** The Constant SHOW_ALL_ROOMS. */
 	public static final String SHOW_ALL_ROOMS = "Show all rooms";
-	
+
 	/** The Constant SHOW_ALL_FREE_ROOMS. */
 	public static final String SHOW_ALL_FREE_ROOMS = "Show all free rooms";
-	
+
 	/** The Constant SHOW_ALL_FREE_ROOMS_AFTER_DATE. */
 	public static final String SHOW_ALL_FREE_ROOMS_AFTER_DATE = "Show all free rooms after date";
-	
+
 	/** The Constant SHOW_DETAIL_SELECTED_ROOM. */
 	public static final String SHOW_DETAIL_SELECTED_ROOM = "Show detail selected room";
-	
+
 	/** The Constant SHOW_LAST_3_GUEST_ROOM. */
 	public static final String SHOW_LAST_3_GUEST_ROOM = "Show last 3 guest selected room";
-	
+
 	/** The Constant SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS. */
 	public static final String SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS = "Show price of service and hotel rooms";
-	
+
 	/** The Constant ADD_SERVICE. */
 	public static final String ADD_SERVICE = "Add service";
-	
+
 	/** The Constant CHANGE_PRICE_SERVICE. */
 	public static final String CHANGE_PRICE_SERVICE = "Change price of service";
-	
+
 	/** The Constant CLONE. */
 	public static final String CLONE = "Clone";
 
@@ -227,11 +227,11 @@ public class Builder {
 		threeShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS, new ShowPriceServiceAndHotelRoom()));
 		threeShowMenu.getMenuItems().add(new MenuItems(BACK, null));
-		
+
 		/*
 		 * Import/Export menu
 		 */
-		
+
 		fourMenu.getMenuItems().add(new MenuItems("read guest from file", new GuestReadCsvFile()));
 		fourMenu.getMenuItems().add(new MenuItems("write guest to file", new GuestWriteCsvFile()));
 		fourMenu.getMenuItems().add(new MenuItems("read hotel room from file", new HotelRoomReadCsvFile()));

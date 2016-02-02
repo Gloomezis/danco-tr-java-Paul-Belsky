@@ -12,9 +12,9 @@ import com.danco.anotation.PrintableObject;
 /**
  * The Class Service.
  */
-@PrintableObject(name ="service")
-public class Service implements Serializable{
-	
+@PrintableObject(name = "service")
+public class Service implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -22,26 +22,28 @@ public class Service implements Serializable{
 
 	/** The Constant DATE_FORMAT. */
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
-	
+
 	/** The df. */
 	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
-	/** The price. */
-	@Printable(name="Price",order=2)
-	private int price;
-	
 	/** The name of service. */
-	@Printable(name="Service name",order=1)
+	@Printable(name = "Service name", order = 1)
 	private String nameOfService;
-	
+
+	/** The price. */
+	@Printable(name = "Price", order = 2)
+	private int price;
+
 	/** The date of using service. */
 	private Date dateOfUsingService = new Date();
 
 	/**
 	 * Instantiates a new service.
 	 *
-	 * @param price the price
-	 * @param nameOfService the name of service
+	 * @param price
+	 *            the price
+	 * @param nameOfService
+	 *            the name of service
 	 */
 	public Service(int price, String nameOfService) {
 
@@ -62,7 +64,8 @@ public class Service implements Serializable{
 	/**
 	 * Sets the price.
 	 *
-	 * @param price the new price
+	 * @param price
+	 *            the new price
 	 */
 	public void setPrice(int price) {
 		this.price = price;
@@ -80,7 +83,8 @@ public class Service implements Serializable{
 	/**
 	 * Sets the name of service.
 	 *
-	 * @param nameOfService the new name of service
+	 * @param nameOfService
+	 *            the new name of service
 	 */
 	public void setNameOfService(String nameOfService) {
 		this.nameOfService = nameOfService;
@@ -98,21 +102,17 @@ public class Service implements Serializable{
 	/**
 	 * Sets the date.
 	 *
-	 * @param date the new date
+	 * @param date
+	 *            the new date
 	 */
 	public void setDate(Date date) {
 		this.dateOfUsingService = date;
 	}
-	
-	
+
 	public String toString() {
 
-		return (new StringBuilder().append(price)
-				.append(",")
-				.append(nameOfService)
-				.append(",")
-				.append(df.format(dateOfUsingService))
-				.toString());
+		return (new StringBuilder().append(price).append(",").append(nameOfService).append(",")
+				.append(df.format(dateOfUsingService)).toString());
 	}
 
 }

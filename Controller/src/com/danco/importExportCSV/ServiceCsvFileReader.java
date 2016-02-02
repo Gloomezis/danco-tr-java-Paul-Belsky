@@ -7,15 +7,19 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.danco.cvs.ICsvFileReader;
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Service;
-import com.danco.serviñe.ServiceService;
-import com.danco.util.PrintUtil;
+import com.danco.servise.api.IServiceService;
+import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ServiceCsvFileReader.
  */
 public class ServiceCsvFileReader implements ICsvFileReader {
+	
+	private IServiceService serviceService = (IServiceService)DependencyInjectionManager.getClassInstance(IServiceService.class);
 
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
@@ -33,7 +37,7 @@ public class ServiceCsvFileReader implements ICsvFileReader {
 	private final Logger LOG1 = Logger.getLogger(GuestCsvFileWriter.class.getName());
 
 	/** The print util. */
-	PrintUtil printUtil = new PrintUtil();
+	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
 
 	/* (non-Javadoc)
 	 * @see com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
@@ -65,14 +69,14 @@ public class ServiceCsvFileReader implements ICsvFileReader {
 					
 					//uniq add entity
 					int a = 1;
-					List<Service> services = ServiceService.getInstance().getServises();
+					List<Service> services = serviceService.getServises();
 					for(Service service:services){
 						if(service.getNameOfService().equals(tokens[SERVICE_NAME])){
 							a=-1;
 						}
 					}
                     if (a!=-1){
-					ServiceService.getInstance().addServices(serviceReaded);
+                    serviceService.addServices(serviceReaded);
 					printUtil.printString(serviceReaded.toString());
                     }else{
                     	System.out.println("equal");

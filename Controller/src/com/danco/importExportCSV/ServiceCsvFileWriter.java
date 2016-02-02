@@ -6,14 +6,18 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.danco.cvs.ICsvFileWriter;
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Service;
-import com.danco.serviñe.ServiceService;
+import com.danco.servise.api.IServiceService;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ServiceCsvFileWriter.
  */
 public class ServiceCsvFileWriter implements ICsvFileWriter {
+	
+	private IServiceService serviceService = (IServiceService)DependencyInjectionManager.getClassInstance(IServiceService.class);
 
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
@@ -48,7 +52,7 @@ public class ServiceCsvFileWriter implements ICsvFileWriter {
 
 			// Add a new line separator after the header
 			fileWriter.append(NEW_LINE_SEPARATOR);
-			List<Service> services = ServiceService.getInstance().getServises();
+			List<Service> services = serviceService.getServises();
 
 			// Write a new student object list to the CSV file
 			for (Service service : services) {

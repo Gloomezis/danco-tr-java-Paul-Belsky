@@ -1,7 +1,8 @@
 package com.danco.command.hotelRoomCommand;
 
 import com.danco.command.Command;
-import com.danco.controller.MainController;
+import com.danco.controller.api.IMainController;
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -9,6 +10,7 @@ import com.danco.controller.MainController;
  */
 public class DepartGuestFromHotelRoom implements Command {
 
+	IMainController mainController =(IMainController)DependencyInjectionManager.getClassInstance(IMainController.class);
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -17,7 +19,7 @@ public class DepartGuestFromHotelRoom implements Command {
 	@Override
 	public void execute() {
 
-		MainController.getInstance().departGuestFromHotelRoom();
+		mainController.departGuestFromHotelRoom();
 	}
 
 }

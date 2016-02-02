@@ -28,29 +28,33 @@ public class Guest implements Serializable {
 	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 
 	/** The name. */
-	@Printable(name = "Guest name", order = 1)
+	@Printable(name = "name", order = 1)
 	private String name;
-
-	/** The date of departure. */
-	// TODO object
-	@Printable(name = "Date of departure", order = 4)
-	private Date dateOfDeparture = new Date();
+	
+	/** The number of room. */
+	@Printable(name = "numberOfRoom", order = 2)
+	private String numberOfRoom = "not setled";
+	
 
 	/** The date of arrive. */
 	// TODO object
-	@Printable(name = "Date of arrive", order = 3)
+	@Printable(name = "dateOfArrive", order = 3)
 	private Date dateOfArrive = new Date();
 
-	/** The number of room. */
-	@Printable(name = "Number seatled room", order = 2)
-	private String numberOfRoom = "not setled";
+
+	/** The date of departure. */
+	// TODO object
+	@Printable(name = "dateOfDeparture", order = 4)
+	private Date dateOfDeparture = new Date();
+
+	
 
 	/** The summ to paid. */
-	@Printable(name = "Number seatled room", order = 5)
+	@Printable(name = "summToPaid", order = 5)
 	private int summToPaid = 0;
 
 	/** The services. */
-	@PrintableRef(name = "Used services", order = 6, isDetailedView = false)
+	@PrintableRef(name = "services", order = 6, isDetailedView = false,isRecursive=true)
 	private List<Service> services = new ArrayList<Service>();
 
 	/**

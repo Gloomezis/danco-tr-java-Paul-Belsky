@@ -6,18 +6,20 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+import com.danco.utils.IInputManager;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class InputManager.
  */
-public class InputManager {
+public class InputManager implements IInputManager {
 
 	/** The Constant INPUT_ERROR. */
 	public final static String INPUT_ERROR = "Input  error";
 
 	/** The instance. */
 	// singleton
-	private static InputManager instance;
+//	private static IInputManager instance;
 
 	/** The LOG1. */
 	final Logger LOG1 = Logger.getLogger(InputManager.class.getName());
@@ -28,27 +30,26 @@ public class InputManager {
 	/**
 	 * Instantiates a new main storage.
 	 */
-	private InputManager() {
+//	private InputManager() {
 
-	}
+	//}
 
 	/**
 	 * Gets the single instance of MainStorage.
 	 *
 	 * @return single instance of MainStorage
 	 */
-	public static InputManager getInstance() {
-		if (instance == null) {
-			instance = new InputManager();
-		}
-		return instance;
-	}
+//	public static IInputManager getInstance() {
+//		if (instance == null) {
+//			instance = new InputManager();
+//		}
+//		return instance;
+//	}
 
-	/**
-	 * User input string.
-	 *
-	 * @return the string
+	/* (non-Javadoc)
+	 * @see com.danco.util.IInputManager#userInputString()
 	 */
+	@Override
 	public String userInputString() {
 		String userInputString;
 		input = new Scanner(System.in);
@@ -57,11 +58,10 @@ public class InputManager {
 
 	}
 
-	/**
-	 * User input int.
-	 *
-	 * @return the int
+	/* (non-Javadoc)
+	 * @see com.danco.util.IInputManager#userInputInt()
 	 */
+	@Override
 	public int userInputInt() {
 
 		int userInputInt = 0;
@@ -74,11 +74,10 @@ public class InputManager {
 		return userInputInt;
 	}
 
-	/**
-	 * User input date.
-	 *
-	 * @return the date
+	/* (non-Javadoc)
+	 * @see com.danco.util.IInputManager#userInputDate()
 	 */
+	@Override
 	public Date userInputDate() {
 		Date date = null;
 		try {

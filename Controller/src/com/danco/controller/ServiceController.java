@@ -2,17 +2,19 @@ package com.danco.controller;
 
 import java.util.List;
 
+import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Service;
-import com.danco.serviñe.ServiceService;
-import com.danco.util.InputManager;
-import com.danco.util.PrintUtil;
+import com.danco.servise.api.IServiceService;
+import com.danco.utils.IInputManager;
+import com.danco.utils.IPrintUtil;
 
 public class ServiceController {
+	
+	private IInputManager inputManager = (IInputManager)DependencyInjectionManager.getClassInstance(IInputManager.class);
 
-	/** The hotel room service. */
-	private ServiceService serviceService = ServiceService.getInstance();
+	private IServiceService serviceService = (IServiceService)DependencyInjectionManager.getClassInstance(IServiceService.class);
 
-	private PrintUtil printUtil = new PrintUtil();
+	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
 
 	/** The Constant SERVICES_INPUT_MESSAGE. */
 	private static final String SERVICES_INPUT_MESSAGE = "Enter service name";
@@ -36,12 +38,12 @@ public class ServiceController {
 	public void addServices() {
 
 		printUtil.printString(SERVICES_INPUT_MESSAGE);
-		String userInputServiceName = InputManager.getInstance().userInputString();
+		String userInputServiceName = inputManager.userInputString();
 
 		printUtil.printString(PRICE_INPUT_MESSAGE);
-		int userInputPrice = InputManager.getInstance().userInputInt();
+		int userInputPrice = inputManager.userInputInt();
 
-		Service service = ServiceService.getInstance().createService(userInputServiceName, userInputPrice);
+		Service service = serviceService.createService(userInputServiceName, userInputPrice);
 
 		serviceService.addServices(service);
 	}
@@ -75,13 +77,13 @@ public class ServiceController {
 
 		printUtil.printString(SERVICES_INPUT_MESSAGE);
 
-		String userInputServiceName = InputManager.getInstance().userInputString();
+		String userInputServiceName = inputManager.userInputString();
 
 		printUtil.printString(PRICE_INPUT_MESSAGE1);
 
-		int userInputPrice = InputManager.getInstance().userInputInt();
+		int userInputPrice = inputManager.userInputInt();
 
-		Service serv = ServiceService.getInstance().getServiceByName(userInputServiceName);
+		Service serv = serviceService.getServiceByName(userInputServiceName);
 
 		serviceService.changePriceOfService(serv, userInputPrice);
 

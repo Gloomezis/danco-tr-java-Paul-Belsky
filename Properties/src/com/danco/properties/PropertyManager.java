@@ -103,5 +103,11 @@ public class PropertyManager {
 
 	}
 	
+	public String getDependencyInjectionPropertyFile(){
+	String fileName = properties.getProperty("dependencyInjectionPropertyFileName");
+	return fileName;
+
+}
+	
 	
 }

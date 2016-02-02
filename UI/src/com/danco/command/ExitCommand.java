@@ -1,7 +1,5 @@
 package com.danco.command;
 
-import com.danco.controller.SerializeController;
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class ExitCommand.
@@ -16,7 +14,7 @@ public class ExitCommand implements Command{
 	 */
 	public void execute() {
 		System.out.println(EXIT_MESSAGE);
-		SerializeController.getInstance().serialToFile();  
+		//SerializeController.getInstance().serialToFile(MainStorage.getInstance());  
 		
 		
 	}
