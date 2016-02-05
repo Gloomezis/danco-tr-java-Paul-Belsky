@@ -234,7 +234,7 @@ public class AnnotationTester {
 		Guest guest = new Guest("Pegi");
 		HotelRoom hotelRoom = new HotelRoom("1000", 10, 5, 1);
 	    Service service = new Service(99, "Diner");
-	    PrintableAnalizer printableAnalizer = new PrintableAnalizer();
+	    IPrintableAnalizer printableAnalizer = new PrintableAnalizer();
 	    printableAnalizer.printDetaildeView(guest);
 	    printableAnalizer.printShortView(guest);
 	    
@@ -252,7 +252,7 @@ public class AnnotationTester {
 		
 		IGuestService mn=(IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
 		Guest guest1=mn.getGuestByName("Paul");
-	    PrintableAnalizer printableAnalizer1 = new PrintableAnalizer();
+	    IPrintableAnalizer printableAnalizer1 = new PrintableAnalizer();
 	    System.out.println(printableAnalizer1.printDetaildeView(guest1));
 	    
 		controller.run();

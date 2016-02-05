@@ -21,10 +21,13 @@ public class GuestController {
 	/** The main storage. */
 	private IGuestService guestService = (IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
 
+	/** The print util. */
 	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
 	
+	/** The input manager. */
 	private IInputManager inputManager = (IInputManager)DependencyInjectionManager.getClassInstance(IInputManager.class);
 	
+	/** The service service. */
 	private IServiceService serviceService = (IServiceService)DependencyInjectionManager.getClassInstance(IServiceService.class);
 
 	/** The Constant GUEST_INPUT_MESSAGE. */
@@ -63,9 +66,6 @@ public class GuestController {
 
 	/**
 	 * Adds the guest.
-	 *
-	 * @param guest
-	 *            the guest
 	 */
 	public void addGuest() {
 
@@ -76,10 +76,19 @@ public class GuestController {
 
 		guestService.addGuest(g);
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * Show all guest number.
+	 * 
 	 */
+	
 
 	public void showAllGuestNumber() {
 		int number = guestService.showAllGuestNumber();
@@ -88,9 +97,6 @@ public class GuestController {
 
 	/**
 	 * Show summ to paid guest.
-	 *
-	 * @param guest
-	 *            the guest
 	 */
 
 	public void showSummToPaidGuest() {
@@ -107,9 +113,6 @@ public class GuestController {
 
 	/**
 	 * Show all guests.
-	 *
-	 * @param a
-	 *            the a
 	 */
 
 	public void showAllGuests() {
@@ -131,11 +134,6 @@ public class GuestController {
 
 	/**
 	 * Show list of service.
-	 *
-	 * @param guest
-	 *            the guest
-	 * @param sortCondition
-	 *            the sort condition
 	 */
 
 	public void showListOfService() {
@@ -166,11 +164,6 @@ public class GuestController {
 
 	/**
 	 * Adds the service to guest.
-	 *
-	 * @param guest
-	 *            the guest
-	 * @param service
-	 *            the service
 	 */
 
 	public void addServiceToGuest() {

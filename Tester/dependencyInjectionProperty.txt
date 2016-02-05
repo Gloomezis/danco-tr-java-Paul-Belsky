@@ -6,3 +6,4 @@ com.danco.servise.api.IServiceService=com.danco.servise.ServiceService
 com.danco.utils.IInputManager=com.danco.util.InputManager
 com.danco.utils.IPrintUtil=com.danco.util.PrintUtil
 com.danco.controller.ISerializeController=com.danco.controller.SerializeController
+com.danco.anotation.IPrintableAnalizer=com.danco.anotation.PrintableAnalizer

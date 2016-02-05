@@ -18,10 +18,11 @@ import org.apache.log4j.Logger;
 /**
  * The Class PrintableAnalizer.
  */
-public class PrintableAnalizer {
+public class PrintableAnalizer implements IPrintableAnalizer {
 
 	/** The LO g1. */
-	private final Logger LOG1 = Logger.getLogger(PrintableAnalizer.class.getName());
+	private final Logger LOG1 = Logger.getLogger(PrintableAnalizer.class
+			.getName());
 
 	/** The Constant NEW_LINE. */
 	private static final String NEW_LINE = "\n";
@@ -69,12 +70,12 @@ public class PrintableAnalizer {
 		boolean printableRef = false;
 
 		if (!c.isAnnotationPresent(PrintableObject.class)) {
-			
-			
+
 			sb.append(NO_ANOTATION + NEW_LINE);
 			return null; // TODO test
 		} else {
-			sb.append(ANOTADED_CLASS_NAME + c.getAnnotation(PrintableObject.class) + NEW_LINE);
+			sb.append(ANOTADED_CLASS_NAME
+					+ c.getAnnotation(PrintableObject.class) + NEW_LINE);
 		}
 
 		Field[] fields = obj.getClass().getDeclaredFields();
@@ -83,9 +84,11 @@ public class PrintableAnalizer {
 
 		for (Field field : fields) {
 			if (field.isAnnotationPresent(Printable.class)) {
-				list.add(new FieldSortOrder(field, field.getAnnotation(Printable.class).order()));
+				list.add(new FieldSortOrder(field, field.getAnnotation(
+						Printable.class).order()));
 			} else if (field.isAnnotationPresent(PrintableRef.class)) {
-				list.add(new FieldSortOrder(field, field.getAnnotation(PrintableRef.class).order()));
+				list.add(new FieldSortOrder(field, field.getAnnotation(
+						PrintableRef.class).order()));
 			}
 		}
 
@@ -110,9 +113,9 @@ public class PrintableAnalizer {
 				printable = true;
 
 				final Annotation an = fd.getAnnotation(Printable.class);
-				
-				//Comment to hide field meta info
-				sb.append(an + NEW_LINE);
+
+				// Comment to hide field meta info
+				//sb.append(an + NEW_LINE);
 				final Class<?> type = an.annotationType();
 				Method m = null;
 				try {
@@ -133,7 +136,7 @@ public class PrintableAnalizer {
 					}
 
 				} catch (Exception e) {
-					
+
 					LOG1.error(EXCEPTION, e);
 				}
 
@@ -142,8 +145,8 @@ public class PrintableAnalizer {
 				printableRef = true;
 
 				final Annotation an = fd.getAnnotation(PrintableRef.class);
-				//Comment to hide field meta info
-				sb.append(an + NEW_LINE);
+				// Comment to hide field meta info
+				//sb.append(an + NEW_LINE);
 				final Class<?> type = an.annotationType();
 
 				Method m = null;
@@ -162,7 +165,7 @@ public class PrintableAnalizer {
 
 					}
 				} catch (Exception e) {
-					
+
 					LOG1.error(EXCEPTION, e);
 				}
 
@@ -179,7 +182,8 @@ public class PrintableAnalizer {
 					if (isRec == true) {
 						List<?> a = (List<?>) fd.get(obj);
 						for (Object object : a) {
-							sb.append(analizeEntityAndPrint(object, detailedView) + NEW_LINE);
+							sb.append(analizeEntityAndPrint(object,
+									detailedView) + NEW_LINE);
 						}
 					}
 
@@ -192,32 +196,26 @@ public class PrintableAnalizer {
 				break;
 			}
 		}
-		sb.append(PRINTABLE_ANOTATION_PRESENT + printable + ";" + PRINTABLE_REF_ANOTATION_PRESENT + printableRef
-				+ NEW_LINE);
+		sb.append(PRINTABLE_ANOTATION_PRESENT + printable + ";"
+				+ PRINTABLE_REF_ANOTATION_PRESENT + printableRef + NEW_LINE);
 		// System.out.println(sb.toString());
 		return sb.toString();
 	}
 
-	/**
-	 * Prints the detailde view.
-	 *
-	 * @param obj
-	 *            the obj
-	 * @return the string
+	/* (non-Javadoc)
+	 * @see com.danco.anotation.IPrintableAnalizer#printDetaildeView(java.lang.Object)
 	 */
+	@Override
 	public String printDetaildeView(Object obj) {
 		boolean detailed = true;
 		String info = analizeEntityAndPrint(obj, detailed);
 		return info;
 	}
 
-	/**
-	 * Prints the short view.
-	 *
-	 * @param obj
-	 *            the obj
-	 * @return the string
+	/* (non-Javadoc)
+	 * @see com.danco.anotation.IPrintableAnalizer#printShortView(java.lang.Object)
 	 */
+	@Override
 	public String printShortView(Object obj) {
 		boolean detailed = false;
 		String info = analizeEntityAndPrint(obj, detailed);
@@ -227,13 +225,17 @@ public class PrintableAnalizer {
 	/**
 	 * Show field parameter.
 	 *
-	 * @param fd the fd
-	 * @param obj the obj
+	 * @param fd
+	 *            the fd
+	 * @param obj
+	 *            the obj
 	 * @return the string
-	 * @throws Exception the exception
+	 * @throws Exception
+	 *             the exception
 	 */
 	private String showFieldParameter(Field fd, Object obj) throws Exception {
-		return (Modifier.toString(fd.getModifiers()) + " " + fd.getType().getSimpleName() + " " + fd.getName() + " = "
+		return (Modifier.toString(fd.getModifiers()) + " "
+				+ fd.getType().getSimpleName() + " " + fd.getName() + " = "
 				+ fd.get(obj).toString() + ";" + NEW_LINE);
 
 	}

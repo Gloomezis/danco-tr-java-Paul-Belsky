@@ -18,6 +18,9 @@ public class MainController implements IMainController {
 
 	/** The service controller. */
 	private ServiceController serviceController = new ServiceController();
+	
+	/** The anotation controller. */
+	private AnotationController anotationController = new AnotationController();
 
 	/** The import export csv controller. */
 	private IImportExportCsvController importExportCsvController = (IImportExportCsvController)DependencyInjectionManager.getClassInstance(IImportExportCsvController.class); 
@@ -26,10 +29,8 @@ public class MainController implements IMainController {
 	//private static IMainController instance;
     //private MainController(){
     //    }
-	/**
-	 * Gets the single instance of MainController.
-	 *
-	 * @return single instance of MainController
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#addGuest()
 	 */
 	//public static IMainController getInstance() {
 	//	if (instance == null) {
@@ -38,9 +39,7 @@ public class MainController implements IMainController {
 	//	return instance;
 	//}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.IMainController#addGuest()
-	 */
+
 	@Override
 	public void addGuest() {
 		guestController.addGuest();
@@ -49,7 +48,6 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#showAllGuestNumber()
 	 */
-
 	@Override
 	public void showAllGuestNumber() {
 		guestController.showAllGuestNumber();
@@ -58,7 +56,6 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#showSummToPaidGuest()
 	 */
-
 	@Override
 	public void showSummToPaidGuest() {
 		guestController.showSummToPaidGuest();
@@ -67,7 +64,6 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#showAllGuests()
 	 */
-
 	@Override
 	public void showAllGuests() {
 		guestController.showAllGuests();
@@ -76,7 +72,6 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#showListOfService()
 	 */
-
 	@Override
 	public void showListOfService() {
 		guestController.showListOfService();
@@ -85,7 +80,6 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#addServiceToGuest()
 	 */
-
 	@Override
 	public void addServiceToGuest() {
 		guestController.addServiceToGuest();
@@ -95,6 +89,7 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#getAllGuests()
 	 */
 
+
 	@Override
 	public void getAllGuests() {
 		guestController.getAllGuests();
@@ -103,6 +98,7 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#showAllRooms()
 	 */
+
 
 	@Override
 	public void showAllRooms() {
@@ -122,6 +118,7 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#showFreeRomsAfterDate()
 	 */
 
+	
 	@Override
 	public void showFreeRomsAfterDate() {
 		hotelRoomController.showFreeRomsAfterDate();
@@ -131,6 +128,7 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#showNumberOfFreeHotelRooms()
 	 */
 
+	
 	@Override
 	public void showNumberOfFreeHotelRooms() {
 		hotelRoomController.showNumberOfFreeHotelRooms();
@@ -140,6 +138,7 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#showLast3GuestOfHotelRoom()
 	 */
 
+	
 	@Override
 	public void showLast3GuestOfHotelRoom() {
 		hotelRoomController.showLast3GuestOfHotelRoom();
@@ -149,6 +148,7 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#showDetailOfHotelRoom()
 	 */
 
+	
 	@Override
 	public void showDetailOfHotelRoom() {
 		hotelRoomController.showDetailOfHotelRoom();
@@ -157,6 +157,7 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#settleGuestToHotelRoom()
 	 */
+
 
 	@Override
 	public void settleGuestToHotelRoom() {
@@ -167,6 +168,7 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#departGuestFromHotelRoom()
 	 */
 
+
 	@Override
 	public void departGuestFromHotelRoom() {
 		hotelRoomController.departGuestFromHotelRoom();
@@ -176,6 +178,7 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#changeStatus()
 	 */
 
+	
 	@Override
 	public void changeStatus() {
 		hotelRoomController.changeStatus();
@@ -185,6 +188,7 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#addRooms()
 	 */
 
+	
 	@Override
 	public void addRooms() {
 		hotelRoomController.addRooms();
@@ -194,10 +198,12 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#changePriceOfHotelRoom()
 	 */
 
+	
 	@Override
 	public void changePriceOfHotelRoom() {
 		hotelRoomController.changePriceOfHotelRoom();
 	}
+
 
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#cloneHotelRoom()
@@ -208,19 +214,22 @@ public class MainController implements IMainController {
 
 	}
 
+
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#addServices()
 	 */
-
+	
 	@Override
 	public void addServices() {
 		serviceController.addServices();
 	}
 
+
+
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#showPriceServiceAndHotelRoom()
 	 */
-
+	
 	@Override
 	public void showPriceServiceAndHotelRoom() {
 		serviceController.showPriceService();
@@ -228,10 +237,12 @@ public class MainController implements IMainController {
 
 	}
 
+
+
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#changePriceOfService()
 	 */
-
+	
 	@Override
 	public void changePriceOfService() {
 		serviceController.changePriceOfService();
@@ -241,6 +252,7 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#guestReadCsvFile()
 	 */
+	
 	@Override
 	public void guestReadCsvFile() {
 		importExportCsvController.guestReadCsvFile();
@@ -250,11 +262,13 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#guestWriteCsvFile()
 	 */
+	
 	@Override
 	public void guestWriteCsvFile() {
 		importExportCsvController.guestWriteCsvFile();
 	}
 
+	
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#hotelRoomReadCsvFile()
 	 */
@@ -267,6 +281,7 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#hotelRoomWriteCsvFile()
 	 */
+	
 	@Override
 	public void hotelRoomWriteCsvFile() {
 		importExportCsvController.hotelRoomWriteCsvFile();
@@ -276,6 +291,7 @@ public class MainController implements IMainController {
 	/* (non-Javadoc)
 	 * @see com.danco.controller.IMainController#serviceReadCsvFile()
 	 */
+	
 	@Override
 	public void serviceReadCsvFile() {
 		importExportCsvController.serviceReadCsvFile();
@@ -290,4 +306,51 @@ public class MainController implements IMainController {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showGuestReflectedObjectInfoDetailed()
+	 */
+	@Override
+	public void showGuestReflectedObjectInfoDetailed(){
+		anotationController.showGuestReflectedObjectInfoDetailed();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showGuestReflectedObjectInfoShort()
+	 */
+	@Override
+	public void showGuestReflectedObjectInfoShort(){
+		anotationController.showGuestReflectedObjectInfoShort();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showHotelRoomReflectedObjectInfoDetailed()
+	 */
+	@Override
+	public void showHotelRoomReflectedObjectInfoDetailed(){
+		anotationController.showHotelRoomReflectedObjectInfoDetailed();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showHotelRoomReflectedObjectInfoShort()
+	 */
+	@Override
+	public void showHotelRoomReflectedObjectInfoShort(){
+		anotationController.showHotelRoomReflectedObjectInfoShort();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showServiceReflectedObjectInfoDetailed()
+	 */
+	@Override
+	public void showServiceReflectedObjectInfoDetailed(){
+		anotationController.showServiceReflectedObjectInfoDetailed();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.danco.controller.IMainController#showServiceReflectedObjectInfoShort()
+	 */
+	@Override
+	public void showServiceReflectedObjectInfoShort(){
+		anotationController.showServiceReflectedObjectInfoShort();
+	}
 }

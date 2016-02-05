@@ -2,167 +2,189 @@ package com.danco.controller.api;
 
 public interface IMainController {
 
+	/** The instance. */
+	//private static IMainController instance;
+	//private MainController(){
+	//    }
 	/**
-	 * Adds the guest.
+	 * Gets the single instance of MainController.
+	 *
+	 * @return single instance of MainController
 	 */
-	void addGuest();
+	//public static IMainController getInstance() {
+	//	if (instance == null) {
+	//		instance = new MainController();
+	//	}
+	//	return instance;
+	//}
+
+	public void addGuest();
 
 	/**
 	 * Show all guest number.
 	 */
-
-	void showAllGuestNumber();
+	public void showAllGuestNumber();
 
 	/**
 	 * Show summ to paid guest.
 	 */
-
-	void showSummToPaidGuest();
+	public void showSummToPaidGuest();
 
 	/**
 	 * Show all guests.
 	 */
-
-	void showAllGuests();
+	public void showAllGuests();
 
 	/**
 	 * Show list of service.
 	 */
-
-	void showListOfService();
+	public void showListOfService();
 
 	/**
 	 * Adds the service to guest.
 	 */
-
-	void addServiceToGuest();
+	public void addServiceToGuest();
 
 	/**
 	 * Gets the all guests.
 	 *
 	 * @return the all guests
 	 */
-
-	void getAllGuests();
+	public void getAllGuests();
 
 	/**
-	 * Show all roms.
+	 * Show all rooms.
 	 */
-
-	void showAllRooms();
+	public void showAllRooms();
 
 	/**
 	 * Show all free rooms.
 	 */
-	void showAllFreeRooms();
+	public void showAllFreeRooms();
 
 	/**
 	 * Show free roms after date.
 	 */
-
-	void showFreeRomsAfterDate();
+	public void showFreeRomsAfterDate();
 
 	/**
 	 * Show number of free hotel rooms.
 	 */
-
-	void showNumberOfFreeHotelRooms();
+	public void showNumberOfFreeHotelRooms();
 
 	/**
 	 * Show last3 guest of hotel room.
 	 */
-
-	void showLast3GuestOfHotelRoom();
+	public void showLast3GuestOfHotelRoom();
 
 	/**
 	 * Show detail of hotel room.
 	 */
-
-	void showDetailOfHotelRoom();
+	public void showDetailOfHotelRoom();
 
 	/**
 	 * Settle guest to hotel room.
 	 */
-
-	void settleGuestToHotelRoom();
+	public void settleGuestToHotelRoom();
 
 	/**
 	 * Depart guest from hotel room.
 	 */
-
-	void departGuestFromHotelRoom();
+	public void departGuestFromHotelRoom();
 
 	/**
 	 * Change status.
 	 */
-
-	void changeStatus();
+	public void changeStatus();
 
 	/**
 	 * Adds the rooms.
 	 */
-
-	void addRooms();
+	public void addRooms();
 
 	/**
 	 * Change price of hotel room.
 	 */
-
-	void changePriceOfHotelRoom();
+	public void changePriceOfHotelRoom();
 
 	/**
-	 * Clone.
-	 *
-	 * @return the hotel room
+	 * Clone hotel room.
 	 */
-	void cloneHotelRoom();
+	public void cloneHotelRoom();
 
 	/**
 	 * Adds the services.
 	 */
-
-	void addServices();
+	public void addServices();
 
 	/**
-	 * Show price services.
+	 * Show price service and hotel room.
 	 */
-
-	void showPriceServiceAndHotelRoom();
+	public void showPriceServiceAndHotelRoom();
 
 	/**
 	 * Change price of service.
 	 */
-
-	void changePriceOfService();
+	public void changePriceOfService();
 
 	/**
 	 * Guest read csv file.
 	 */
-	void guestReadCsvFile();
+	public void guestReadCsvFile();
 
 	/**
 	 * Guest write csv file.
 	 */
-	void guestWriteCsvFile();
+	public void guestWriteCsvFile();
 
 	/**
 	 * Hotel room read csv file.
 	 */
-	void hotelRoomReadCsvFile();
+	public void hotelRoomReadCsvFile();
 
 	/**
 	 * Hotel room write csv file.
 	 */
-	void hotelRoomWriteCsvFile();
+	public void hotelRoomWriteCsvFile();
 
 	/**
 	 * Service read csv file.
 	 */
-	void serviceReadCsvFile();
+	public void serviceReadCsvFile();
 
 	/**
 	 * Service write csv file.
 	 */
-	void serviceWriteCsvFile();
+	public void serviceWriteCsvFile();
+
+	/**
+	 * Show guest reflected object info detailed.
+	 */
+	public void showGuestReflectedObjectInfoDetailed();
+
+	/**
+	 * Show guest reflected object info short.
+	 */
+	public void showGuestReflectedObjectInfoShort();
+
+	/**
+	 * Show hotel room reflected object info detailed.
+	 */
+	public void showHotelRoomReflectedObjectInfoDetailed();
+
+	/**
+	 * Show hotel room reflected object info short.
+	 */
+	public void showHotelRoomReflectedObjectInfoShort();
+
+	/**
+	 * Show service reflected object info detailed.
+	 */
+	public void showServiceReflectedObjectInfoDetailed();
+
+	/**
+	 * Show service reflected object info short.
+	 */
+	public void showServiceReflectedObjectInfoShort();
 
 }

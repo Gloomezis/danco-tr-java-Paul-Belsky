@@ -12,11 +12,9 @@ import com.danco.model.Service;
 /**
  * The Class MainStorage.
  */
-public class MainStorage implements Serializable{
+public class MainStorage implements Serializable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** The guest storage. */
@@ -44,7 +42,7 @@ public class MainStorage implements Serializable{
 		guestStorage = new GuestStorage();
 		hotelRoomStorage = new HotelRoomStorage();
 		serviceStorage = new ServiceStorage();
-		
+
 	}
 
 	/**
@@ -54,44 +52,53 @@ public class MainStorage implements Serializable{
 	 */
 	public static MainStorage getInstance() {
 		if (instance == null) {
-			
+
 			instance = new MainStorage();
-			//instance = MainController.getInstance().serialFromFile();  
+			// instance = MainController.getInstance().serialFromFile();
 		}
 		return instance;
 	}
-	
+
+	/**
+	 * Sets the instance.
+	 *
+	 * @param mainStorage the new instance
+	 */
 	public static void setInstance(MainStorage mainStorage) {
-		
-			
-			instance = mainStorage;
-		
-		
+
+		instance = mainStorage;
+
 	}
 
+	
 
 	/**
 	 * Show price service and hotel room.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @return the list
+	 * @throws Exception             the exception
 	 */
 
-	public  List<Service> showPriceService() throws Exception {
+	public List<Service> showPriceService() throws Exception {
 
 		return serviceStorage.showPriceServices();
 	}
-	
 
+	/**
+	 * Show price hotel room.
+	 *
+	 * @return the list
+	 * @throws Exception the exception
+	 */
 	public List<HotelRoom> showPriceHotelRoom() throws Exception {
 
 		return hotelRoomStorage.showPriceHotelRoom();
-		
+
 	}
 
-	//////////////////////////
-	///// Hotel Room Methods//
-	//////////////////////////
+	// ////////////////////////
+	// /// Hotel Room Methods//
+	// ////////////////////////
 
 	/**
 	 * Gets the hotel room by number.
@@ -109,38 +116,36 @@ public class MainStorage implements Serializable{
 	/**
 	 * Show all rooms.
 	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param free
-	 *            the free
-	 * @throws Exception
-	 *             the exception
+	 * @param sortCondition            the sort condition
+	 * @param free            the free
+	 * @return the list
+	 * @throws Exception             the exception
 	 */
 
-	public List<HotelRoom> showAllRooms(String sortCondition, String free) throws Exception {
+	public List<HotelRoom> showAllRooms(String sortCondition, String free)
+			throws Exception {
 		return hotelRoomStorage.showAllRooms(sortCondition, free);
 	}
 
 	/**
 	 * Show free roms after date.
 	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param date
-	 *            the date
-	 * @throws Exception
-	 *             the exception
+	 * @param sortCondition            the sort condition
+	 * @param date            the date
+	 * @return the list
+	 * @throws Exception             the exception
 	 */
 
-	public List<HotelRoom> showFreeRomsAfterDate(String sortCondition, Date date) throws Exception {
-	return	hotelRoomStorage.showFreeRomsAfterDate(sortCondition, date);
+	public List<HotelRoom> showFreeRomsAfterDate(String sortCondition, Date date)
+			throws Exception {
+		return hotelRoomStorage.showFreeRomsAfterDate(sortCondition, date);
 	}
 
 	/**
 	 * Show number of free hoter rooms.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @return the int
+	 * @throws Exception             the exception
 	 */
 
 	public int showNumberOfFreeHotelRooms() throws Exception {
@@ -150,23 +155,22 @@ public class MainStorage implements Serializable{
 	/**
 	 * Show last3 guest of hotel room.
 	 *
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @param hotelRoom            the hotel room
+	 * @return the list
+	 * @throws Exception             the exception
 	 */
 
-	public List<Guest> showLast3GuestOfHotelRoom(HotelRoom hotelRoom) throws Exception {
+	public List<Guest> showLast3GuestOfHotelRoom(HotelRoom hotelRoom)
+			throws Exception {
 		return hotelRoomStorage.showLast3GuestOfHotelRoom(hotelRoom);
 	}
 
 	/**
 	 * Show detail of hotel room.
 	 *
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @param hotelRoom            the hotel room
+	 * @return the string
+	 * @throws Exception             the exception
 	 */
 
 	public String showDetailOfHotelRoom(HotelRoom hotelRoom) throws Exception {
@@ -187,9 +191,10 @@ public class MainStorage implements Serializable{
 	 * @throws Exception
 	 *             the exception
 	 */
-	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom, Date dateOfArrival, Date dateOfDeparture)
-			throws Exception {
-		hotelRoomStorage.settleGuestToHotelRoom(guest, hotelRoom, dateOfArrival, dateOfDeparture);
+	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
+			Date dateOfArrival, Date dateOfDeparture) throws Exception {
+		hotelRoomStorage.settleGuestToHotelRoom(guest, hotelRoom,
+				dateOfArrival, dateOfDeparture);
 		guestStorage.setDates(dateOfArrival, dateOfDeparture, guest);
 
 	}
@@ -235,9 +240,10 @@ public class MainStorage implements Serializable{
 	 * @throws Exception
 	 *             the exception
 	 */
-	public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers, int starCategory)
-			throws Exception {
-		return hotelRoomStorage.createHotelRoom(name, roomPrice, sleepingNumbers, starCategory);
+	public HotelRoom createHotelRoom(String name, int roomPrice,
+			int sleepingNumbers, int starCategory) throws Exception {
+		return hotelRoomStorage.createHotelRoom(name, roomPrice,
+				sleepingNumbers, starCategory);
 	}
 
 	/**
@@ -264,7 +270,8 @@ public class MainStorage implements Serializable{
 	 *             the exception
 	 */
 
-	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice) throws Exception {
+	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice)
+			throws Exception {
 		hotelRoomStorage.changePriceOfHotelRoom(hotelRoom, roomPrice);
 
 	}
@@ -278,10 +285,16 @@ public class MainStorage implements Serializable{
 	 * @throws CloneNotSupportedException
 	 *             the clone not supported exception
 	 */
-	public HotelRoom cloneHotelRoom(HotelRoom room) throws CloneNotSupportedException {
+	public HotelRoom cloneHotelRoom(HotelRoom room)
+			throws CloneNotSupportedException {
 		return hotelRoomStorage.cloneHotelRoom(room);
 	}
-	
+
+	/**
+	 * Gets the rooms.
+	 *
+	 * @return the rooms
+	 */
 	public List<HotelRoom> getRooms() {
 		return hotelRoomStorage.getRooms();
 	}
@@ -321,10 +334,9 @@ public class MainStorage implements Serializable{
 	/**
 	 * Show all guests.
 	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @throws Exception
-	 *             the exception
+	 * @param sortCondition            the sort condition
+	 * @return the list
+	 * @throws Exception             the exception
 	 */
 
 	public List<Guest> showAllGuests(String sortCondition) throws Exception {
@@ -346,11 +358,9 @@ public class MainStorage implements Serializable{
 
 	/**
 	 * Show all guest number.
-	 * 
-	 * @return
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @return the int
+	 * @throws Exception             the exception
 	 */
 
 	public int showAllGuestNumber() throws Exception {
@@ -360,10 +370,9 @@ public class MainStorage implements Serializable{
 	/**
 	 * Show summ to paid guest.
 	 *
-	 * @param guest
-	 *            the guest
-	 * @throws Exception
-	 *             the exception
+	 * @param guest            the guest
+	 * @return the int
+	 * @throws Exception             the exception
 	 */
 
 	public int showSummToPaidGuest(Guest guest) throws Exception {
@@ -373,15 +382,14 @@ public class MainStorage implements Serializable{
 	/**
 	 * Show list of service.
 	 *
-	 * @param guest
-	 *            the guest
-	 * @param sortCondition
-	 *            the sort condition
-	 * @throws Exception
-	 *             the exception
+	 * @param guest            the guest
+	 * @param sortCondition            the sort condition
+	 * @return the list
+	 * @throws Exception             the exception
 	 */
 
-	public List<Service> showListOfService(Guest guest, String sortCondition) throws Exception {
+	public List<Service> showListOfService(Guest guest, String sortCondition)
+			throws Exception {
 		return guestStorage.showListOfService(guest, sortCondition);
 	}
 
@@ -396,7 +404,8 @@ public class MainStorage implements Serializable{
 	 *             the exception
 	 */
 
-	public void addServiceToGuest(Guest guest, Service service) throws Exception {
+	public void addServiceToGuest(Guest guest, Service service)
+			throws Exception {
 		guestStorage.addServiceToGuest(guest, service);
 	}
 
@@ -439,7 +448,8 @@ public class MainStorage implements Serializable{
 	 * @throws Exception
 	 *             the exception
 	 */
-	public Service createService(String nameOfService, int price) throws Exception {
+	public Service createService(String nameOfService, int price)
+			throws Exception {
 		return serviceStorage.createService(nameOfService, price);
 
 	}
@@ -468,21 +478,26 @@ public class MainStorage implements Serializable{
 	 *             the exception
 	 */
 
-	public void changePriceOfService(Service service, int price) throws Exception {
+	public void changePriceOfService(Service service, int price)
+			throws Exception {
 		serviceStorage.changePriceOfService(service, price);
 	}
 
 	/**
 	 * Exit program.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @return the servises
 	 */
-	
+
 	public List<Service> getServises() {
 		return serviceStorage.getServises();
 	}
-	
+
+	/**
+	 * Exit program.
+	 *
+	 * @throws Exception the exception
+	 */
 	public void exitProgram() throws Exception {
 		System.exit(0);
 	}

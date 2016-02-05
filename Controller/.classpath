@@ -7,5 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/API"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DependencyInjection"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Model"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Anotation"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

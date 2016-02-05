@@ -25,6 +25,12 @@ import com.danco.command.hotelRoomCommand.ShowDetailOfHotelRoom;
 import com.danco.command.hotelRoomCommand.ShowFreeRomsAfterDate;
 import com.danco.command.hotelRoomCommand.ShowLast3GuestOfHotelRoom;
 import com.danco.command.hotelRoomCommand.ShowNumberOfFreeHotelRooms;
+import com.danco.command.reflObjInfo.showGuestReflectedObjectInfoDetailed;
+import com.danco.command.reflObjInfo.showGuestReflectedObjectInfoShort;
+import com.danco.command.reflObjInfo.showHotelRoomReflectedObjectInfoDetailed;
+import com.danco.command.reflObjInfo.showHotelRoomReflectedObjectInfoShort;
+import com.danco.command.reflObjInfo.showServiceReflectedObjectInfoDetailed;
+import com.danco.command.reflObjInfo.showServiceReflectedObjectInfoShort;
 import com.danco.command.serviceCommand.AddServices;
 import com.danco.command.serviceCommand.ChangePriceOfService;
 import com.danco.command.serviceCommand.ShowPriceServiceAndHotelRoom;
@@ -179,6 +185,10 @@ public class Builder {
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_GUESTS, new ShowAllGuests()));
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_LIST_SERVICES, new ShowListOfService()));
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_SUMM_TO_PAID_GUEST, new ShowSummToPaidGuest()));
+		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_SUMM_TO_PAID_GUEST, new ShowSummToPaidGuest()));
+		firstShowMenu.getMenuItems().add(new MenuItems("Show detailed info guest reflected", new showGuestReflectedObjectInfoDetailed()));
+		firstShowMenu.getMenuItems().add(new MenuItems("Show short info guest reflected", new showGuestReflectedObjectInfoShort()));
+		
 		firstShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*
@@ -208,6 +218,8 @@ public class Builder {
 		secondShowMenu.getMenuItems().add(new MenuItems(SHOW_LAST_3_GUEST_ROOM, new ShowLast3GuestOfHotelRoom()));
 		secondShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS, new ShowPriceServiceAndHotelRoom()));
+		secondShowMenu.getMenuItems().add(new MenuItems("Show detailed info hotel room reflected", new showHotelRoomReflectedObjectInfoDetailed()));
+		secondShowMenu.getMenuItems().add(new MenuItems("Show short info hotel room reflected", new showHotelRoomReflectedObjectInfoShort()));
 		secondShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*
@@ -226,6 +238,9 @@ public class Builder {
 
 		threeShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS, new ShowPriceServiceAndHotelRoom()));
+		threeShowMenu.getMenuItems().add(new MenuItems("Show detailed info service room reflected", new showServiceReflectedObjectInfoDetailed()));
+		threeShowMenu.getMenuItems().add(new MenuItems("Show short info hotel service reflected", new showServiceReflectedObjectInfoShort()));
+		
 		threeShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*

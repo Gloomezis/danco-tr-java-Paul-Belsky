@@ -23,10 +23,13 @@ public class HotelRoomController {
 	/** The hotel room service. */
 	private IHotelRoomService hotelRoomService = (IHotelRoomService)DependencyInjectionManager.getClassInstance(IHotelRoomService.class);
 	
+	/** The guest service. */
 	private IGuestService guestService = (IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
 
+	/** The print util. */
 	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
 	
+	/** The input manager. */
 	private IInputManager inputManager = (IInputManager)DependencyInjectionManager.getClassInstance(IInputManager.class);
 
 	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
@@ -95,11 +98,6 @@ public class HotelRoomController {
 
 	/**
 	 * Show all roms.
-	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param free
-	 *            the free
 	 */
 
 	public void showAllRooms() {
@@ -118,11 +116,6 @@ public class HotelRoomController {
 
 	/**
 	 * Show all roms.
-	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param free
-	 *            the free
 	 */
 
 	public void showAllFreeRooms() {
@@ -140,11 +133,6 @@ public class HotelRoomController {
 
 	/**
 	 * Show free roms after date.
-	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param date
-	 *            the date
 	 */
 
 	public void showFreeRomsAfterDate() {
@@ -175,9 +163,6 @@ public class HotelRoomController {
 
 	/**
 	 * Show last3 guest of hotel room.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
 	 */
 
 	public void showLast3GuestOfHotelRoom() {
@@ -201,9 +186,6 @@ public class HotelRoomController {
 
 	/**
 	 * Show detail of hotel room.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
 	 */
 
 	public void showDetailOfHotelRoom() {
@@ -219,6 +201,9 @@ public class HotelRoomController {
 
 	}
 
+	/**
+	 * Show price hotel room.
+	 */
 	public void showPriceHotelRoom() {
 
 		List<HotelRoom> sortedHotelRoom = hotelRoomService.showPriceHotelRoom();
@@ -231,15 +216,6 @@ public class HotelRoomController {
 
 	/**
 	 * Settle guest to hotel room.
-	 *
-	 * @param guest
-	 *            the guest
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @param dateOfArrive
-	 *            the date of arrive
-	 * @param dateOfDeparture
-	 *            the date of departure
 	 */
 
 	public void settleGuestToHotelRoom() {
@@ -265,9 +241,6 @@ public class HotelRoomController {
 
 	/**
 	 * Depart guest from hotel room.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
 	 */
 
 	public void departGuestFromHotelRoom() {
@@ -281,9 +254,6 @@ public class HotelRoomController {
 
 	/**
 	 * Change status.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
 	 */
 
 	public void changeStatus() {
@@ -303,9 +273,6 @@ public class HotelRoomController {
 
 	/**
 	 * Adds the rooms.
-	 *
-	 * @param room
-	 *            the room
 	 */
 
 	public void addRooms() {
@@ -330,11 +297,6 @@ public class HotelRoomController {
 
 	/**
 	 * Change price of hotel room.
-	 *
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @param roomPrice
-	 *            the room price
 	 */
 
 	public void changePriceOfHotelRoom() {
@@ -352,8 +314,6 @@ public class HotelRoomController {
 	/**
 	 * Clone.
 	 *
-	 * @param room
-	 *            the room
 	 * @return the hotel room
 	 */
 	public void cloneHotelRoom() {

@@ -8,12 +8,19 @@ import com.danco.servise.api.IServiceService;
 import com.danco.utils.IInputManager;
 import com.danco.utils.IPrintUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ServiceController.
+ */
 public class ServiceController {
 	
+	/** The input manager. */
 	private IInputManager inputManager = (IInputManager)DependencyInjectionManager.getClassInstance(IInputManager.class);
 
+	/** The service service. */
 	private IServiceService serviceService = (IServiceService)DependencyInjectionManager.getClassInstance(IServiceService.class);
 
+	/** The print util. */
 	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
 
 	/** The Constant SERVICES_INPUT_MESSAGE. */
@@ -30,9 +37,6 @@ public class ServiceController {
 
 	/**
 	 * Adds the services.
-	 *
-	 * @param service
-	 *            the service
 	 */
 
 	public void addServices() {
@@ -66,11 +70,6 @@ public class ServiceController {
 
 	/**
 	 * Change price of service.
-	 *
-	 * @param service
-	 *            the service
-	 * @param price
-	 *            the price
 	 */
 
 	public void changePriceOfService() {
