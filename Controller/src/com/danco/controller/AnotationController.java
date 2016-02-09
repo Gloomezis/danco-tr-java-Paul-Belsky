@@ -81,8 +81,9 @@ public class AnotationController {
 		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
 
 		String userInputHotelRoomNumber = inputManager.userInputString();
-		
 		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
+		
+		
 		
 		printUtil.printString(printableAnalizer.printDetaildeView(hr));
 	}

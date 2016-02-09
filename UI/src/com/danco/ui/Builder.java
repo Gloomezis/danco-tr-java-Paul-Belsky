@@ -185,10 +185,9 @@ public class Builder {
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_GUESTS, new ShowAllGuests()));
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_LIST_SERVICES, new ShowListOfService()));
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_SUMM_TO_PAID_GUEST, new ShowSummToPaidGuest()));
-		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_SUMM_TO_PAID_GUEST, new ShowSummToPaidGuest()));
 		firstShowMenu.getMenuItems().add(new MenuItems("Show detailed info guest reflected", new showGuestReflectedObjectInfoDetailed()));
 		firstShowMenu.getMenuItems().add(new MenuItems("Show short info guest reflected", new showGuestReflectedObjectInfoShort()));
-		
+		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_SUMM_TO_PAID_GUEST, new ShowSummToPaidGuest()));
 		firstShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*

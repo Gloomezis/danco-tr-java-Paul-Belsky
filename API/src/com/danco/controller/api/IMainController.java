@@ -2,22 +2,6 @@ package com.danco.controller.api;
 
 public interface IMainController {
 
-	/** The instance. */
-	//private static IMainController instance;
-	//private MainController(){
-	//    }
-	/**
-	 * Gets the single instance of MainController.
-	 *
-	 * @return single instance of MainController
-	 */
-	//public static IMainController getInstance() {
-	//	if (instance == null) {
-	//		instance = new MainController();
-	//	}
-	//	return instance;
-	//}
-
 	public void addGuest();
 
 	/**
