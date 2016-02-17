@@ -20,51 +20,38 @@ public class HotelRoomService implements IHotelRoomService {
 	private MainStorage mainStorage = MainStorage.getInstance();
 
 	/** The LO g1. */
-	private final Logger LOG1 = Logger.getLogger(HotelRoomService.class.getName());
+	private final Logger LOG1 = Logger.getLogger(HotelRoomService.class
+			.getName());
 
-
-	
 	/** The Constant EXCEPTION. */
 	private static final String EXCEPTION = "Exception";
-	
-	/** The instance. */
-//	private static IHotelRoomService instance;
 
-	/**
-	 * Gets the single instance of HotelRoomService.
-	 *
-	 * @return single instance of HotelRoomService
-	 */
-//	public static IHotelRoomService getInstance() {
-//		if (instance == null) {
-//			instance = new HotelRoomService();
-//		}
-//		return instance;
-//	}
-
-	/**
-	 * Instantiates a new hotel room service.
-	 */
-//	private HotelRoomService() {
-
-//	}
-
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#createHotelRoom(java.lang.String, int, int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#createHotelRoom(java.lang.String,
+	 * int, int, int)
 	 */
 	@Override
-	public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers, int starCategory) {
+	public HotelRoom createHotelRoom(String name, int roomPrice,
+			int sleepingNumbers, int starCategory) {
 
 		try {
-			return mainStorage.createHotelRoom(name, roomPrice, sleepingNumbers, starCategory);
+			return mainStorage.createHotelRoom(name, roomPrice,
+					sleepingNumbers, starCategory);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			return null;
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#getHotelRoomByNumber(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#getHotelRoomByNumber(java.lang.String
+	 * )
 	 */
 	@Override
 	public HotelRoom getHotelRoomByNumber(String NumberOfRoom) {
@@ -77,8 +64,11 @@ public class HotelRoomService implements IHotelRoomService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#showAllRooms(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.danco.serviñe.IHotelRoomService#showAllRooms(java.lang.String,
+	 * java.lang.String)
 	 */
 
 	@Override
@@ -91,8 +81,12 @@ public class HotelRoomService implements IHotelRoomService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#showFreeRomsAfterDate(java.lang.String, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#showFreeRomsAfterDate(java.lang.String
+	 * , java.util.Date)
 	 */
 
 	@Override
@@ -105,22 +99,28 @@ public class HotelRoomService implements IHotelRoomService {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.serviñe.IHotelRoomService#showNumberOfFreeHotelRooms()
 	 */
 
 	@Override
 	public int showNumberOfFreeHotelRooms() {
 		try {
-		return	mainStorage.showNumberOfFreeHotelRooms();
+			return mainStorage.showNumberOfFreeHotelRooms();
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			return 0;
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#showLast3GuestOfHotelRoom(com.danco.model.HotelRoom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#showLast3GuestOfHotelRoom(com.danco
+	 * .model.HotelRoom)
 	 */
 
 	@Override
@@ -133,8 +133,12 @@ public class HotelRoomService implements IHotelRoomService {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#showDetailOfHotelRoom(com.danco.model.HotelRoom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#showDetailOfHotelRoom(com.danco.model
+	 * .HotelRoom)
 	 */
 
 	@Override
@@ -145,26 +149,36 @@ public class HotelRoomService implements IHotelRoomService {
 			LOG1.error(EXCEPTION, e);
 		}
 		return null;
-		
+
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#settleGuestToHotelRoom(com.danco.model.Guest, com.danco.model.HotelRoom, java.util.Date, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#settleGuestToHotelRoom(com.danco.
+	 * model.Guest, com.danco.model.HotelRoom, java.util.Date, java.util.Date)
 	 */
 
 	@Override
-	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom, Date dateOfArrive, Date dateOfDeparture) {
+	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
+			Date dateOfArrive, Date dateOfDeparture) {
 		try {
 
-			mainStorage.settleGuestToHotelRoom(guest, hotelRoom, dateOfArrive, dateOfDeparture);
+			mainStorage.settleGuestToHotelRoom(guest, hotelRoom, dateOfArrive,
+					dateOfDeparture);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 		}
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#departGuestFromHotelRoom(com.danco.model.HotelRoom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#departGuestFromHotelRoom(com.danco
+	 * .model.HotelRoom)
 	 */
 
 	@Override
@@ -176,8 +190,12 @@ public class HotelRoomService implements IHotelRoomService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#changeStatus(com.danco.model.HotelRoom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#changeStatus(com.danco.model.HotelRoom
+	 * )
 	 */
 
 	@Override
@@ -190,8 +208,11 @@ public class HotelRoomService implements IHotelRoomService {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#addRooms(com.danco.model.HotelRoom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#addRooms(com.danco.model.HotelRoom)
 	 */
 
 	@Override
@@ -203,8 +224,12 @@ public class HotelRoomService implements IHotelRoomService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#changePriceOfHotelRoom(com.danco.model.HotelRoom, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#changePriceOfHotelRoom(com.danco.
+	 * model.HotelRoom, int)
 	 */
 
 	@Override
@@ -216,7 +241,9 @@ public class HotelRoomService implements IHotelRoomService {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.serviñe.IHotelRoomService#showPriceHotelRoom()
 	 */
 
@@ -230,8 +257,12 @@ public class HotelRoomService implements IHotelRoomService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IHotelRoomService#cloneHotelRoom(com.danco.model.HotelRoom)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IHotelRoomService#cloneHotelRoom(com.danco.model.HotelRoom
+	 * )
 	 */
 	@Override
 	public HotelRoom cloneHotelRoom(HotelRoom room) {
@@ -242,14 +273,16 @@ public class HotelRoomService implements IHotelRoomService {
 			return null;
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.serviñe.IHotelRoomService#getRooms()
 	 */
 	@Override
 	public List<HotelRoom> getRooms() {
 		try {
-		return mainStorage.getRooms();
+			return mainStorage.getRooms();
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			return null;

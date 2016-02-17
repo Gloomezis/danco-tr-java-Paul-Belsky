@@ -9,12 +9,13 @@ package com.danco.cvs;
  */
 public interface ICsvFileWriter {
 
-	
 	/**
 	 * Write csv file.
 	 *
-	 * @param fileName the file name
+	 * @param fileName
+	 *            the file name
+	 * @return the string
 	 */
-	public void writeCsvFile(String fileName);
+	public String writeCsvFile(String fileName);
 
 }

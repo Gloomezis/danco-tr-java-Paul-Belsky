@@ -49,16 +49,12 @@ public class HotelRoomStorage implements Serializable {
 	/** The rooms for sort. */
 	private List<HotelRoom> roomsForSort;
 
-
-
 	/**
 	 * Gets the hotel room by number.
 	 *
-	 * @param NumberOfRoom
-	 *            the number of room
+	 * @param NumberOfRoom the number of room
 	 * @return the hotel room by number
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
 	public HotelRoom getHotelRoomByNumber(String NumberOfRoom) throws Exception {
 
@@ -74,21 +70,17 @@ public class HotelRoomStorage implements Serializable {
 	/**
 	 * Creates the hotel room.
 	 *
-	 * @param name
-	 *            the name
-	 * @param roomPrice
-	 *            the room price
-	 * @param sleepingNumbers
-	 *            the sleeping numbers
-	 * @param starCategory
-	 *            the star category
+	 * @param name the name
+	 * @param roomPrice the room price
+	 * @param sleepingNumbers the sleeping numbers
+	 * @param starCategory the star category
 	 * @return the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @throws Exception the exception
 	 */
-	public HotelRoom createHotelRoom(String name, int roomPrice, int sleepingNumbers, int starCategory)
-			throws Exception {
-		HotelRoom hotelRoom = new HotelRoom(name, roomPrice, sleepingNumbers, starCategory);
+	public HotelRoom createHotelRoom(String name, int roomPrice,
+			int sleepingNumbers, int starCategory) throws Exception {
+		HotelRoom hotelRoom = new HotelRoom(name, roomPrice, sleepingNumbers,
+				starCategory);
 		return hotelRoom;
 
 	}
@@ -96,10 +88,8 @@ public class HotelRoomStorage implements Serializable {
 	/**
 	 * Adds the rooms.
 	 *
-	 * @param room
-	 *            the room
-	 * @throws Exception
-	 *             the exception
+	 * @param room the room
+	 * @throws Exception the exception
 	 */
 
 	public void addRooms(HotelRoom room) throws Exception {
@@ -109,45 +99,38 @@ public class HotelRoomStorage implements Serializable {
 	/**
 	 * Change price of hotel room.
 	 *
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @param roomPrice
-	 *            the room price
-	 * @throws Exception
-	 *             the exception
+	 * @param hotelRoom the hotel room
+	 * @param roomPrice the room price
+	 * @throws Exception the exception
 	 */
 
-	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice) throws Exception {
+	public void changePriceOfHotelRoom(HotelRoom hotelRoom, int roomPrice)
+			throws Exception {
 		hotelRoom.setRoomPrice(roomPrice);
 	}
 
 	/**
 	 * Change status.
 	 *
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @param hotelRoom the hotel room
+	 * @throws Exception the exception
 	 */
 
 	public void changeStatus(HotelRoom hotelRoom) throws Exception {
-	
 
 		if (hotelRoom.getStatys() == IN_WORK) {
 			hotelRoom.setStatys(false);
 		} else {
 			hotelRoom.setStatys(true);
 		}
-		
+
 	}
 
 	/**
 	 * Depart guest from hotel room.
 	 *
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @param hotelRoom the hotel room
+	 * @throws Exception the exception
 	 */
 
 	public void departGuestFromHotelRoom(HotelRoom hotelRoom) throws Exception {
@@ -161,15 +144,13 @@ public class HotelRoomStorage implements Serializable {
 	/**
 	 * Sets the date of arrival.
 	 *
-	 * @param dateOfArrival
-	 *            the date of arrival
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @param dateOfArrival the date of arrival
+	 * @param hotelRoom the hotel room
+	 * @throws Exception the exception
 	 */
 
-	public void setDateOfArrival(Date dateOfArrival, HotelRoom hotelRoom) throws Exception {
+	public void setDateOfArrival(Date dateOfArrival, HotelRoom hotelRoom)
+			throws Exception {
 
 		hotelRoom.setDateOfArrival(dateOfArrival);
 
@@ -178,15 +159,13 @@ public class HotelRoomStorage implements Serializable {
 	/**
 	 * Sets the date of departure.
 	 *
-	 * @param dateOfDeparture
-	 *            the date of departure
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @param dateOfDeparture the date of departure
+	 * @param hotelRoom the hotel room
+	 * @throws Exception the exception
 	 */
 
-	public void setDateOfDeparture(Date dateOfDeparture, HotelRoom hotelRoom) throws Exception {
+	public void setDateOfDeparture(Date dateOfDeparture, HotelRoom hotelRoom)
+			throws Exception {
 
 		hotelRoom.setDateOfDeparture(dateOfDeparture);
 
@@ -195,20 +174,15 @@ public class HotelRoomStorage implements Serializable {
 	/**
 	 * Settle guest to hotel room.
 	 *
-	 * @param guest
-	 *            the guest
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @param dateOfArrival
-	 *            the date of arrival
-	 * @param dateOfDeparture
-	 *            the date of departure
-	 * @throws Exception
-	 *             the exception
+	 * @param guest the guest
+	 * @param hotelRoom the hotel room
+	 * @param dateOfArrival the date of arrival
+	 * @param dateOfDeparture the date of departure
+	 * @throws Exception the exception
 	 */
 
-	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom, Date dateOfArrival, Date dateOfDeparture)
-			throws Exception {
+	public void settleGuestToHotelRoom(Guest guest, HotelRoom hotelRoom,
+			Date dateOfArrival, Date dateOfDeparture) throws Exception {
 		hotelRoom.setGuests(guest);
 
 		setDateOfArrival(dateOfArrival, hotelRoom);
@@ -222,19 +196,17 @@ public class HotelRoomStorage implements Serializable {
 		guest.setSummToPaid(hotelRoom.getRoomPrice());
 	}
 
-	// TODO returnStatement
 	/**
 	 * Show all rooms.
 	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param free
-	 *            the free
-	 * @throws Exception
-	 *             the exception
+	 * @param sortCondition the sort condition
+	 * @param free the free
+	 * @return the list
+	 * @throws Exception the exception
 	 */
 
-	public List<HotelRoom> showAllRooms(String sortCondition, String free) throws Exception {
+	public List<HotelRoom> showAllRooms(String sortCondition, String free)
+			throws Exception {
 		roomsForSort = new ArrayList<HotelRoom>(rooms);
 		sortRooms(sortCondition);
 
@@ -250,39 +222,35 @@ public class HotelRoomStorage implements Serializable {
 		return roomsForSort;
 	}
 
-	// TODO returnStatement
 	/**
 	 * Show detail of hotel room.
 	 *
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @param hotelRoom the hotel room
+	 * @return the string
+	 * @throws Exception the exception
 	 */
 
 	public String showDetailOfHotelRoom(HotelRoom hotelRoom) throws Exception {
 
-		String detail = String.format(ROOM_DETAIL_FORMAT, hotelRoom.getNumber(), hotelRoom.getRoomPrice(),
-				hotelRoom.getSleepingNumbers(), hotelRoom.getStarCategory(), hotelRoom.getBusy(),
-				hotelRoom.getStatys());
+		String detail = String.format(ROOM_DETAIL_FORMAT,
+				hotelRoom.getNumber(), hotelRoom.getRoomPrice(),
+				hotelRoom.getSleepingNumbers(), hotelRoom.getStarCategory(),
+				hotelRoom.getBusy(), hotelRoom.getStatys());
 		return detail;
 
 	}
 
-	// TODO returnStatement
-
 	/**
 	 * Show free roms after date.
 	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @param date
-	 *            the date
-	 * @throws Exception
-	 *             the exception
+	 * @param sortCondition the sort condition
+	 * @param date the date
+	 * @return the list
+	 * @throws Exception the exception
 	 */
 
-	public List<HotelRoom> showFreeRomsAfterDate(String sortCondition, Date date) throws Exception {
+	public List<HotelRoom> showFreeRomsAfterDate(String sortCondition, Date date)
+			throws Exception {
 		roomsForSort = new ArrayList<HotelRoom>(rooms);
 		sortRooms(sortCondition);
 		List<HotelRoom> selecter = new ArrayList<HotelRoom>();
@@ -302,27 +270,25 @@ public class HotelRoomStorage implements Serializable {
 		return selecter;
 	}
 
-	// TODO returnStatement
 	/**
 	 * Show last3 guest of hotel room.
 	 *
-	 * @param hotelRoom
-	 *            the hotel room
-	 * @throws Exception
-	 *             the exception
+	 * @param hotelRoom the hotel room
+	 * @return the list
+	 * @throws Exception the exception
 	 */
 
-	public List<Guest> showLast3GuestOfHotelRoom(HotelRoom hotelRoom) throws Exception {
+	public List<Guest> showLast3GuestOfHotelRoom(HotelRoom hotelRoom)
+			throws Exception {
 		LinkedList<Guest> g = hotelRoom.getGuestHistory();
 		return g;
 	}
 
-	// TODO returnStatement
 	/**
 	 * Show number of free hotel rooms.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @return the int
+	 * @throws Exception the exception
 	 */
 
 	public int showNumberOfFreeHotelRooms() throws Exception {
@@ -335,12 +301,11 @@ public class HotelRoomStorage implements Serializable {
 		return n;
 	}
 
-	// TODO returnStatement
 	/**
 	 * Show price hotel room.
 	 *
-	 * @throws Exception
-	 *             the exception
+	 * @return the list
+	 * @throws Exception the exception
 	 */
 
 	public List<HotelRoom> showPriceHotelRoom() throws Exception {
@@ -350,15 +315,11 @@ public class HotelRoomStorage implements Serializable {
 
 	}
 
-	// TODO returnStatement
-
 	/**
 	 * Sort rooms.
 	 *
-	 * @param sortCondition
-	 *            the sort condition
-	 * @throws Exception
-	 *             the exception
+	 * @param sortCondition the sort condition
+	 * @throws Exception the exception
 	 */
 
 	public void sortRooms(String sortCondition) throws Exception {
@@ -367,7 +328,8 @@ public class HotelRoomStorage implements Serializable {
 			Collections.sort(roomsForSort, new HotelRoomPriceComparator());
 			break;
 		case SORT_COND_SLEEP_N:
-			Collections.sort(roomsForSort, new HotelRoomSleepingNumberComparator());
+			Collections.sort(roomsForSort,
+					new HotelRoomSleepingNumberComparator());
 			break;
 		case SORT_COND_STAR:
 			Collections.sort(roomsForSort, new HotelRoomStarComparator());
@@ -379,25 +341,25 @@ public class HotelRoomStorage implements Serializable {
 	}
 
 	/**
-	 * Clone.
+	 * Clone hotel room.
 	 *
-	 * @param room
-	 *            the room
+	 * @param room the room
 	 * @return the hotel room
-	 * @throws CloneNotSupportedException
-	 *             the clone not supported exception
+	 * @throws CloneNotSupportedException the clone not supported exception
 	 */
-	public HotelRoom cloneHotelRoom(HotelRoom room) throws CloneNotSupportedException {
+	public HotelRoom cloneHotelRoom(HotelRoom room)
+			throws CloneNotSupportedException {
 		return room.clone();
 
 	}
 
+	/**
+	 * Gets the rooms.
+	 *
+	 * @return the rooms
+	 */
 	public List<HotelRoom> getRooms() {
 		return rooms;
 	}
-
-	
-	
-	
 
 }

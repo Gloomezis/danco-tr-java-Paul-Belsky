@@ -9,8 +9,6 @@ import com.danco.model.Guest;
 import com.danco.model.Service;
 import com.danco.servise.api.IGuestService;
 import com.danco.servise.api.IServiceService;
-import com.danco.utils.IInputManager;
-import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -18,29 +16,13 @@ import com.danco.utils.IPrintUtil;
  */
 public class GuestController {
 
-	/** The main storage. */
-	private IGuestService guestService = (IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
+	/** The guest service. */
+	private IGuestService guestService = (IGuestService) DependencyInjectionManager
+			.getClassInstance(IGuestService.class);
 
-	/** The print util. */
-	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
-	
-	/** The input manager. */
-	private IInputManager inputManager = (IInputManager)DependencyInjectionManager.getClassInstance(IInputManager.class);
-	
 	/** The service service. */
-	private IServiceService serviceService = (IServiceService)DependencyInjectionManager.getClassInstance(IServiceService.class);
-
-	/** The Constant GUEST_INPUT_MESSAGE. */
-	private static final String GUEST_INPUT_MESSAGE = "Enter Guest Name";
-
-	/** The Constant SERVICE_INPUT_MESSAGE. */
-	private static final String SERVICE_INPUT_MESSAGE = "Enter Service Name";
-
-	/** The Constant SORT_INPUT_MESSAGE. */
-	private static final String SORT_INPUT_MESSAGE = "Enter room sort condition : alphabet/date";
-
-	/** The Constant SORT_INPUT_MESSAGE. */
-	private static final String SORT_INPUT_MESSAGE1 = "Enter room sort condition : date/price";
+	private IServiceService serviceService = (IServiceService) DependencyInjectionManager
+			.getClassInstance(IServiceService.class);
 
 	/** The Constant ALL_GUEST_NUMB_FORMAT. */
 	private static final String ALL_GUEST_NUMB_FORMAT = "All guest number is: %d";
@@ -51,133 +33,117 @@ public class GuestController {
 	/** The Constant DATE_FORMAT. */
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 
-	/** The df. */
+	/** The Constant DF. */
 	private static final DateFormat DF = new SimpleDateFormat(DATE_FORMAT);
 
 	/** The Constant GUEST_FORMAT. */
 	private static final String GUEST_FORMAT = "Guest: %s , room: %s , date of departure: %s \n";
 
 	/** The Constant SERVICE_FORMAT. */
-	private static final String SERVICE_FORMAT = "service : %s, price: %d, date: %s ";
-
-	// ** The Constant WRONG_SORT_CONDITION. */
-	// private static final String WRONG_SORT_CONDITION = "wrong sorted
-	// condition";
+	private static final String SERVICE_FORMAT = "service : %s, price: %d, date: %s \n";
 
 	/**
 	 * Adds the guest.
+	 *
+	 * @param userInputGuestName the user input guest name
 	 */
-	public void addGuest() {
+	public void addGuest(String userInputGuestName) {
 
-		printUtil.printString(GUEST_INPUT_MESSAGE);
-
-		String userInputGuestName = inputManager.userInputString();
 		Guest g = guestService.createGuest(userInputGuestName);
 
 		guestService.addGuest(g);
 	}
-	
-	
-	
-	
-	
-	
-	
 
 	/**
 	 * Show all guest number.
-	 * 
+	 *
+	 * @return the string
 	 */
-	
 
-	public void showAllGuestNumber() {
+	public String showAllGuestNumber() {
 		int number = guestService.showAllGuestNumber();
-		printUtil.printString(String.format(ALL_GUEST_NUMB_FORMAT, number));
+		return String.format(ALL_GUEST_NUMB_FORMAT, number);
 	}
 
 	/**
 	 * Show summ to paid guest.
+	 *
+	 * @param userInputGuestName the user input guest name
+	 * @return the string
 	 */
 
-	public void showSummToPaidGuest() {
+	public String showSummToPaidGuest(String userInputGuestName) {
 
-		printUtil.printString(GUEST_INPUT_MESSAGE);
-
-		String userInputGuestName = inputManager.userInputString();
 		Guest g = guestService.getGuestByName(userInputGuestName);
 
 		int summ = guestService.showSummToPaidGuest(g);
 
-		printUtil.printString(String.format(SUMM_TO_PAID_FORMAT, summ));
+		return String.format(SUMM_TO_PAID_FORMAT, summ);
 	}
 
 	/**
 	 * Show all guests.
+	 *
+	 * @param userInputSortCondition the user input sort condition
+	 * @return the string
 	 */
 
-	public void showAllGuests() {
-		printUtil.printString(SORT_INPUT_MESSAGE);
-		StringBuilder sb = new StringBuilder(500);
-		String userInputSortCondition = inputManager.userInputString();
-		List<Guest> allSortedGuests = guestService.showAllGuests(userInputSortCondition);
+	public String showAllGuests(String userInputSortCondition) {
 
-		// TODO проверка возврата нуля
-		// if (allSortedGuests.isEmpty()) {
-		// sb.append(WRONG_SORT_CONDITION);
-		// } else {
+		StringBuilder sb = new StringBuilder(500);
+
+		List<Guest> allSortedGuests = guestService
+				.showAllGuests(userInputSortCondition);
+
 		for (Guest s : allSortedGuests) {
-			sb.append(String.format(GUEST_FORMAT, s.getName(), s.getNumberOfRoom(), DF.format(s.getDateOfDeparture())));
+			sb.append(String.format(GUEST_FORMAT, s.getName(),
+					s.getNumberOfRoom(), DF.format(s.getDateOfDeparture())));
 		}
-		printUtil.printString(sb.toString());
+		return sb.toString();
 		// }
 	}
 
 	/**
 	 * Show list of service.
+	 *
+	 * @param userInputGuestName the user input guest name
+	 * @param userInputSortCondition the user input sort condition
+	 * @return the string
 	 */
 
-	public void showListOfService() {
+	public String showListOfService(String userInputGuestName,
+			String userInputSortCondition) {
 		StringBuilder sb = new StringBuilder(500);
 		sb.append("");
-		printUtil.printString(GUEST_INPUT_MESSAGE);
 
-		String userInputGuestName = inputManager.userInputString();
 		Guest g = guestService.getGuestByName(userInputGuestName);
 
-		printUtil.printString(SORT_INPUT_MESSAGE1);
+		List<Service> sortedListOfService = guestService.showListOfService(g,
+				userInputSortCondition);
 
-		String userInputSortCondition = inputManager.userInputString();
-
-		List<Service> sortedListOfService = guestService.showListOfService(g, userInputSortCondition);
-
-		printUtil.printString(g.getName() + ":");
-		// System.out.println(WRONG_SORT_CONDITION);
-		// if (sortedListOfService.isEmpty()) {
-		// sb.append(WRONG_SORT_CONDITION);
-		// } else {
-
+		sb.append(g.getName() + ":" + "\n");
+	
 		for (Service c : sortedListOfService) {
-			sb.append(String.format(SERVICE_FORMAT, c.getNameOfService(), c.getPrice(), DF.format(c.getDate())));
+			sb.append(String.format(SERVICE_FORMAT, c.getNameOfService(),
+					c.getPrice(), DF.format(c.getDate())));
 		}
 		// }
+		return sb.toString();
 	}
 
 	/**
 	 * Adds the service to guest.
+	 *
+	 * @param userInputGuestName the user input guest name
+	 * @param userInputService the user input service
 	 */
-
-	public void addServiceToGuest() {
-
-		printUtil.printString(GUEST_INPUT_MESSAGE);
-		String userInputGuest = inputManager.userInputString();
-		Guest g = guestService.getGuestByName(userInputGuest);
-
-		printUtil.printString(SERVICE_INPUT_MESSAGE);
-		String userInputService = inputManager.userInputString();
+	public void addServiceToGuest(String userInputGuestName,
+			String userInputService) {
+		
+		Guest g = guestService.getGuestByName(userInputGuestName);
 		Service s = serviceService.getServiceByName(userInputService);
 
 		guestService.addServiceToGuest(g, s);
-
 	}
 
 	/**

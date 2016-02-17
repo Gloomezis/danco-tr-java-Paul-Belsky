@@ -1,23 +1,84 @@
 package com.danco.command.hotelRoomCommand;
 
+import org.apache.log4j.Logger;
+
 import com.danco.command.Command;
-import com.danco.controller.api.IMainController;
-import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
+import com.danco.ui.Processing;
+import com.danco.util.InputManager;
+import com.danco.util.PrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class SettleGuestToHotelRoom.
  */
 public class SettleGuestToHotelRoom implements Command {
+	
+	/** The LO g1. */
+	private final Logger LOG1 = Logger.getLogger(SettleGuestToHotelRoom.class.getName());
+	
+	/** The Constant GUEST_INPUT_MESSAGE. */
+	private static final String GUEST_INPUT_MESSAGE = "Enter guest name";
+	
+	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
+	private static final String HOTEL_ROOM_INPUT_MESSAGE = "Enter hotel room number";
+	
+	/** The Constant DATE_ARRIVE_INPUT_MESSAGE. */
+	private static final String DATE_ARRIVE_INPUT_MESSAGE = "Enter date of Arrive / year-month-day  :  yyyy-MM-dd";
+	
+	/** The Constant DATE_DEPARTURE_INPUT_MESSAGE. */
+	private static final String DATE_DEPARTURE_INPUT_MESSAGE = "Enter date of Departure / year-month-day  :  yyyy-MM-dd";
+	
+	/** The Constant PROTOCOL. */
+	private static final String PROTOCOL = "4ext" + ";"
+			+ "settleGuestToHotelRoom" + ";";
+	
+	/** The Constant SEPARATOR. */
+	private static final String SEPARATOR = ";";
+	
+	/** The Constant MESSAGE. */
+	private static final String MESSAGE = "Message  \n";
 
-	IMainController mainController =(IMainController)DependencyInjectionManager.getClassInstance(IMainController.class);
-	/* (non-Javadoc)
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.command.Command#execute()
 	 */
 	@Override
 	public void execute() {
 
-		mainController.settleGuestToHotelRoom();
+		
+		try {
+
+			System.out.println(GUEST_INPUT_MESSAGE);
+			String userInputGuestName = InputManager.userInputString();
+
+			System.out.println(HOTEL_ROOM_INPUT_MESSAGE);
+			String userInputHotelRoomNumber = InputManager.userInputString();
+
+			System.out.println(DATE_ARRIVE_INPUT_MESSAGE);
+			String userinpitDateOfArrive = InputManager.userInputString();
+
+			System.out.println(DATE_DEPARTURE_INPUT_MESSAGE);
+			String userInputDateOfDeparture = InputManager.userInputString();
+
+			StringBuilder str = new StringBuilder();
+			str.append(PROTOCOL).append(userInputGuestName).append(SEPARATOR)
+					.append(userInputHotelRoomNumber).append(SEPARATOR)
+					.append(userinpitDateOfArrive).append(SEPARATOR)
+					.append(userInputDateOfDeparture);
+
+			Processing processing = Processing.getInstance();
+			PrintUtil.printString(MESSAGE + processing.dataProcessing(str));
+
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+
+		}
 	}
 
 }

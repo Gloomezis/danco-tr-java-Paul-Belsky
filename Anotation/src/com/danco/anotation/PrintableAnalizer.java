@@ -54,10 +54,8 @@ public class PrintableAnalizer implements IPrintableAnalizer {
 	/**
 	 * Analize entity and print.
 	 *
-	 * @param obj
-	 *            the obj
-	 * @param detailed
-	 *            the detailed
+	 * @param obj the obj
+	 * @param detailed the detailed
 	 * @return the string
 	 */
 
@@ -115,7 +113,7 @@ public class PrintableAnalizer implements IPrintableAnalizer {
 				final Annotation an = fd.getAnnotation(Printable.class);
 
 				// Comment to hide field meta info
-				//sb.append(an + NEW_LINE);
+				// sb.append(an + NEW_LINE);
 				final Class<?> type = an.annotationType();
 				Method m = null;
 				try {
@@ -146,7 +144,7 @@ public class PrintableAnalizer implements IPrintableAnalizer {
 
 				final Annotation an = fd.getAnnotation(PrintableRef.class);
 				// Comment to hide field meta info
-				//sb.append(an + NEW_LINE);
+				// sb.append(an + NEW_LINE);
 				final Class<?> type = an.annotationType();
 
 				Method m = null;
@@ -195,15 +193,20 @@ public class PrintableAnalizer implements IPrintableAnalizer {
 			if (printable && printableRef) {
 				break;
 			}
+			//TODO TEST
+			fd.setAccessible(false);
 		}
 		sb.append(PRINTABLE_ANOTATION_PRESENT + printable + ";"
 				+ PRINTABLE_REF_ANOTATION_PRESENT + printableRef + NEW_LINE);
-		// System.out.println(sb.toString());
 		return sb.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.anotation.IPrintableAnalizer#printDetaildeView(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.anotation.IPrintableAnalizer#printDetaildeView(java.lang.Object
+	 * )
 	 */
 	@Override
 	public String printDetaildeView(Object obj) {
@@ -212,8 +215,11 @@ public class PrintableAnalizer implements IPrintableAnalizer {
 		return info;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.anotation.IPrintableAnalizer#printShortView(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.anotation.IPrintableAnalizer#printShortView(java.lang.Object)
 	 */
 	@Override
 	public String printShortView(Object obj) {

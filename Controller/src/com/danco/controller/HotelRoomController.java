@@ -11,8 +11,6 @@ import com.danco.model.HotelRoom;
 import com.danco.properties.PropertyManager;
 import com.danco.servise.api.IGuestService;
 import com.danco.servise.api.IHotelRoomService;
-import com.danco.utils.IInputManager;
-import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -21,56 +19,18 @@ import com.danco.utils.IPrintUtil;
 public class HotelRoomController {
 
 	/** The hotel room service. */
-	private IHotelRoomService hotelRoomService = (IHotelRoomService)DependencyInjectionManager.getClassInstance(IHotelRoomService.class);
-	
+	private IHotelRoomService hotelRoomService = (IHotelRoomService) DependencyInjectionManager
+			.getClassInstance(IHotelRoomService.class);
+
 	/** The guest service. */
-	private IGuestService guestService = (IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
-
-	/** The print util. */
-	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
-	
-	/** The input manager. */
-	private IInputManager inputManager = (IInputManager)DependencyInjectionManager.getClassInstance(IInputManager.class);
-
-	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
-	private static final String HOTEL_ROOM_INPUT_MESSAGE = "Enter hotel room number";
-	
-
-	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
-	private static final String NEW_HOTEL_ROOM_INPUT_MESSAGE = "Enter new room number";
-
-	/** The Constant PRICE_INPUT_MESSAGE. */
-	private static final String PRICE_INPUT_MESSAGE = "Write room price";
-
-	/** The Constant PRICE_INPUT_MESSAGE. */
-	private static final String PRICE_INPUT_MESSAGE1 = "Enter new price of hotel room";
-
-	/** The Constant SLEEPING_NUMBERS_INPUT_MESSAGE. */
-	private static final String SLEEPING_NUMBERS_INPUT_MESSAGE = "Write sleeping numbers";
-
-	/** The Constant STAR_CATEGORY_INPUT_MESSAGE. */
-	private static final String STAR_CATEGORY_INPUT_MESSAGE = "Write star category";
-
-	/** The Constant GUEST_INPUT_MESSAGE. */
-	private static final String GUEST_INPUT_MESSAGE = "Enter guest name";
-
-	/** The Constant DATE_ARRIVE_INPUT_MESSAGE. */
-	private static final String DATE_ARRIVE_INPUT_MESSAGE = "Enter date of Arrive / year-month-day  :  yyyy-MM-dd";
-
-	/** The Constant DATE_DEPARTURE_INPUT_MESSAGE. */
-	private static final String DATE_DEPARTURE_INPUT_MESSAGE = "Enter date of Departure / year-month-day  :  yyyy-MM-dd";
-
-	/** The Constant SORT_INPUT_MESSAGE. */
-	private static final String SORT_INPUT_MESSAGE = "Enter room sort condition : price/sleepN/star";
+	private IGuestService guestService = (IGuestService) DependencyInjectionManager
+			.getClassInstance(IGuestService.class);
 
 	/** The Constant FREE. */
 	private static final String FREE = "free";
 
-	/** The Constant FREE. */
+	/** The Constant FREE1. */
 	private static final String FREE1 = "";
-
-	/** The Constant DATE_INPUT_MESSAGE. */
-	private static final String DATE_INPUT_MESSAGE = "Enter date / year-month-day  :  yyyy-MM-dd";
 
 	/** The Constant HOTEL_ROOM_FORMAT. */
 	private static final String HOTEL_ROOM_FORMAT = "Hotel room: %s, price: %d \n";
@@ -87,259 +47,269 @@ public class HotelRoomController {
 	/** The Constant DATE_FORMAT. */
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 
-	/** The df. */
+	/** The Constant DF. */
 	private static final DateFormat DF = new SimpleDateFormat(DATE_FORMAT);
 
 	/** The Constant ROOM_PRINTER_FORMAT. */
-	private static final String ROOM_PRINTER_FORMAT = "room: %s  , sleeping numbers: %d,  stars category: %d,  price: %d";
-	
-	/** The Constant ROOM_PRINTER_FORMAT. */
-	private static final String MODIFY_QUESTION = "Modify? YES/NO";
+	private static final String ROOM_PRINTER_FORMAT = "room: %s  , sleeping numbers: %d,  stars category: %d,  price: %d \n";
 
 	/**
-	 * Show all roms.
+	 * Show all rooms.
+	 *
+	 * @param userInputSortCondition the user input sort condition
+	 * @return the string
 	 */
 
-	public void showAllRooms() {
+	public String showAllRooms(String userInputSortCondition) {
+		StringBuilder sb = new StringBuilder();
 
-		printUtil.printString(SORT_INPUT_MESSAGE);
+		List<HotelRoom> freeRooms = hotelRoomService.showAllRooms(
+				userInputSortCondition, FREE1);
 
-		String userInputSortCondition = inputManager.userInputString();
-
-		List<HotelRoom> freeRooms =  hotelRoomService.showAllRooms(userInputSortCondition, FREE1);
-		
 		for (HotelRoom s : freeRooms) {
-			printUtil.printString(String.format(ROOM_PRINTER_FORMAT, s.getNumber(), s.getSleepingNumbers(),
-					s.getStarCategory(), s.getRoomPrice()));
-			}
+			sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
+					s.getSleepingNumbers(), s.getStarCategory(),
+					s.getRoomPrice()));
+		}
+		return sb.toString();
 	}
 
 	/**
-	 * Show all roms.
+	 * Show all free rooms.
+	 *
+	 * @param userInputSortCondition the user input sort condition
+	 * @return the string
 	 */
 
-	public void showAllFreeRooms() {
+	public String showAllFreeRooms(String userInputSortCondition) {
+		StringBuilder sb = new StringBuilder();
 
-		printUtil.printString(SORT_INPUT_MESSAGE);
-
-		String userInputSortCondition = inputManager.userInputString();
-		List<HotelRoom> freeRooms = hotelRoomService.showAllRooms(userInputSortCondition, FREE);
+		List<HotelRoom> freeRooms = hotelRoomService.showAllRooms(
+				userInputSortCondition, FREE);
 
 		for (HotelRoom s : freeRooms) {
-			printUtil.printString(String.format(ROOM_PRINTER_FORMAT, s.getNumber(), s.getSleepingNumbers(),
-					s.getStarCategory(), s.getRoomPrice()));
+			sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
+					s.getSleepingNumbers(), s.getStarCategory(),
+					s.getRoomPrice()));
 		}
+		return sb.toString();
 	}
 
 	/**
 	 * Show free roms after date.
+	 *
+	 * @param userInputSortCondition the user input sort condition
+	 * @param date the date
+	 * @return the string
 	 */
 
-	public void showFreeRomsAfterDate() {
-		printUtil.printString(SORT_INPUT_MESSAGE);
-		String userInputSortCondition = inputManager.userInputString();
+	public String showFreeRomsAfterDate(String userInputSortCondition, Date date) {
+		StringBuilder sb = new StringBuilder();
 
-		printUtil.printString(DATE_INPUT_MESSAGE);
-		Date date = inputManager.userInputDate();
+		List<HotelRoom> freeRoomsAfterDate = hotelRoomService
+				.showFreeRomsAfterDate(userInputSortCondition, date);
 
-		List<HotelRoom> freeRoomsAfterDate=hotelRoomService.showFreeRomsAfterDate(userInputSortCondition, date);
-		
 		for (HotelRoom s : freeRoomsAfterDate) {
-			printUtil.printString(String.format(ROOM_PRINTER_FORMAT, s.getNumber(), s.getSleepingNumbers(),
-					s.getStarCategory(), s.getRoomPrice()));
+			sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
+					s.getSleepingNumbers(), s.getStarCategory(),
+					s.getRoomPrice()));
 		}
+		return sb.toString();
 	}
 
 	/**
 	 * Show number of free hotel rooms.
+	 *
+	 * @return the string
 	 */
 
-	public void showNumberOfFreeHotelRooms() {
+	public String showNumberOfFreeHotelRooms() {
 		int n = hotelRoomService.showNumberOfFreeHotelRooms();
 
-		printUtil.printString(String.format(FREE_ROOM_NUMB_FORMAT, n));
+		return String.format(FREE_ROOM_NUMB_FORMAT, n);
 
 	}
 
 	/**
 	 * Show last3 guest of hotel room.
+	 *
+	 * @param userInputHotelRoomNumber the user input hotel room number
+	 * @return the string
 	 */
 
-	public void showLast3GuestOfHotelRoom() {
+	public String showLast3GuestOfHotelRoom(String userInputHotelRoomNumber) {
 
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
+		HotelRoom hr = hotelRoomService
+				.getHotelRoomByNumber(userInputHotelRoomNumber);
 
 		List<Guest> last3Guest = hotelRoomService.showLast3GuestOfHotelRoom(hr);
 
-		StringBuilder sb = new StringBuilder(500).append(String.format(LAST_3_GUEST_FORMAT, hr.getNumber()));
+		StringBuilder sb = new StringBuilder(500).append(String.format(
+				LAST_3_GUEST_FORMAT, hr.getNumber()));
 
 		for (Guest a : last3Guest) {
-			sb.append(String.format(LAST_GUEST_FORMAT, a.getName(), DF.format(a.getDateOfArrive()),
+			sb.append(String.format(LAST_GUEST_FORMAT, a.getName(),
+					DF.format(a.getDateOfArrive()),
 					DF.format(a.getDateOfDeparture())));
 
 		}
-		printUtil.printString(sb.toString());
+		return sb.toString();
 	}
 
 	/**
 	 * Show detail of hotel room.
+	 *
+	 * @param userInputHotelRoomNumber the user input hotel room number
+	 * @return the string
 	 */
 
-	public void showDetailOfHotelRoom() {
+	public String showDetailOfHotelRoom(String userInputHotelRoomNumber) {
 
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
+		HotelRoom hr = hotelRoomService
+				.getHotelRoomByNumber(userInputHotelRoomNumber);
 
 		String detail = hotelRoomService.showDetailOfHotelRoom(hr);
 
-		printUtil.printString(detail);
+		return detail;
 
 	}
 
 	/**
 	 * Show price hotel room.
+	 *
+	 * @return the string
 	 */
-	public void showPriceHotelRoom() {
+	public String showPriceHotelRoom() {
 
 		List<HotelRoom> sortedHotelRoom = hotelRoomService.showPriceHotelRoom();
 		StringBuilder sb = new StringBuilder(100);
 		for (HotelRoom s : sortedHotelRoom) {
-			sb.append(String.format(HOTEL_ROOM_FORMAT, s.getNumber(), s.getRoomPrice()));
+			sb.append(String.format(HOTEL_ROOM_FORMAT, s.getNumber(),
+					s.getRoomPrice()));
 		}
-		printUtil.printString(sb.toString());
+		return sb.toString();
 	}
 
 	/**
 	 * Settle guest to hotel room.
+	 *
+	 * @param userInputGuestName the user input guest name
+	 * @param userInputHotelRoomNumber the user input hotel room number
+	 * @param userinpitDateOfArrive the userinpit date of arrive
+	 * @param userInputDateOfDeparture the user input date of departure
 	 */
 
-	public void settleGuestToHotelRoom() {
+	public synchronized void settleGuestToHotelRoom(String userInputGuestName,
+			String userInputHotelRoomNumber, Date userinpitDateOfArrive,
+			Date userInputDateOfDeparture) {
 
-		printUtil.printString(GUEST_INPUT_MESSAGE);
-		String userInputGuestName = inputManager.userInputString();
 		Guest g = guestService.getGuestByName(userInputGuestName);
 
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
+		HotelRoom hr = hotelRoomService
+				.getHotelRoomByNumber(userInputHotelRoomNumber);
 
-		printUtil.printString(DATE_ARRIVE_INPUT_MESSAGE);
-		Date userinpitDateOfArrive = inputManager.userInputDate();
+		hotelRoomService.settleGuestToHotelRoom(g, hr, userinpitDateOfArrive,
+				userInputDateOfDeparture);
 
-		printUtil.printString(DATE_DEPARTURE_INPUT_MESSAGE);
-		Date userInputDateOfDeparture = inputManager.userInputDate();
-
-		hotelRoomService.settleGuestToHotelRoom(g, hr, userinpitDateOfArrive, userInputDateOfDeparture);
-
-		hotelRoomService.settleGuestToHotelRoom(g, hr, userinpitDateOfArrive, userInputDateOfDeparture);
 	}
 
 	/**
 	 * Depart guest from hotel room.
+	 *
+	 * @param userInputHotelRoomName the user input hotel room name
 	 */
 
-	public void departGuestFromHotelRoom() {
+	public synchronized void departGuestFromHotelRoom(String userInputHotelRoomName) {
 
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
+		HotelRoom hr = hotelRoomService
+				.getHotelRoomByNumber(userInputHotelRoomName);
 
 		hotelRoomService.departGuestFromHotelRoom(hr);
 	}
 
 	/**
 	 * Change status.
+	 *
+	 * @param userInputHotelRoomName the user input hotel room name
 	 */
 
-	public void changeStatus() {
-		
-		boolean statusChangeProperty = PropertyManager.getInstance().getStatusChangeProperty();
-		if(statusChangeProperty==true){
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
+	public synchronized void changeStatus(String userInputHotelRoomName) {
 
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
+		boolean statusChangeProperty = PropertyManager.getInstance()
+				.getStatusChangeProperty();
+		if (statusChangeProperty == true) {
 
-		hotelRoomService.changeStatus(hr);}
-		else{
-		System.out.println("Blocked by property manager");
+			HotelRoom hr = hotelRoomService
+					.getHotelRoomByNumber(userInputHotelRoomName);
+
+			hotelRoomService.changeStatus(hr);
+		} else {
+			System.out.println("Blocked by property manager");
 		}
 	}
 
 	/**
 	 * Adds the rooms.
+	 *
+	 * @param userInputHotelRoomName the user input hotel room name
+	 * @param userInputRoomPrice the user input room price
+	 * @param userInputSleepingNumbers the user input sleeping numbers
+	 * @param userInputStarCategory the user input star category
 	 */
 
-	public void addRooms() {
+	public void addRooms(String userInputHotelRoomName, int userInputRoomPrice,
+			int userInputSleepingNumbers, int userInputStarCategory) {
 
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomName = inputManager.userInputString();
-
-		printUtil.printString(PRICE_INPUT_MESSAGE);
-		int userInputRoomPrice = inputManager.userInputInt();
-
-		printUtil.printString(SLEEPING_NUMBERS_INPUT_MESSAGE);
-		int userInputSleepingNumbers = inputManager.userInputInt();
-
-		printUtil.printString(STAR_CATEGORY_INPUT_MESSAGE);
-		int userInputStarCategory = inputManager.userInputInt();
-
-		HotelRoom hr = hotelRoomService.createHotelRoom(userInputHotelRoomName, userInputRoomPrice,
-				userInputSleepingNumbers, userInputStarCategory);
+		HotelRoom hr = hotelRoomService.createHotelRoom(userInputHotelRoomName,
+				userInputRoomPrice, userInputSleepingNumbers,
+				userInputStarCategory);
 
 		hotelRoomService.addRooms(hr);
 	}
 
 	/**
 	 * Change price of hotel room.
+	 *
+	 * @param userInputHotelRoomName the user input hotel room name
+	 * @param userInputRoomPrice the user input room price
 	 */
 
-	public void changePriceOfHotelRoom() {
+	public synchronized void changePriceOfHotelRoom(String userInputHotelRoomName,
+			int userInputRoomPrice) {
 
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
-
-		printUtil.printString(PRICE_INPUT_MESSAGE1);
-		int userInputRoomPrice = inputManager.userInputInt();
+		HotelRoom hr = hotelRoomService
+				.getHotelRoomByNumber(userInputHotelRoomName);
 
 		hotelRoomService.changePriceOfHotelRoom(hr, userInputRoomPrice);
 	}
 
 	/**
-	 * Clone.
+	 * Clone hotel room.
 	 *
-	 * @return the hotel room
+	 * @param userInputHotelRoomName the user input hotel room name
+	 * @param userInputHotelRoomNumberModify the user input hotel room number modify
+	 * @param modify the modify
+	 * @param roomPriceModify the room price modify
+	 * @param sleepingNumberModify the sleeping number modify
+	 * @param starModify the star modify
 	 */
-	public void cloneHotelRoom() {
+	public void cloneHotelRoom(String userInputHotelRoomName,
+			String userInputHotelRoomNumberModify, String modify,
+			int roomPriceModify, int sleepingNumberModify, int starModify) {
 
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
-
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
+		HotelRoom hr = hotelRoomService
+				.getHotelRoomByNumber(userInputHotelRoomName);
 		HotelRoom hotelRoom = hotelRoomService.cloneHotelRoom(hr);
-		
-		printUtil.printString(NEW_HOTEL_ROOM_INPUT_MESSAGE);
-		String userInputHotelRoomNumberModify = inputManager.userInputString();
+
 		hotelRoom.setNumber(userInputHotelRoomNumberModify);
-		
-		printUtil.printString(MODIFY_QUESTION);
-		String modify = inputManager.userInputString();
-		if (modify.equals("YES")){
-	    printUtil.printString(PRICE_INPUT_MESSAGE);	
-	    int roomPriceModify = inputManager.userInputInt();
-		hotelRoom.setRoomPrice(roomPriceModify);
-		printUtil.printString(SLEEPING_NUMBERS_INPUT_MESSAGE);	
-	    int sleepingNumberModify = inputManager.userInputInt();
-		hotelRoom.setSleepingNumbers(sleepingNumberModify);
-		printUtil.printString(STAR_CATEGORY_INPUT_MESSAGE);	
-	    int starModify = inputManager.userInputInt();
-		hotelRoom.setStarCategory(starModify);
+
+		if ("YES".equals(modify)) {
+
+			hotelRoom.setRoomPrice(roomPriceModify);
+
+			hotelRoom.setSleepingNumbers(sleepingNumberModify);
+
+			hotelRoom.setStarCategory(starModify);
 		}
 		// TODO write methods to format room
 		hotelRoomService.addRooms(hotelRoom);

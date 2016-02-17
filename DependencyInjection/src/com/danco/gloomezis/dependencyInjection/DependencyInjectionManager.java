@@ -24,8 +24,7 @@ public class DependencyInjectionManager {
 	/**
 	 * Gets the class instance.
 	 *
-	 * @param clazz
-	 *            the clazz
+	 * @param clazz the clazz
 	 * @return the class instance
 	 */
 	public static Object getClassInstance(Class<?> clazz) {

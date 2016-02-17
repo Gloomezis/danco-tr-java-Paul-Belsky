@@ -16,7 +16,7 @@ import com.danco.storages.MainStorage;
  * The Class Serialization.
  */
 public class Serialization {
-	
+
 	/** The Constant EXCEPTION. */
 	private static final String EXCEPTION = "Exception";
 
@@ -25,11 +25,14 @@ public class Serialization {
 
 	/**
 	 * Serial to file.
+	 *
+	 * @param serializeMainStorage the serialize main storage
 	 */
 	public void serialToFile(MainStorage serializeMainStorage) {
-		
+
 		try (ObjectOutputStream out = new ObjectOutputStream(
-				new FileOutputStream(PropertyManager.getInstance().getSerialiseFileName()))) {
+				new FileOutputStream(PropertyManager.getInstance()
+						.getSerialiseFileName()))) {
 			out.writeObject(serializeMainStorage);
 			out.close();
 		} catch (IOException e) {
@@ -40,13 +43,13 @@ public class Serialization {
 
 	/**
 	 * Serial from file.
-	 * 
-	 * @return
+	 *
+	 * @return the main storage
 	 */
 	public MainStorage serialFromFile() {
 		MainStorage mainStorage = null;
-		try (ObjectInputStream in = new ObjectInputStream(
-				new FileInputStream(PropertyManager.getInstance().getSerialiseFileName()))) {
+		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(
+				PropertyManager.getInstance().getSerialiseFileName()))) {
 			mainStorage = (MainStorage) in.readObject();
 			in.close();
 

@@ -10,7 +10,9 @@ import com.danco.model.Service;
  */
 public class ServicePriceComparator implements Comparator<Service> {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override

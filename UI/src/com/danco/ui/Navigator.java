@@ -4,32 +4,49 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.log4j.Logger;
+
+import com.danco.util.PrintUtil;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Navigator.
  */
 public class Navigator {
 
+	/** The Constant LOG1. */
+	private final static Logger LOG1 = Logger.getLogger(Navigator.class
+			.getName());
+	
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+
 	/** The Constant NUMBER_NOT_EXIST. */
 	public static final String NUMBER_NOT_EXIST = "Number not exist";
-
-	/** The Constant INPUT_ERROR. */
-	public final static String INPUT_ERROR = "Input  error";
 
 	/** The Constant SEPARATOR. */
 	private static final String SEPARATOR = "-----------------";
 
 	/** The reader. */
-	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	private BufferedReader reader = new BufferedReader(new InputStreamReader(
+			System.in));
 
 	/** The current menu. */
 	private Menu currentMenu;
 
+	
+	
+	
+
 	/**
 	 * Instantiates a new navigator.
+	 *
+	 * @param processing the processing
 	 */
 	public Navigator() {
-		currentMenu = new Builder().getRootMenu();
+		
+		currentMenu =  new Builder().getRootMenu();
+
 	}
 
 	/**
@@ -38,9 +55,7 @@ public class Navigator {
 	public void printMenu() {
 		if (currentMenu != null) {
 			currentMenu.doAction();
-
 		}
-
 	}
 
 	/**
@@ -51,7 +66,7 @@ public class Navigator {
 	public boolean navigate() {
 		int inputNumber = inputNumber();
 		if (inputNumber <= 0 || inputNumber > currentMenu.getMenuItems().size()) {
-			System.out.println(NUMBER_NOT_EXIST);
+			PrintUtil.printString(NUMBER_NOT_EXIST);
 			return true;
 		}
 
@@ -67,14 +82,15 @@ public class Navigator {
 			return true;
 		}
 
-		IMenu selectedMenuItem = currentMenu.getMenuItems().get(inputNumber - 1);
+		IMenu selectedMenuItem = currentMenu.getMenuItems()
+				.get(inputNumber - 1);
 		if (selectedMenuItem instanceof Menu) {
 			currentMenu = (Menu) selectedMenuItem;
 
 		}
 		selectedMenuItem.doAction();
 		if (selectedMenuItem instanceof MenuItems) {
-			System.out.println(SEPARATOR);
+			PrintUtil.printString(SEPARATOR);
 			printMenu();
 
 		}
@@ -82,7 +98,7 @@ public class Navigator {
 	}
 
 	/**
-	 * MenuNumber.
+	 * Input number.
 	 *
 	 * @return the int
 	 */
@@ -92,7 +108,7 @@ public class Navigator {
 		try {
 			inputNumber = Integer.parseInt(reader.readLine());
 		} catch (NumberFormatException | IOException e) {
-			System.out.println(INPUT_ERROR);
+			LOG1.error(EXCEPTION, e);
 		}
 		return inputNumber;
 	}

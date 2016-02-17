@@ -21,6 +21,9 @@ public class HotelRoomCsvFileWriter implements ICsvFileWriter{
 	
 	private IHotelRoomService hotelRoomService = (IHotelRoomService)DependencyInjectionManager.getClassInstance(IHotelRoomService.class);
 
+	/** The LO g1. */
+	private final Logger LOG1 = Logger.getLogger(HotelRoomCsvFileWriter.class.getName());
+	
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
 			private static final String COMMA_DELIMITER = ",";
@@ -38,15 +41,24 @@ public class HotelRoomCsvFileWriter implements ICsvFileWriter{
 			/** The df. */
 			private static final DateFormat DF = new SimpleDateFormat(DATE_FORMAT);
 			
-			/** The LO g1. */
-			private final Logger LOG1 = Logger.getLogger(HotelRoomCsvFileWriter.class.getName());
+			private static final String EXCEPTION = "Exception";
+			
+			/** The Constant CSV_FILE_CREATED. */
+			private static final String CSV_FILE_CREATED="CSV file was created successfully !!!";
+			
+			/** The Constant ERROR_CSVFILEWRITER. */
+			private static final String ERROR_CSVFILEWRITER="Error in CsvFileWriter !!!";
+			
+			/** The Constant ERROR_WHILE_CLOSING_FILEWRITER. */
+			private static final String ERROR_WHILE_CLOSING_FILEWRITER="Error while flushing/closing fileWriter !!!";
 
 	/* (non-Javadoc)
 	 * @see com.danco.importExportCSV.ICsvFileWriter#writeCsvFile(java.lang.String)
 	 */
 	@Override
-	public void writeCsvFile(String fileName) {
+	public String writeCsvFile(String fileName) {
 		// TODO Auto-generated method stub
+		StringBuilder sb= new StringBuilder();
 		
 			FileWriter fileWriter = null;
 
@@ -80,22 +92,23 @@ public class HotelRoomCsvFileWriter implements ICsvFileWriter{
 					fileWriter.append(NEW_LINE_SEPARATOR);
 				}
 
-				System.out.println("CSV file was created successfully !!!");
+				sb.append(CSV_FILE_CREATED);
 
 			} catch (Exception e) {
-				System.out.println("Error in CsvFileWriter !!!");
-				LOG1.error("Exception", e);
+				sb.append(ERROR_CSVFILEWRITER);
+				LOG1.error(EXCEPTION, e);
 			} finally {
 
 				try {
 					fileWriter.flush();
 					fileWriter.close();
 				} catch (IOException e) {
-					System.out.println("Error while flushing/closing fileWriter !!!");
-					LOG1.error("Exception", e);
+					sb.append(ERROR_WHILE_CLOSING_FILEWRITER);
+					LOG1.error(EXCEPTION, e);
 				}
 
 			}
+			return sb.toString();
 		}
 		
 	}

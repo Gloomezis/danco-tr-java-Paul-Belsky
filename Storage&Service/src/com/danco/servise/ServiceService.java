@@ -18,37 +18,17 @@ public class ServiceService implements IServiceService {
 	private MainStorage mainStorage = MainStorage.getInstance();
 
 	/** The LO g1. */
-	private final Logger LOG1 = Logger.getLogger(ServiceService.class.getName());
+	private final Logger LOG1 = Logger
+			.getLogger(ServiceService.class.getName());
 
-
-	
 	/** The Constant EXCEPTION. */
 	private static final String EXCEPTION = "Exception";
-	
-	/** The instance. */
-//	private static IServiceService instance;
 
-	/**
-	 * Gets the single instance of ServiceService.
-	 *
-	 * @return single instance of ServiceService
-	 */
-	//public static IServiceService getInstance() {
-	//	if (instance == null) {
-	//		instance = new ServiceService();
-	//	}
-	//	return instance;
-	//}
-
-	/**
-	 * Instantiates a new service service.
-	 */
-	//private ServiceService() {
-
-	//}
-
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IServiceService#createService(java.lang.String, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.danco.serviñe.IServiceService#createService(java.lang.String,
+	 * int)
 	 */
 	@Override
 	public Service createService(String nameOfService, int price) {
@@ -62,7 +42,9 @@ public class ServiceService implements IServiceService {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.serviñe.IServiceService#getServiceByName(java.lang.String)
 	 */
 	@Override
@@ -77,8 +59,11 @@ public class ServiceService implements IServiceService {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IServiceService#addServices(com.danco.model.Service)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IServiceService#addServices(com.danco.model.Service)
 	 */
 
 	@Override
@@ -90,7 +75,9 @@ public class ServiceService implements IServiceService {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.serviñe.IServiceService#showPriceService()
 	 */
 
@@ -104,8 +91,12 @@ public class ServiceService implements IServiceService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.serviñe.IServiceService#changePriceOfService(com.danco.model.Service, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.serviñe.IServiceService#changePriceOfService(com.danco.model
+	 * .Service, int)
 	 */
 
 	@Override
@@ -118,7 +109,9 @@ public class ServiceService implements IServiceService {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.serviñe.IServiceService#getServises()
 	 */
 	@Override

@@ -14,20 +14,18 @@ import com.danco.model.Service;
  */
 public class ServiceStorage implements Serializable {
 
-	/**
-	 * 
-	 */
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
-	/** The servises. */
+	/** The services. */
 	private List<Service> services = new ArrayList<Service>();
 
 	/**
 	 * Gets the service by name.
 	 *
-	 * @param nameOfService
-	 *            the name of service
+	 * @param nameOfService the name of service
 	 * @return the service by name
+	 * @throws Exception the exception
 	 */
 	public Service getServiceByName(String nameOfService) throws Exception {
 
@@ -43,13 +41,13 @@ public class ServiceStorage implements Serializable {
 	/**
 	 * Creates the service.
 	 *
-	 * @param nameOfService
-	 *            the name of service
-	 * @param price
-	 *            the price
+	 * @param nameOfService the name of service
+	 * @param price the price
 	 * @return the service
+	 * @throws Exception the exception
 	 */
-	public Service createService(String nameOfService, int price) throws Exception {
+	public Service createService(String nameOfService, int price)
+			throws Exception {
 		Service service = new Service(price, nameOfService);
 		return service;
 
@@ -58,8 +56,8 @@ public class ServiceStorage implements Serializable {
 	/**
 	 * Adds the services.
 	 *
-	 * @param service
-	 *            the service
+	 * @param service the service
+	 * @throws Exception the exception
 	 */
 
 	public void addServices(Service service) throws Exception {
@@ -69,19 +67,21 @@ public class ServiceStorage implements Serializable {
 	/**
 	 * Change price of service.
 	 *
-	 * @param service
-	 *            the service
-	 * @param price
-	 *            the price
+	 * @param service the service
+	 * @param price the price
+	 * @throws Exception the exception
 	 */
 
-	public void changePriceOfService(Service service, int price) throws Exception {
+	public void changePriceOfService(Service service, int price)
+			throws Exception {
 		service.setPrice(price);
 	}
 
-	// TODO returnStatement
 	/**
 	 * Show price services.
+	 *
+	 * @return the list
+	 * @throws Exception the exception
 	 */
 
 	public List<Service> showPriceServices() throws Exception {
@@ -94,10 +94,13 @@ public class ServiceStorage implements Serializable {
 
 	}
 
+	/**
+	 * Gets the servises.
+	 *
+	 * @return the servises
+	 */
 	public List<Service> getServises() {
 		return services;
 	}
 
-	
-	
 }

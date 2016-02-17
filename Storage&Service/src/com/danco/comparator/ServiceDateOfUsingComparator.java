@@ -11,17 +11,16 @@ import com.danco.model.Service;
  */
 public class ServiceDateOfUsingComparator implements Comparator<Service> {
 
-	
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	public int compare(Service p, Service q) {
 
-		
 		Date pDate = p.getDate();
 		Date qDate = q.getDate();
-		
+
 		return pDate.compareTo(qDate);
 	}
 

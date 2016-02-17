@@ -5,12 +5,10 @@ package com.danco.command;
  * The Interface Command.
  */
 public interface Command {
-	
-		/**
-		 * Execute.
-		 */
-		public void execute();
-		
-	}
 
+	/**
+	 * Execute.
+	 */
+	public void execute();
 
+}

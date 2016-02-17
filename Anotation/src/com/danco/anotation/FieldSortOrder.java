@@ -7,13 +7,13 @@ import java.lang.reflect.Field;
  * The Class FieldSortOrder.
  */
 public class FieldSortOrder {
-	
+
 	/** The field. */
 	private Field field;
-	
+
 	/** The order. */
 	private int order;
-	
+
 	/**
 	 * Instantiates a new field sort order.
 	 *
@@ -59,6 +59,6 @@ public class FieldSortOrder {
 	 */
 	public void setOrder(int order) {
 		this.order = order;
-	} 
+	}
 
 }

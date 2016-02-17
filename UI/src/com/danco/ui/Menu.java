@@ -3,6 +3,8 @@ package com.danco.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.danco.util.PrintUtil;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Menu.
@@ -11,12 +13,14 @@ public class Menu implements IMenu {
 
 	/** The title. */
 	private String title;
-	
+
 	/** The menu items. */
 	private List<IMenu> menuItems;
-	
+
 	/** The parent. */
 	private Menu parent;
+	
+	
 
 	/**
 	 * Instantiates a new menu.
@@ -68,23 +72,27 @@ public class Menu implements IMenu {
 		this.parent = parent;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.IMenu#getTitle()
 	 */
 	public String getTitle() {
 		return title;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.IMenu#doAction()
 	 */
 	public void doAction() {
 		int index = 1;
 		for (IMenu menuItem : getMenuItems()) {
 			if (menuItem instanceof MenuItems) {
-				System.out.println(index + " " + menuItem.getTitle());
+				PrintUtil.printString(index + " " + menuItem.getTitle());
 			} else {
-				System.out.println(index + ">>>" + menuItem.getTitle());
+				PrintUtil.printString(index + ">>>" + menuItem.getTitle());
 			}
 			index++;
 		}

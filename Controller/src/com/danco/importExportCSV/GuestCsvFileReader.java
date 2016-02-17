@@ -13,15 +13,20 @@ import com.danco.cvs.ICsvFileReader;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Guest;
 import com.danco.servise.api.IGuestService;
-import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class GuestCsvFileReader.
  */
 public class GuestCsvFileReader implements ICsvFileReader {
+
+	/** The guest service. */
+	private IGuestService guestService = (IGuestService) DependencyInjectionManager
+			.getClassInstance(IGuestService.class);
 	
-	private IGuestService guestService = (IGuestService)DependencyInjectionManager.getClassInstance(IGuestService.class);
+	/** The LO g1. */
+	private final Logger LOG1 = Logger.getLogger(GuestCsvFileReader.class
+			.getName());
 
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
@@ -30,30 +35,40 @@ public class GuestCsvFileReader implements ICsvFileReader {
 	/** The Constant USER_NAME. */
 	// Student attributes index
 	private static final int USER_NAME = 0;
-	
+
 	/** The Constant USER_DATE_OF_ARRIVE. */
 	private static final int USER_DATE_OF_ARRIVE = 1;
-	
+
 	/** The Constant USER__DATE_OF_DEPARTURE. */
 	private static final int USER__DATE_OF_DEPARTURE = 2;
-	
+
 	/** The Constant USER_NUMBER_OF_ROOM. */
 	private static final int USER_NUMBER_OF_ROOM = 3;
-	
+
 	/** The Constant USER_SUMM_TO_PAID. */
 	private static final int USER_SUMM_TO_PAID = 4;
+	
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+	
+	/** The Constant EQUAL. */
+	private static final String EQUAL ="equal  \n";
+	
+	/** The Constant ERROR_CSVFILEREADER. */
+	private static final String ERROR_CSVFILEREADER="Error in CsvFileReader !!!";
+	
+	/** The Constant ERROR_WHILE_CLOSING_FILEREADER. */
+	private static final String ERROR_WHILE_CLOSING_FILEREADER="Error while closing fileReader !!!";
 
-	/** The LO g1. */
-	private final Logger LOG1 = Logger.getLogger(GuestCsvFileWriter.class.getName());
-
-	/** The print util. */
-	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
-
-	/* (non-Javadoc)
-	 * @see com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
 	 */
 	@Override
-	public void readCsvFile(String fileName) {
+	public String readCsvFile(String fileName) {
+		StringBuilder sb = new StringBuilder();
 
 		BufferedReader fileReader = null;
 
@@ -77,20 +92,25 @@ public class GuestCsvFileReader implements ICsvFileReader {
 
 					String userDateArrive = tokens[USER_DATE_OF_ARRIVE];
 					String[] dateMassArrive = userDateArrive.split("-");
-					Date dateArrive = new GregorianCalendar(Integer.parseInt(dateMassArrive[2]),
-							Integer.parseInt(dateMassArrive[1]), Integer.parseInt(dateMassArrive[0])).getTime();
+					Date dateArrive = new GregorianCalendar(
+							Integer.parseInt(dateMassArrive[2]),
+							Integer.parseInt(dateMassArrive[1]),
+							Integer.parseInt(dateMassArrive[0])).getTime();
 					guestReaded.setDateOfArrive(dateArrive);
 
 					String userDateDeparture = tokens[USER__DATE_OF_DEPARTURE];
 					String[] dateMassDeparture = userDateDeparture.split("-");
-					Date dateDeparture = new GregorianCalendar(Integer.parseInt(dateMassDeparture[2]),
-							Integer.parseInt(dateMassDeparture[1]), Integer.parseInt(dateMassDeparture[0])).getTime();
+					Date dateDeparture = new GregorianCalendar(
+							Integer.parseInt(dateMassDeparture[2]),
+							Integer.parseInt(dateMassDeparture[1]),
+							Integer.parseInt(dateMassDeparture[0])).getTime();
 					guestReaded.setDateOfDeparture(dateDeparture);
 
 					String numberOfRoom = tokens[USER_NUMBER_OF_ROOM];
 					guestReaded.setNumberOfRoom(numberOfRoom);
 
-					int summToPaid = Integer.parseInt(tokens[USER_SUMM_TO_PAID]);
+					int summToPaid = Integer
+							.parseInt(tokens[USER_SUMM_TO_PAID]);
 					guestReaded.setSummToPaid(summToPaid);
 
 					// uniq add entity
@@ -104,10 +124,10 @@ public class GuestCsvFileReader implements ICsvFileReader {
 					if (a != -1) {
 
 						guestService.addGuest(guestReaded);
-						printUtil.printString(guestReaded.toString());
+						sb.append(guestReaded.toString()+ "\n");
 
 					} else {
-						System.out.println("equal");
+						sb.append(EQUAL);
 
 					}
 
@@ -115,16 +135,17 @@ public class GuestCsvFileReader implements ICsvFileReader {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Error in CsvFileReader !!!");
-			LOG1.error("Exception", e);
+			sb.append(ERROR_CSVFILEREADER);
+			LOG1.error(EXCEPTION, e);
 		} finally {
 			try {
 				fileReader.close();
 			} catch (IOException e) {
-				System.out.println("Error while closing fileReader !!!");
-				LOG1.error("Exception", e);
+				sb.append(ERROR_WHILE_CLOSING_FILEREADER);
+				LOG1.error(EXCEPTION, e);
 			}
 		}
+		return sb.toString();
 
 	}
 

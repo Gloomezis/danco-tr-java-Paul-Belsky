@@ -221,7 +221,7 @@ public class GuestStorage implements Serializable {
 
 	}
 
-	// TODO returnStatement
+	
 	/**
 	 * Show summ to paid guest.
 	 *

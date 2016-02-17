@@ -16,10 +16,28 @@ public class PropertyManager {
 	/** The LO g1. */
 	private final Logger LOG1 = Logger.getLogger(PropertyManager.class
 			.getName());
-	
+
 	/** The properties. */
 	private Properties properties = new Properties();
 	
+	/** The Constant PROPERTY_FILE_NAME. */
+	private static final String PROPERTY_FILE_NAME = "properties.txt";
+	
+	/** The Constant PROPERTY_FIELD_DATA_FILE_NAME. */
+	private static final String PROPERTY_FIELD_DATA_FILE_NAME="dataFileName";
+	
+	/** The Constant PROPERTY_FIELD_STATUS_CHANGE. */
+	private static final String PROPERTY_FIELD_STATUS_CHANGE="StatusChange";
+	
+	/** The Constant PROPERTY_FIELD_GUEST_HISTORY_SIZE. */
+	private static final String PROPERTY_FIELD_GUEST_HISTORY_SIZE="GuestHistorySize";
+	
+	/** The Constant PROPERTY_FIELD_DEPENDENCY_INJ_PROP_FILE_NAME. */
+	private static final String PROPERTY_FIELD_DEPENDENCY_INJ_PROP_FILE_NAME="dependencyInjectionPropertyFileName";
+	
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+
 	/** The file input stream. */
 	private FileInputStream fileInputStream;
 
@@ -43,12 +61,13 @@ public class PropertyManager {
 	 */
 	private PropertyManager() {
 
-		File file = new File("properties.txt"); try {
+		File file = new File(PROPERTY_FILE_NAME);
+		try {
 			if (!file.exists()) {
 				file.createNewFile();
 			}
 		} catch (Exception e) {
-			LOG1.error("Exception", e);
+			LOG1.error(EXCEPTION, e);
 		}
 
 		try {
@@ -56,58 +75,63 @@ public class PropertyManager {
 			properties.load(fileInputStream);
 
 		} catch (Exception e) {
-			LOG1.error("Exception", e);
+			LOG1.error(EXCEPTION, e);
 		} finally {
 			if (fileInputStream != null) {
 			}
 			try {
 				fileInputStream.close();
 			} catch (IOException e) {
-				LOG1.error("Exception", e);
+				LOG1.error(EXCEPTION, e);
 			}
 		}
 
 	}
 
 	/**
-	 * Gets the data file name.
+	 * Gets the serialise file name.
 	 *
-	 * @return the data file name
+	 * @return the serialise file name
 	 */
 	public String getSerialiseFileName() {
-		String fileName = properties.getProperty("dataFileName");
+		String fileName = properties.getProperty(PROPERTY_FIELD_DATA_FILE_NAME);
 		return fileName;
 
 	}
-	
+
 	/**
 	 * Gets the status change property.
 	 *
 	 * @return the status change property
 	 */
 	public boolean getStatusChangeProperty() {
-		String StatusChangeProperty = properties.getProperty("StatusChange");
+		String StatusChangeProperty = properties.getProperty(PROPERTY_FIELD_STATUS_CHANGE);
 		return Boolean.parseBoolean(StatusChangeProperty);
 
 	}
-	
+
 	/**
 	 * Gets the guest history size property.
 	 *
 	 * @return the guest history size property
 	 */
 	public int getGuestHistorySizeProperty() {
-		String GuestHistorySizeProperty = properties.getProperty("GuestHistorySize");
+		String GuestHistorySizeProperty = properties
+				.getProperty(PROPERTY_FIELD_GUEST_HISTORY_SIZE);
 		return Integer.parseInt(GuestHistorySizeProperty);
-		
 
 	}
-	
-	public String getDependencyInjectionPropertyFile(){
-	String fileName = properties.getProperty("dependencyInjectionPropertyFileName");
-	return fileName;
 
-}
-	
-	
+	/**
+	 * Gets the dependency injection property file.
+	 *
+	 * @return the dependency injection property file
+	 */
+	public String getDependencyInjectionPropertyFile() {
+		String fileName = properties
+				.getProperty(PROPERTY_FIELD_DEPENDENCY_INJ_PROP_FILE_NAME);
+		return fileName;
+
+	}
+
 }

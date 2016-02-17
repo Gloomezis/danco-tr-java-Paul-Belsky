@@ -17,23 +17,23 @@ import com.danco.properties.PropertyManager;
  * The Class DependencyInjectionPropertyManager.
  */
 public class DependencyInjectionPropertyManager {
-	
+
 	/** The Constant EXCEPTION. */
 	private static final String EXCEPTION = "Exception";
 
 	/** The Constant LOG1. */
-	private final static Logger LOG1 = Logger.getLogger(DependencyInjectionPropertyManager.class.getName());
+	private final static Logger LOG1 = Logger
+			.getLogger(DependencyInjectionPropertyManager.class.getName());
 
 	/** The config manager. */
 	private static DependencyInjectionPropertyManager configManager;
-	
+
 	/** The properties. */
 	private Properties properties;
-	
+
 	/** The file input stream. */
 	private FileInputStream fileInputStream;
-	
-	
+
 	/**
 	 * Gets the single instance of DependencyInjectionPropertyManager.
 	 *
@@ -51,7 +51,8 @@ public class DependencyInjectionPropertyManager {
 	 */
 	private DependencyInjectionPropertyManager() {
 		properties = new Properties();
-		File file = new File(PropertyManager.getInstance().getDependencyInjectionPropertyFile());
+		File file = new File(PropertyManager.getInstance()
+				.getDependencyInjectionPropertyFile());
 
 		try {
 			fileInputStream = new FileInputStream(file);
@@ -70,8 +71,6 @@ public class DependencyInjectionPropertyManager {
 		}
 
 	}
-
-	
 
 	/**
 	 * Gets the impl class name.

@@ -6,13 +6,13 @@ import com.danco.command.Command;
 /**
  * The Class MenuItems.
  */
-public class MenuItems implements IMenu{
-	
+public class MenuItems implements IMenu {
+
 	/** The title. */
 	private String title;
-	
+
 	/** The command. */
-	private Command command ;
+	private Command command;
 
 	/**
 	 * Instantiates a new menu items.
@@ -34,24 +34,26 @@ public class MenuItems implements IMenu{
 		this.title = title;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.IMenu#getTitle()
 	 */
 	public String getTitle() {
 		return title;
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.IMenu#doAction()
 	 */
 	public void doAction() {
 		if (command != null) {
 			command.execute();
-			
+
 		}
-		
+
 	}
-	
 
 }

@@ -1,23 +1,50 @@
 package com.danco.command.serviceCommand;
 
+import org.apache.log4j.Logger;
+
 import com.danco.command.Command;
-import com.danco.controller.api.IMainController;
-import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
+import com.danco.ui.Processing;
+import com.danco.util.PrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class ShowPriceServiceAndHotelRoom.
  */
 public class ShowPriceServiceAndHotelRoom implements Command {
+	
+	/** The LO g1. */
+	private final Logger LOG1 = Logger.getLogger(ShowPriceServiceAndHotelRoom.class.getName());
 
-	IMainController mainController =(IMainController)DependencyInjectionManager.getClassInstance(IMainController.class);
-	/* (non-Javadoc)
+	/** The Constant PROTOCOL. */
+	private static final String PROTOCOL = "0" + ";"
+			+ "showPriceServiceAndHotelRoom" + ";";
+	
+	/** The Constant MESSAGE. */
+	private static final String MESSAGE = "Message  \n";
+	
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+
+	
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.command.Command#execute()
 	 */
 	@Override
 	public void execute() {
 
-		mainController.showPriceServiceAndHotelRoom();
+		try {
+
+			StringBuilder str = new StringBuilder();
+			str.append(PROTOCOL);
+			Processing processing = Processing.getInstance();
+			PrintUtil.printString(MESSAGE + processing.dataProcessing(str));
+
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		}
 	}
 
 }

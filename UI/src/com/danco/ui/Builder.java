@@ -71,12 +71,6 @@ public class Builder {
 	/** The Constant EXIT. */
 	public static final String EXIT = "Exit";
 
-	/** The Constant READ_GUEST_FROM_FILE. */
-	public static final String READ_GUEST_FROM_FILE = "Read guest from file";
-
-	/** The Constant WRITE_GUEST_TO_FILE. */
-	public static final String WRITE_GUEST_TO_FILE = "Write guest to file";
-
 	/** The Constant ADD_GUEST. */
 	public static final String ADD_GUEST = "Add guest";
 
@@ -137,8 +131,49 @@ public class Builder {
 	/** The Constant CHANGE_PRICE_SERVICE. */
 	public static final String CHANGE_PRICE_SERVICE = "Change price of service";
 
+	/** The Constant SHOW_DETAIL_INFO_GUEST_REFL. */
+	public static final String SHOW_DETAIL_INFO_GUEST_REFL = "Show detailed info guest reflected";
+
+	/** The Constant SHOW_SHORT_INFO_GUEST_REFL. */
+	public static final String SHOW_SHORT_INFO_GUEST_REFL = "Show short info guest reflected";
+
+	/** The Constant SHOW_DETAIL_INFO_ROOM_REFL. */
+	public static final String SHOW_DETAIL_INFO_ROOM_REFL = "Show detailed info hotel room reflected";
+
+	/** The Constant SHOW_SHORT_INFO_ROOM_REFL. */
+	public static final String SHOW_SHORT_INFO_ROOM_REFL = "Show short info hotel room reflected";
+
+	/** The Constant SHOW_DETAIL_INFO_SERVICE_REFL. */
+	public static final String SHOW_DETAIL_INFO_SERVICE_REFL = "Show detailed info service room reflected";
+
+	/** The Constant SHOW_SHORT_INFO_SERVICE_REFL. */
+	public static final String SHOW_SHORT_INFO_SERVICE_REFL = "Show short info hotel service reflected";
+
+	/** The Constant READ_GUEST_FROM_FILE. */
+	public static final String READ_GUEST_FROM_FILE = "read guest from file";
+
+	/** The Constant WRITE_GUEST_TO_FILE. */
+	public static final String WRITE_GUEST_TO_FILE = "write guest to file";
+
+	/** The Constant READ_ROOM_FROM_FILE. */
+	public static final String READ_ROOM_FROM_FILE = "read hotel room from file";
+
+	/** The Constant WRITE_ROOM_TO_FILE. */
+	public static final String WRITE_ROOM_TO_FILE = "write hotel room to file";
+
+	/** The Constant READ_SERVICE_FROM_FILE. */
+	public static final String READ_SERVICE_FROM_FILE = "read service from file";
+
+	/** The Constant WRITE_SERVICE_TO_FILE. */
+	public static final String WRITE_SERVICE_TO_FILE = "write service to file";
+
+	/** The Constant IMPORT_EXPORT. */
+	public static final String IMPORT_EXPORT = "Import/Export";
+
 	/** The Constant CLONE. */
 	public static final String CLONE = "Clone";
+
+	
 
 	/**
 	 * Gets the root menu.
@@ -168,7 +203,7 @@ public class Builder {
 		Menu threeAddMenu = new Menu(ADD, rootMenu);
 		Menu threeEditMenu = new Menu(EDIT, rootMenu);
 		Menu threeShowMenu = new Menu(SHOW, rootMenu);
-		Menu fourMenu = new Menu("Import/Export", rootMenu);
+		Menu fourMenu = new Menu(IMPORT_EXPORT, rootMenu);
 
 		/*
 		 * guest operation menu
@@ -185,9 +220,10 @@ public class Builder {
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_GUESTS, new ShowAllGuests()));
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_LIST_SERVICES, new ShowListOfService()));
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_SUMM_TO_PAID_GUEST, new ShowSummToPaidGuest()));
-		firstShowMenu.getMenuItems().add(new MenuItems("Show detailed info guest reflected", new showGuestReflectedObjectInfoDetailed()));
-		firstShowMenu.getMenuItems().add(new MenuItems("Show short info guest reflected", new showGuestReflectedObjectInfoShort()));
-		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_SUMM_TO_PAID_GUEST, new ShowSummToPaidGuest()));
+		firstShowMenu.getMenuItems()
+				.add(new MenuItems(SHOW_DETAIL_INFO_GUEST_REFL, new showGuestReflectedObjectInfoDetailed()));
+		firstShowMenu.getMenuItems()
+				.add(new MenuItems(SHOW_SHORT_INFO_GUEST_REFL, new showGuestReflectedObjectInfoShort()));
 		firstShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*
@@ -196,15 +232,18 @@ public class Builder {
 		secondMenu.getMenuItems().add(secondAddMenu);
 		secondMenu.getMenuItems().add(secondEditMenu);
 		secondMenu.getMenuItems().add(secondShowMenu);
-		secondMenu.getMenuItems().add(new MenuItems(DEPART_GUEST_FROM_HOTEL_ROOM, new DepartGuestFromHotelRoom()));
-		secondMenu.getMenuItems().add(new MenuItems(SETTLE_GUEST_TO_HOTEL_ROOM, new SettleGuestToHotelRoom()));
+		secondMenu.getMenuItems()
+				.add(new MenuItems(DEPART_GUEST_FROM_HOTEL_ROOM, new DepartGuestFromHotelRoom()));
+		secondMenu.getMenuItems()
+				.add(new MenuItems(SETTLE_GUEST_TO_HOTEL_ROOM, new SettleGuestToHotelRoom()));
 		secondMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		secondAddMenu.getMenuItems().add(new MenuItems(ADD_ROOM, new AddRooms()));
 		secondAddMenu.getMenuItems().add(new MenuItems(CLONE, new CloneHotelRoom()));
 		secondAddMenu.getMenuItems().add(new MenuItems(BACK, null));
 
-		secondEditMenu.getMenuItems().add(new MenuItems(CHANGE_PRICE_HOTEL_ROOM, new ChangePriceOfHotelRoom()));
+		secondEditMenu.getMenuItems()
+				.add(new MenuItems(CHANGE_PRICE_HOTEL_ROOM, new ChangePriceOfHotelRoom()));
 		secondEditMenu.getMenuItems().add(new MenuItems(CHANGE_STATUS, new ChangeStatus()));
 		secondEditMenu.getMenuItems().add(new MenuItems(BACK, null));
 
@@ -212,13 +251,18 @@ public class Builder {
 				.add(new MenuItems(SHOW_NUMBER_FREE_HOTEL_ROOMS, new ShowNumberOfFreeHotelRooms()));
 		secondShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_ROOMS, new ShowAllRooms()));
 		secondShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_FREE_ROOMS, new ShowAllFreeRooms()));
-		secondShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_FREE_ROOMS_AFTER_DATE, new ShowFreeRomsAfterDate()));
-		secondShowMenu.getMenuItems().add(new MenuItems(SHOW_DETAIL_SELECTED_ROOM, new ShowDetailOfHotelRoom()));
-		secondShowMenu.getMenuItems().add(new MenuItems(SHOW_LAST_3_GUEST_ROOM, new ShowLast3GuestOfHotelRoom()));
+		secondShowMenu.getMenuItems()
+				.add(new MenuItems(SHOW_ALL_FREE_ROOMS_AFTER_DATE, new ShowFreeRomsAfterDate()));
+		secondShowMenu.getMenuItems()
+				.add(new MenuItems(SHOW_DETAIL_SELECTED_ROOM, new ShowDetailOfHotelRoom()));
+		secondShowMenu.getMenuItems()
+				.add(new MenuItems(SHOW_LAST_3_GUEST_ROOM, new ShowLast3GuestOfHotelRoom()));
 		secondShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS, new ShowPriceServiceAndHotelRoom()));
-		secondShowMenu.getMenuItems().add(new MenuItems("Show detailed info hotel room reflected", new showHotelRoomReflectedObjectInfoDetailed()));
-		secondShowMenu.getMenuItems().add(new MenuItems("Show short info hotel room reflected", new showHotelRoomReflectedObjectInfoShort()));
+		secondShowMenu.getMenuItems().add(
+				new MenuItems(SHOW_DETAIL_INFO_ROOM_REFL, new showHotelRoomReflectedObjectInfoDetailed()));
+		secondShowMenu.getMenuItems()
+				.add(new MenuItems(SHOW_SHORT_INFO_ROOM_REFL, new showHotelRoomReflectedObjectInfoShort()));
 		secondShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*
@@ -237,21 +281,23 @@ public class Builder {
 
 		threeShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS, new ShowPriceServiceAndHotelRoom()));
-		threeShowMenu.getMenuItems().add(new MenuItems("Show detailed info service room reflected", new showServiceReflectedObjectInfoDetailed()));
-		threeShowMenu.getMenuItems().add(new MenuItems("Show short info hotel service reflected", new showServiceReflectedObjectInfoShort()));
-		
+		threeShowMenu.getMenuItems().add(
+				new MenuItems(SHOW_DETAIL_INFO_SERVICE_REFL, new showServiceReflectedObjectInfoDetailed()));
+		threeShowMenu.getMenuItems()
+				.add(new MenuItems(SHOW_SHORT_INFO_SERVICE_REFL, new showServiceReflectedObjectInfoShort()));
+
 		threeShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*
 		 * Import/Export menu
 		 */
 
-		fourMenu.getMenuItems().add(new MenuItems("read guest from file", new GuestReadCsvFile()));
-		fourMenu.getMenuItems().add(new MenuItems("write guest to file", new GuestWriteCsvFile()));
-		fourMenu.getMenuItems().add(new MenuItems("read hotel room from file", new HotelRoomReadCsvFile()));
-		fourMenu.getMenuItems().add(new MenuItems("write hotel room to file", new HotelRoomWriteCsvFile()));
-		fourMenu.getMenuItems().add(new MenuItems("read service from file", new ServiceReadCsvFile()));
-		fourMenu.getMenuItems().add(new MenuItems("write service to file", new ServiceWriteCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems(READ_GUEST_FROM_FILE, new GuestReadCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems(WRITE_GUEST_TO_FILE, new GuestWriteCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems(READ_ROOM_FROM_FILE, new HotelRoomReadCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems(WRITE_ROOM_TO_FILE, new HotelRoomWriteCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems(READ_SERVICE_FROM_FILE, new ServiceReadCsvFile()));
+		fourMenu.getMenuItems().add(new MenuItems(WRITE_SERVICE_TO_FILE, new ServiceWriteCsvFile()));
 		fourMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*

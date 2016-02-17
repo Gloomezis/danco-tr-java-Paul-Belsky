@@ -11,7 +11,6 @@ import com.danco.cvs.ICsvFileReader;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Service;
 import com.danco.servise.api.IServiceService;
-import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -20,7 +19,10 @@ import com.danco.utils.IPrintUtil;
 public class ServiceCsvFileReader implements ICsvFileReader {
 	
 	private IServiceService serviceService = (IServiceService)DependencyInjectionManager.getClassInstance(IServiceService.class);
-
+	
+	/** The LO g1. */
+	private final Logger LOG1 = Logger.getLogger(ServiceCsvFileReader.class.getName());
+	
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
 	private static final String COMMA_DELIMITER = ",";
@@ -32,17 +34,22 @@ public class ServiceCsvFileReader implements ICsvFileReader {
 	/** The Constant SERVICE_PRICE. */
 	private static final int SERVICE_PRICE = 1;
 	
-
-	/** The LO g1. */
-	private final Logger LOG1 = Logger.getLogger(GuestCsvFileWriter.class.getName());
-
-	/** The print util. */
-	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
-
+	private static final String EXCEPTION = "Exception";
+	
+	/** The Constant EQUAL. */
+	private static final String EQUAL ="equal \n";
+	
+	/** The Constant ERROR_CSVFILEREADER. */
+	private static final String ERROR_CSVFILEREADER="Error in CsvFileReader !!!";
+	
+	/** The Constant ERROR_WHILE_CLOSING_FILEREADER. */
+	private static final String ERROR_WHILE_CLOSING_FILEREADER="Error while closing fileReader !!!";
+	
 	/* (non-Javadoc)
 	 * @see com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
 	 */
-	public void readCsvFile(String fileName) {
+	public String readCsvFile(String fileName) {
+		StringBuilder sb= new StringBuilder();
 
 		BufferedReader fileReader = null;
 
@@ -77,24 +84,25 @@ public class ServiceCsvFileReader implements ICsvFileReader {
 					}
                     if (a!=-1){
                     serviceService.addServices(serviceReaded);
-					printUtil.printString(serviceReaded.toString());
+                    sb.append(serviceReaded.toString()+"\n");
                     }else{
-                    	System.out.println("equal");
+                    	sb.append(EQUAL);
                     }
 				}
 			}
 
 		} catch (Exception e) {
-			System.out.println("Error in CsvFileReader !!!");
-			LOG1.error("Exception", e);
+			sb.append(ERROR_CSVFILEREADER);
+			LOG1.error(EXCEPTION, e);
 		} finally {
 			try {
 				fileReader.close();
 			} catch (IOException e) {
-				System.out.println("Error while closing fileReader !!!");
-				LOG1.error("Exception", e);
+				sb.append(ERROR_WHILE_CLOSING_FILEREADER);
+				LOG1.error(EXCEPTION, e);
 			}
 		}
+		return sb.toString();
 
 	}
 

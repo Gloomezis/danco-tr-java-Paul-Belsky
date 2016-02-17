@@ -10,7 +10,9 @@ import com.danco.model.Guest;
  */
 public class GuestNameComparator implements Comparator<Guest> {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
 	@Override

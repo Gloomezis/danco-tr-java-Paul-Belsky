@@ -7,11 +7,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.danco.cvs.ICsvFileReader;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.HotelRoom;
 import com.danco.servise.api.IHotelRoomService;
-import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -21,6 +22,10 @@ public class HotelRoomCsvFileReader implements ICsvFileReader {
 	
 	private IHotelRoomService hotelRoomService = (IHotelRoomService)DependencyInjectionManager.getClassInstance(IHotelRoomService.class);
 
+	/** The LO g1. */
+	private final Logger LOG1 = Logger.getLogger(HotelRoomCsvFileReader.class
+			.getName());
+	
 	/** The Constant COMMA_DELIMITER. */
 	// Delimiter used in CSV file
 	private static final String COMMA_DELIMITER = ",";
@@ -49,16 +54,27 @@ public class HotelRoomCsvFileReader implements ICsvFileReader {
 	
 	/** The Constant HOTEL_ROOM_STATUS. */
 	private static final int HOTEL_ROOM_STATUS = 7;
+	
+	private static final String EXCEPTION = "Exception";
+	
+	/** The Constant EQUAL. */
+	private static final String EQUAL ="equal \n";
+	
+	/** The Constant ERROR_CSVFILEREADER. */
+	private static final String ERROR_CSVFILEREADER="Error in CsvFileReader !!!";
+	
+	/** The Constant ERROR_WHILE_CLOSING_FILEREADER. */
+	private static final String ERROR_WHILE_CLOSING_FILEREADER="Error while closing fileReader !!!";
 
-	/** The print util. */
-	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
+	
 
 	/* (non-Javadoc)
 	 * @see com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
 	 */
 	@Override
-	public void readCsvFile(String fileName) {
+	public String readCsvFile(String fileName) {
 		// TODO Auto-generated method stub
+		StringBuilder sb= new StringBuilder();
 
 		BufferedReader fileReader = null;
 
@@ -110,10 +126,10 @@ public class HotelRoomCsvFileReader implements ICsvFileReader {
 					if (a != -1) {
 
 						hotelRoomService.addRooms(hotelRoomReaded);
-						printUtil.printString(hotelRoomReaded.toString());
+						sb.append(hotelRoomReaded.toString()+"\n");
 
 					} else {
-						System.out.println("equal");
+						sb.append(EQUAL);
 
 					}
 
@@ -121,16 +137,17 @@ public class HotelRoomCsvFileReader implements ICsvFileReader {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Error in CsvFileReader !!!");
-			e.printStackTrace();
+			sb.append(ERROR_CSVFILEREADER);
+			LOG1.error(EXCEPTION, e);
 		} finally {
 			try {
 				fileReader.close();
 			} catch (IOException e) {
-				System.out.println("Error while closing fileReader !!!");
-				e.printStackTrace();
+				sb.append(ERROR_WHILE_CLOSING_FILEREADER);
+				LOG1.error(EXCEPTION, e);
 			}
 		}
+		return sb.toString();
 
 	}
 

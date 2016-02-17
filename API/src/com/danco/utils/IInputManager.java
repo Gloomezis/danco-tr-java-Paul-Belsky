@@ -2,6 +2,10 @@ package com.danco.utils;
 
 import java.util.Date;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface IInputManager.
+ */
 public interface IInputManager {
 
 	/**

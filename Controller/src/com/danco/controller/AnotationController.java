@@ -8,8 +8,6 @@ import com.danco.model.Service;
 import com.danco.servise.api.IGuestService;
 import com.danco.servise.api.IHotelRoomService;
 import com.danco.servise.api.IServiceService;
-import com.danco.utils.IInputManager;
-import com.danco.utils.IPrintUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -32,100 +30,75 @@ public class AnotationController {
 	/** The service service. */
 	private IServiceService serviceService = (IServiceService) DependencyInjectionManager
 			.getClassInstance(IServiceService.class);
-	
-	/** The print util. */
-	private IPrintUtil printUtil = (IPrintUtil)DependencyInjectionManager.getClassInstance(IPrintUtil.class);
 
-	/** The input manager. */
-	private IInputManager inputManager = (IInputManager)DependencyInjectionManager.getClassInstance(IInputManager.class);
-	
-	/** The Constant GUEST_INPUT_MESSAGE. */
-	private static final String GUEST_INPUT_MESSAGE = "Enter Guest Name";
-	
-	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
-	private static final String HOTEL_ROOM_INPUT_MESSAGE = "Enter hotel room number";
-	
-	/** The Constant SERVICES_INPUT_MESSAGE. */
-	private static final String SERVICES_INPUT_MESSAGE = "Enter service name";
-	
 	/**
 	 * Show guest reflected object info detailed.
 	 */
-	public void showGuestReflectedObjectInfoDetailed() {
-		printUtil.printString(GUEST_INPUT_MESSAGE);
+	public String showGuestReflectedObjectInfoDetailed(String userInputGuestName) {
 
-		String userInputGuestName = inputManager.userInputString();
 		Guest g = guestService.getGuestByName(userInputGuestName);
-		
-		
-		printUtil.printString(printableAnalizer.printDetaildeView(g));
+
+		return printableAnalizer.printDetaildeView(g);
 	}
 
 	/**
 	 * Show guest reflected object info short.
 	 */
-	public void showGuestReflectedObjectInfoShort() {
-		printUtil.printString(GUEST_INPUT_MESSAGE);
+	public String showGuestReflectedObjectInfoShort(String userInputGuestName) {
 
-		String userInputGuestName = inputManager.userInputString();
 		Guest g = guestService.getGuestByName(userInputGuestName);
-		
-		printUtil.printString( printableAnalizer.printShortView(g));
+
+		return printableAnalizer.printShortView(g);
 	}
 
 	/**
 	 * Show hotel room reflected object info detailed.
 	 */
-	public void showHotelRoomReflectedObjectInfoDetailed() {
-		
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
+	public String showHotelRoomReflectedObjectInfoDetailed(
+			String userInputHotelRoomNumber) {
 
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
-		
-		
-		
-		printUtil.printString(printableAnalizer.printDetaildeView(hr));
+		HotelRoom hr = hotelRoomService
+				.getHotelRoomByNumber(userInputHotelRoomNumber);
+
+		return printableAnalizer.printDetaildeView(hr);
 	}
 
 	/**
 	 * Show hotel room reflected object info short.
 	 */
-	public void showHotelRoomReflectedObjectInfoShort() {
-		
-		printUtil.printString(HOTEL_ROOM_INPUT_MESSAGE);
+	public String showHotelRoomReflectedObjectInfoShort(
+			String userInputHotelRoomNumber) {
 
-		String userInputHotelRoomNumber = inputManager.userInputString();
-		HotelRoom hr = hotelRoomService.getHotelRoomByNumber(userInputHotelRoomNumber);
-		
-		printUtil.printString(printableAnalizer.printShortView(hr));
+		HotelRoom hr = hotelRoomService
+				.getHotelRoomByNumber(userInputHotelRoomNumber);
+
+		return printableAnalizer.printShortView(hr);
 	}
 
 	/**
 	 * Show service reflected object info detailed.
 	 */
-	public void showServiceReflectedObjectInfoDetailed() {
-		
-		printUtil.printString(SERVICES_INPUT_MESSAGE);
-
-		String userInputServiceName = inputManager.userInputString();
+	public String showServiceReflectedObjectInfoDetailed(
+			String userInputServiceName) {
 
 		Service serv = serviceService.getServiceByName(userInputServiceName);
-		
-		printUtil.printString( printableAnalizer.printDetaildeView(serv));
+
+		return printableAnalizer.printDetaildeView(serv);
 	}
 
 	/**
 	 * Show service reflected object info short.
+	 *
+	 * @param userInputServiceName
+	 *            the user input service name
+	 * @return the string
 	 */
-	public void showServiceReflectedObjectInfoShort() {
-		
-		printUtil.printString(SERVICES_INPUT_MESSAGE);
-
-		String userInputServiceName = inputManager.userInputString();
+	public String showServiceReflectedObjectInfoShort(
+			String userInputServiceName) {
 
 		Service serv = serviceService.getServiceByName(userInputServiceName);
-		printUtil.printString( printableAnalizer.printShortView(serv));
+
+		return printableAnalizer.printShortView(serv);
 	}
 
 }

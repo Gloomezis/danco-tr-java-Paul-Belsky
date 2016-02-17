@@ -25,6 +25,9 @@ public class Service implements Serializable {
 
 	/** The df. */
 	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+	
+	/** The Constant COMMA. */
+	private static final String COMMA = ",";
 
 	/** The name of service. */
 	@Printable(name = "Service name", order = 1)
@@ -111,7 +114,7 @@ public class Service implements Serializable {
 
 	public String toString() {
 
-		return (new StringBuilder().append(price).append(",").append(nameOfService).append(",")
+		return (new StringBuilder().append(price).append(COMMA).append(nameOfService).append(COMMA)
 				.append(df.format(dateOfUsingService)).toString());
 	}
 

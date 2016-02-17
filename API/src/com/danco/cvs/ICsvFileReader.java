@@ -12,9 +12,10 @@ public interface ICsvFileReader {
 	/**
 	 * Read csv file.
 	 *
-	 * @param fileName the file name
+	 * @param fileName
+	 *            the file name
+	 * @return the string
 	 */
-	public  void	readCsvFile(String fileName);
-	
-	
+	public String readCsvFile(String fileName);
+
 }

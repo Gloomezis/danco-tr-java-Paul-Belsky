@@ -17,7 +17,7 @@ public class InputManager implements IInputManager {
 	/** The Constant INPUT_ERROR. */
 	public final static String INPUT_ERROR = "Input  error";
 
-	/** The instance. */
+	/** The LO g1. */
 	// singleton
 //	private static IInputManager instance;
 

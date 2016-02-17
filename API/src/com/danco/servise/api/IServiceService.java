@@ -4,15 +4,17 @@ import java.util.List;
 
 import com.danco.model.Service;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface IServiceService.
+ */
 public interface IServiceService {
 
 	/**
 	 * Creates the service.
 	 *
-	 * @param nameOfService
-	 *            the name of service
-	 * @param price
-	 *            the price
+	 * @param nameOfService the name of service
+	 * @param price the price
 	 * @return the service
 	 */
 	public Service createService(String nameOfService, int price);
@@ -20,8 +22,7 @@ public interface IServiceService {
 	/**
 	 * Gets the service by name.
 	 *
-	 * @param nameOfService
-	 *            the name of service
+	 * @param nameOfService the name of service
 	 * @return the service by name
 	 */
 	public Service getServiceByName(String nameOfService);
@@ -29,14 +30,15 @@ public interface IServiceService {
 	/**
 	 * Adds the services.
 	 *
-	 * @param service
-	 *            the service
+	 * @param service the service
 	 */
 
 	public void addServices(Service service);
 
 	/**
-	 * Show price services.
+	 * Show price service.
+	 *
+	 * @return the list
 	 */
 
 	public List<Service> showPriceService();
@@ -44,10 +46,8 @@ public interface IServiceService {
 	/**
 	 * Change price of service.
 	 *
-	 * @param service
-	 *            the service
-	 * @param price
-	 *            the price
+	 * @param service the service
+	 * @param price the price
 	 */
 
 	public void changePriceOfService(Service service, int price);
