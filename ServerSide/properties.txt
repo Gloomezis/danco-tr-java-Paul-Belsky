@@ -1,4 +1,0 @@
-dataFileName=newSerialisationFile.ser
-StatusChange=false
-GuestHistorySize=3
-dependencyInjectionPropertyFileName=dependencyInjectionProperty.txt
