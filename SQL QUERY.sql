@@ -15,6 +15,7 @@ Where color='y';
 6. SELECT product.maker ,laptop.speed FROM product
  INNER JOIN laptop ON product.model=laptop.model
  WHERE laptop.hd>=10;
+
 7.
  (SELECT laptop.model , price   FROM laptop
  INNER JOIN  product ON laptop.model=product.model
@@ -32,9 +33,9 @@ Where color='y';
 SELECT DISTINCT maker FROM product
 where type = 'pc'
 NOT IN
-SELECT DISTINCT maker
+(SELECT DISTINCT maker
 from product
-WHERE
+WHERE type = 'laptop');
 
 9.
 SELECT DISTINCT maker FROM product
@@ -131,14 +132,26 @@ SELECT model FROM
 UNION
 SELECT model,price FROM laptop
 UNION
-SELECT model,price FROM printer) all_max_price
+SELECT model,price FROM printer) AS all_max_price
 WHERE price=(SELECT MAX(price) FROM (
 SELECT price FROM pc
 UNION
 SELECT price FROM laptop
 UNION
-SELECT price FROM printer) all_price
+SELECT price FROM printer) AS all_price
 );
 //1 Getting all price. 2. Finding max price 3. Searching max price in all model separeted
 
-
+25.
+SELECT DISTINCT maker FROM Product 
+WHERE type = 'printer' AND maker IN
+(SELECT maker FROM Product 
+ WHERE model IN
+(SELECT model  FROM pc
+WHERE speed = (SELECT MAX(speed) FROM (SELECT speed  FROM pc 
+                                       WHERE ram=(SELECT MIN(ram) FROM pc
+                                                  )
+                                       ) AS p
+               )
+)
+)
