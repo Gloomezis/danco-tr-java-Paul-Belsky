@@ -155,3 +155,15 @@ WHERE speed = (SELECT MAX(speed) FROM (SELECT speed  FROM pc
                )
 )
 )
+
+//another version
+
+SELECT DISTINCT maker FROM product WHERE model IN(
+SELECT model FROM pc
+WHERE ram=(SELECT MIN(ram) from pc) and speed =(SELECT MAX(speed) FROM pc WHERE ram=(SELECT MIN(ram) FROM pc
+)
+)
+) AND maker IN(SELECT maker FROM product
+WHERE type='printer');
+
+
