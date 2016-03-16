@@ -40,7 +40,7 @@ WHERE type = 'laptop');
 9.
 SELECT DISTINCT maker FROM product
 INNER JOIN pc ON product.model=pc.model
-WHERE pc.speed>=35;
+WHERE pc.speed>450;
 
 10. 
 SELECT model,price  FROM printer
