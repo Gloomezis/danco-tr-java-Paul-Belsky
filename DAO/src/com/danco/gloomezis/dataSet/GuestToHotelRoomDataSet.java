@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * The Class GuestToHotelRoomDataSet.
  */
-public class GuestToHotelRoomDataSet {
+public class GuestToHotelRoomDataSet implements IDataSet{
 
 	/** The guest to hotel room id. */
 	private int guestToHotelRoomId;

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The Class Service.
  */
 
-public class ServiceDataSet implements Serializable {
+public class ServiceDataSet implements Serializable, IDataSet {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

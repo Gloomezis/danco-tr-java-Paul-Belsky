@@ -1,6 +1,6 @@
 package com.danco.gloomezis.dataSet;
 
-public class GuestToServiceDataSet {
+public class GuestToServiceDataSet implements IDataSet{
 
 	/** The guest to service id. */
 	private int guestToServiceId;

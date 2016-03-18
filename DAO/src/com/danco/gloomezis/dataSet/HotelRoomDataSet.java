@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The Class HotelRoom.
  */
 
-public class HotelRoomDataSet implements Serializable, Cloneable {
+public class HotelRoomDataSet implements Serializable, Cloneable, IDataSet{
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;

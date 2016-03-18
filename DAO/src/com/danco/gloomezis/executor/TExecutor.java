@@ -13,7 +13,7 @@ import com.danco.gloomezis.hadleer.TResultHandler;
 
 public class TExecutor {
 	// Inserts,Deletes & Updates
-	public static int execUpdate(Connection connection, String update) {
+	public  int execUpdate(Connection connection, String update) {
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.execute(update);
@@ -26,7 +26,7 @@ public class TExecutor {
 		return 0;
 	};
 
-	// необязательный код multiQuery
+	//  multiQuery
 	public void execUpdate(Connection connection, String[] updates) {
 		try {
 			connection.setAutoCommit(false);

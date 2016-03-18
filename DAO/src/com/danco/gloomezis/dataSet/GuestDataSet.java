@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The Class Guest.
  */
 
-public class GuestDataSet implements Serializable {
+public class GuestDataSet implements Serializable ,IDataSet{
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
