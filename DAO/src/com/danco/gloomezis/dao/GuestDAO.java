@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.danco.gloomezis.dao;
 
 import java.sql.Connection;
@@ -13,15 +16,13 @@ import com.danco.gloomezis.hadleer.TResultHandler;
 
 public class GuestDAO implements IDAO<Guest> {
 
-	private Connection con;
+	public GuestDAO() {
 
-	public GuestDAO(Connection con) {
-		this.con = con;
 	}
 
 	// +
 	@Override
-	public int create(IBaseModel baseModel) throws SQLException {
+	public int create(Connection con, IBaseModel baseModel) throws SQLException {
 
 		TExecutor exec = new TExecutor();
 		String name = ((Guest) baseModel).getName();
@@ -34,7 +35,7 @@ public class GuestDAO implements IDAO<Guest> {
 
 	// +
 	@Override
-	public Guest read(int id) throws SQLException {
+	public Guest read(Connection con, int id) throws SQLException {
 
 		TExecutor exec = new TExecutor();
 		String sql = "SELECT * FROM guest WHERE id =";
@@ -52,7 +53,7 @@ public class GuestDAO implements IDAO<Guest> {
 	// +
 	// TODO may be multiple name
 	@Override
-	public Guest readByName(String name) throws SQLException {
+	public Guest readByName(Connection con, String name) throws SQLException {
 
 		TExecutor exec = new TExecutor();
 		String sql = "SELECT * FROM guest WHERE name =";
@@ -71,7 +72,8 @@ public class GuestDAO implements IDAO<Guest> {
 
 	// +
 	@Override
-	public int update(int id, IBaseModel baseModel) throws SQLException {
+	public int update(Connection con, int id, IBaseModel baseModel)
+			throws SQLException {
 
 		TExecutor exec = new TExecutor();
 		String name = ((Guest) baseModel).getName();
@@ -81,7 +83,7 @@ public class GuestDAO implements IDAO<Guest> {
 
 	// +
 	@Override
-	public int delete(int id) throws SQLException {
+	public int delete(Connection con, int id) throws SQLException {
 
 		TExecutor exec = new TExecutor();
 		String sql = "DELETE  FROM guest WHERE id =";
@@ -90,7 +92,7 @@ public class GuestDAO implements IDAO<Guest> {
 
 	// +
 	@Override
-	public List<Guest> getAll() {
+	public List<Guest> getAll(Connection con) {
 
 		String sql = "SELECT * FROM guest;";
 		TExecutor exec = new TExecutor();
@@ -112,7 +114,7 @@ public class GuestDAO implements IDAO<Guest> {
 	}
 
 	// +
-	public int getAllGuestNumber() throws SQLException {
+	public int getAllGuestNumber(Connection con) throws SQLException {
 		String sql = "SELECT COUNT('id') FROM guest";
 		TExecutor exec = new TExecutor();
 
@@ -128,7 +130,8 @@ public class GuestDAO implements IDAO<Guest> {
 
 	// + sort by data/price
 
-	public List<String> getNameGuestsAndTheyHotelRoom(String sortCondition) {
+	public List<String> getNameGuestsAndTheyHotelRoom(Connection con,
+			String sortCondition) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" Select guest.name, hotel_room.number, orders.date_arrive,orders.date_departure from orders ");
 		sql.append("INNER JOIN guest ON guest.id=orders.guest_id ");
@@ -159,16 +162,13 @@ public class GuestDAO implements IDAO<Guest> {
 				});
 
 	}
-	
-	
-	
-	
-	public List<String> getGuestServiceAndTheyPrice(int id ) {
+
+	public List<String> getGuestServiceAndTheyPrice(Connection con, int id) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT service.name,service.price FROM orders ");
 		sql.append("INNER JOIN service ON ");
 		sql.append("orders.id=service.orders_id ");
-		sql.append("WHERE orders.guest_id "+id);
+		sql.append("WHERE orders.guest_id " + id);
 		sql.append("ORDER BY service.price ; ");
 		TExecutor exec = new TExecutor();
 
@@ -181,7 +181,8 @@ public class GuestDAO implements IDAO<Guest> {
 						List<String> list = new ArrayList<String>();
 
 						while (result.next()) {
-							String res = result.getString("name")+"-"+ result.getString("price");
+							String res = result.getString("name") + "-"
+									+ result.getString("price");
 							list.add(res);
 						}
 						return list;

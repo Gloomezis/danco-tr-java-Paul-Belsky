@@ -14,15 +14,13 @@ import com.danco.gloomezis.hadleer.TResultHandler;
 
 public class HotelRoomDAO implements IDAO<HotelRoom> {
 
-	private Connection con;
+	public HotelRoomDAO() {
 
-	public HotelRoomDAO(Connection con) {
-		this.con = con;
 	}
-	
-    //+
+
+	// +
 	@Override
-	public int create(IBaseModel baseModel) throws SQLException {
+	public int create(Connection con, IBaseModel baseModel) throws SQLException {
 
 		TExecutor exec = new TExecutor();
 		String name = ((HotelRoom) baseModel).getNumber();
@@ -46,9 +44,9 @@ public class HotelRoomDAO implements IDAO<HotelRoom> {
 
 	}
 
-	//+
+	// +
 	@Override
-	public HotelRoom read(int id) throws SQLException {
+	public HotelRoom read(Connection con, int id) throws SQLException {
 		TExecutor exec = new TExecutor();
 		String sql = "SELECT * FROM hotel_room WHERE id =";
 		return exec.execQuery(con, sql + id + ";",
@@ -70,10 +68,11 @@ public class HotelRoomDAO implements IDAO<HotelRoom> {
 					}
 				});
 	}
-	
-    //+
+
+	// +
 	@Override
-	public HotelRoom readByName(String number) throws SQLException {
+	public HotelRoom readByName(Connection con, String number)
+			throws SQLException {
 		TExecutor exec = new TExecutor();
 		String sql = "SELECT * FROM hotel_room WHERE number =";
 		return exec.execQuery(con, sql + number + ";",
@@ -95,150 +94,38 @@ public class HotelRoomDAO implements IDAO<HotelRoom> {
 					}
 				});
 	}
-    
-	//TODO
+
+	// TODO
 	@Override
-	public int update(int id, IBaseModel baseModel) throws SQLException {
-		
+	public int update(Connection con, int id, IBaseModel baseModel)
+			throws SQLException {
+
 		return 0;
 	}
-   
-	//+
+
+	// +
 	@Override
-	public int delete(int id) throws SQLException {
+	public int delete(Connection con, int id) throws SQLException {
 
 		TExecutor exec = new TExecutor();
-		String sql="DELETE  FROM hotel_room WHERE id =";
-		return exec.execUpdate(con, sql + id+";");	
+		String sql = "DELETE  FROM hotel_room WHERE id =";
+		return exec.execUpdate(con, sql + id + ";");
 
 	}
 
-	//+
+	// +
 	@Override
-	public List<HotelRoom> getAll() throws SQLException {
+	public List<HotelRoom> getAll(Connection con) throws SQLException {
 		String sql = "SELECT * FROM hotel_rooom;";
 		TExecutor exec = new TExecutor();
 
-		return exec.execQuery(con, sql,
-				new TResultHandler<List<HotelRoom>>() {
-
-					@Override
-					public List<HotelRoom> handle(ResultSet result)
-							throws SQLException {
-						List<HotelRoom> list = new ArrayList<HotelRoom>();
-						while (result.next()) {
-							HotelRoom hotelRoom = new HotelRoom(
-									result.getInt("id"),
-									result.getString("number"), result
-											.getInt("room_price"), result
-											.getInt("sleeping_number"), result
-											.getInt("star_category"));
-							hotelRoom.setBusy(result.getBoolean("busy"));
-							hotelRoom.setStatus(result.getBoolean("status"));
-							list.add(hotelRoom);
-						}
-						return list;
-					}
-				}
-		);
-	}
-	
-	//+
-	public List<HotelRoom> getAllSorted(String sortCondition) throws SQLException {
-		String sql = "SELECT * FROM hotel_rooom ORDER BY"+sortCondition+";";
-		TExecutor exec = new TExecutor();
-
-		return exec.execQuery(con, sql,
-				new TResultHandler<List<HotelRoom>>() {
-
-					@Override
-					public List<HotelRoom> handle(ResultSet result)
-							throws SQLException {
-						List<HotelRoom> list = new ArrayList<HotelRoom>();
-						while (result.next()) {
-							HotelRoom hotelRoom = new HotelRoom(
-									result.getInt("id"),
-									result.getString("number"), result
-											.getInt("room_price"), result
-											.getInt("sleeping_number"), result
-											.getInt("star_category"));
-							hotelRoom.setBusy(result.getBoolean("busy"));
-							hotelRoom.setStatus(result.getBoolean("status"));
-							list.add(hotelRoom);
-						}
-						return list;
-					}
-				}
-		);
-	}
-	
-	
- 
-	//+
-	public List<HotelRoom> getAllFreeSorted(String sortCondition) throws SQLException {
-		String sql = "SELECT * FROM hotel_room WHERE busy = true ORDER BY"+sortCondition+";";
-		TExecutor exec = new TExecutor();
-
-		return exec.execQuery(con, sql,
-				new TResultHandler<List<HotelRoom>>() {
-
-					@Override
-					public List<HotelRoom> handle(ResultSet result)
-							throws SQLException {
-						List<HotelRoom> list = new ArrayList<HotelRoom>();
-						while (result.next()) {
-							HotelRoom hotelRoom = new HotelRoom(
-									result.getInt("id"),
-									result.getString("number"), result
-											.getInt("room_price"), result
-											.getInt("sleeping_number"), result
-											.getInt("star_category"));
-							hotelRoom.setBusy(result.getBoolean("busy"));
-							hotelRoom.setStatus(result.getBoolean("status"));
-							list.add(hotelRoom);
-						}
-						return list;
-					}
-				}
-		);
-	}
-	
-	//+
-	public int getNumberFreeHotelRooms() throws SQLException {
-		String sql = "SELECT COUNT('id') FROM hotel_room WHERE busy = true";
-		TExecutor exec = new TExecutor();
-
-		return exec.execQuery(con, sql,
-				new TResultHandler<Integer>() {
-
-					@Override
-					public Integer handle(ResultSet result)throws SQLException {
-						
-						result.next();
-							
-						
-						return result.getInt(1);
-					}
-				}
-		);
-	}
-	
-	//+
-	//write to select last of hotel room oorder
-	public List<HotelRoom> getFreeHotelRoomsAfterDate(Date date) throws SQLException {
-		String sql = "SELECT  * FROM hotel_room WHERE date_departure < "+date+";";
-		TExecutor exec = new TExecutor();
-
-		return exec.execQuery(con, sql,
-				new TResultHandler<List<HotelRoom>>() {
+		return exec.execQuery(con, sql, new TResultHandler<List<HotelRoom>>() {
 
 			@Override
-			public List<HotelRoom> handle(ResultSet result)
-					throws SQLException {
+			public List<HotelRoom> handle(ResultSet result) throws SQLException {
 				List<HotelRoom> list = new ArrayList<HotelRoom>();
 				while (result.next()) {
-					HotelRoom hotelRoom = new HotelRoom(
-							result.getInt("id"),
+					HotelRoom hotelRoom = new HotelRoom(result.getInt("id"),
 							result.getString("number"), result
 									.getInt("room_price"), result
 									.getInt("sleeping_number"), result
@@ -249,42 +136,145 @@ public class HotelRoomDAO implements IDAO<HotelRoom> {
 				}
 				return list;
 			}
-				}
-		);
+		});
 	}
-	
-	    //+ update only price
-		public int updatePrice(int id, int rPrice) throws SQLException {
-			TExecutor exec = new TExecutor();
-			return exec.execUpdate(con, "UPDATE  hotel_room SET room_price="+rPrice+"where id="+id+";");	
 
-		}
-		
-		 //+ update only status
-		public int updateStatus(int id, int status) throws SQLException {
-			TExecutor exec = new TExecutor();
-			return exec.execUpdate(con, "UPDATE  hotel_room SET status="+status+"WHERE id="+id+";");	
+	// +
+	public List<HotelRoom> getAllSorted(Connection con, String sortCondition)
+			throws SQLException {
+		String sql = "SELECT * FROM hotel_rooom ORDER BY" + sortCondition + ";";
+		TExecutor exec = new TExecutor();
 
-		}
-		
-		
-		 //+ get price all service order by price
-		public String getPriceHotelRoom(int id) throws SQLException {
-			TExecutor exec = new TExecutor();
-			return exec.execQuery(con, "SELECT DISTINCT name,price FROM  service ORDER BY price;",new TResultHandler<String>(){
+		return exec.execQuery(con, sql, new TResultHandler<List<HotelRoom>>() {
 
-				@Override
-				public String handle(ResultSet result) throws SQLException {
-					StringBuilder sb = new StringBuilder();
-					while (result.next()) {
-						sb.append(result.getString("name")+"-"+result.getInt("price")+";");	
-					}
-					return sb.toString();
+			@Override
+			public List<HotelRoom> handle(ResultSet result) throws SQLException {
+				List<HotelRoom> list = new ArrayList<HotelRoom>();
+				while (result.next()) {
+					HotelRoom hotelRoom = new HotelRoom(result.getInt("id"),
+							result.getString("number"), result
+									.getInt("room_price"), result
+									.getInt("sleeping_number"), result
+									.getInt("star_category"));
+					hotelRoom.setBusy(result.getBoolean("busy"));
+					hotelRoom.setStatus(result.getBoolean("status"));
+					list.add(hotelRoom);
 				}
-				
-			});	
+				return list;
+			}
+		});
+	}
 
-		}
+	// +
+	public List<HotelRoom> getAllFreeSorted(Connection con, String sortCondition)
+			throws SQLException {
+		String sql = "SELECT * FROM hotel_room WHERE busy = true ORDER BY"
+				+ sortCondition + ";";
+		TExecutor exec = new TExecutor();
 
+		return exec.execQuery(con, sql, new TResultHandler<List<HotelRoom>>() {
+
+			@Override
+			public List<HotelRoom> handle(ResultSet result) throws SQLException {
+				List<HotelRoom> list = new ArrayList<HotelRoom>();
+				while (result.next()) {
+					HotelRoom hotelRoom = new HotelRoom(result.getInt("id"),
+							result.getString("number"), result
+									.getInt("room_price"), result
+									.getInt("sleeping_number"), result
+									.getInt("star_category"));
+					hotelRoom.setBusy(result.getBoolean("busy"));
+					hotelRoom.setStatus(result.getBoolean("status"));
+					list.add(hotelRoom);
+				}
+				return list;
+			}
+		});
+	}
+
+	// +
+	public int getNumberFreeHotelRooms(Connection con) throws SQLException {
+		String sql = "SELECT COUNT('id') FROM hotel_room WHERE busy = true";
+		TExecutor exec = new TExecutor();
+
+		return exec.execQuery(con, sql, new TResultHandler<Integer>() {
+
+			@Override
+			public Integer handle(ResultSet result) throws SQLException {
+
+				result.next();
+
+				return result.getInt(1);
+			}
+		});
+	}
+
+	// +TODO написать обработчик сортировки
+	// write to select last of hotel room oorder
+	public List<HotelRoom> getFreeHotelRoomsAfterDate(Connection con,String sortCondition, Date date)
+			throws SQLException {
+		String sql = "SELECT  hotel_room.* FROM hotel_room INNER join orders ON orders.hotel_room_id=hotel_room_id WHERE date_departure < '" + date
+				+ "' ORDER BY "+sortCondition+";";
+		TExecutor exec = new TExecutor();
+
+		return exec.execQuery(con, sql, new TResultHandler<List<HotelRoom>>() {
+
+			@Override
+			public List<HotelRoom> handle(ResultSet result) throws SQLException {
+				List<HotelRoom> list = new ArrayList<HotelRoom>();
+				while (result.next()) {
+					HotelRoom hotelRoom = new HotelRoom(result.getInt("id"),
+							result.getString("number"), result
+									.getInt("room_price"), result
+									.getInt("sleeping_number"), result
+									.getInt("star_category"));
+					hotelRoom.setBusy(result.getBoolean("busy"));
+					hotelRoom.setStatus(result.getBoolean("status"));
+					list.add(hotelRoom);
+				}
+				return list;
+			}
+		});
+	}
+
+	// + update only price
+	public int updatePrice(Connection con, int id, int rPrice)
+			throws SQLException {
+		TExecutor exec = new TExecutor();
+		return exec.execUpdate(con, "UPDATE  hotel_room SET room_price="
+				+ rPrice + "where id=" + id + ";");
+
+	}
+
+	// + update only status
+	public int updateStatus(Connection con, int id, int status)
+			throws SQLException {
+		TExecutor exec = new TExecutor();
+		return exec.execUpdate(con, "UPDATE  hotel_room SET status=" + status
+				+ "WHERE id=" + id + ";");
+
+	}
+	//составное с ценой номеров - возможно можно заменить на обычный достать все хотелрумы 
+	// + get price all service order by price
+	public List<String> getPriceHotelRoom(Connection con) throws SQLException {
+		TExecutor exec = new TExecutor();
+		return exec.execQuery(con,
+				"SELECT DISTINCT number,room_price FROM  hotel_room ORDER BY room_price;",
+				new TResultHandler<List<String>>() {
+
+					@Override
+					public List<String> handle(ResultSet result) throws SQLException {
+						List<String> list = new ArrayList<String>();
+						while (result.next()) {
+							String res=result.getString("number") + "-"
+									+ result.getInt("room_price") + ";";
+							list.add(res);
+						}
+						return list;
+					}
+
+				});
+
+	}
 
 }

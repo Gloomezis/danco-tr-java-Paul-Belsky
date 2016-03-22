@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.danco.gloomezis.dao;
 
 import java.sql.Connection;
@@ -13,17 +16,16 @@ import com.danco.gloomezis.hadleer.TResultHandler;
 
 public class ServiceDAO implements IDAO<Service>{
 
-	private Connection con;
 	
 
-	public ServiceDAO(Connection con) {
-		this.con = con;
+	public ServiceDAO() {
+		
 	}
 
 	
     //+
 	@Override
-	public int create(IBaseModel baseModel) throws SQLException {
+	public int create(Connection con,IBaseModel baseModel) throws SQLException {
 		TExecutor exec = new TExecutor();
 		int  oId = ((Service) baseModel ).getOrderId();
 		String name=((Service) baseModel ).getNameOfService();
@@ -37,7 +39,7 @@ public class ServiceDAO implements IDAO<Service>{
 	
 	//+
 	@Override
-	public Service read(int id) throws SQLException {
+	public Service read(Connection con,int id) throws SQLException {
 		TExecutor exec = new TExecutor();
 		String sql = "SELECT * FROM service WHERE id ="; 
 		return exec.execQuery(con, sql + id+ ";",   	
@@ -58,7 +60,7 @@ public class ServiceDAO implements IDAO<Service>{
 	
 	//+
 	@Override
-	public Service readByName(String name) throws SQLException {
+	public Service readByName(Connection con,String name) throws SQLException {
 		TExecutor exec = new TExecutor();
 		String sql = "SELECT * FROM service WHERE name ="; 
 		return exec.execQuery(con, sql + name + ";",   	
@@ -79,7 +81,7 @@ public class ServiceDAO implements IDAO<Service>{
 	//+
 	//update only price
 	@Override
-	public int update(int id,IBaseModel baseModel) throws SQLException {
+	public int update(Connection con,int id,IBaseModel baseModel) throws SQLException {
 		
 		TExecutor exec = new TExecutor();
 		int sPrice = ((Service) baseModel).getPrice();
@@ -90,7 +92,7 @@ public class ServiceDAO implements IDAO<Service>{
 	
 	//+
 	@Override
-	public int delete(int id) throws SQLException {
+	public int delete(Connection con,int id) throws SQLException {
 
 		TExecutor exec = new TExecutor();
 		String sql="DELETE  FROM service WHERE id =";
@@ -101,7 +103,7 @@ public class ServiceDAO implements IDAO<Service>{
 	
 	//+
 	@Override
-	public List<Service> getAll() throws SQLException {
+	public List<Service> getAll(Connection con) throws SQLException {
 		String sql = "SELECT * FROM service;";
 		TExecutor exec = new TExecutor();
 
@@ -125,24 +127,28 @@ public class ServiceDAO implements IDAO<Service>{
 
 
 	 //+ update only paid for method departure
-	public int updatePaid(int id) throws SQLException {
+	public int updatePaid(Connection con,int id) throws SQLException {
 		TExecutor exec = new TExecutor();
 		return exec.execUpdate(con, "UPDATE  service SET paid = true where order_id="+id+";");	
 
 	}
 	
+	
+	//составное с ценой номеров - возможно можно заменить на обычный достать все сервисы 
+	
 	 //+ get price all service order by price
-		public String getPriceService(int id) throws SQLException {
+		public List<String> getPriceService(Connection con) throws SQLException {
 			TExecutor exec = new TExecutor();
-			return exec.execQuery(con, "Select number ,room_price from hotel_room ORDER BY room_price ",new TResultHandler<String>(){
+			return exec.execQuery(con, "SELECT name ,price FROM service ORDER BY price ",new TResultHandler<List<String>>(){
 
 				@Override
-				public String handle(ResultSet result) throws SQLException {
-					StringBuilder sb = new StringBuilder();
+				public List<String> handle(ResultSet result) throws SQLException {
+					List<String> list = new ArrayList<String>();
 					while (result.next()) {
-						sb.append(result.getString("number")+"-"+result.getInt("room_price")+";");	
+						String res =result.getString("name")+"-"+result.getInt("price")+";";	
+						list.add(res);
 					}
-					return sb.toString();
+					return list;
 				}
 				
 			});	
