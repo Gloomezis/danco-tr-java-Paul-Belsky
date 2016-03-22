@@ -32,9 +32,12 @@ public class ConnectorFactory {
 					"com.mysql.jdbc.Driver").newInstance());
 			StringBuilder url = new StringBuilder();
 
-			url.append("jdbc:mysql://").append("localhost:").append("3306/")
-					.append("hotel_admin?").append("user=root&")
-					.append("password=1111");
+			url.append("jdbc:mysql://").
+			append("localhost:").
+			append("3306/").
+			append("hotel_admin?").
+			append("user=root&").
+			append("password=1111");
 
 			System.out.append("URL:" + url + "\n");
 

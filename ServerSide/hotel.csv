@@ -1,0 +1,6 @@
+number,roomPrice,sleepingNumber,starCategory,busy,dateOfArrival,dateOfDeparture,status
+101,80,1,5,false,21-12-2015,22-12-2015,in work
+102,50,2,4,false,16-12-2015,25-12-2015,in work
+201,75,3,3,true,15-12-2015,24-12-2015,in work
+301,200,1,5,true,17-12-2015,19-12-2015,in work
+103,65,1,2,false,22-01-2016,22-01-2016,in work

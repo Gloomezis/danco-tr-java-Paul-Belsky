@@ -1,0 +1,60 @@
+package com.danco.command.reflObjInfo;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import org.apache.log4j.Logger;
+
+import com.danco.command.Command;
+import com.danco.ui.Processing;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class showGuestReflectedObjectInfoShort.
+ */
+public class showGuestReflectedObjectInfoShort implements Command {
+
+	/** The Constant GUEST_INPUT_MESSAGE. */
+	private static final String GUEST_INPUT_MESSAGE = "Enter Guest Name";
+	
+	/** The Constant PROTOCOL. */
+	private static final String PROTOCOL = "1" + ";"
+			+ "showGuestReflectedObjectInfoShort" + ";";
+	
+	/** The Constant MESSAGE. */
+	private static final String MESSAGE = "Message ";
+
+	/** The LO g1. */
+	private final Logger LOG1 = Logger
+			.getLogger(showGuestReflectedObjectInfoShort.class.getName());
+	
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+
+	
+
+	/* (non-Javadoc)
+	 * @see com.danco.command.Command#execute()
+	 */
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				System.in));
+		try {
+
+			System.out.println(GUEST_INPUT_MESSAGE);
+			String userInputGuestName = reader.readLine();
+
+			StringBuilder str = new StringBuilder();
+			str.append(PROTOCOL).append(userInputGuestName);
+			Processing processing = Processing.getInstance();
+			System.out.println(MESSAGE + processing.dataProcessing(str));
+
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+
+		}
+	}
+}
