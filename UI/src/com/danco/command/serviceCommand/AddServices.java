@@ -14,14 +14,19 @@ import com.danco.ui.Processing;
  */
 public class AddServices implements Command {
 	
+	/** The Constant PRICE_INPUT_MESSAGE. */
+	private static final String ORDER_INPUT_MESSAGE = "Enter order id";
+	
 	/** The Constant SERVICES_INPUT_MESSAGE. */
 	private static final String SERVICES_INPUT_MESSAGE = "Enter service name";
 	
 	/** The Constant PRICE_INPUT_MESSAGE. */
 	private static final String PRICE_INPUT_MESSAGE = "Enter service price";
 	
+	
+	
 	/** The Constant PROTOCOL. */
-	private static final String PROTOCOL = "2ext" + ";" + "addServices" + ";";
+	private static final String PROTOCOL = "3" + ";" + "addServices" + ";";
 	
 	/** The Constant SEPARATOR. */
 	private static final String SEPARATOR = ";";
@@ -50,14 +55,20 @@ public class AddServices implements Command {
 				System.in));
 		try {
 
+			System.out.println(ORDER_INPUT_MESSAGE);
+			String orderInputId = reader.readLine();
+			
 			System.out.println(SERVICES_INPUT_MESSAGE);
 			String userInputServiceName = reader.readLine();
 
 			System.out.println(PRICE_INPUT_MESSAGE);
 			String userInputPrice = reader.readLine();
+			
+			
 
 			StringBuilder str = new StringBuilder();
-			str.append(PROTOCOL).append(userInputServiceName).append(SEPARATOR)
+			str.append(PROTOCOL).append(orderInputId).append(SEPARATOR).
+			append(userInputServiceName).append(SEPARATOR)
 					.append(userInputPrice);
 			Processing processing = Processing.getInstance();
 			System.out.println(MESSAGE + processing.dataProcessing(str));

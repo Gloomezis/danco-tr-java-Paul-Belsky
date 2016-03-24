@@ -15,7 +15,7 @@ import com.danco.ui.Processing;
 public class ShowAllGuests implements Command {
 
 	/** The Constant SORT_INPUT_MESSAGE. */
-	private static final String SORT_INPUT_MESSAGE = "Enter room sort condition : alphabet/date";
+	private static final String SORT_INPUT_MESSAGE = "Enter room sort condition : name/id";
 	
 	/** The Constant PROTOCOL. */
 	private static final String PROTOCOL = "1" + ";" + "showAllGuests" + ";";

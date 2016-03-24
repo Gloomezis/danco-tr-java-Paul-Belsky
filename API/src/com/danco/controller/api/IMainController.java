@@ -53,23 +53,6 @@ public interface IMainController {
 	public String showListOfService(String userInputGuestName,
 			String userInputSortCondition);
 
-	/**
-	 * Adds the service to guest.
-	 *
-	 * @param userInputGuestName
-	 *            the user input guest name
-	 * @param userInputService
-	 *            the user input service
-	 */
-	public void addServiceToGuest(String userInputGuestName,
-			String userInputService);
-
-	/**
-	 * Gets the all guests.
-	 *
-	 * @return the all guests
-	 */
-	public void getAllGuests();
 
 	/**
 	 * Show all rooms.
@@ -183,25 +166,6 @@ public interface IMainController {
 	public void changePriceOfHotelRoom(String userInputHotelRoomName,
 			int userInputRoomPrice);
 
-	/**
-	 * Clone hotel room.
-	 *
-	 * @param userInputHotelRoomName
-	 *            the user input hotel room name
-	 * @param userInputHotelRoomNumberModify
-	 *            the user input hotel room number modify
-	 * @param modify
-	 *            the modify
-	 * @param roomPriceModify
-	 *            the room price modify
-	 * @param sleepingNumberModify
-	 *            the sleeping number modify
-	 * @param starModify
-	 *            the star modify
-	 */
-	public void cloneHotelRoom(String userInputHotelRoomName,
-			String userInputHotelRoomNumberModify, String modify,
-			int roomPriceModify, int sleepingNumberModify, int starModify);
 
 	/**
 	 * Adds the services.
@@ -211,7 +175,7 @@ public interface IMainController {
 	 * @param userInputPrice
 	 *            the user input price
 	 */
-	public void addServices(String userInputServiceName, int userInputPrice);
+	public void addService(int userInputOrderId,String userInputServiceName, int userInputPrice);
 
 	/**
 	 * Show price service and hotel room.
@@ -279,55 +243,6 @@ public interface IMainController {
 	 */
 	public String serviceWriteCsvFile(String userInputFileName);
 
-	/**
-	 * Show guest reflected object info detailed.
-	 *
-	 * @param userInputGuestName
-	 *            the user input guest name
-	 */
-	public String showGuestReflectedObjectInfoDetailed(String userInputGuestName);
 
-	/**
-	 * Show guest reflected object info short.
-	 *
-	 * @param userInputGuestName
-	 *            the user input guest name
-	 */
-	public String showGuestReflectedObjectInfoShort(String userInputGuestName);
-
-	/**
-	 * Show hotel room reflected object info detailed.
-	 *
-	 * @param userInputHotelRoomNumber
-	 *            the user input hotel room number
-	 */
-	public String showHotelRoomReflectedObjectInfoDetailed(
-			String userInputHotelRoomNumber);
-
-	/**
-	 * Show hotel room reflected object info short.
-	 *
-	 * @param userInputHotelRoomNumber
-	 *            the user input hotel room number
-	 */
-	public String showHotelRoomReflectedObjectInfoShort(
-			String userInputHotelRoomNumber);
-
-	/**
-	 * Show service reflected object info detailed.
-	 *
-	 * @param userInputServiceName
-	 *            the user input service name
-	 */
-	public String showServiceReflectedObjectInfoDetailed(
-			String userInputServiceName);
-
-	/**
-	 * Show service reflected object info short.
-	 *
-	 * @param userInputServiceName
-	 *            the user input service name
-	 */
-	public String showServiceReflectedObjectInfoShort(String userInputServiceName);
 
 }

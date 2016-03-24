@@ -47,6 +47,11 @@ public class CommanDProcessor {
 	/** The Constant TWO_EXT_ALTERNATIVE_OPTION. */
 	// input 1.String 2.Date
 	private static final String TWO_EXT_ALTERNATIVE_OPTION = "2ext2";
+	
+	
+	/** The Constant TWO_EXT_ALTERNATIVE_OPTION. */
+	// input 1.String 2.Date
+	private static final String THREE_OPTION = "3";
 
 	/** The Constant FOUR_OPTION. */
 	// input 1.String 2.Int 3.Int 4.Int
@@ -105,6 +110,11 @@ public class CommanDProcessor {
 				paramTypes = new Class[] { String.class, int.class };
 				args = new Object[] { arrayStr[2],
 						Integer.parseInt(arrayStr[3]) };
+				break;
+				
+			case THREE_OPTION:
+				paramTypes = new Class[] {int.class, String.class ,int.class};
+				args = new Object[] {Integer.parseInt(arrayStr[2]), arrayStr[3],Integer.parseInt(arrayStr[4]), };
 				break;
 
 			case TWO_EXT_ALTERNATIVE_OPTION:

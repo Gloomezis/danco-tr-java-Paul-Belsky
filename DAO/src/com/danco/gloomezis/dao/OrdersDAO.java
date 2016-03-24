@@ -7,18 +7,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.danco.gloomezis.dataSet.IBaseModel;
-import com.danco.gloomezis.dataSet.Orders;
+import com.danco.dao.api.IOrdersDAO;
 import com.danco.gloomezis.executor.TExecutor;
 import com.danco.gloomezis.hadleer.TResultHandler;
+import com.danco.model.IBaseModel;
+import com.danco.model.Orders;
 
-public class OrdersDAO implements IDAO<Orders> {
+public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 
 	public OrdersDAO() {
 
 	}
 
 	// Settle
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#create(java.sql.Connection, com.danco.model.IBaseModel)
+	 */
+
 	@Override
 	public int create(Connection con, IBaseModel baseModel) throws SQLException {
 
@@ -35,6 +40,10 @@ public class OrdersDAO implements IDAO<Orders> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#read(java.sql.Connection, int)
+	 */
+	
 	@Override
 	public Orders read(Connection con, int id) throws SQLException {
 		TExecutor exec = new TExecutor();
@@ -57,6 +66,10 @@ public class OrdersDAO implements IDAO<Orders> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#readByName(java.sql.Connection, java.lang.String)
+	 */
+	
 	@Override
 	public Orders readByName(Connection con, String name) throws SQLException {
 		// TODO Auto-generated method stub
@@ -64,6 +77,10 @@ public class OrdersDAO implements IDAO<Orders> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#update(java.sql.Connection, int, com.danco.model.IBaseModel)
+	 */
+	
 	@Override
 	public int update(Connection con, int id, IBaseModel baseModel)
 			throws SQLException {
@@ -73,6 +90,10 @@ public class OrdersDAO implements IDAO<Orders> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#delete(java.sql.Connection, int)
+	 */
+	
 	@Override
 	public int delete(Connection con, int id) throws SQLException {
 
@@ -83,6 +104,10 @@ public class OrdersDAO implements IDAO<Orders> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#getAll(java.sql.Connection)
+	 */
+	
 	@Override
 	public List<Orders> getAll(Connection con) throws SQLException {
 		String sql = "SELECT * FROM odrers;";
@@ -108,27 +133,39 @@ public class OrdersDAO implements IDAO<Orders> {
 	}
 
 	// + update only paid for departure
-	public int updatePaid(Connection con, int id) throws SQLException {
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#updatePaid(java.sql.Connection, int)
+	 */
+	@Override
+	public int updatePaid(Connection con, String id) throws SQLException {
 		TExecutor exec = new TExecutor();
 		return exec.execUpdate(con, "UPDATE  orders SET paid = true where id="
 				+ id + ";");
 
 	}
 
-	public int getSummToDeparture(Connection con, int id) throws SQLException {
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#getSummToDeparture(java.sql.Connection, int)
+	 */
+	@Override
+	public int getSummToDeparture(Connection con, String name) throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
 		sql.append("SELECT DISTINCT SUM(guest_summ_paid.price) AS  price FROM ( ");
 		sql.append("SELECT SUM(hotel_room.room_price) AS price FROM orders ");
+		sql.append("INNER JOIN guest ON ");
+		sql.append("orders.guest_id=guest.id ");
 		sql.append("INNER JOIN hotel_room ON ");
 		sql.append("orders.hotel_room_id=hotel_room.id ");
-		sql.append("WHERE orders.guest_id = " + id + " and orders.paid=false");
+		sql.append("WHERE guest.name = '" + name + "' and orders.paid=false");
 		sql.append("UNION ");
 		sql.append("SELECT SUM(service.price) AS price FROM orders ");
+		sql.append("INNER JOIN guest ON ");
+		sql.append("orders.guest_id=guest.id ");
 		sql.append("INNER JOIN service ON ");
 		sql.append("orders.id=service.orders_id ");
-		sql.append("WHERE orders.guest_id = " + id
-				+ " and service.paid=false )AS guest_summ_paid; ");
+		sql.append("WHERE guest.name = '" + name
+				+ "' and service.paid=false )AS guest_summ_paid; ");
 
 		TExecutor exec = new TExecutor();
 

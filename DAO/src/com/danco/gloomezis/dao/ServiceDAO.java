@@ -9,12 +9,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.danco.gloomezis.dataSet.IBaseModel;
-import com.danco.gloomezis.dataSet.Service;
+import com.danco.dao.api.IServiceDAO;
 import com.danco.gloomezis.executor.TExecutor;
 import com.danco.gloomezis.hadleer.TResultHandler;
+import com.danco.model.IBaseModel;
+import com.danco.model.Service;
 
-public class ServiceDAO implements IDAO<Service>{
+public class ServiceDAO implements IDAO<Service>, IServiceDAO{
 
 	
 
@@ -24,11 +25,15 @@ public class ServiceDAO implements IDAO<Service>{
 
 	
     //+
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IServiceDAO#create(java.sql.Connection, com.danco.model.IBaseModel)
+	 */
+	
 	@Override
 	public int create(Connection con,IBaseModel baseModel) throws SQLException {
 		TExecutor exec = new TExecutor();
 		int  oId = ((Service) baseModel ).getOrderId();
-		String name=((Service) baseModel ).getNameOfService();
+		String name=((Service) baseModel ).getName();
 		int price=((Service) baseModel ).getPrice();
 		return exec.execUpdate(con, 
 				"INSERT INTO service (order_id,name,price,)"
@@ -38,6 +43,10 @@ public class ServiceDAO implements IDAO<Service>{
 
 	
 	//+
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IServiceDAO#read(java.sql.Connection, int)
+	 */
+	
 	@Override
 	public Service read(Connection con,int id) throws SQLException {
 		TExecutor exec = new TExecutor();
@@ -59,6 +68,10 @@ public class ServiceDAO implements IDAO<Service>{
 
 	
 	//+
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IServiceDAO#readByName(java.sql.Connection, java.lang.String)
+	 */
+	
 	@Override
 	public Service readByName(Connection con,String name) throws SQLException {
 		TExecutor exec = new TExecutor();
@@ -80,6 +93,10 @@ public class ServiceDAO implements IDAO<Service>{
 	
 	//+
 	//update only price
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IServiceDAO#update(java.sql.Connection, int, com.danco.model.IBaseModel)
+	 */
+	
 	@Override
 	public int update(Connection con,int id,IBaseModel baseModel) throws SQLException {
 		
@@ -91,6 +108,10 @@ public class ServiceDAO implements IDAO<Service>{
 	
 	
 	//+
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IServiceDAO#delete(java.sql.Connection, int)
+	 */
+	
 	@Override
 	public int delete(Connection con,int id) throws SQLException {
 
@@ -102,6 +123,10 @@ public class ServiceDAO implements IDAO<Service>{
 
 	
 	//+
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IServiceDAO#getAll(java.sql.Connection)
+	 */
+	
 	@Override
 	public List<Service> getAll(Connection con) throws SQLException {
 		String sql = "SELECT * FROM service;";
@@ -127,7 +152,11 @@ public class ServiceDAO implements IDAO<Service>{
 
 
 	 //+ update only paid for method departure
-	public int updatePaid(Connection con,int id) throws SQLException {
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IServiceDAO#updatePaid(java.sql.Connection, int)
+	 */
+	@Override
+	public int updatePaid(Connection con,String id) throws SQLException {
 		TExecutor exec = new TExecutor();
 		return exec.execUpdate(con, "UPDATE  service SET paid = true where order_id="+id+";");	
 
@@ -137,6 +166,10 @@ public class ServiceDAO implements IDAO<Service>{
 	//составное с ценой номеров - возможно можно заменить на обычный достать все сервисы 
 	
 	 //+ get price all service order by price
+		/* (non-Javadoc)
+		 * @see com.danco.gloomezis.dao.IServiceDAO#getPriceService(java.sql.Connection)
+		 */
+		@Override
 		public List<String> getPriceService(Connection con) throws SQLException {
 			TExecutor exec = new TExecutor();
 			return exec.execQuery(con, "SELECT name ,price FROM service ORDER BY price ",new TResultHandler<List<String>>(){
@@ -155,7 +188,12 @@ public class ServiceDAO implements IDAO<Service>{
 
 		}
 	
-	
+		@Override
+		public int updatePrice(Connection con,int id,int price) throws SQLException {
+			TExecutor exec = new TExecutor();
+			return exec.execUpdate(con, "UPDATE  service SET price = true where id="+id+";");	
+
+		}
 	
 	
 }

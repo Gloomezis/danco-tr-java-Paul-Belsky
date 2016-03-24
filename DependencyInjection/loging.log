@@ -1,0 +1,8 @@
+2016-03-24 21:46:41 ERROR DependencyInjectionPropertyManager:62 - Exception
+java.io.FileNotFoundException: dependencyInjectionProperty.txt (Не удается найти указанный файл)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(Unknown Source)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at com.danco.gloomezis.dependencyInjection.DependencyInjectionPropertyManager.<init>(DependencyInjectionPropertyManager.java:58)
+	at com.danco.gloomezis.dependencyInjection.DependencyInjectionPropertyManager.getInstance(DependencyInjectionPropertyManager.java:44)
+	at com.danco.gloomezis.dependencyInjection.Test.main(Test.java:20)

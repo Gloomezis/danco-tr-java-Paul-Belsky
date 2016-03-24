@@ -1,44 +1,27 @@
 package com.danco.model;
 
-import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import com.danco.anotation.Printable;
-import com.danco.anotation.PrintableObject;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Service.
  */
-@PrintableObject(name = "service")
-public class Service implements Serializable {
 
-	/**
-	 * 
-	 */
+public class Service extends BaseModel {
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-
-	/** The Constant DATE_FORMAT. */
-	private static final String DATE_FORMAT = "dd-MM-yyyy";
-
-	/** The df. */
-	private DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 	
-	/** The Constant COMMA. */
-	private static final String COMMA = ",";
+	private int orderId ;
 
 	/** The name of service. */
-	@Printable(name = "Service name", order = 1)
-	private String nameOfService;
+	
+	private String name;
 
 	/** The price. */
-	@Printable(name = "Price", order = 2)
+	
 	private int price;
-
-	/** The date of using service. */
-	private Date dateOfUsingService = new Date();
+	
+	private boolean paid = false;
 
 	/**
 	 * Instantiates a new service.
@@ -48,12 +31,45 @@ public class Service implements Serializable {
 	 * @param nameOfService
 	 *            the name of service
 	 */
-	public Service(int price, String nameOfService) {
-
+	public Service(int orderId, String name, int price) {
+		super.setId(-1); 
+		this.orderId=orderId;
 		this.price = price;
-		this.nameOfService = nameOfService;
+		this.name = name;
 
 	}
+
+	/**
+	 * Instantiates a new service data set.
+	 *
+	 * @param id
+	 *            the id
+	 * @param price
+	 *            the price
+	 * @param nameOfService
+	 *            the name of service
+	 */
+	public Service(int id,int orderId, String name, int price, boolean paid) {
+		super.setId(id);
+		this.orderId=orderId;
+		this.price = price;
+		this.name = name;
+		this.paid=paid;
+
+	}
+
+	
+
+	/**
+	 * Gets the name of service.
+	 *
+	 * @return the name of service
+	 */
+	public String getName() {
+		return name;
+	}
+
+
 
 	/**
 	 * Gets the price.
@@ -64,58 +80,16 @@ public class Service implements Serializable {
 		return price;
 	}
 
-	/**
-	 * Sets the price.
-	 *
-	 * @param price
-	 *            the new price
-	 */
-	public void setPrice(int price) {
-		this.price = price;
+	public int getOrderId() {
+		return orderId;
 	}
 
-	/**
-	 * Gets the name of service.
-	 *
-	 * @return the name of service
-	 */
-	public String getNameOfService() {
-		return nameOfService;
+	public boolean isPaid() {
+		return paid;
 	}
 
-	/**
-	 * Sets the name of service.
-	 *
-	 * @param nameOfService
-	 *            the new name of service
-	 */
-	public void setNameOfService(String nameOfService) {
-		this.nameOfService = nameOfService;
-	}
-
-	/**
-	 * Gets the date.
-	 *
-	 * @return the date
-	 */
-	public Date getDate() {
-		return dateOfUsingService;
-	}
-
-	/**
-	 * Sets the date.
-	 *
-	 * @param date
-	 *            the new date
-	 */
-	public void setDate(Date date) {
-		this.dateOfUsingService = date;
-	}
-
-	public String toString() {
-
-		return (new StringBuilder().append(price).append(COMMA).append(nameOfService).append(COMMA)
-				.append(df.format(dateOfUsingService)).toString());
+	public void setPaid(boolean paid) {
+		this.paid = paid;
 	}
 
 }

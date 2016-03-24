@@ -9,18 +9,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.danco.gloomezis.dataSet.Guest;
-import com.danco.gloomezis.dataSet.IBaseModel;
+import com.danco.dao.api.IGuestDAO;
 import com.danco.gloomezis.executor.TExecutor;
 import com.danco.gloomezis.hadleer.TResultHandler;
+import com.danco.model.Guest;
+import com.danco.model.IBaseModel;
+import com.danco.model.Service;
 
-public class GuestDAO implements IDAO<Guest> {
+public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 
 	public GuestDAO() {
 
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#create(java.sql.Connection, com.danco.gloomezis.dataSet.IBaseModel)
+	 */
+	
 	@Override
 	public int create(Connection con, IBaseModel baseModel) throws SQLException {
 
@@ -34,6 +40,10 @@ public class GuestDAO implements IDAO<Guest> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#read(java.sql.Connection, int)
+	 */
+	
 	@Override
 	public Guest read(Connection con, int id) throws SQLException {
 
@@ -52,6 +62,10 @@ public class GuestDAO implements IDAO<Guest> {
 
 	// +
 	// TODO may be multiple name
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#readByName(java.sql.Connection, java.lang.String)
+	 */
+	
 	@Override
 	public Guest readByName(Connection con, String name) throws SQLException {
 
@@ -71,6 +85,10 @@ public class GuestDAO implements IDAO<Guest> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#update(java.sql.Connection, int, com.danco.gloomezis.dataSet.IBaseModel)
+	 */
+	
 	@Override
 	public int update(Connection con, int id, IBaseModel baseModel)
 			throws SQLException {
@@ -82,6 +100,10 @@ public class GuestDAO implements IDAO<Guest> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#delete(java.sql.Connection, int)
+	 */
+	
 	@Override
 	public int delete(Connection con, int id) throws SQLException {
 
@@ -91,10 +113,36 @@ public class GuestDAO implements IDAO<Guest> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#getAll(java.sql.Connection)
+	 */
+	
+	@Override
+	public List<Guest> getAllSorted(Connection con, String sortCondition) {
+
+		String sql = "SELECT * FROM guest order by "+sortCondition+";";
+		TExecutor exec = new TExecutor();
+
+		return exec.execQuery(con, sql, new TResultHandler<List<Guest>>() {
+
+			@Override
+			public List<Guest> handle(ResultSet result) throws SQLException {
+				List<Guest> list = new ArrayList<Guest>();
+				while (result.next()) {
+					Guest g = new Guest(result.getInt("id"), result
+							.getString("name"));
+					list.add(g);
+				}
+				return list;
+			}
+		});
+
+	}
+	
 	@Override
 	public List<Guest> getAll(Connection con) {
 
-		String sql = "SELECT * FROM guest;";
+		String sql = "SELECT * FROM guest ;";
 		TExecutor exec = new TExecutor();
 
 		return exec.execQuery(con, sql, new TResultHandler<List<Guest>>() {
@@ -114,6 +162,10 @@ public class GuestDAO implements IDAO<Guest> {
 	}
 
 	// +
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#getAllGuestNumber(java.sql.Connection)
+	 */
+	@Override
 	public int getAllGuestNumber(Connection con) throws SQLException {
 		String sql = "SELECT COUNT('id') FROM guest";
 		TExecutor exec = new TExecutor();
@@ -130,6 +182,10 @@ public class GuestDAO implements IDAO<Guest> {
 
 	// + sort by data/price
 
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#getNameGuestsAndTheyHotelRoom(java.sql.Connection, java.lang.String)
+	 */
+	@Override
 	public List<String> getNameGuestsAndTheyHotelRoom(Connection con,
 			String sortCondition) {
 		StringBuilder sql = new StringBuilder();
@@ -163,27 +219,34 @@ public class GuestDAO implements IDAO<Guest> {
 
 	}
 
-	public List<String> getGuestServiceAndTheyPrice(Connection con, int id) {
+	/* (non-Javadoc)
+	 * @see com.danco.gloomezis.dao.IGuestDAO#getGuestServiceAndTheyPrice(java.sql.Connection, int)
+	 */
+	@Override
+	public List<Service> getGuestService(Connection con, String name) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT service.name,service.price FROM orders ");
+		sql.append("SELECT service.* FROM orders ");
 		sql.append("INNER JOIN service ON ");
 		sql.append("orders.id=service.orders_id ");
-		sql.append("WHERE orders.guest_id " + id);
+		sql.append("INNER JOIN guest ON ");
+		sql.append("orders.guest_id=guest.id ");
+		sql.append("WHERE guest.name = '" + name+"'");
 		sql.append("ORDER BY service.price ; ");
 		TExecutor exec = new TExecutor();
 
 		return exec.execQuery(con, sql.toString(),
-				new TResultHandler<List<String>>() {
+				new TResultHandler<List<Service>>() {
 
 					@Override
-					public List<String> handle(ResultSet result)
+					public List<Service> handle(ResultSet result)
 							throws SQLException {
-						List<String> list = new ArrayList<String>();
+						List<Service> list = new ArrayList<Service>();
 
 						while (result.next()) {
-							String res = result.getString("name") + "-"
-									+ result.getString("price");
-							list.add(res);
+							
+							Service serv = new Service(result.getInt("id"), result.getInt("order_id"),result.getString("name"), result.getInt("price"), result.getBoolean("paid")) ;
+									
+							list.add(serv);
 						}
 						return list;
 					}

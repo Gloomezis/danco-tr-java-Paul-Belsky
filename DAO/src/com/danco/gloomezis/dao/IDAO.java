@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.danco.gloomezis.dataSet.IBaseModel;
+import com.danco.model.IBaseModel;
 
 public interface IDAO<T> {
 	

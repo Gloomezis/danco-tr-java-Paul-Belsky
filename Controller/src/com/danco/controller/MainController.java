@@ -1,10 +1,25 @@
 package com.danco.controller;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import com.danco.controller.api.IImportExportCsvController;
 import com.danco.controller.api.IMainController;
+import com.danco.dao.api.IGuestDAO;
+import com.danco.dao.api.IHotelRoomDAO;
+import com.danco.dao.api.IOrdersDAO;
+import com.danco.dao.api.IServiceDAO;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
+import com.danco.model.Guest;
+import com.danco.model.HotelRoom;
+import com.danco.model.Orders;
+import com.danco.model.Service;
+import com.danco.util.ConnectionUtil;
+import com.danco.util.ConnectorFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -12,29 +27,60 @@ import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
  */
 public class MainController implements IMainController {
 
-	/** The hotel room controller. */
-	private GuestController guestController = new GuestController();
+	/** The guest service. */
+	private IGuestDAO guestDAO = (IGuestDAO) DependencyInjectionManager
+			.getClassInstance(IGuestDAO.class);
 
-	/** The hotel room controller. */
-	private HotelRoomController hotelRoomController = new HotelRoomController();
+	/** The service service. */
+	private IServiceDAO serviceDAO = (IServiceDAO) DependencyInjectionManager
+			.getClassInstance(IServiceDAO.class);
 
-	/** The service controller. */
-	private ServiceController serviceController = new ServiceController();
+	/** The service service. */
+	private IOrdersDAO ordersDAO = (IOrdersDAO) DependencyInjectionManager
+			.getClassInstance(IOrdersDAO.class);
 
-	/** The anotation controller. */
-	private AnotationController anotationController = new AnotationController();
+	/** The service service. */
+	private IHotelRoomDAO hotelRoomDAO = (IHotelRoomDAO) DependencyInjectionManager
+			.getClassInstance(IHotelRoomDAO.class);
 
 	/** The import export csv controller. */
-	private IImportExportCsvController importExportCsvController = (IImportExportCsvController) DependencyInjectionManager
-			.getClassInstance(IImportExportCsvController.class);
+	private IImportExportCsvController importExportCsvController = new ImportExportCsvController();
 
-	/* (non-Javadoc)
+	/** The Constant GUEST_FORMAT. */
+	private static final String GUEST_FORMAT = "id: %d, Guest: %s , \n";
+
+	/** The Constant SERVICE_FORMAT. */
+	private static final String SERVICE_FORMAT = "service : %s, price: %d \n";
+
+	/** The Constant ROOM_PRINTER_FORMAT. */
+	private static final String ROOM_PRINTER_FORMAT = "room: %s  , sleeping numbers: %d,  stars category: %d,  price: %d , busy :%s,status %s \n";
+
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+
+	/** The LO g1. */
+	private final Logger LOG1 = Logger
+			.getLogger(MainController.class.getName());
+
+	private ConnectionUtil connectionUtil = ConnectionUtil.getInstance();
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.api.IMainController#addGuest(java.lang.String)
 	 */
 	@Override
 	public void addGuest(String userInputGuestName) {
-		guestController.addGuest(userInputGuestName);
-
+		Connection con = connectionUtil.getConnection();
+		Guest g = new Guest(userInputGuestName);
+		try {
+			guestDAO.create(con, g);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
 	}
 
 	/*
@@ -44,7 +90,17 @@ public class MainController implements IMainController {
 	 */
 	@Override
 	public String showAllGuestNumber() {
-		return guestController.showAllGuestNumber();
+		Connection con = connectionUtil.getConnection();
+		int num = 0;
+		try {
+			con = ConnectorFactory.getConnection();
+			num = guestDAO.getAllGuestNumber(con);
+		} catch (SQLException e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return Integer.toString(num);
 	}
 
 	/*
@@ -54,7 +110,16 @@ public class MainController implements IMainController {
 	 */
 	@Override
 	public String showSummToPaidGuest(String userInputGuestName) {
-		return guestController.showSummToPaidGuest(userInputGuestName);
+		Connection con = connectionUtil.getConnection();
+		int num = 0;
+		try {
+			num = ordersDAO.getSummToDeparture(con, userInputGuestName);
+		} catch (SQLException e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return Integer.toString(num);
 	}
 
 	/*
@@ -64,7 +129,21 @@ public class MainController implements IMainController {
 	 */
 	@Override
 	public String showAllGuests(String userInputSortCondition) {
-		return guestController.showAllGuests(userInputSortCondition);
+		Connection con = connectionUtil.getConnection();
+		StringBuilder sb = null;
+		try {
+			sb = new StringBuilder(500);
+			List<Guest> allSortedGuests = guestDAO.getAllSorted(con,
+					userInputSortCondition);
+			for (Guest s : allSortedGuests) {
+				sb.append(String.format(GUEST_FORMAT, s.getId(), s.getName()));
+			}
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return sb.toString();
 	}
 
 	/*
@@ -75,8 +154,24 @@ public class MainController implements IMainController {
 	@Override
 	public String showListOfService(String userInputGuestName,
 			String userInputSortCondition) {
-		return guestController.showListOfService(userInputGuestName,
-				userInputSortCondition);
+		Connection con = connectionUtil.getConnection();
+		StringBuilder sb = null;
+		try {
+			List<Service> service = guestDAO.getGuestService(con,
+					userInputGuestName);
+			sb = new StringBuilder(500);
+			sb.append("");
+			sb.append(userInputGuestName + ":" + "\n");
+			for (Service c : service) {
+				sb.append(String.format(SERVICE_FORMAT, c.getName(),
+						c.getPrice()));
+			}
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return sb.toString();
 	}
 
 	/*
@@ -85,20 +180,18 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#addServiceToGuest()
 	 */
 	@Override
-	public void addServiceToGuest(String userInputGuestName,
-			String userInputService) {
-		guestController.addServiceToGuest(userInputGuestName, userInputService);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#getAllGuests()
-	 */
-
-	@Override
-	public void getAllGuests() {
-		guestController.getAllGuests();
+	public void addService(int userInputOrderId, String userInputGuestName,
+			int userInputPrice) {
+		Connection con = connectionUtil.getConnection();
+		try {
+			Service serv = new Service(userInputOrderId, userInputGuestName,
+					userInputPrice);
+			serviceDAO.create(con, serv);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
 	}
 
 	/*
@@ -109,7 +202,36 @@ public class MainController implements IMainController {
 
 	@Override
 	public String showAllRooms(String userInputSortCondition) {
-		return hotelRoomController.showAllRooms(userInputSortCondition);
+		Connection con = connectionUtil.getConnection();
+		StringBuilder sb = new StringBuilder();
+		try {
+			List<HotelRoom> rooms = hotelRoomDAO.getAllSorted(con,
+					userInputSortCondition);
+			for (HotelRoom s : rooms) {
+				boolean busyB = s.getBusy();
+				String busyS;
+				if (busyB == true) {
+					busyS = "busy";
+				} else {
+					busyS = "free";
+				}
+				boolean statusB = s.getStatus();
+				String statusS;
+				if (statusB == true) {
+					statusS = "working";
+				} else {
+					statusS = "reparing";
+				}
+				sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
+						s.getSleepingNumber(), s.getStarCategory(),
+						s.getRoomPrice(), busyS, statusS));
+			}
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return sb.toString();
 	}
 
 	/*
@@ -119,8 +241,37 @@ public class MainController implements IMainController {
 	 */
 	@Override
 	public String showAllFreeRooms(String userInputSortCondition) {
-		return hotelRoomController.showAllFreeRooms(userInputSortCondition);
+		Connection con = connectionUtil.getConnection();
+		StringBuilder sb = new StringBuilder();
+		try {
+			List<HotelRoom> rooms = hotelRoomDAO.getAllFreeSorted(con,
+					userInputSortCondition);
+			for (HotelRoom s : rooms) {
+				boolean busyB = s.getBusy();
+				String busyS;
+				if (busyB == true) {
+					busyS = "busy";
+				} else {
+					busyS = "free";
+				}
+				boolean statusB = s.getStatus();
+				String statusS;
 
+				if (statusB == true) {
+					statusS = "working";
+				} else {
+					statusS = "reparing";
+				}
+				sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
+						s.getSleepingNumber(), s.getStarCategory(),
+						s.getRoomPrice(), busyS, statusS));
+			}
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return sb.toString();
 	}
 
 	/*
@@ -131,8 +282,36 @@ public class MainController implements IMainController {
 
 	@Override
 	public String showFreeRomsAfterDate(String userInputSortCondition, Date date) {
-		return hotelRoomController.showFreeRomsAfterDate(
-				userInputSortCondition, date);
+		Connection con = connectionUtil.getConnection();
+		StringBuilder sb = new StringBuilder();
+		try {
+			List<HotelRoom> rooms = hotelRoomDAO.getFreeHotelRoomsAfterDate(
+					con, userInputSortCondition, date);
+			for (HotelRoom s : rooms) {
+				boolean busyB = s.getBusy();
+				String busyS;
+				if (busyB == true) {
+					busyS = "busy";
+				} else {
+					busyS = "free";
+				}
+				boolean statusB = s.getStatus();
+				String statusS;
+				if (statusB == true) {
+					statusS = "working";
+				} else {
+					statusS = "reparing";
+				}
+				sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
+						s.getSleepingNumber(), s.getStarCategory(),
+						s.getRoomPrice(), busyS, statusS));
+			}
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return sb.toString();
 	}
 
 	/*
@@ -143,7 +322,16 @@ public class MainController implements IMainController {
 
 	@Override
 	public String showNumberOfFreeHotelRooms() {
-		return hotelRoomController.showNumberOfFreeHotelRooms();
+		Connection con = connectionUtil.getConnection();
+		int n = 0;
+		try {
+			n = hotelRoomDAO.getNumberFreeHotelRooms(con);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return Integer.toString(n);
 	}
 
 	/*
@@ -154,8 +342,8 @@ public class MainController implements IMainController {
 
 	@Override
 	public String showLast3GuestOfHotelRoom(String userInputHotelRoomNumber) {
-		return hotelRoomController
-				.showLast3GuestOfHotelRoom(userInputHotelRoomNumber);
+		return null;
+
 	}
 
 	/*
@@ -166,8 +354,36 @@ public class MainController implements IMainController {
 
 	@Override
 	public String showDetailOfHotelRoom(String userInputHotelRoomNumber) {
-		return hotelRoomController
-				.showDetailOfHotelRoom(userInputHotelRoomNumber);
+		Connection con = connectionUtil.getConnection();
+		String info = null;
+		try {
+			HotelRoom s = hotelRoomDAO
+					.readByName(con, userInputHotelRoomNumber);
+			boolean busyB = s.getBusy();
+			String busyS;
+			if (busyB == true) {
+				busyS = "busy";
+			} else {
+				busyS = "free";
+			}
+			boolean statusB = s.getStatus();
+			String statusS;
+
+			if (statusB == true) {
+				statusS = "working";
+			} else {
+				statusS = "reparing";
+			}
+			info = (String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
+					s.getSleepingNumber(), s.getStarCategory(),
+					s.getRoomPrice(), busyS, statusS));
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
+		return info;
+
 	}
 
 	/*
@@ -180,9 +396,25 @@ public class MainController implements IMainController {
 	public void settleGuestToHotelRoom(String userInputGuestName,
 			String userInputHotelRoomNumber, Date userinpitDateOfArrive,
 			Date userInputDateOfDeparture) {
-		hotelRoomController.settleGuestToHotelRoom(userInputGuestName,
-				userInputHotelRoomNumber, userinpitDateOfArrive,
-				userInputDateOfDeparture);
+		Connection con = connectionUtil.getConnection();
+		try {
+			connectionUtil.beginTransaction(con);
+			con.setAutoCommit(false);
+			Guest g = guestDAO.readByName(con, userInputGuestName);
+			HotelRoom hr = hotelRoomDAO.readByName(con,
+					userInputHotelRoomNumber);
+
+			Orders order = new Orders(g.getId(), hr.getId(),
+					userinpitDateOfArrive, userInputDateOfDeparture);
+			ordersDAO.create(con, order);
+			connectionUtil.commitTransaction(con);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			connectionUtil.rollbackTransaction(con);
+		} finally {
+			connectionUtil.endTransaction(con);
+			connectionUtil.closeConnection(con);
+		}
 	}
 
 	/*
@@ -191,9 +423,23 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#departGuestFromHotelRoom()
 	 */
 
+	// TODO transation
 	@Override
-	public void departGuestFromHotelRoom(String userInputHotelRoomName) {
-		hotelRoomController.departGuestFromHotelRoom(userInputHotelRoomName);
+	public void departGuestFromHotelRoom(String userInputOrderId) {
+		Connection con = connectionUtil.getConnection();
+		try {
+			connectionUtil.beginTransaction(con);
+			ordersDAO.updatePaid(con, userInputOrderId);
+			serviceDAO.updatePaid(con, userInputOrderId);
+			connectionUtil.commitTransaction(con);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			connectionUtil.rollbackTransaction(con);
+
+		} finally {
+			connectionUtil.endTransaction(con);
+			connectionUtil.closeConnection(con);
+		}
 	}
 
 	/*
@@ -201,10 +447,30 @@ public class MainController implements IMainController {
 	 * 
 	 * @see com.danco.controller.IMainController#changeStatus()
 	 */
-
+	// TODO transation
 	@Override
 	public void changeStatus(String userInputHotelRoomName) {
-		hotelRoomController.changeStatus(userInputHotelRoomName);
+		Connection con = connectionUtil.getConnection();
+		boolean status;
+		try {
+			connectionUtil.beginTransaction(con);
+			Boolean statusG = hotelRoomDAO.getStatus(con,
+					userInputHotelRoomName);
+			if (statusG == false) {
+				status = true;
+			} else {
+				status = false;
+			}
+			HotelRoom hr = hotelRoomDAO.readByName(con, userInputHotelRoomName);
+			hotelRoomDAO.updateStatus(con, hr.getId(), status);
+			connectionUtil.commitTransaction(con);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			connectionUtil.rollbackTransaction(con);
+		} finally {
+			connectionUtil.endTransaction(con);
+			connectionUtil.closeConnection(con);
+		}
 	}
 
 	/*
@@ -216,9 +482,17 @@ public class MainController implements IMainController {
 	@Override
 	public void addRooms(String userInputHotelRoomName, int userInputRoomPrice,
 			int userInputSleepingNumbers, int userInputStarCategory) {
-		hotelRoomController.addRooms(userInputHotelRoomName,
-				userInputRoomPrice, userInputSleepingNumbers,
-				userInputStarCategory);
+		Connection con = connectionUtil.getConnection();
+		try {
+			HotelRoom hotelRoom = new HotelRoom(userInputHotelRoomName,
+					userInputRoomPrice, userInputSleepingNumbers,
+					userInputStarCategory);
+			hotelRoomDAO.create(con, hotelRoom);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}
 	}
 
 	/*
@@ -230,34 +504,21 @@ public class MainController implements IMainController {
 	@Override
 	public void changePriceOfHotelRoom(String userInputHotelRoomName,
 			int userInputRoomPrice) {
-		hotelRoomController.changePriceOfHotelRoom(userInputHotelRoomName,
-				userInputRoomPrice);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#cloneHotelRoom()
-	 */
-	@Override
-	public void cloneHotelRoom(String userInputHotelRoomName,
-			String userInputHotelRoomNumberModify, String modify,
-			int roomPriceModify, int sleepingNumberModify, int starModify) {
-		hotelRoomController.cloneHotelRoom(userInputHotelRoomName,
-				userInputHotelRoomNumberModify, modify, roomPriceModify,
-				sleepingNumberModify, starModify);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#addServices()
-	 */
-
-	@Override
-	public void addServices(String userInputServiceName, int userInputPrice) {
-		serviceController.addServices(userInputServiceName, userInputPrice);
+		Connection con = connectionUtil.getConnection();
+		try {
+			connectionUtil.beginTransaction(con);
+			HotelRoom hotelRoom = hotelRoomDAO.readByName(con,
+					userInputHotelRoomName);
+			hotelRoomDAO
+					.updatePrice(con, hotelRoom.getId(), userInputRoomPrice);
+			connectionUtil.commitTransaction(con);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			connectionUtil.rollbackTransaction(con);
+		} finally {
+			connectionUtil.endTransaction(con);
+			connectionUtil.closeConnection(con);
+		}
 	}
 
 	/*
@@ -268,10 +529,30 @@ public class MainController implements IMainController {
 
 	@Override
 	public String showPriceServiceAndHotelRoom() {
-
-		String s = serviceController.showPriceService()
-				+ hotelRoomController.showPriceHotelRoom();
-		return s;
+		Connection con = connectionUtil.getConnection();
+		StringBuilder sb = null;
+		try {
+			connectionUtil.beginTransaction(con);
+			List<String> listService = serviceDAO.getPriceService(con);
+			List<String> listHotelRoom = hotelRoomDAO.getPriceHotelRoom(con);
+			sb = new StringBuilder();
+			for (String a : listService) {
+				sb.append(a);
+				sb.append(" \n ");
+			}
+			for (String b : listHotelRoom) {
+				sb.append(b);
+				sb.append(" \n ");
+			}
+			connectionUtil.commitTransaction(con);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			connectionUtil.rollbackTransaction(con);
+		} finally {
+			connectionUtil.endTransaction(con);
+			connectionUtil.closeConnection(con);
+		}
+		return sb.toString();
 	}
 
 	/*
@@ -283,8 +564,19 @@ public class MainController implements IMainController {
 	@Override
 	public void changePriceOfService(String userInputServiceName,
 			int userInputPrice) {
-		serviceController.changePriceOfService(userInputServiceName,
-				userInputPrice);
+		Connection con = connectionUtil.getConnection();
+		try {
+			connectionUtil.beginTransaction(con);
+			Service service = serviceDAO.readByName(con, userInputServiceName);
+			serviceDAO.updatePrice(con, service.getId(), userInputPrice);
+			connectionUtil.commitTransaction(con);
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			connectionUtil.rollbackTransaction(con);	
+		} finally {
+			connectionUtil.endTransaction(con);
+			connectionUtil.closeConnection(con);
+		}
 
 	}
 
@@ -296,8 +588,18 @@ public class MainController implements IMainController {
 
 	@Override
 	public String guestReadCsvFile(String userInputFileName) {
-	return	importExportCsvController.guestReadCsvFile(userInputFileName);
-
+		Connection con = connectionUtil.getConnection();
+		String str = " ";
+	    try{
+		 str =importExportCsvController.guestReadCsvFile(con,userInputFileName);
+	    } catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}	
+		return str;
+				
+   
 	}
 
 	/*
@@ -308,7 +610,16 @@ public class MainController implements IMainController {
 
 	@Override
 	public String guestWriteCsvFile(String userInputFileName) {
-		return importExportCsvController.guestWriteCsvFile(userInputFileName);
+		Connection con = connectionUtil.getConnection();
+		String str = " ";
+	    try{
+	    	str =importExportCsvController.guestWriteCsvFile(con,userInputFileName);
+	    } catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}	
+		return str;
 	}
 
 	/*
@@ -318,8 +629,17 @@ public class MainController implements IMainController {
 	 */
 	@Override
 	public String hotelRoomReadCsvFile(String userInputFileName) {
-		return importExportCsvController.hotelRoomReadCsvFile(userInputFileName);
-
+		Connection con = connectionUtil.getConnection();
+		String str = " ";
+	    try{
+	    	str =importExportCsvController
+				.hotelRoomReadCsvFile(con,userInputFileName);
+	    } catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}	
+		return str;
 	}
 
 	/*
@@ -330,8 +650,18 @@ public class MainController implements IMainController {
 
 	@Override
 	public String hotelRoomWriteCsvFile(String userInputFileName) {
-		return importExportCsvController.hotelRoomWriteCsvFile(userInputFileName);
-
+		Connection con = connectionUtil.getConnection();
+		String str = " ";
+	    try{
+	
+	    	str =importExportCsvController
+				.hotelRoomWriteCsvFile(con,userInputFileName);
+	    } catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}	
+		return str;
 	}
 
 	/*
@@ -342,7 +672,16 @@ public class MainController implements IMainController {
 
 	@Override
 	public String serviceReadCsvFile(String userInputFileName) {
-		return importExportCsvController.serviceReadCsvFile(userInputFileName);
+		Connection con = connectionUtil.getConnection();
+		String str = " ";
+	    try{
+	    	str =importExportCsvController.serviceReadCsvFile(con,userInputFileName);
+	    } catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}	
+		return str;
 	}
 
 	/*
@@ -351,88 +690,18 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.IMainController#serviceWriteCsvFile()
 	 */
 	@Override
-	public String  serviceWriteCsvFile(String userInputFileName) {
-		return importExportCsvController.serviceWriteCsvFile(userInputFileName);
+	public String serviceWriteCsvFile(String userInputFileName) {
+		Connection con = connectionUtil.getConnection();
+		String str = " ";
+	    try{
+	    	str =importExportCsvController.serviceWriteCsvFile(con,userInputFileName);
+	    } catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+		} finally {
+			connectionUtil.closeConnection(con);
+		}	
+		return str;
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.danco.controller.IMainController#showGuestReflectedObjectInfoDetailed
-	 * ()
-	 */
-	@Override
-	public String showGuestReflectedObjectInfoDetailed(String userInputGuestName) {
-		return anotationController
-				.showGuestReflectedObjectInfoDetailed(userInputGuestName);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.danco.controller.IMainController#showGuestReflectedObjectInfoShort()
-	 */
-	@Override
-	public String  showGuestReflectedObjectInfoShort(String userInputGuestName) {
-		return anotationController
-				.showGuestReflectedObjectInfoShort(userInputGuestName);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.danco.controller.IMainController#showHotelRoomReflectedObjectInfoDetailed
-	 * ()
-	 */
-	@Override
-	public String showHotelRoomReflectedObjectInfoDetailed(
-			String userInputHotelRoomNumber) {
-		return anotationController
-				.showHotelRoomReflectedObjectInfoDetailed(userInputHotelRoomNumber);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.danco.controller.IMainController#showHotelRoomReflectedObjectInfoShort
-	 * ()
-	 */
-	@Override
-	public String showHotelRoomReflectedObjectInfoShort(
-			String userInputHotelRoomNumber) {
-	return	anotationController
-				.showHotelRoomReflectedObjectInfoShort(userInputHotelRoomNumber);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.danco.controller.IMainController#showServiceReflectedObjectInfoDetailed
-	 * ()
-	 */
-	@Override
-	public String showServiceReflectedObjectInfoDetailed(
-			String userInputServiceName) {
-		return anotationController
-				.showServiceReflectedObjectInfoDetailed(userInputServiceName);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.danco.controller.IMainController#showServiceReflectedObjectInfoShort
-	 * ()
-	 */
-	@Override
-	public String showServiceReflectedObjectInfoShort(String userInputServiceName) {
-		return anotationController
-				.showServiceReflectedObjectInfoShort(userInputServiceName);
-	}
 }

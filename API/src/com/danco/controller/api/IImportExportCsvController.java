@@ -1,5 +1,7 @@
 package com.danco.controller.api;
 
+import java.sql.Connection;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Interface IImportExportCsvController.
@@ -8,12 +10,13 @@ public interface IImportExportCsvController {
 
 	/**
 	 * Guest read csv file.
+	 * @param con 
 	 *
 	 * @param userInputFileName
 	 *            the user input file name
 	 * @return the string
 	 */
-	public String guestReadCsvFile(String userInputFileName);
+	public String guestReadCsvFile(Connection con, String userInputFileName);
 
 	/**
 	 * Guest write csv file.
@@ -22,7 +25,7 @@ public interface IImportExportCsvController {
 	 *            the user input file name
 	 * @return the string
 	 */
-	public String guestWriteCsvFile(String userInputFileName);
+	public String guestWriteCsvFile(Connection con,String userInputFileName);
 
 	/**
 	 * Hotel room read csv file.
@@ -31,7 +34,7 @@ public interface IImportExportCsvController {
 	 *            the user input file name
 	 * @return the string
 	 */
-	public String hotelRoomReadCsvFile(String userInputFileName);
+	public String hotelRoomReadCsvFile(Connection con,String userInputFileName);
 
 	/**
 	 * Hotel room write csv file.
@@ -40,7 +43,7 @@ public interface IImportExportCsvController {
 	 *            the user input file name
 	 * @return the string
 	 */
-	public String hotelRoomWriteCsvFile(String userInputFileName);
+	public String hotelRoomWriteCsvFile(Connection con,String userInputFileName);
 
 	/**
 	 * Service read csv file.
@@ -49,7 +52,7 @@ public interface IImportExportCsvController {
 	 *            the user input file name
 	 * @return the string
 	 */
-	public String serviceReadCsvFile(String userInputFileName);
+	public String serviceReadCsvFile(Connection con,String userInputFileName);
 
 	/**
 	 * Service write csv file.
@@ -58,6 +61,6 @@ public interface IImportExportCsvController {
 	 *            the user input file name
 	 * @return the string
 	 */
-	public String serviceWriteCsvFile(String userInputFileName);
+	public String serviceWriteCsvFile(Connection con,String userInputFileName);
 
 }

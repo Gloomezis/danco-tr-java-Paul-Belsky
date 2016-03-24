@@ -6,10 +6,8 @@ import java.net.Socket;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.danco.controller.ISerializeController;
 import com.danco.controller.api.IMainController;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
-import com.danco.storages.MainStorage;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -50,10 +48,7 @@ public class Server {
 		ThreadForNewClient client = null;
 
 		PropertyConfigurator.configure(LOGER_PROPERTY_FILE_PATH);
-		MainStorage
-				.setInstance(((ISerializeController) DependencyInjectionManager
-						.getClassInstance(ISerializeController.class))
-						.serialFromFile());
+		
 		IMainController mainController = (IMainController) DependencyInjectionManager
 				.getClassInstance(IMainController.class);
 		CommanDProcessor protocol = new CommanDProcessor(mainController);
@@ -80,9 +75,7 @@ public class Server {
 
 				clientSocket.close();
 				serverSocket.close();
-				((ISerializeController) DependencyInjectionManager
-						.getClassInstance(ISerializeController.class))
-						.serialToFile(MainStorage.getInstance());
+				
 			}
 		} catch (Exception e) {
 		

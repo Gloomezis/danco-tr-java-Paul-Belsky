@@ -1,19 +1,27 @@
+/*
+ * 
+ */
 package com.danco.gloomezis.executor;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.util.Map;
 
+import org.apache.log4j.Logger;
 
 import com.danco.gloomezis.hadleer.TResultHandler;
 
-
 public class TExecutor {
+
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+
+	/** The LO g1. */
+	private final Logger LOG1 = Logger.getLogger(TExecutor.class.getName());
+
 	// Inserts,Deletes & Updates
-	public  int execUpdate(Connection connection, String update) {
+	public int execUpdate(Connection connection, String update) {
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.execute(update);
@@ -21,66 +29,28 @@ public class TExecutor {
 			stmt.close();
 			return updated;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG1.error(EXCEPTION, e);
 		}
 		return 0;
 	};
 
-	//  multiQuery
-	public void execUpdate(Connection connection, String[] updates) {
-		try {
-			connection.setAutoCommit(false);
-			for (String update : updates) {
-				Statement stmt = connection.createStatement();
-				stmt.execute(update);
-				stmt.close();
-			}
-			connection.commit();
-		} catch (SQLException e) {
-			try {
-				connection.rollback();
-				connection.setAutoCommit(true); //insert in finally block
-			} catch (SQLException ignore) {}
-			}
-
-		} 
-			
-		
-// prepared statements need adding transacion
-	public void execUpdate(Connection connection, Map<Integer,String> idToName){
-		try{
-			String update ="insert into guest(id, name) values(?,?)";
-			PreparedStatement stmt =  connection.prepareStatement(update);
-			for(Integer id: idToName.keySet()){
-				stmt.setInt(1, id);
-				stmt.setString(2, idToName.get(id));
-				stmt.executeUpdate();
-			}
-			stmt.close();
-		
-			}catch(SQLException e){
-				e.printStackTrace();
-		}
-	}
 	
+
 	
 
 	/*
-	 * вызов обрабоnчика с анонимкой  execQuery 
-	 * TExecutor execT= new TExecutor();
+	 * вызов обрабоnчика с анонимкой execQuery TExecutor execT= new TExecutor();
 	 * String query="select name from users where id=1";
 	 * 
-	 * String name=execT.execQuery(connection , query, new TResultHandler<String>()){ 
-	 * public String handle(ResultSet result) throws SQLException{
+	 * String name=execT.execQuery(connection , query, new
+	 * TResultHandler<String>()){ public String handle(ResultSet result) throws
+	 * SQLException{
 	 * 
-	 * result.next();  
-	 * return result.getString("name");
-	 * }
-	 * } );
+	 * result.next(); return result.getString("name"); } } );
 	 */
 
 	public <T> T execQuery(Connection connection, String query,
-			TResultHandler <T> handler)  {
+			TResultHandler<T> handler) {
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.execute(query);
@@ -90,7 +60,7 @@ public class TExecutor {
 			stmt.close();
 			return value;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			LOG1.error(EXCEPTION, e);
 		}
 		return null;
 	}
