@@ -11,7 +11,7 @@ public class Service extends BaseModel {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 	
-	private int orderId ;
+//	private int orderId ;
 
 	/** The name of service. */
 	
@@ -31,9 +31,11 @@ public class Service extends BaseModel {
 	 * @param nameOfService
 	 *            the name of service
 	 */
-	public Service(int orderId, String name, int price) {
+	public Service(
+		//	int orderId,
+			String name, int price) {
 		super.setId(-1); 
-		this.orderId=orderId;
+	//	this.orderId=orderId;
 		this.price = price;
 		this.name = name;
 
@@ -51,7 +53,7 @@ public class Service extends BaseModel {
 	 */
 	public Service(int id,int orderId, String name, int price, boolean paid) {
 		super.setId(id);
-		this.orderId=orderId;
+		//this.orderId=orderId;
 		this.price = price;
 		this.name = name;
 		this.paid=paid;
@@ -80,9 +82,9 @@ public class Service extends BaseModel {
 		return price;
 	}
 
-	public int getOrderId() {
-		return orderId;
-	}
+	//public int getOrderId() {
+	//	return orderId;
+	//}
 
 	public boolean isPaid() {
 		return paid;

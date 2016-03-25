@@ -4,6 +4,7 @@
 package com.danco.model;
 
 import java.util.Date;
+import java.util.List;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -16,11 +17,10 @@ public class Orders extends BaseModel{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/** The guest id. */
-	private int guestId;
+	private List<Service> services;
 
 	/** The hotel room id. */
-	private int hotelRoomId;
+	private HotelRoom hotelRoom;
 
 	/** The date of arrival. */
 	private Date dateOfArrival;
@@ -42,12 +42,15 @@ public class Orders extends BaseModel{
 	 *            the date of departure
 	 * @param orderId 
 	 */
-	public Orders(int id, int guestId,
-			int hotelRoomId, Date dateOfArrival, Date dateOfDeparture, boolean paid) {
+	public Orders(int id, 
+			// int guestId,
+			//int hotelRoomId,
+			
+	HotelRoom hotelRoom, Date dateOfArrival, Date dateOfDeparture, boolean paid) {
 		super();
 		super.setId(id);
-		this.guestId = guestId;
-		this.hotelRoomId = hotelRoomId;
+		//this.guestId = guestId;
+		//this.hotelRoomId = hotelRoomId;
 		this.dateOfArrival = dateOfArrival;
 		this.dateOfDeparture = dateOfDeparture;
 		this.paid=paid;
@@ -65,12 +68,13 @@ public class Orders extends BaseModel{
 	 * @param dateOfDeparture
 	 *            the date of departure
 	 */
-	public Orders(int guestId, int hotelRoomId,
-			Date dateOfArrival, Date dateOfDeparture) {
+	public Orders(
+			//int guestId, int hotelRoomId,
+			HotelRoom hotelRoom,Date dateOfArrival, Date dateOfDeparture) {
 		super();
 		super.setId( -1);
-		this.guestId = guestId;
-		this.hotelRoomId = hotelRoomId;
+	//	this.guestId = guestId;
+	//	this.hotelRoomId = hotelRoomId;
 		this.dateOfArrival = dateOfArrival;
 		this.dateOfDeparture = dateOfDeparture;
 	}
@@ -82,18 +86,18 @@ public class Orders extends BaseModel{
 	 *
 	 * @return the guest id
 	 */
-	public int getGuestId() {
-		return guestId;
-	}
+//public int getGuestId() {
+//		return guestId;
+//	}
 
 	/**
 	 * Gets the hotel room id.
 	 *
 	 * @return the hotel room id
 	 */
-	public int getHotelRoomId() {
-		return hotelRoomId;
-	}
+//	public int getHotelRoomId() {
+//		return hotelRoomId;
+//	}
 
 	/**
 	 * Gets the date of arrival.
@@ -119,6 +123,22 @@ public class Orders extends BaseModel{
 
 	public void setPaid(boolean paid) {
 		this.paid = paid;
+	}
+
+	public HotelRoom getHotelRoom() {
+		return hotelRoom;
+	}
+
+	public void setHotelRoom(HotelRoom hotelRoom) {
+		this.hotelRoom = hotelRoom;
+	}
+
+	public List<Service> getServices() {
+		return services;
+	}
+
+	public void setServices(List<Service> services) {
+		this.services = services;
 	}
 	
 	

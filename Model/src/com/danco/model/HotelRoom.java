@@ -34,6 +34,10 @@ public class HotelRoom extends BaseModel implements Cloneable{
 	/** The status. */
 
 	private boolean status = true;
+	
+	
+	
+	
 
 	/**
 	 * Instantiates a new hotel room.

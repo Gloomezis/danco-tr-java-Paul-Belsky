@@ -1,1 +1,3 @@
 dependencyInjectionPropertyFileName=dependencyInjectionProperty.txt
+jdbcURL=jdbc:mysql://localhost:3306/hotel_admin?user=root&password=1111
+jdbcDriver=com.mysql.jdbc.Driver

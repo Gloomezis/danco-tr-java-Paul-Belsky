@@ -212,7 +212,7 @@ public class Builder {
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_GUESTS, new ShowAllGuests()));
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_LIST_SERVICES, new ShowListOfService()));
 		firstShowMenu.getMenuItems().add(new MenuItems(SHOW_SUMM_TO_PAID_GUEST, new ShowSummToPaidGuest()));
-		
+		firstShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*
 		 * Hotel rooms operation
@@ -227,7 +227,6 @@ public class Builder {
 		secondMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		secondAddMenu.getMenuItems().add(new MenuItems(ADD_ROOM, new AddRooms()));
-		
 		secondAddMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		secondEditMenu.getMenuItems()
@@ -245,7 +244,6 @@ public class Builder {
 				.add(new MenuItems(SHOW_DETAIL_SELECTED_ROOM, new ShowDetailOfHotelRoom()));
 		secondShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS, new ShowPriceServiceAndHotelRoom()));
-		
 		secondShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*
@@ -264,8 +262,6 @@ public class Builder {
 
 		threeShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_PRICE_SERVICE_AND_HOTEL_ROOMS, new ShowPriceServiceAndHotelRoom()));
-		
-
 		threeShowMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		/*

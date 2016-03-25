@@ -27,6 +27,11 @@ public class PropertyManager {
 	/** The Constant PROPERTY_FIELD_DEPENDENCY_INJ_PROP_FILE_NAME. */
 	private static final String PROPERTY_FIELD_DEPENDENCY_INJ_PROP_FILE_NAME="dependencyInjectionPropertyFileName";
 	
+	/** The Constant PROPERTY_FIELD_DEPENDENCY_INJ_PROP_FILE_NAME. */
+	private static final String JDBC_URL="jdbcURL";
+	
+	private static final String JDBC_DRIVER="jdbcDriver";
+	
 	/** The Constant EXCEPTION. */
 	private static final String EXCEPTION = "Exception";
 
@@ -89,10 +94,22 @@ public class PropertyManager {
 	 * @return the dependency injection property file
 	 */
 	public String getDependencyInjectionPropertyFile() {
-		//String fileName = properties.getProperty(PROPERTY_FIELD_DEPENDENCY_INJ_PROP_FILE_NAME);
-		String fileName = "dependencyInjectionProperty.txt";
+		String fileName = properties.getProperty(PROPERTY_FIELD_DEPENDENCY_INJ_PROP_FILE_NAME);
+		//String fileName = "dependencyInjectionProperty.txt";
 		return fileName;
 
 	}
+	
+	public String getJDBCSettings() {
+		String jdbcURL = properties.getProperty(JDBC_URL);
+		return jdbcURL;
+
+	} 
+	
+	public String getJDBCDriver() {
+		String jdbcDriver = properties.getProperty(JDBC_DRIVER);
+		return jdbcDriver;
+
+	} 
 
 }

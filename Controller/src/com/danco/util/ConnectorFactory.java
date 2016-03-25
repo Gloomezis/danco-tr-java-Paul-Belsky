@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import com.danco.controller.MainController;
+import com.danco.properties.PropertyManager;
 
 //alternative version
 
@@ -43,7 +44,11 @@ public class ConnectorFactory {
 		try {
 
 			DriverManager.registerDriver((Driver) Class.forName(
-					"com.mysql.jdbc.Driver").newInstance());
+					PropertyManager.getInstance().getJDBCDriver()
+				//	"com.mysql.jdbc.Driver"
+					).newInstance());
+			
+			/*
 			StringBuilder url = new StringBuilder();
 
 			url.append("jdbc:mysql://").
@@ -52,10 +57,11 @@ public class ConnectorFactory {
 			append("hotel_admin?").
 			append("user=root&").
 			append("password=1111");
-
 			System.out.append("URL:" + url + "\n");
-
-			connection = DriverManager.getConnection(url.toString());
+			*/
+			
+            String url = PropertyManager.getInstance().getJDBCSettings();
+			connection = DriverManager.getConnection(url);
 			return connection;
 		} catch (SQLException e) {
 			LOG1.error(EXCEPTION, e);
