@@ -21,7 +21,8 @@ public class TExecutor {
 	private final Logger LOG1 = Logger.getLogger(TExecutor.class.getName());
 
 	// Inserts,Deletes & Updates
-	public int execUpdate(Connection connection, String update) {
+	public int execUpdate(Connection connection, String update)
+			throws SQLException {
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.execute(update);
@@ -30,13 +31,10 @@ public class TExecutor {
 			return updated;
 		} catch (SQLException e) {
 			LOG1.error(EXCEPTION, e);
+			throw e;
 		}
-		return 0;
+
 	};
-
-	
-
-	
 
 	/*
 	 * вызов обрабоnчика с анонимкой execQuery TExecutor execT= new TExecutor();
@@ -50,7 +48,7 @@ public class TExecutor {
 	 */
 
 	public <T> T execQuery(Connection connection, String query,
-			TResultHandler<T> handler) {
+			TResultHandler<T> handler) throws SQLException {
 		try {
 			Statement stmt = connection.createStatement();
 			stmt.execute(query);
@@ -61,8 +59,7 @@ public class TExecutor {
 			return value;
 		} catch (SQLException e) {
 			LOG1.error(EXCEPTION, e);
+			throw e;
 		}
-		return null;
 	}
-
 }

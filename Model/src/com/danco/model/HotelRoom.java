@@ -29,7 +29,7 @@ public class HotelRoom extends BaseModel implements Cloneable{
 
 	/** The busy. */
 
-	private boolean busy = false;
+	private boolean busy ;
 
 	/** The status. */
 

@@ -62,7 +62,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 	/** The Constant FILE_HEADER. */
 	// CSV file header
-	private static final String FILE_HEADER1 = "name,dateOfArrive,dateOfDeparture,numberOfRoom,summToPaid";
+	private static final String FILE_HEADER1 = "name";
 
 	
 	/** The Constant CSV_FILE_CREATED. */
@@ -99,12 +99,12 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 	/** The Constant SERVICE_NAME. */
 	
-	private static final int SERVICE_ORDERS_ID =0;
+	
 	// Student attributes index
-	private static final int SERVICE_NAME = 1;
+	private static final int SERVICE_NAME = 0;
 
 	/** The Constant SERVICE_PRICE. */
-	private static final int SERVICE_PRICE = 2;
+	private static final int SERVICE_PRICE = 1;
 
 	/** The Constant FILE_HEADER. */
 	// CSV file header
@@ -173,8 +173,6 @@ public class ImportExportCsvController implements IImportExportCsvController{
 			sb.append(ERROR_CSVFILEREADER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
 			try {
 				fileReader.close();
 			} catch (IOException e) {
@@ -213,6 +211,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 			for (Guest guest : guests) {
 				fileWriter.append(String.valueOf(guest.getName()));
 				fileWriter.append(COMMA_DELIMITER);
+				fileWriter.append(NEW_LINE_SEPARATOR);
 				
 			}
 
@@ -305,8 +304,6 @@ public class ImportExportCsvController implements IImportExportCsvController{
 			sb.append(ERROR_CSVFILEREADER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
 			try {
 				fileReader.close();
 			} catch (IOException e) {
@@ -406,8 +403,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 				String[] tokens = line.split(COMMA_DELIMITER);
 				if (tokens.length > 0) {
 					// Create a new student object and fill his data
-					Service serviceReaded = new Service(Integer.parseInt(tokens[SERVICE_ORDERS_ID]),
-							tokens[SERVICE_NAME],
+					Service serviceReaded = new Service(tokens[SERVICE_NAME],
 							Integer.parseInt(tokens[SERVICE_PRICE]));
 
 					// uniq add entity
@@ -434,8 +430,6 @@ connectionUtil.commitTransaction(con);
 			sb.append(ERROR_CSVFILEREADER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
 			try {
 				fileReader.close();
 			} catch (IOException e) {
@@ -474,8 +468,8 @@ connectionUtil.commitTransaction(con);
 
 			// Write a new student object list to the CSV file
 			for (Service service : services) {
-				fileWriter.append(String.valueOf(service.getOrderId()));
-				fileWriter.append(COMMA_DELIMITER);
+				
+				
 				fileWriter.append(service.getName());
 				fileWriter.append(COMMA_DELIMITER);
 				fileWriter.append(String.valueOf(service.getPrice()));

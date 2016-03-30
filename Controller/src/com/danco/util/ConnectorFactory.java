@@ -37,20 +37,38 @@ public class ConnectorFactory {
 		} catch (ClassNotFoundException e) {
 			LOG1.error(EXCEPTION, e);
 		}
+		try {
+		DriverManager.registerDriver((Driver) Class.forName(
+				PropertyManager.getInstance().getJDBCDriver()
+			//	"com.mysql.jdbc.Driver"
+				).newInstance());
+		}catch (SQLException e) {
+			LOG1.error(EXCEPTION, e);
+		} catch (InstantiationException e) {
+			LOG1.error(EXCEPTION, e);
+		} catch (IllegalAccessException e) {
+			LOG1.error(EXCEPTION, e);
+		} catch (ClassNotFoundException e) {
+			LOG1.error(EXCEPTION, e);
+		}
+		
+		
+		
 	}
+	
+	String url = PropertyManager.getInstance().getJDBCSettings();
+	
+	
+	
+	
+	
 
 	private  Connection createConnection() {
 		Connection connection = null;
 		try {
-
-			DriverManager.registerDriver((Driver) Class.forName(
-					PropertyManager.getInstance().getJDBCDriver()
-				//	"com.mysql.jdbc.Driver"
-					).newInstance());
 			
 			/*
 			StringBuilder url = new StringBuilder();
-
 			url.append("jdbc:mysql://").
 			append("localhost:").
 			append("3306/").
@@ -60,16 +78,9 @@ public class ConnectorFactory {
 			System.out.append("URL:" + url + "\n");
 			*/
 			
-            String url = PropertyManager.getInstance().getJDBCSettings();
 			connection = DriverManager.getConnection(url);
 			return connection;
 		} catch (SQLException e) {
-			LOG1.error(EXCEPTION, e);
-		} catch (InstantiationException e) {
-			LOG1.error(EXCEPTION, e);
-		} catch (IllegalAccessException e) {
-			LOG1.error(EXCEPTION, e);
-		} catch (ClassNotFoundException e) {
 			LOG1.error(EXCEPTION, e);
 		}
 

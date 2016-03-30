@@ -21,7 +21,9 @@ public class Service extends BaseModel {
 	
 	private int price;
 	
-	private boolean paid = false;
+	private boolean paid ;
+	
+	private Orders order;
 
 	/**
 	 * Instantiates a new service.
@@ -51,12 +53,12 @@ public class Service extends BaseModel {
 	 * @param nameOfService
 	 *            the name of service
 	 */
-	public Service(int id,int orderId, String name, int price, boolean paid) {
+	public Service(int id, String name, int price, boolean paid) {
 		super.setId(id);
-		//this.orderId=orderId;
 		this.price = price;
 		this.name = name;
 		this.paid=paid;
+		
 
 	}
 
@@ -92,6 +94,14 @@ public class Service extends BaseModel {
 
 	public void setPaid(boolean paid) {
 		this.paid = paid;
+	}
+
+	public Orders getOrder() {
+		return order;
+	}
+
+	public void setOrder(Orders order) {
+		this.order = order;
 	}
 
 }

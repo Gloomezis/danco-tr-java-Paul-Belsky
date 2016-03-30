@@ -15,7 +15,7 @@ import com.danco.ui.Processing;
 public class ShowAllFreeRooms implements Command {
 
 	/** The Constant SORT_INPUT_MESSAGE. */
-	private static final String SORT_INPUT_MESSAGE = "Enter room sort condition : price/sleepN/star";
+	private static final String SORT_INPUT_MESSAGE = "Enter room sort condition : room_price/sleeping_number/star_category";
 	
 	/** The Constant PROTOCOL. */
 	private static final String PROTOCOL = "1" + ";" + "showAllFreeRooms" + ";";

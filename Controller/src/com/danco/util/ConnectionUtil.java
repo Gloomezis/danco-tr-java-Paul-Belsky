@@ -88,6 +88,7 @@ private static ConnectionUtil instance;
 		} catch (SQLException e) {
 			LOG1.error(EXCEPTION, e);
 		} finally {
+			endTransaction(con);
 			closeConnection(con);
 		}
 	}

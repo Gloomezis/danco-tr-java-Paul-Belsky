@@ -1,6 +1,0 @@
-number,roomPrice,sleepingNumber,starCategory,busy,dateOfArrival,dateOfDeparture,status
-101,80,1,5,false,true
-102,50,2,5,false,true
-201,75,3,5,true,true
-301,200,1,5,true,true
-103,65,1,2,false,true

@@ -26,16 +26,16 @@ public interface IGuestDAO {
 	
 	public int delete(Connection con, int id) throws SQLException;
 
-	public List<Guest> getAll(Connection con);
+	public List<Guest> getAll(Connection con) throws SQLException;
 	
-	public List<Guest> getAllSorted(Connection con,String sortCondition);
+	public List<Guest> getAllSorted(Connection con,String sortCondition)throws SQLException;
 
 	
 	public int getAllGuestNumber(Connection con) throws SQLException;
 
 	public List<String> getNameGuestsAndTheyHotelRoom(Connection con,
-			String sortCondition);
+			String sortCondition)throws SQLException;
 
-	public List<Service> getGuestService(Connection con, String name);
+	public List<Service> getGuestService(Connection con, String name)throws SQLException;
 
 }

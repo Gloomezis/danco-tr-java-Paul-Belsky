@@ -90,14 +90,7 @@ public interface IMainController {
 	 */
 	public String showNumberOfFreeHotelRooms();
 
-	/**
-	 * Show last3 guest of hotel room.
-	 *
-	 * @param userInputHotelRoomNumber
-	 *            the user input hotel room number
-	 * @return the string
-	 */
-	public String showLast3GuestOfHotelRoom(String userInputHotelRoomNumber);
+	
 
 	/**
 	 * Show detail of hotel room.

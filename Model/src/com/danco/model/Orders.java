@@ -3,6 +3,7 @@
  */
 package com.danco.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class Orders extends BaseModel{
 	private static final long serialVersionUID = 1L;
 
 	private List<Service> services;
+	
+	private Guest guest;
 
 	/** The hotel room id. */
 	private HotelRoom hotelRoom;
@@ -28,7 +31,7 @@ public class Orders extends BaseModel{
 	/** The date of departure. */
 	private Date dateOfDeparture;
 	
-	private boolean paid = false;
+	private boolean paid ;
 
 	/**
 	 * Instantiates a new guest to hotel room data set.
@@ -43,17 +46,17 @@ public class Orders extends BaseModel{
 	 * @param orderId 
 	 */
 	public Orders(int id, 
-			// int guestId,
-			//int hotelRoomId,
 			
-	HotelRoom hotelRoom, Date dateOfArrival, Date dateOfDeparture, boolean paid) {
+			
+	HotelRoom hotelRoom, Date dateOfArrival, Date dateOfDeparture,boolean paid) {
 		super();
 		super.setId(id);
-		//this.guestId = guestId;
-		//this.hotelRoomId = hotelRoomId;
+		
+		this.hotelRoom = hotelRoom;
 		this.dateOfArrival = dateOfArrival;
 		this.dateOfDeparture = dateOfDeparture;
 		this.paid=paid;
+		this.services = new ArrayList<Service>()		;
 	}
 
 	/**
@@ -73,10 +76,10 @@ public class Orders extends BaseModel{
 			HotelRoom hotelRoom,Date dateOfArrival, Date dateOfDeparture) {
 		super();
 		super.setId( -1);
-	//	this.guestId = guestId;
-	//	this.hotelRoomId = hotelRoomId;
+	    this.hotelRoom = hotelRoom;
 		this.dateOfArrival = dateOfArrival;
 		this.dateOfDeparture = dateOfDeparture;
+		this.services = new ArrayList<Service>();
 	}
 
 	
@@ -139,6 +142,14 @@ public class Orders extends BaseModel{
 
 	public void setServices(List<Service> services) {
 		this.services = services;
+	}
+
+	public Guest getGuest() {
+		return guest;
+	}
+
+	public void setGuest(Guest guest) {
+		this.guest = guest;
 	}
 	
 	

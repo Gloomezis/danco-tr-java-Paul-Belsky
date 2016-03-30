@@ -76,7 +76,6 @@ public class MainController implements IMainController {
 		try {
 			guestDAO.create(con, g);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			LOG1.error(EXCEPTION, e);
 		} finally {
 			connectionUtil.closeConnection(con);
@@ -184,7 +183,7 @@ public class MainController implements IMainController {
 			int userInputPrice) {
 		Connection con = connectionUtil.getConnection();
 		try {
-			Service serv = new Service(userInputOrderId, userInputGuestName,
+			Service serv = new Service(userInputGuestName,
 					userInputPrice);
 			serviceDAO.create(con, serv);
 		} catch (Exception e) {
@@ -208,23 +207,8 @@ public class MainController implements IMainController {
 			List<HotelRoom> rooms = hotelRoomDAO.getAllSorted(con,
 					userInputSortCondition);
 			for (HotelRoom s : rooms) {
-				boolean busyB = s.getBusy();
-				String busyS;
-				if (busyB == true) {
-					busyS = "busy";
-				} else {
-					busyS = "free";
-				}
-				boolean statusB = s.getStatus();
-				String statusS;
-				if (statusB == true) {
-					statusS = "working";
-				} else {
-					statusS = "reparing";
-				}
-				sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
-						s.getSleepingNumber(), s.getStarCategory(),
-						s.getRoomPrice(), busyS, statusS));
+				
+				sb.append(hotelRoomToString(s));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -247,24 +231,7 @@ public class MainController implements IMainController {
 			List<HotelRoom> rooms = hotelRoomDAO.getAllFreeSorted(con,
 					userInputSortCondition);
 			for (HotelRoom s : rooms) {
-				boolean busyB = s.getBusy();
-				String busyS;
-				if (busyB == true) {
-					busyS = "busy";
-				} else {
-					busyS = "free";
-				}
-				boolean statusB = s.getStatus();
-				String statusS;
-
-				if (statusB == true) {
-					statusS = "working";
-				} else {
-					statusS = "reparing";
-				}
-				sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
-						s.getSleepingNumber(), s.getStarCategory(),
-						s.getRoomPrice(), busyS, statusS));
+				sb.append(hotelRoomToString(s));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -288,23 +255,7 @@ public class MainController implements IMainController {
 			List<HotelRoom> rooms = hotelRoomDAO.getFreeHotelRoomsAfterDate(
 					con, userInputSortCondition, date);
 			for (HotelRoom s : rooms) {
-				boolean busyB = s.getBusy();
-				String busyS;
-				if (busyB == true) {
-					busyS = "busy";
-				} else {
-					busyS = "free";
-				}
-				boolean statusB = s.getStatus();
-				String statusS;
-				if (statusB == true) {
-					statusS = "working";
-				} else {
-					statusS = "reparing";
-				}
-				sb.append(String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
-						s.getSleepingNumber(), s.getStarCategory(),
-						s.getRoomPrice(), busyS, statusS));
+				sb.append(hotelRoomToString(s));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -334,17 +285,8 @@ public class MainController implements IMainController {
 		return Integer.toString(n);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showLast3GuestOfHotelRoom()
-	 */
-
-	@Override
-	public String showLast3GuestOfHotelRoom(String userInputHotelRoomNumber) {
-		return null;
-
-	}
+	
+	
 
 	/*
 	 * (non-Javadoc)
@@ -359,24 +301,8 @@ public class MainController implements IMainController {
 		try {
 			HotelRoom s = hotelRoomDAO
 					.readByName(con, userInputHotelRoomNumber);
-			boolean busyB = s.getBusy();
-			String busyS;
-			if (busyB == true) {
-				busyS = "busy";
-			} else {
-				busyS = "free";
-			}
-			boolean statusB = s.getStatus();
-			String statusS;
-
-			if (statusB == true) {
-				statusS = "working";
-			} else {
-				statusS = "reparing";
-			}
-			info = (String.format(ROOM_PRINTER_FORMAT, s.getNumber(),
-					s.getSleepingNumber(), s.getStarCategory(),
-					s.getRoomPrice(), busyS, statusS));
+			
+			info = (hotelRoomToString(s));
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -399,22 +325,18 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		try {
 			connectionUtil.beginTransaction(con);
-			con.setAutoCommit(false);
-			Guest g = guestDAO.readByName(con, userInputGuestName);
 			HotelRoom hr = hotelRoomDAO.readByName(con,
 					userInputHotelRoomNumber);
 
-			Orders order = new Orders(g.getId(), hr.getId(),
+			Orders order = new Orders( hr,
 					userinpitDateOfArrive, userInputDateOfDeparture);
+			order.setHotelRoom(hr);
 			ordersDAO.create(con, order);
 			connectionUtil.commitTransaction(con);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			connectionUtil.rollbackTransaction(con);
-		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
-		}
+		} 
 	}
 
 	/*
@@ -429,16 +351,15 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		try {
 			connectionUtil.beginTransaction(con);
+			
 			ordersDAO.updatePaid(con, userInputOrderId);
 			serviceDAO.updatePaid(con, userInputOrderId);
+			
 			connectionUtil.commitTransaction(con);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			connectionUtil.rollbackTransaction(con);
 
-		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
 		}
 	}
 
@@ -456,20 +377,15 @@ public class MainController implements IMainController {
 			connectionUtil.beginTransaction(con);
 			Boolean statusG = hotelRoomDAO.getStatus(con,
 					userInputHotelRoomName);
-			if (statusG == false) {
-				status = true;
-			} else {
-				status = false;
-			}
+			
+			status =statusG == false? true:false;
+			
 			HotelRoom hr = hotelRoomDAO.readByName(con, userInputHotelRoomName);
 			hotelRoomDAO.updateStatus(con, hr.getId(), status);
 			connectionUtil.commitTransaction(con);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			connectionUtil.rollbackTransaction(con);
-		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
 		}
 	}
 
@@ -515,10 +431,7 @@ public class MainController implements IMainController {
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			connectionUtil.rollbackTransaction(con);
-		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
-		}
+		} 
 	}
 
 	/*
@@ -548,10 +461,7 @@ public class MainController implements IMainController {
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			connectionUtil.rollbackTransaction(con);
-		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
-		}
+		} 
 		return sb.toString();
 	}
 
@@ -573,10 +483,7 @@ public class MainController implements IMainController {
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			connectionUtil.rollbackTransaction(con);	
-		} finally {
-			connectionUtil.endTransaction(con);
-			connectionUtil.closeConnection(con);
-		}
+		} 
 
 	}
 
@@ -702,6 +609,22 @@ public class MainController implements IMainController {
 		}	
 		return str;
 
+	}
+	
+	private String hotelRoomToString(HotelRoom hr){
+		
+		boolean busyB = hr.getBusy();
+		String busyS=busyB==true? "busy":  "free";
+		
+		boolean statusB = hr.getStatus();
+		String	statusS=statusB == true?"working":"reparing";
+		
+		String hrString =String.format(ROOM_PRINTER_FORMAT, hr.getNumber(),
+				hr.getSleepingNumber(), hr.getStarCategory(),
+				hr.getRoomPrice(), busyS, statusS);
+		
+		
+		return hrString;
 	}
 
 }

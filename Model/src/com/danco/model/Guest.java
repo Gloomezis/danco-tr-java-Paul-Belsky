@@ -3,6 +3,7 @@
  */
 package com.danco.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,6 +40,7 @@ public class Guest  extends BaseModel{
 	public Guest(int id, String name) {
 		super.setId(id);
 		this.name = name;
+		this.orders= new ArrayList<Orders>();
 	}
 
 	/**
@@ -50,6 +52,7 @@ public class Guest  extends BaseModel{
 	public Guest(String name) {
 		super.setId(-1);
 		this.name = name;
+		this.orders= new ArrayList<Orders>();
 	}
 
 	/**
@@ -73,10 +76,10 @@ public class Guest  extends BaseModel{
 	/**
 	 * Sets the orders.
 	 *
-	 * @param orders1 the new orders
+	 * @param ordersList the new orders
 	 */
-	public void setOrders(Orders orders1) {
-		orders.add(orders1);
+	public void setOrders(List<Orders> ordersList) {
+		this.orders=ordersList;
 	}
 
 	
