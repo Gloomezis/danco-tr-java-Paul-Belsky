@@ -37,18 +37,23 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 		int sC = ((HotelRoom) baseModel).getStarCategory();
 		boolean busy = ((HotelRoom) baseModel).getBusy();
 		boolean status = ((HotelRoom) baseModel).getStatus();
-
-		return exec
-				.execUpdate(
-						con,
-						"INSERT INTO hotel_room (number,room_price,sleeping_number,star_category, busy,status) "
-								+ "values ('"
-								+ name
-								+ "',"
-								+ rP
-								+ ","
-								+ sN
-								+ "," + sC + "," + busy + "," + status + ");");
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO hotel_room (number,room_price,sleeping_number,star_category, busy,status) values ('");
+		sql.append(name);
+		sql.append("',");
+		sql.append(rP);
+		sql.append(",");
+		sql.append(sN);
+		sql.append(",");
+		sql.append(sC);
+		sql.append(",");
+		sql.append(busy);
+		sql.append(",");
+		sql.append(status);
+		sql.append(");");
+		
+		return exec.execUpdate(con,sql.toString());
 
 	}
 
@@ -62,8 +67,14 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 	@Override
 	public HotelRoom read(Connection con, int id) throws SQLException {
 		TExecutor exec = new TExecutor();
-		String sql = "SELECT * FROM hotel_room WHERE idHotelRoom =";
-		return exec.execQuery(con, sql + id + ";",
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM hotel_room WHERE idHotelRoom =");
+		sql.append(id);
+		sql.append(";");
+		
+		
+		return exec.execQuery(con, sql.toString(),
 				new TResultHandler<HotelRoom>() {
 
 					@Override
@@ -91,8 +102,13 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 	public HotelRoom readByName(Connection con, String number)
 			throws SQLException {
 		TExecutor exec = new TExecutor();
-		String sql = "SELECT * FROM hotel_room WHERE number ='";
-		return exec.execQuery(con, sql + number + "';",
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM hotel_room WHERE number ='");
+		sql.append(number);
+		sql.append("';");
+		
+		return exec.execQuery(con, sql.toString(),
 				new TResultHandler<HotelRoom>() {
 
 					@Override
@@ -120,15 +136,26 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 			throws SQLException {
 		TExecutor exec = new TExecutor();
 		HotelRoom room = (HotelRoom) baseModel;
-
-		String sql = "UPDATE  Room SET number = " + room.getNumber()
-				+ ", room_price = " + room.getRoomPrice()
-				+ ", sleeping_number = " + room.getSleepingNumber()
-				+ ", stat_category = " + room.getStarCategory() + ", busy = "
-				+ room.getBusy() + ", status = " + room.getStatus()
-				+ " WHERE idHotelRoom = " + id + " ;";
-
-		return exec.execUpdate(con, sql);
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("UPDATE  Room SET number = ");
+		sql.append(room.getNumber());
+		sql.append(", room_price = ");
+		sql.append(room.getRoomPrice());
+		sql.append(", sleeping_number = ");
+		sql.append(room.getSleepingNumber());
+		sql.append(", stat_category = ");
+		sql.append(room.getStarCategory());
+		sql.append(", busy = ");
+		sql.append(room.getBusy());
+		sql.append(", status = ");
+		sql.append(room.getStatus());
+		sql.append(" WHERE idHotelRoom = ");
+		sql.append(id);
+		sql.append(" ;");
+		
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
@@ -144,8 +171,14 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 	public int delete(Connection con, int id) throws SQLException {
 
 		TExecutor exec = new TExecutor();
-		String sql = "DELETE  FROM hotel_room WHERE idHotelRoom =";
-		return exec.execUpdate(con, sql + id + ";");
+		
+        StringBuilder sql = new StringBuilder();
+		
+		sql.append("DELETE  FROM hotel_room WHERE idHotelRoom =");
+		sql.append(id);
+		sql.append(";");
+		
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
@@ -185,10 +218,18 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 	@Override
 	public List<HotelRoom> getAllSorted(Connection con, String sortCondition)
 			throws SQLException {
-		String sql = "SELECT * FROM hotel_rooom ORDER BY" + sortCondition + ";";
+		
+        StringBuilder sql = new StringBuilder();
+		
+		sql.append("SELECT * FROM hotel_rooom ORDER BY");
+		sql.append(sortCondition);
+		sql.append(";");
+		
+		
+		
 		TExecutor exec = new TExecutor();
 
-		return exec.execQuery(con, sql, new TResultHandler<List<HotelRoom>>() {
+		return exec.execQuery(con, sql.toString(), new TResultHandler<List<HotelRoom>>() {
 
 			@Override
 			public List<HotelRoom> handle(ResultSet result) throws SQLException {
@@ -217,11 +258,17 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 	@Override
 	public List<HotelRoom> getAllFreeSorted(Connection con, String sortCondition)
 			throws SQLException {
-		String sql = "SELECT * FROM hotel_room WHERE busy = true ORDER BY"
-				+ sortCondition + ";";
+		
+		
+		 StringBuilder sql = new StringBuilder();
+			
+			sql.append("SELECT * FROM hotel_room WHERE busy = true ORDER BY");
+			sql.append(sortCondition);
+			sql.append(";");
+		
 		TExecutor exec = new TExecutor();
 
-		return exec.execQuery(con, sql, new TResultHandler<List<HotelRoom>>() {
+		return exec.execQuery(con, sql.toString(), new TResultHandler<List<HotelRoom>>() {
 
 			@Override
 			public List<HotelRoom> handle(ResultSet result) throws SQLException {
@@ -277,11 +324,23 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 	@Override
 	public List<HotelRoom> getFreeHotelRoomsAfterDate(Connection con,
 			String sortCondition, Date date) throws SQLException {
-		String sql = "SELECT  hotel_room.* FROM hotel_room INNER join orders ON orders.hotel_room_id=hotel_room.idHotelRoom WHERE date_departure < '"
-				+ date + "' ORDER BY " + sortCondition + ";";
+
+		
+		 StringBuilder sql = new StringBuilder();
+			
+			sql.append("SELECT  hotel_room.* FROM hotel_room INNER join orders ON orders.hotel_room_id=hotel_room.idHotelRoom WHERE date_departure < '");
+			sql.append(date);
+			sql.append("' ORDER BY ");
+			sql.append(sortCondition);
+			sql.append(";");
+		
+		
+		
+		
+		
 		TExecutor exec = new TExecutor();
 
-		return exec.execQuery(con, sql, new TResultHandler<List<HotelRoom>>() {
+		return exec.execQuery(con, sql.toString(), new TResultHandler<List<HotelRoom>>() {
 
 			@Override
 			public List<HotelRoom> handle(ResultSet result) throws SQLException {
@@ -306,8 +365,18 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 	public int updatePrice(Connection con, int id, int rPrice)
 			throws SQLException {
 		TExecutor exec = new TExecutor();
-		return exec.execUpdate(con, "UPDATE  hotel_room SET room_price="
-				+ rPrice + "where idHotelRoom=" + id + ";");
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("UPDATE  hotel_room SET room_price=");
+		sql.append(rPrice);
+		sql.append("where idHotelRoom=");
+		sql.append(id);
+		sql.append(";");
+		
+		return exec.execUpdate(con, sql.toString());
+		
+		
 
 	}
 
@@ -323,8 +392,16 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 	public int updateStatus(Connection con, int id, boolean status)
 			throws SQLException {
 		TExecutor exec = new TExecutor();
-		return exec.execUpdate(con, "UPDATE  hotel_room SET status=" + status
-				+ "WHERE idHotelRoom=" + id + ";");
+		
+        StringBuilder sql = new StringBuilder();
+		
+		sql.append("UPDATE  hotel_room SET status=");
+		sql.append(status);
+		sql.append("WHERE idHotelRoom=");
+		sql.append(id);
+		sql.append(";");
+		
+		return exec.execUpdate(con,sql.toString());
 
 	}
 
@@ -368,11 +445,18 @@ public class HotelRoomDAO implements IDAO<HotelRoom>, IHotelRoomDAO {
 
 	@Override
 	public Boolean getStatus(Connection con, String number) throws SQLException {
-		String sql = "SELECT status FROM hotel_room where number= '" + number
-				+ "';";
+		
+StringBuilder sql = new StringBuilder();
+		
+		sql.append("SELECT status FROM hotel_room where number= '");
+		sql.append(number);
+		sql.append("';");
+		
+		
+		
 		TExecutor exec = new TExecutor();
 
-		return exec.execQuery(con, sql, new TResultHandler<Boolean>() {
+		return exec.execQuery(con, sql.toString(), new TResultHandler<Boolean>() {
 
 			@Override
 			public Boolean handle(ResultSet result) throws SQLException {

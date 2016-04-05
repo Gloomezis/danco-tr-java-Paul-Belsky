@@ -23,8 +23,11 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 	}
 
 	// Settle
-	/* (non-Javadoc)
-	 * @see com.danco.gloomezis.dao.IOrdersDAO#create(java.sql.Connection, com.danco.model.IBaseModel)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#create(java.sql.Connection,
+	 * com.danco.model.IBaseModel)
 	 */
 
 	@Override
@@ -35,26 +38,36 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 		int hrId = ((Orders) baseModel).getHotelRoom().getId();
 		Date dArrive = ((Orders) baseModel).getDateOfArrival();
 		Date dDeparture = ((Orders) baseModel).getDateOfDeparture();
-		return exec.execUpdate(con,
-				"INSERT INTO orders (guest_id,hotel_room_id,date_arrive,date_departure) "
-						+ "values (" + gId + "," + hrId + ",'" + dArrive
-						+ "','" + dDeparture + "';)");
+
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("INSERT INTO orders (guest_id,hotel_room_id,date_arrive,date_departure) values (");
+		sql.append(gId);
+		sql.append(",");
+		sql.append(hrId);
+		sql.append(",'");
+		sql.append(dArrive);
+		sql.append("','");
+		sql.append(dDeparture);
+		sql.append("';)");
+
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
 	// +
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.gloomezis.dao.IOrdersDAO#read(java.sql.Connection, int)
 	 */
-	
+
 	@Override
 	public Orders read(Connection con, int id) throws SQLException {
 		TExecutor exec = new TExecutor();
-		
+
 		StringBuilder sql = new StringBuilder();
-		
-		
-		
+
 		sql.append("SELECT * FROM orders ");
 		sql.append("Inner join guest on ");
 		sql.append("guest.idGuest=orders.guest_id ");
@@ -62,84 +75,99 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 		sql.append("orders.hotel_room_id=hotel_room.idHotelRoom ");
 		sql.append("Inner join service on ");
 		sql.append("orders.idOrders=service.orders_id ");
-		
 		sql.append("WHERE orders.idOrders = " + id + "; ");
-		
-		
-		
+
 		return exec.execQuery(con, sql.toString(),
 				new TResultHandler<Orders>() {
 
 					@Override
 					public Orders handle(ResultSet result) throws SQLException {
-						
-						List<Orders> ordersList = new ArrayList<Orders>(); 
-						
-						while(result.next()) {
+
+						List<Orders> ordersList = new ArrayList<Orders>();
+
+						while (result.next()) {
 							Orders order = parseResultForOrders(result);
 							Service service = parseResultForService(result);
-							ordersList = addOrdersInList(ordersList, service, order) ;
+							ordersList = addOrdersInList(ordersList, service,
+									order);
 						}
-						return ordersList.get(0); 
+						return ordersList.get(0);
 					}
 				});
 	}
 
-
 	// +
-	/* (non-Javadoc)
-	 * @see com.danco.gloomezis.dao.IOrdersDAO#update(java.sql.Connection, int, com.danco.model.IBaseModel)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#update(java.sql.Connection, int,
+	 * com.danco.model.IBaseModel)
 	 */
-	
+
 	@Override
 	public int update(Connection con, int id, IBaseModel baseModel)
 			throws SQLException {
-		
+
 		TExecutor exec = new TExecutor();
-		int oId=((Orders) baseModel).getId();
+		int oId = ((Orders) baseModel).getId();
 		int gId = ((Orders) baseModel).getGuest().getId();
 		int hrId = ((Orders) baseModel).getHotelRoom().getId();
 		Date dArrive = ((Orders) baseModel).getDateOfArrival();
 		Date dDeparture = ((Orders) baseModel).getDateOfDeparture();
-		boolean paidOrders =((Orders)baseModel).isPaid();
-		
-		String sql = "UPDATE  orders SET date_arrive = '"
-				+ dArrive+ "', date_departure = '"
-				+ dDeparture + "', paid_orders = " + paidOrders
-				+ ", hotel_room_id = " + hrId
-				+ ", guest_id = " + gId
-				+ " WHERE idOrders = " + oId + ";";
-		
-		
-		return exec.execUpdate(con, sql);
-		
+		boolean paidOrders = ((Orders) baseModel).isPaid();
+
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("UPDATE  orders SET date_arrive = '");
+		sql.append(dArrive);
+		sql.append("', date_departure = '");
+		sql.append(dDeparture);
+		sql.append("', paid_orders = ");
+		sql.append(paidOrders);
+		sql.append(", hotel_room_id = ");
+		sql.append(hrId);
+		sql.append(", guest_id = ");
+		sql.append(gId);
+		sql.append(" WHERE idOrders = ");
+		sql.append(oId);
+		sql.append(";");
+
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
 	// +
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.gloomezis.dao.IOrdersDAO#delete(java.sql.Connection, int)
 	 */
-	
+
 	@Override
 	public int delete(Connection con, int id) throws SQLException {
+		
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("DELETE  FROM orders WHERE idOrders =").append(id).append(";");
+		
 
 		TExecutor exec = new TExecutor();
-		String sql = "DELETE  FROM orders WHERE idOrders =";
-		return exec.execUpdate(con, sql + id + ";");
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
 	// +
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.gloomezis.dao.IOrdersDAO#getAll(java.sql.Connection)
 	 */
-	
+
 	@Override
 	public List<Orders> getAll(Connection con) throws SQLException {
-		
+
 		StringBuilder sql = new StringBuilder();
-		
+
 		sql.append("SELECT * FROM orders ");
 		sql.append("Inner join guest on ");
 		sql.append("guest.idGuest=orders.guest_id ");
@@ -147,47 +175,59 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 		sql.append("orders.hotel_room_id=hotel_room.idHotelRoom ");
 		sql.append("Inner join service on ");
 		sql.append("orders.idOrders=service.orders_id ");
-		
-		
-		
+
 		TExecutor exec = new TExecutor();
 
-		return exec.execQuery(con, sql.toString(), new TResultHandler<List<Orders>>() {
+		return exec.execQuery(con, sql.toString(),
+				new TResultHandler<List<Orders>>() {
 
-			@Override
-			public List<Orders> handle(ResultSet result) throws SQLException {
-				List<Orders> list = new ArrayList<Orders>();
-				
-				while (result.next()) {
-					Orders order = parseResultForOrders(result);
-					Service service = parseResultForService(result);
-					
-					list = addOrdersInList(list, service, order) ;
-					
-				}
-				
-				return list;
-			}
-		});
+					@Override
+					public List<Orders> handle(ResultSet result)
+							throws SQLException {
+						List<Orders> list = new ArrayList<Orders>();
+
+						while (result.next()) {
+							Orders order = parseResultForOrders(result);
+							Service service = parseResultForService(result);
+
+							list = addOrdersInList(list, service, order);
+
+						}
+
+						return list;
+					}
+				});
 	}
 
 	// + update only paid for departure
-	/* (non-Javadoc)
-	 * @see com.danco.gloomezis.dao.IOrdersDAO#updatePaid(java.sql.Connection, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.danco.gloomezis.dao.IOrdersDAO#updatePaid(java.sql.Connection,
+	 * int)
 	 */
 	@Override
 	public int updatePaid(Connection con, String id) throws SQLException {
 		TExecutor exec = new TExecutor();
-		return exec.execUpdate(con, "UPDATE  orders SET paid = true where idOrders="
-				+ id + ";");
+		
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("UPDATE  orders SET paid = true where idOrders=").append(id).append(";");
+		
+		return exec.execUpdate(con,sql.toString());
 
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.gloomezis.dao.IOrdersDAO#getSummToDeparture(java.sql.Connection, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.gloomezis.dao.IOrdersDAO#getSummToDeparture(java.sql.Connection
+	 * , int)
 	 */
 	@Override
-	public int getSummToDeparture(Connection con, String name) throws SQLException {
+	public int getSummToDeparture(Connection con, String name)
+			throws SQLException {
 		StringBuilder sql = new StringBuilder();
 
 		sql.append("SELECT DISTINCT SUM(guest_summ_paid.price) AS  price FROM ( ");
@@ -196,7 +236,8 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 		sql.append("orders.guest_id=guest.idGuest ");
 		sql.append("INNER JOIN hotel_room ON ");
 		sql.append("orders.hotel_room_id=hotel_room.idHotelRoom ");
-		sql.append("WHERE guest.name = '" + name + "' and orders.paid_orders=false");
+		sql.append("WHERE guest.name = '" + name
+				+ "' and orders.paid_orders=false");
 		sql.append("UNION ");
 		sql.append("SELECT SUM(service.service_price) AS price FROM orders ");
 		sql.append("INNER JOIN guest ON ");
@@ -205,11 +246,6 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 		sql.append("orders.idOrders=service.orders_id ");
 		sql.append("WHERE guest.name = '" + name
 				+ "' and service.paid_service=false )AS guest_summ_paid; ");
-		
-		
-		
-		
-		
 
 		TExecutor exec = new TExecutor();
 
@@ -223,10 +259,7 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 					}
 				});
 	}
-	
-	
-	
-	
+
 	private Orders parseResultForOrders(ResultSet result) throws SQLException {
 
 		Orders order = null;
@@ -237,8 +270,7 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 
 		int idGuest = result.getInt("idGuest");
 		String name = result.getString("name");
-		Guest guest = new Guest(idGuest,name);
-		
+		Guest guest = new Guest(idGuest, name);
 
 		int idRoom = result.getInt("idHotelRoom");
 		String number = result.getString("number");
@@ -247,40 +279,40 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 		int starCategory = result.getInt("star_category");
 		boolean busy = result.getBoolean("busy");
 		boolean status = result.getBoolean("status");
-		HotelRoom room = new HotelRoom(idRoom, number, roomPrice, sleepingNumber,
-				starCategory);
+		HotelRoom room = new HotelRoom(idRoom, number, roomPrice,
+				sleepingNumber, starCategory);
 		room.setBusy(busy);
 		room.setStatus(status);
-		order = new Orders(idOrder,room, dateArrive, dateDeparture, paid);
+		order = new Orders(idOrder, room, dateArrive, dateDeparture, paid);
 		order.setGuest(guest);
-		
+
 		return order;
 	}
-	
-	private Service parseResultForService(ResultSet result) throws SQLException{
-		
+
+	private Service parseResultForService(ResultSet result) throws SQLException {
+
 		int idService = result.getInt("idService");
 		String nameService = result.getString("name_service");
 		int priceService = result.getInt("service_price");
 		boolean paidService = result.getBoolean("paid_service");
 
+		Service service = new Service(idService, nameService, priceService,
+				paidService);
 
-		Service service = new Service(idService,nameService, priceService,paidService);
-		
 		return service;
 	}
 
-	private void addServiceForOrders(Service service, Orders order){
+	private void addServiceForOrders(Service service, Orders order) {
 		List<Service> serviceList = new ArrayList<Service>();
-		if (order.getServices()!=null){
+		if (order.getServices() != null) {
 			serviceList = order.getServices();
-		} 
+		}
 		serviceList.add(service);
-			order.setServices(serviceList);	
+		order.setServices(serviceList);
 	}
-	
-	private List<Orders> addOrdersInList(List<Orders> orderList, Service service,
-			Orders order) {
+
+	private List<Orders> addOrdersInList(List<Orders> orderList,
+			Service service, Orders order) {
 
 		if (orderList.size() == 0) {
 			addServiceForOrders(service, order);
@@ -288,14 +320,14 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 		} else {
 			boolean isOrder = false;
 			int index = 0;
-			
+
 			for (int i = 0; i < orderList.size(); i++) {
 				if (orderList.get(i).getId() == order.getId()) {
 					isOrder = true;
 					index = i;
 				}
 			}
-			
+
 			if (isOrder) {
 				order = orderList.get(index);
 				addServiceForOrders(service, order);
@@ -308,13 +340,11 @@ public class OrdersDAO implements IDAO<Orders>, IOrdersDAO {
 		return orderList;
 	}
 
-	
-	//Not needed
+	// Not needed
 	@Override
 	public Orders readByName(Connection con, String name) throws SQLException {
-		
+
 		return null;
 	}
- 
 
 }

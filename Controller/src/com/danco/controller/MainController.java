@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package com.danco.controller;
 
 import java.sql.Connection;
@@ -9,11 +12,6 @@ import org.apache.log4j.Logger;
 
 import com.danco.controller.api.IImportExportCsvController;
 import com.danco.controller.api.IMainController;
-import com.danco.dao.api.IGuestDAO;
-import com.danco.dao.api.IHotelRoomDAO;
-import com.danco.dao.api.IOrdersDAO;
-import com.danco.dao.api.IServiceDAO;
-import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Guest;
 import com.danco.model.HotelRoom;
 import com.danco.model.Orders;
@@ -28,20 +26,16 @@ import com.danco.util.ConnectorFactory;
 public class MainController implements IMainController {
 
 	/** The guest service. */
-	private IGuestDAO guestDAO = (IGuestDAO) DependencyInjectionManager
-			.getClassInstance(IGuestDAO.class);
+	private GuestController guestController = new GuestController();
+	
+	/** The guest service. */
+	private HotelRoomController hotelRoomController = new HotelRoomController();
 
-	/** The service service. */
-	private IServiceDAO serviceDAO = (IServiceDAO) DependencyInjectionManager
-			.getClassInstance(IServiceDAO.class);
+	/** The service controller. */
+	private ServiceController serviceController = new ServiceController();
 
-	/** The service service. */
-	private IOrdersDAO ordersDAO = (IOrdersDAO) DependencyInjectionManager
-			.getClassInstance(IOrdersDAO.class);
-
-	/** The service service. */
-	private IHotelRoomDAO hotelRoomDAO = (IHotelRoomDAO) DependencyInjectionManager
-			.getClassInstance(IHotelRoomDAO.class);
+	/** The orders controller. */
+	private OrdersController ordersController = new OrdersController();
 
 	/** The import export csv controller. */
 	private IImportExportCsvController importExportCsvController = new ImportExportCsvController();
@@ -62,6 +56,7 @@ public class MainController implements IMainController {
 	private final Logger LOG1 = Logger
 			.getLogger(MainController.class.getName());
 
+	/** The connection util. */
 	private ConnectionUtil connectionUtil = ConnectionUtil.getInstance();
 
 	/*
@@ -74,7 +69,7 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		Guest g = new Guest(userInputGuestName);
 		try {
-			guestDAO.create(con, g);
+			guestController.create(con, g);
 		} catch (SQLException e) {
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -93,7 +88,7 @@ public class MainController implements IMainController {
 		int num = 0;
 		try {
 			con = ConnectorFactory.getConnection();
-			num = guestDAO.getAllGuestNumber(con);
+			num = guestController.getAllGuestNumber(con);
 		} catch (SQLException e) {
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -112,7 +107,7 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		int num = 0;
 		try {
-			num = ordersDAO.getSummToDeparture(con, userInputGuestName);
+			num = ordersController.getSummToDeparture(con, userInputGuestName);
 		} catch (SQLException e) {
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -132,7 +127,7 @@ public class MainController implements IMainController {
 		StringBuilder sb = null;
 		try {
 			sb = new StringBuilder(500);
-			List<Guest> allSortedGuests = guestDAO.getAllSorted(con,
+			List<Guest> allSortedGuests = guestController.getAllSorted(con,
 					userInputSortCondition);
 			for (Guest s : allSortedGuests) {
 				sb.append(String.format(GUEST_FORMAT, s.getId(), s.getName()));
@@ -156,7 +151,7 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		StringBuilder sb = null;
 		try {
-			List<Service> service = guestDAO.getGuestService(con,
+			List<Service> service = guestController.getGuestService(con,
 					userInputGuestName);
 			sb = new StringBuilder(500);
 			sb.append("");
@@ -185,7 +180,7 @@ public class MainController implements IMainController {
 		try {
 			Service serv = new Service(userInputGuestName,
 					userInputPrice);
-			serviceDAO.create(con, serv);
+			serviceController.create(con, serv);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -204,7 +199,7 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		StringBuilder sb = new StringBuilder();
 		try {
-			List<HotelRoom> rooms = hotelRoomDAO.getAllSorted(con,
+			List<HotelRoom> rooms = hotelRoomController.getAllSorted(con,
 					userInputSortCondition);
 			for (HotelRoom s : rooms) {
 				
@@ -228,7 +223,7 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		StringBuilder sb = new StringBuilder();
 		try {
-			List<HotelRoom> rooms = hotelRoomDAO.getAllFreeSorted(con,
+			List<HotelRoom> rooms = hotelRoomController.getAllFreeSorted(con,
 					userInputSortCondition);
 			for (HotelRoom s : rooms) {
 				sb.append(hotelRoomToString(s));
@@ -252,7 +247,7 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		StringBuilder sb = new StringBuilder();
 		try {
-			List<HotelRoom> rooms = hotelRoomDAO.getFreeHotelRoomsAfterDate(
+			List<HotelRoom> rooms = hotelRoomController.getFreeHotelRoomsAfterDate(
 					con, userInputSortCondition, date);
 			for (HotelRoom s : rooms) {
 				sb.append(hotelRoomToString(s));
@@ -276,7 +271,7 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		int n = 0;
 		try {
-			n = hotelRoomDAO.getNumberFreeHotelRooms(con);
+			n = hotelRoomController.getNumberFreeHotelRooms(con);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -299,7 +294,7 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		String info = null;
 		try {
-			HotelRoom s = hotelRoomDAO
+			HotelRoom s = hotelRoomController
 					.readByName(con, userInputHotelRoomNumber);
 			
 			info = (hotelRoomToString(s));
@@ -325,13 +320,13 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		try {
 			connectionUtil.beginTransaction(con);
-			HotelRoom hr = hotelRoomDAO.readByName(con,
+			HotelRoom hr = hotelRoomController.readByName(con,
 					userInputHotelRoomNumber);
 
 			Orders order = new Orders( hr,
 					userinpitDateOfArrive, userInputDateOfDeparture);
 			order.setHotelRoom(hr);
-			ordersDAO.create(con, order);
+			ordersController.create(con, order);
 			connectionUtil.commitTransaction(con);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -352,8 +347,8 @@ public class MainController implements IMainController {
 		try {
 			connectionUtil.beginTransaction(con);
 			
-			ordersDAO.updatePaid(con, userInputOrderId);
-			serviceDAO.updatePaid(con, userInputOrderId);
+			ordersController.updatePaid(con, userInputOrderId);
+			serviceController.updatePaid(con, userInputOrderId);
 			
 			connectionUtil.commitTransaction(con);
 		} catch (Exception e) {
@@ -375,13 +370,13 @@ public class MainController implements IMainController {
 		boolean status;
 		try {
 			connectionUtil.beginTransaction(con);
-			Boolean statusG = hotelRoomDAO.getStatus(con,
+			Boolean statusG = hotelRoomController.getStatus(con,
 					userInputHotelRoomName);
 			
 			status =statusG == false? true:false;
 			
-			HotelRoom hr = hotelRoomDAO.readByName(con, userInputHotelRoomName);
-			hotelRoomDAO.updateStatus(con, hr.getId(), status);
+			HotelRoom hr = hotelRoomController.readByName(con, userInputHotelRoomName);
+			hotelRoomController.updateStatus(con, hr.getId(), status);
 			connectionUtil.commitTransaction(con);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -403,7 +398,7 @@ public class MainController implements IMainController {
 			HotelRoom hotelRoom = new HotelRoom(userInputHotelRoomName,
 					userInputRoomPrice, userInputSleepingNumbers,
 					userInputStarCategory);
-			hotelRoomDAO.create(con, hotelRoom);
+			hotelRoomController.create(con, hotelRoom);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -423,9 +418,9 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		try {
 			connectionUtil.beginTransaction(con);
-			HotelRoom hotelRoom = hotelRoomDAO.readByName(con,
+			HotelRoom hotelRoom = hotelRoomController.readByName(con,
 					userInputHotelRoomName);
-			hotelRoomDAO
+			hotelRoomController
 					.updatePrice(con, hotelRoom.getId(), userInputRoomPrice);
 			connectionUtil.commitTransaction(con);
 		} catch (Exception e) {
@@ -446,8 +441,8 @@ public class MainController implements IMainController {
 		StringBuilder sb = null;
 		try {
 			connectionUtil.beginTransaction(con);
-			List<String> listService = serviceDAO.getPriceService(con);
-			List<String> listHotelRoom = hotelRoomDAO.getPriceHotelRoom(con);
+			List<String> listService = serviceController.getPriceService(con);
+			List<String> listHotelRoom = hotelRoomController.getPriceHotelRoom(con);
 			sb = new StringBuilder();
 			for (String a : listService) {
 				sb.append(a);
@@ -477,8 +472,8 @@ public class MainController implements IMainController {
 		Connection con = connectionUtil.getConnection();
 		try {
 			connectionUtil.beginTransaction(con);
-			Service service = serviceDAO.readByName(con, userInputServiceName);
-			serviceDAO.updatePrice(con, service.getId(), userInputPrice);
+			Service service = serviceController.readByName(con, userInputServiceName);
+			serviceController.updatePrice(con, service.getId(), userInputPrice);
 			connectionUtil.commitTransaction(con);
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -611,6 +606,12 @@ public class MainController implements IMainController {
 
 	}
 	
+	/**
+	 * Hotel room to string.
+	 *
+	 * @param hr the hr
+	 * @return the string
+	 */
 	private String hotelRoomToString(HotelRoom hr){
 		
 		boolean busyB = hr.getBusy();

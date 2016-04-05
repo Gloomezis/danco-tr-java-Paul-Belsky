@@ -40,9 +40,17 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 		String name = ((Service) baseModel).getName();
 		int price = ((Service) baseModel).getPrice();
 
-		return exec.execUpdate(con,
-				"INSERT INTO service (orders_id,name_service,service_price)"
-						+ "values (" + oId + ",'" + name + "'," + price + ";)");
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("INSERT INTO service (orders_id,name_service,service_price) values (");
+		sql.append(oId);
+		sql.append(",'");
+		sql.append(name);
+		sql.append("',");
+		sql.append(price);
+		sql.append(";)");
+
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
@@ -67,13 +75,15 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 		sql.append("Inner join guest on ");
 		sql.append("orders.guest_id=guest.idGuest ");
 		sql.append("WHERE idService = ");
+		sql.append(id);
+		sql.append(";");
 
-		return exec.execQuery(con, sql.toString() + id + ";",
+		return exec.execQuery(con, sql.toString(),
 				new TResultHandler<Service>() {
 
 					@Override
 					public Service handle(ResultSet result) throws SQLException {
-						Service service =null;
+						Service service = null;
 						if (result.next()) {
 							service = parseResultSet(result);
 						}
@@ -93,6 +103,7 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 	@Override
 	public Service readByName(Connection con, String name) throws SQLException {
 		TExecutor exec = new TExecutor();
+
 		StringBuilder sql = new StringBuilder();
 
 		sql.append("SELECT * FROM service ");
@@ -103,13 +114,15 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 		sql.append("Inner join guest on ");
 		sql.append("orders.guest_id=guest.idGuest ");
 		sql.append("WHERE name_service = '");
+		sql.append(name);
+		sql.append("';");
 
-		return exec.execQuery(con, sql + name + "';",
+		return exec.execQuery(con, sql.toString(),
 				new TResultHandler<Service>() {
 
 					@Override
 					public Service handle(ResultSet result) throws SQLException {
-						Service service =null;
+						Service service = null;
 						if (result.next()) {
 							service = parseResultSet(result);
 						}
@@ -135,10 +148,22 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 		int sPrice = ((Service) baseModel).getPrice();
 		String sName = ((Service) baseModel).getName();
 		boolean sPaid = ((Service) baseModel).isPaid();
-		return exec.execUpdate(con, "UPDATE  service SET orders_id="
-				+ ((Service) baseModel).getOrder().getId() + ", name_service='"
-				+ sName + "', service_price=" + sPrice + ",paid_service="
-				+ sPaid + "where id=" + id + ";");
+
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("UPDATE  service SET orders_id=");
+		sql.append(((Service) baseModel).getOrder().getId());
+		sql.append(", name_service='");
+		sql.append(sName);
+		sql.append("', service_price=");
+		sql.append(sPrice);
+		sql.append(",paid_service=");
+		sql.append(sPaid);
+		sql.append("where id=");
+		sql.append(id);
+		sql.append(";");
+
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
@@ -153,8 +178,13 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 	public int delete(Connection con, int id) throws SQLException {
 
 		TExecutor exec = new TExecutor();
-		String sql = "DELETE  FROM service WHERE idService =";
-		return exec.execUpdate(con, sql + id + ";");
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("DELETE  FROM service WHERE idService =");
+		sql.append(id);
+		sql.append(";");
+
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
@@ -167,8 +197,9 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 
 	@Override
 	public List<Service> getAll(Connection con) throws SQLException {
-		
+
 		TExecutor exec = new TExecutor();
+
 		StringBuilder sql = new StringBuilder();
 
 		sql.append("SELECT * FROM service ");
@@ -178,20 +209,20 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 		sql.append("orders.hotel_room_id=hotel_room.idHotelRoom ");
 		sql.append("Inner join guest on ");
 		sql.append("orders.guest_id=guest.idGuest ");
-		
-		
 
-		return exec.execQuery(con, sql.toString(), new TResultHandler<List<Service>>() {
+		return exec.execQuery(con, sql.toString(),
+				new TResultHandler<List<Service>>() {
 
-			@Override
-			public List<Service> handle(ResultSet result) throws SQLException {
-				List<Service> list = new ArrayList<Service>();
-				while (result.next()) {
-					list.add(parseResultSet(result));
-				}
-				return list;
-			}
-		});
+					@Override
+					public List<Service> handle(ResultSet result)
+							throws SQLException {
+						List<Service> list = new ArrayList<Service>();
+						while (result.next()) {
+							list.add(parseResultSet(result));
+						}
+						return list;
+					}
+				});
 	}
 
 	// + update only paid for method departure
@@ -204,8 +235,15 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 	@Override
 	public int updatePaid(Connection con, String id) throws SQLException {
 		TExecutor exec = new TExecutor();
+		
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("UPDATE  service SET paid = true where order_id=");
+		sql.append(id);
+		sql.append(";");
+		
 		return exec.execUpdate(con,
-				"UPDATE  service SET paid = true where order_id=" + id + ";");
+				sql.toString());
 
 	}
 
@@ -222,6 +260,9 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 	@Override
 	public List<String> getPriceService(Connection con) throws SQLException {
 		TExecutor exec = new TExecutor();
+		
+		
+		
 		return exec.execQuery(con,
 				"SELECT name ,price FROM service ORDER BY price ",
 				new TResultHandler<List<String>>() {
@@ -246,8 +287,15 @@ public class ServiceDAO implements IDAO<Service>, IServiceDAO {
 	public int updatePrice(Connection con, int id, int price)
 			throws SQLException {
 		TExecutor exec = new TExecutor();
+		
+		StringBuilder sql = new StringBuilder();
+
+		sql.append("UPDATE  service SET price = true where id=");
+		sql.append(id);
+		sql.append(";");
+		
 		return exec.execUpdate(con,
-				"UPDATE  service SET price = true where id=" + id + ";");
+				sql.toString());
 
 	}
 

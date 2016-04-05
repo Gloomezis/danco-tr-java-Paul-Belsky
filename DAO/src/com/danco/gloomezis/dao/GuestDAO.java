@@ -38,9 +38,15 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 
 		TExecutor exec = new TExecutor();
 		String name = ((Guest) baseModel).getName();
+		
+		StringBuilder sql = new StringBuilder();
 
-		return exec.execUpdate(con, "INSERT INTO guest (name) values ('" + name
-				+ "');");
+		sql.append("INSERT INTO guest (name) values ('");
+		sql.append(name);
+		sql.append("');");
+		
+
+		return exec.execUpdate(con, sql.toString());
 
 	}
 
@@ -65,6 +71,8 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 		sql.append("Inner join hotel_room on ");
 		sql.append("orders.hotel_room_id=hotel_room.idHotelRoom ");
 		sql.append("WHERE guest.idGuest = " + id + "; ");
+		sql.append(id);
+		sql.append("; ");
 
 		return exec.execQuery(con, sql.toString(), new TResultHandler<Guest>() {
 
@@ -109,6 +117,8 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 		sql.append("Inner join hotel_room on ");
 		sql.append("orders.hotel_room_id=hotel_room.idHotelRoom ");
 		sql.append("WHERE guest.name ='" + name + "'; ");
+		sql.append(name);
+		sql.append("'; ");
 
 		return exec.execQuery(con, sql.toString(), // need prepared statement
 				new TResultHandler<Guest>() {
@@ -126,7 +136,6 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 							guestList = addGuestInList(guestList, dataSetGuest,
 									dataSetOrders);
 						}
-
 						return guestList.get(0);
 					}
 				});
@@ -143,11 +152,20 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 	@Override
 	public int update(Connection con, int id, IBaseModel baseModel)
 			throws SQLException {
-
+		
 		TExecutor exec = new TExecutor();
 		String name = ((Guest) baseModel).getName();
-		return exec.execUpdate(con, "UPDATE  guest SET name=" + name
-				+ "where idGuest=" + id + ";");
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("UPDATE  guest SET name=");
+		sql.append(name);
+		sql.append("where idGuest=");
+		sql.append(id);
+		sql.append(";");
+		
+		
+		return exec.execUpdate(con, sql.toString());
 	}
 
 	// +
@@ -159,10 +177,16 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 
 	@Override
 	public int delete(Connection con, int id) throws SQLException {
+		
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("DELETE  FROM guest WHERE idGuest =");
+		sql.append(id);
+		sql.append(";");
 
 		TExecutor exec = new TExecutor();
-		String sql = "DELETE  FROM guest WHERE idGuest =";
-		return exec.execUpdate(con, sql + id + ";"); // need prepared statement
+		return exec.execUpdate(con, sql.toString()); // need prepared statement
 	}
 
 	// +
@@ -183,7 +207,9 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 		sql.append("guest.idGuest=orders.guest_id ");
 		sql.append("Inner join hotel_room on ");
 		sql.append("orders.hotel_room_id=hotel_room.idHotelRoom ");
-		sql.append("order by " + sortCondition + ";");
+		sql.append("order by ");
+		sql.append(sortCondition );
+		sql.append(";");
 
 		TExecutor exec = new TExecutor();
 
@@ -216,7 +242,7 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 		sql.append("SELECT * FROM guest ");
 		sql.append("Inner join orders on ");
 		sql.append("guest.idGuest=orders.guest_id ");
-		sql.append("Inner join hotel_room on ");
+		sql.append("LEFT JOIN  hotel_room on ");
 		sql.append("orders.hotel_room_id=hotel_room.idHotelRoom ");
 
 		TExecutor exec = new TExecutor();
@@ -281,10 +307,11 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" Select guest.name, hotel_room.number, orders.date_arrive,orders.date_departure from orders ");
 		sql.append("INNER JOIN guest ON guest.idGuest=orders.guest_id ");
-		sql.append("INNER JOIN hotel_room ON hotel_room.idHotelRoom=orders.hotel_room_id ");
+		sql.append("LEFT JOIN hotel_room ON hotel_room.idHotelRoom=orders.hotel_room_id ");
 		sql.append("WHERE orders.paid_orders=false");
 		sql.append("order by orders.");
 		sql.append(sortCondition + ";");
+		sql.append(";");
 
 		TExecutor exec = new TExecutor();
 
@@ -321,7 +348,7 @@ public class GuestDAO implements IDAO<Guest>, IGuestDAO {
 			throws SQLException {
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT service.* FROM orders ");
-		sql.append("INNER JOIN service ON ");
+		sql.append("LEFT JOIN service ON ");
 		sql.append("orders.idOrders=service.orders_id ");
 		sql.append("INNER JOIN guest ON ");
 		sql.append("orders.guest_id=guest.idGuest ");
