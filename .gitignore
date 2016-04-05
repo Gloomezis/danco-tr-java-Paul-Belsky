@@ -45,3 +45,8 @@ Temporary Items
 #DancoSoft
 *.settings
 *.class
+
+.metadata
+
+# Code Recommenders
+.recommenders/
