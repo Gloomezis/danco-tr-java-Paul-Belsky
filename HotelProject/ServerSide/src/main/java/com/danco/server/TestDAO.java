@@ -4,7 +4,8 @@ import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+
+import org.hibernate.cfg.*;
 import org.hibernate.service.ServiceRegistry;
 
 import com.danco.dao.api.IGuestDAO;
@@ -23,23 +24,28 @@ public static void main(String[] args) {
 	 Session session = sessionFactory.openSession();
 	 */
 	 
-	 SessionFactory sessionFactory=null;
+	// SessionFactory sessionFactory=null;
+	 SessionFactory sessions1=null;
 		try {
+			
+			 sessions1=  new Configuration().configure().buildSessionFactory();
+			
+			/*
 			 Configuration configuration = new Configuration().configure();
 	            ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 	                    .applySettings(configuration.getProperties()).build();
 	             System.out.println("Configuration load");
-	            // builds a session factory from the service registry
 	            sessionFactory = configuration.buildSessionFactory(serviceRegistry);  
 	            System.out.println("Session factory create");
+	            */
 		} catch (Throwable e) {
 			 System.out.println("Initial SessionFactory creation failed. :" + e);
 			
 	            throw new ExceptionInInitializerError(e);
 		}		
 		
-	Session session = sessionFactory.openSession();
-	 
+	//Session session = sessionFactory.openSession();
+	 Session session =sessions1.openSession();
 	 
 	 IGuestDAO guestDAO = (IGuestDAO) DependencyInjectionManager
 	.getClassInstance(IGuestDAO.class);
@@ -47,11 +53,16 @@ public static void main(String[] args) {
 	 
 	Guest g = new Guest("Vika");
 	try {
+		session.beginTransaction();
 		guestDAO.create(session, g);
+		session.getTransaction().commit();
 		System.out.println("Operation complite");
 	} catch (Exception e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+	
+	}finally{
+		session.close();
 	}
 	
 }

@@ -31,13 +31,14 @@ public class ConnectionFactoryHibernate {
 	/**
 	 * Inits the connection factory.
 	 */
+	@SuppressWarnings("deprecation")
 	public static void initConnectionFactory() {
 		Date dt = new Date();
 		timer = dt.getTime();
 		try {
 			
-			Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
-			sessionFactory = cfg.buildSessionFactory();
+			
+			sessionFactory = new Configuration().configure().buildSessionFactory();
 		} catch (MappingException e) {
 			LOG1.error(EXCEPTION, e);
 		} catch (HibernateException e) {
