@@ -1,36 +1,54 @@
 package com.danco.dao.api;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
-import com.danco.model.IBaseModel;
+import org.hibernate.Session;
+
 import com.danco.model.Orders;
 
-public interface IOrdersDAO {
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface IOrdersDAO.
+ */
+public interface IOrdersDAO extends IDAO<Orders>{
+	
+	
+	/**
+	 * Gets the orders for id guest.
+	 *
+	 * @param session the session
+	 * @param idGuest the id guest
+	 * @return the orders for id guest
+	 * @throws Exception the exception
+	 */
+	public Orders getOrdersForIdGuest(Session session, int idGuest)
+			throws Exception;
 
-	// Settle
-	public int create(Connection con, IBaseModel baseModel) throws SQLException;
+	/**
+	 * Gets the list.
+	 *
+	 * @param session the session
+	 * @param sortCondition the sort condition
+	 * @return the list
+	 * @throws Exception the exception
+	 */
+	public List<Orders> getList(Session session, String sortCondition) throws Exception;
 
-	// +
-	public Orders read(Connection con, int id) throws SQLException;
-
-	// +
-	public Orders readByName(Connection con, String name) throws SQLException;
-
-	// +
-	public int update(Connection con, int id, IBaseModel baseModel)
-			throws SQLException;
-
-	// +
-	public int delete(Connection con, int id) throws SQLException;
-
-	// +
-	public List<Orders> getAll(Connection con) throws SQLException;
-
-	// + update only paid for departure
-	public int updatePaid(Connection con, String id) throws SQLException;
-
-	public int getSummToDeparture(Connection con, String name) throws SQLException;
+	/**
+	 * Gets the price order for guest.
+	 *
+	 * @param session the session
+	 * @param idGuest the id guest
+	 * @return the price order for guest
+	 * @throws Exception the exception
+	 */
+	public int getPriceOrderForGuest(Session session, int idGuest)throws Exception; 
+	
+	
+	
+	
+	
+	
+	
 
 }

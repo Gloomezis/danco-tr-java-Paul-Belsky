@@ -1,6 +1,6 @@
 package com.danco.controller.api;
 
-import java.sql.Connection;
+import org.hibernate.Session;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -10,57 +10,56 @@ public interface IImportExportCsvController {
 
 	/**
 	 * Guest read csv file.
-	 * @param con 
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param session the session
+	 * @param userInputFileName the user input file name
 	 * @return the string
 	 */
-	public String guestReadCsvFile(Connection con, String userInputFileName);
+	public String guestReadCsvFile(Session session, String userInputFileName);
 
 	/**
 	 * Guest write csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param session the session
+	 * @param userInputFileName the user input file name
 	 * @return the string
 	 */
-	public String guestWriteCsvFile(Connection con,String userInputFileName);
+	public String guestWriteCsvFile(Session session,String userInputFileName);
 
 	/**
 	 * Hotel room read csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param session the session
+	 * @param userInputFileName the user input file name
 	 * @return the string
 	 */
-	public String hotelRoomReadCsvFile(Connection con,String userInputFileName);
+	public String hotelRoomReadCsvFile(Session session,String userInputFileName);
 
 	/**
 	 * Hotel room write csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param session the session
+	 * @param userInputFileName the user input file name
 	 * @return the string
 	 */
-	public String hotelRoomWriteCsvFile(Connection con,String userInputFileName);
+	public String hotelRoomWriteCsvFile(Session session,String userInputFileName);
 
 	/**
 	 * Service read csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param session the session
+	 * @param userInputFileName the user input file name
 	 * @return the string
 	 */
-	public String serviceReadCsvFile(Connection con,String userInputFileName);
+	public String serviceReadCsvFile(Session session,String userInputFileName);
 
 	/**
 	 * Service write csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param session the session
+	 * @param userInputFileName the user input file name
 	 * @return the string
 	 */
-	public String serviceWriteCsvFile(Connection con,String userInputFileName);
+	public String serviceWriteCsvFile(Session session,String userInputFileName);
 
 }

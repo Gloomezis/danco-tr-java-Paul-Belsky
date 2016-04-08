@@ -1,9 +1,9 @@
 package com.danco.controller;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+
+import org.hibernate.Session;
 
 import com.danco.dao.api.IHotelRoomDAO;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
@@ -15,151 +15,117 @@ import com.danco.model.HotelRoom;
  */
 public class HotelRoomController {
 
-	/** The service service. */
+	/** The hotel room dao. */
 	private IHotelRoomDAO hotelRoomDAO = (IHotelRoomDAO) DependencyInjectionManager
 			.getClassInstance(IHotelRoomDAO.class);
 
+	
 	/**
-	 * Creates the.
+	 * Creates the hotel room.
 	 *
-	 * @param con the con
-	 * @param hotelRoom the hotel room
-	 * @return the int
-	 * @throws SQLException the SQL exception
+	 * @param session the session
+	 * @param hr the hr
+	 * @throws Exception the exception
 	 */
-	public int create(Connection con, HotelRoom hotelRoom) throws SQLException {
-		return hotelRoomDAO.create(con, hotelRoom);
+	public void createHotelRoom(Session session, HotelRoom hr) throws Exception {
+		 hotelRoomDAO.create(session, hr);
 	}
+	
 
 	/**
-	 * Gets the all sorted.
+	 * Delete hotel room.
 	 *
-	 * @param con the con
-	 * @param userInputSortCondition the user input sort condition
-	 * @return the all sorted
-	 * @throws SQLException the SQL exception
+	 * @param session the session
+	 * @param hr the hr
+	 * @throws Exception the exception
 	 */
-	public List<HotelRoom> getAllSorted(Connection con,
-			String userInputSortCondition) throws SQLException {
+	public void deleteHotelRoom(Session session, HotelRoom hr) throws Exception {
 
-		return hotelRoomDAO.getAllSorted(con, userInputSortCondition);
-
-	}
-
-	/**
-	 * Gets the all free sorted.
-	 *
-	 * @param con the con
-	 * @param userInputSortCondition the user input sort condition
-	 * @return the all free sorted
-	 * @throws SQLException the SQL exception
-	 */
-	public List<HotelRoom> getAllFreeSorted(Connection con,
-			String userInputSortCondition) throws SQLException {
-
-		return hotelRoomDAO.getAllFreeSorted(con, userInputSortCondition);
+		hotelRoomDAO.delete(session, hr);
 
 	}
 
 	/**
-	 * Gets the free hotel rooms after date.
+	 * Update hotel room.
 	 *
-	 * @param con the con
-	 * @param userInputSortCondition the user input sort condition
-	 * @param date the date
-	 * @return the free hotel rooms after date
-	 * @throws SQLException the SQL exception
+	 * @param session the session
+	 * @param hr the hr
+	 * @throws Exception the exception
 	 */
-	public List<HotelRoom> getFreeHotelRoomsAfterDate(Connection con,
-			String userInputSortCondition, Date date) throws SQLException {
+	public void updateHotelRoom(Session session, HotelRoom hr) throws Exception {
 
-		return hotelRoomDAO.getFreeHotelRoomsAfterDate(con,
-				userInputSortCondition, date);
+		hotelRoomDAO.update(session, hr);
 
 	}
 
+	/**
+	 * Gets the hotel room by id.
+	 *
+	 * @param session the session
+	 * @param id the id
+	 * @return the hotel room by id
+	 * @throws Exception the exception
+	 */
+	public HotelRoom getHotelRoomById(Session session, int id) throws Exception {
+
+		return hotelRoomDAO.getById(session, id);
+
+	}
+	
+	/**
+	 * Gets the hotel room list.
+	 *
+	 * @param session the session
+	 * @param free the free
+	 * @param sortCondition the sort condition
+	 * @return the hotel room list
+	 * @throws Exception the exception
+	 */
+	public List<HotelRoom> getHotelRoomList(Session session, String free, String sortCondition)throws Exception{
+		return hotelRoomDAO.getList(session, free, sortCondition);
+	}; 
+	
+	
 	/**
 	 * Gets the number free hotel rooms.
 	 *
-	 * @param con the con
+	 * @param session the session
 	 * @return the number free hotel rooms
-	 * @throws SQLException the SQL exception
+	 * @throws Exception the exception
 	 */
-	public int getNumberFreeHotelRooms(Connection con) throws SQLException {
-
-		return hotelRoomDAO.getNumberFreeHotelRooms(con);
-
+	public int getNumberFreeHotelRooms(Session session) throws Exception {
+		return hotelRoomDAO.getNumberFreeHotelRooms(session);
 	}
-
+	
 	/**
-	 * Read by name.
+	 * Gets the free hotel rooms after date.
 	 *
-	 * @param con the con
-	 * @param userInputHotelRoomNumber the user input hotel room number
-	 * @return the hotel room
-	 * @throws SQLException the SQL exception
+	 * @param session the session
+	 * @param userInputSortCondition the user input sort condition
+	 * @param date the date
+	 * @return the free hotel rooms after date
+	 * @throws Exception the exception
 	 */
-	public HotelRoom readByName(Connection con, String userInputHotelRoomNumber)
-			throws SQLException {
+	public List<HotelRoom> getFreeHotelRoomsAfterDate(Session session,
+			String userInputSortCondition, Date date) throws Exception {
 
-		return hotelRoomDAO.readByName(con, userInputHotelRoomNumber);
+		return hotelRoomDAO.getFreeListAfterDate(session,
+				userInputSortCondition, date);
 
 	}
-
-	/**
-	 * Gets the status.
-	 *
-	 * @param con the con
-	 * @param userInputHotelRoomName the user input hotel room name
-	 * @return the status
-	 * @throws SQLException the SQL exception
-	 */
-	public Boolean getStatus(Connection con, String userInputHotelRoomName)
-			throws SQLException {
-		return hotelRoomDAO.getStatus(con, userInputHotelRoomName);
-	}
-
-	/**
-	 * Update status.
-	 *
-	 * @param con the con
-	 * @param id the id
-	 * @param status the status
-	 * @return the int
-	 * @throws SQLException the SQL exception
-	 */
-	public int updateStatus(Connection con, int id, boolean status)
-			throws SQLException {
-
-		return hotelRoomDAO.updateStatus(con, id, status);
-	}
-
-	/**
-	 * Update price.
-	 *
-	 * @param con the con
-	 * @param id the id
-	 * @param price the price
-	 * @return the int
-	 * @throws SQLException the SQL exception
-	 */
-	public int updatePrice(Connection con, int id, int price)
-			throws SQLException {
-
-		return hotelRoomDAO.updatePrice(con, id, price);
-	}
-
+	
 	/**
 	 * Gets the price hotel room.
 	 *
-	 * @param con the con
+	 * @param session the session
 	 * @return the price hotel room
-	 * @throws SQLException the SQL exception
+	 * @throws Exception the exception
 	 */
-	public List<String> getPriceHotelRoom(Connection con) throws SQLException {
+	public List<String> getPriceHotelRoom(Session session) throws Exception {
 
-		return hotelRoomDAO.getPriceHotelRoom(con);
+		return hotelRoomDAO.getPriceHotelRoom(session);
 
 	}
-
+	
+	
 }

@@ -2,33 +2,55 @@ package com.danco.util;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ConnectionFactoryHibernate.
+ */
 public class ConnectionFactoryHibernate {
+	
+	/** The Constant EXCEPTION. */
+	private static final String EXCEPTION = "Exception";
+	
+	/** The Constant LOG1. */
+	private final static Logger LOG1 = Logger
+			.getLogger(ConnectionFactoryHibernate.class.getName());
 
+	/** The timer. */
 	public static long timer = 0;
+	
+	/** The session factory. */
 	public static SessionFactory sessionFactory = null;
 
+	/**
+	 * Inits the connection factory.
+	 */
 	public static void initConnectionFactory() {
 		Date dt = new Date();
 		timer = dt.getTime();
 		try {
-			// добавление mapping-файлов в конфигурацию подключения
+			
 			Configuration cfg = new Configuration().configure("hibernate.cfg.xml");
-			// создание подключения к БД
 			sessionFactory = cfg.buildSessionFactory();
 		} catch (MappingException e) {
-			System.err.print(e);
+			LOG1.error(EXCEPTION, e);
 		} catch (HibernateException e) {
-			System.err.print(e);
+			LOG1.error(EXCEPTION, e);
 			destroy();
 		}
 	}
 
+	/**
+	 * Gets the or init session.
+	 *
+	 * @return the or init session
+	 */
 	public static Session getOrInitSession() {
 		try {
 			Date curDate = new Date();
@@ -45,19 +67,21 @@ public class ConnectionFactoryHibernate {
 			}
 			return sessionFactory.openSession();
 		} catch (HibernateException e) {
-			System.err.print(e);
+			LOG1.error(EXCEPTION, e);
 			destroy();
 			return null;
 		}
 	}
 
+	/**
+	 * Destroy.
+	 */
 	public static void destroy() {
 		timer = 0;
 		try {
-			// необходимо вызывать, т.к. иначе будут утечки памяти
 			sessionFactory.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG1.error(EXCEPTION, e);
 		}
 		sessionFactory = null;
 	}

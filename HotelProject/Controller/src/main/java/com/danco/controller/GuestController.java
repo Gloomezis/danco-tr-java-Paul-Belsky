@@ -1,13 +1,15 @@
+/*
+ * 
+ */
 package com.danco.controller;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
+
+import org.hibernate.Session;
 
 import com.danco.dao.api.IGuestDAO;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Guest;
-import com.danco.model.Service;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -22,57 +24,83 @@ public class GuestController {
 	/**
 	 * Creates the.
 	 *
-	 * @param con the con
-	 * @param g the g
-	 * @throws SQLException the SQL exception
+	 * @param session the session
+	 * @param g            the g
+	 * @throws Exception the exception
 	 */
-	public void create(Connection con, Guest g) throws SQLException {
+	public void createGuest(Session session, Guest g) throws Exception {
 
-		guestDAO.create(con, g);
+		guestDAO.create(session, g);
 
 	}
 
+	/**
+	 * Delete guest.
+	 *
+	 * @param session the session
+	 * @param g the g
+	 * @throws Exception the exception
+	 */
+	public void deleteGuest(Session session, Guest g) throws Exception {
+
+		guestDAO.delete(session, g);
+
+	}
+
+	/**
+	 * Update guset.
+	 *
+	 * @param session the session
+	 * @param g the g
+	 * @throws Exception the exception
+	 */
+	public void updateGuset(Session session, Guest g) throws Exception {
+
+		guestDAO.update(session, g);
+
+	}
+
+	/**
+	 * Gets the guest by id.
+	 *
+	 * @param session the session
+	 * @param id the id
+	 * @return the guest by id
+	 * @throws Exception the exception
+	 */
+	public Guest getGuestById(Session session, int id) throws Exception {
+
+		return guestDAO.getById(session, id);
+
+	}
+
+	/**
+	 * Gets the guest list.
+	 *
+	 * @param session the session
+	 * @param SortCondition the sort condition
+	 * @return the guest list
+	 * @throws Exception the exception
+	 */
+	public List<Guest> getGuestList(Session session, String SortCondition)
+			throws Exception {
+		return guestDAO.getList(session, SortCondition);
+
+	}
+	
+	
 	/**
 	 * Gets the all guest number.
 	 *
-	 * @param con the con
+	 * @param session the session
 	 * @return the all guest number
-	 * @throws SQLException the SQL exception
+	 * @throws Exception the exception
 	 */
-	public int getAllGuestNumber(Connection con) throws SQLException {
+	public int getAllGuestNumber(Session session) throws Exception {
 
-		return guestDAO.getAllGuestNumber(con);
+		return guestDAO.getAllGuestNumber(session);
 
 	}
 
-	/**
-	 * Gets the all sorted.
-	 *
-	 * @param con the con
-	 * @param userInputSortCondition the user input sort condition
-	 * @return the all sorted
-	 * @throws SQLException the SQL exception
-	 */
-	public List<Guest> getAllSorted(Connection con,
-			String userInputSortCondition) throws SQLException {
-
-		return guestDAO.getAllSorted(con, userInputSortCondition);
-
-	}
-
-	/**
-	 * Gets the guest service.
-	 *
-	 * @param con the con
-	 * @param userInputGuestName the user input guest name
-	 * @return the guest service
-	 * @throws SQLException the SQL exception
-	 */
-	public List<Service> getGuestService(Connection con,
-			String userInputGuestName) throws SQLException {
-
-		return guestDAO.getGuestService(con, userInputGuestName);
-
-	}
 
 }

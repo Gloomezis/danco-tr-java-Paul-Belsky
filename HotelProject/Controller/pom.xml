@@ -9,11 +9,6 @@
 	<artifactId>Controller</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.38</version>
-		</dependency>
-		<dependency>
 			<groupId>com.danco</groupId>
 			<artifactId>API</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -41,7 +36,6 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.38</version>
 		</dependency>
-		
 	</dependencies>
 
 </project>

@@ -15,7 +15,7 @@ import com.danco.ui.Processing;
 public class DepartGuestFromHotelRoom implements Command {
 
 	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
-	private static final String ORDER_ID_INPUT_MESSAGE = "Enter order id";
+	private static final String GUEST_ID_INPUT_MESSAGE = "Enter guest id";
 	
 	/** The Constant PROTOCOL. */
 	private static final String PROTOCOL = "1" + ";"
@@ -45,11 +45,11 @@ public class DepartGuestFromHotelRoom implements Command {
 				System.in));
 		try {
 
-			System.out.println(ORDER_ID_INPUT_MESSAGE);
-			String userInputOrderId = reader.readLine();
+			System.out.println(GUEST_ID_INPUT_MESSAGE);
+			String userInputGuestId = reader.readLine();
 
 			StringBuilder str = new StringBuilder();
-			str.append(PROTOCOL).append(userInputOrderId);
+			str.append(PROTOCOL).append(userInputGuestId);
 
 			Processing processing = Processing.getInstance();
 			System.out.println(MESSAGE + processing.dataProcessing(str));

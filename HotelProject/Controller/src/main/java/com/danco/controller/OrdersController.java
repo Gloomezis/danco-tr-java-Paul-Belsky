@@ -1,69 +1,113 @@
 package com.danco.controller;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.List;
+
+import org.hibernate.Session;
 
 import com.danco.dao.api.IOrdersDAO;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Orders;
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class OrdersController.
  */
-public class OrdersController  {
-	
-	/** The service service. */
+public class OrdersController {
+
+	/** The orders dao. */
 	private IOrdersDAO ordersDAO = (IOrdersDAO) DependencyInjectionManager
 			.getClassInstance(IOrdersDAO.class);
-	
 
-	
 	/**
-	 * Gets the summ to departure.
+	 * Creates the orders.
 	 *
-	 * @param con the con
-	 * @param userInputGuestName the user input guest name
-	 * @return the summ to departure
-	 * @throws SQLException the SQL exception
+	 * @param session the session
+	 * @param order the order
+	 * @throws Exception the exception
 	 */
-	public int getSummToDeparture(Connection con,String userInputGuestName) throws SQLException {
-		
-			return ordersDAO.getSummToDeparture(con, userInputGuestName);
-			
-	}
-	
-	
-	/**
-	 * Creates the.
-	 *
-	 * @param con the con
-	 * @param orders the orders
-	 * @return the int
-	 * @throws SQLException the SQL exception
-	 */
-	public int create(Connection con, Orders orders) throws SQLException {
+	public void createOrders(Session session, Orders order) throws Exception {
 
-		return ordersDAO.create(con, orders);
+		ordersDAO.create(session, order);
 
 	}
-	
-	
+
 	/**
-	 * Update paid.
+	 * Delete orders.
 	 *
-	 * @param con the con
+	 * @param session the session
+	 * @param order the order
+	 * @throws Exception the exception
+	 */
+	public void deleteOrders(Session session, Orders order) throws Exception {
+
+		ordersDAO.delete(session, order);
+
+	}
+
+	/**
+	 * Update orders.
+	 *
+	 * @param session the session
+	 * @param order the order
+	 * @throws Exception the exception
+	 */
+	public void updateOrders(Session session, Orders order) throws Exception {
+
+		ordersDAO.update(session, order);
+
+	}
+
+	/**
+	 * Gets the orders by id.
+	 *
+	 * @param session the session
 	 * @param id the id
-	 * @return the int
-	 * @throws SQLException the SQL exception
+	 * @return the orders by id
+	 * @throws Exception the exception
 	 */
-	public int updatePaid(Connection con, String id) throws SQLException {
+	public Orders getOrdersById(Session session, int id) throws Exception {
 
-		return ordersDAO.updatePaid(con, id);
+		return ordersDAO.getById(session, id);
 
 	}
-	
-	
-	
+
+	/**
+	 * Gets the orders list.
+	 *
+	 * @param session the session
+	 * @param sortCondition the sort condition
+	 * @return the orders list
+	 * @throws Exception the exception
+	 */
+	public List<Orders> getOrdersList(Session session, String sortCondition)
+			throws Exception {
+		return ordersDAO.getList(session, sortCondition);
+	}
+
+	/**
+	 * Gets the orders for id guest.
+	 *
+	 * @param session the session
+	 * @param idGuest the id guest
+	 * @return the orders for id guest
+	 * @throws Exception the exception
+	 */
+	public Orders getOrdersForIdGuest(Session session, int idGuest)
+			throws Exception {
+		return ordersDAO.getOrdersForIdGuest(session, idGuest);
+	}
+
+	/**
+	 * Gets the price order for guest.
+	 *
+	 * @param session the session
+	 * @param idGuest the id guest
+	 * @return the price order for guest
+	 * @throws Exception the exception
+	 */
+	public int getPriceOrderForGuest(Session session, int idGuest)
+			throws Exception {
+		return ordersDAO.getPriceOrderForGuest(session, idGuest);
+	}
+
 }

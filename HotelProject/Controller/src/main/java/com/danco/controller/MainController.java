@@ -3,12 +3,11 @@
  */
 package com.danco.controller;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import com.danco.controller.api.IImportExportCsvController;
 import com.danco.controller.api.IMainController;
@@ -16,8 +15,7 @@ import com.danco.model.Guest;
 import com.danco.model.HotelRoom;
 import com.danco.model.Orders;
 import com.danco.model.Service;
-import com.danco.util.ConnectionUtil;
-import com.danco.util.ConnectorFactory;
+import com.danco.util.ConnectionFactoryHibernate;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,10 +23,10 @@ import com.danco.util.ConnectorFactory;
  */
 public class MainController implements IMainController {
 
-	/** The guest service. */
+	/** The guest controller. */
 	private GuestController guestController = new GuestController();
-	
-	/** The guest service. */
+
+	/** The hotel room controller. */
 	private HotelRoomController hotelRoomController = new HotelRoomController();
 
 	/** The service controller. */
@@ -56,393 +54,411 @@ public class MainController implements IMainController {
 	private final Logger LOG1 = Logger
 			.getLogger(MainController.class.getName());
 
-	/** The connection util. */
-	private ConnectionUtil connectionUtil = ConnectionUtil.getInstance();
+	// <<<<<<<<<<GUEST >>>>>>>>>>>>
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see com.danco.controller.api.IMainController#addGuest(java.lang.String)
 	 */
 	@Override
 	public void addGuest(String userInputGuestName) {
-		Connection con = connectionUtil.getConnection();
-		Guest g = new Guest(userInputGuestName);
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
-			guestController.create(con, g);
-		} catch (SQLException e) {
+			Guest g = new Guest(userInputGuestName);
+			session.beginTransaction();
+			guestController.createGuest(session, g);
+			session.getTransaction().commit();
+		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showAllGuestNumber()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showAllGuestNumber()
 	 */
 	@Override
 	public String showAllGuestNumber() {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		int num = 0;
 		try {
-			con = ConnectorFactory.getConnection();
-			num = guestController.getAllGuestNumber(con);
-		} catch (SQLException e) {
+
+			num = guestController.getAllGuestNumber(session);
+
+		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
 		}
 		return Integer.toString(num);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showSummToPaidGuest()
-	 */
-	@Override
-	public String showSummToPaidGuest(String userInputGuestName) {
-		Connection con = connectionUtil.getConnection();
-		int num = 0;
-		try {
-			num = ordersController.getSummToDeparture(con, userInputGuestName);
-		} catch (SQLException e) {
-			LOG1.error(EXCEPTION, e);
-		} finally {
-			connectionUtil.closeConnection(con);
-		}
-		return Integer.toString(num);
-	}
+	
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showAllGuests()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showAllGuests(java.lang.String)
 	 */
 	@Override
 	public String showAllGuests(String userInputSortCondition) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = null;
 		try {
 			sb = new StringBuilder(500);
-			List<Guest> allSortedGuests = guestController.getAllSorted(con,
+			List<Guest> allSortedGuests = guestController.getGuestList(session,
 					userInputSortCondition);
+			session.getTransaction().commit();
 			for (Guest s : allSortedGuests) {
 				sb.append(String.format(GUEST_FORMAT, s.getId(), s.getName()));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
 		}
 		return sb.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showListOfService()
+	// <<<<<<<<<<SERVICE >>>>>>>>>>>>
+
+	
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#createService(int, java.lang.String, int)
 	 */
 	@Override
-	public String showListOfService(String userInputGuestName,
+	public void createService(int userInputOrderId, String userInputGuestName,
+			int userInputPrice) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		try {
+			Service serv = new Service(userInputGuestName, userInputPrice);
+			session.beginTransaction();
+			serviceController.createService(session, serv);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#addService(int, int)
+	 */
+	@Override
+	public void addService(int userInputGuestId, int userInputServiceId) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		try {
+			session.beginTransaction();
+
+			Orders order = ordersController.getOrdersForIdGuest(session,
+					userInputGuestId);
+			Service service = serviceController.getServiceById(session,
+					userInputServiceId);
+			service.setOrder(order);
+			serviceController.updateService(session, service);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+	}
+
+	// TODO string id to integer
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showListOfServiceGuest(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String showListOfServiceGuest(String idGuest,
 			String userInputSortCondition) {
-		Connection con = connectionUtil.getConnection();
+
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = null;
 		try {
-			List<Service> service = guestController.getGuestService(con,
-					userInputGuestName);
+
+			List<Service> service = serviceController.getGuestThemServices(
+					session, Integer.parseInt(idGuest));
+			session.getTransaction().commit();
 			sb = new StringBuilder(500);
 			sb.append("");
-			sb.append(userInputGuestName + ":" + "\n");
+			sb.append(idGuest + ":" + "\n");
 			for (Service c : service) {
 				sb.append(String.format(SERVICE_FORMAT, c.getName(),
 						c.getPrice()));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
 		}
 		return sb.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#addServiceToGuest()
+	// TODO string to integer
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#changePriceOfService(java.lang.String, int)
 	 */
 	@Override
-	public void addService(int userInputOrderId, String userInputGuestName,
-			int userInputPrice) {
-		Connection con = connectionUtil.getConnection();
+	public void changePriceOfService(String idService, int userInputPrice) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
-			Service serv = new Service(userInputGuestName,
-					userInputPrice);
-			serviceController.create(con, serv);
+			session.beginTransaction();
+			Service service = serviceController.getServiceById(session,
+					Integer.parseInt(idService));
+			service.setPrice(userInputPrice);
+			serviceController.updateService(session, service);
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
+		}
+
+	}
+
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showListOfService()
+	 */
+	@Override
+	public String showListOfService() {
+
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		StringBuilder sb = null;
+		try {
+			List<Service> service = serviceController.getServiceList(session,
+					"name");
+			sb = new StringBuilder(500);
+			sb.append("");
+			for (Service c : service) {
+				sb.append(String.format(SERVICE_FORMAT, c.getName(),
+						c.getPrice()));
+
+			}
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+		return sb.toString();
+	}
+
+	// <<<<<<<<<<HOTEL ROOM >>>>>>>>>>>>
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#addRooms(java.lang.String, int, int, int)
+	 */
+	@Override
+	public void addRooms(String userInputHotelRoomName, int userInputRoomPrice,
+			int userInputSleepingNumbers, int userInputStarCategory) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		try {
+
+			HotelRoom hotelRoom = new HotelRoom(userInputHotelRoomName,
+					userInputRoomPrice, userInputSleepingNumbers,
+					userInputStarCategory);
+			session.beginTransaction();
+			hotelRoomController.createHotelRoom(session, hotelRoom);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showAllRooms()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showAllRooms(java.lang.String)
 	 */
-
 	@Override
 	public String showAllRooms(String userInputSortCondition) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = new StringBuilder();
 		try {
-			List<HotelRoom> rooms = hotelRoomController.getAllSorted(con,
-					userInputSortCondition);
+
+			List<HotelRoom> rooms = hotelRoomController.getHotelRoomList(
+					session, "", userInputSortCondition);
+			session.getTransaction().commit();
 			for (HotelRoom s : rooms) {
-				
 				sb.append(hotelRoomToString(s));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
 		}
 		return sb.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showAllFreeRooms()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showAllFreeRooms(java.lang.String)
 	 */
 	@Override
 	public String showAllFreeRooms(String userInputSortCondition) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = new StringBuilder();
 		try {
-			List<HotelRoom> rooms = hotelRoomController.getAllFreeSorted(con,
-					userInputSortCondition);
+			List<HotelRoom> rooms = hotelRoomController.getHotelRoomList(
+					session, "1", userInputSortCondition);
 			for (HotelRoom s : rooms) {
 				sb.append(hotelRoomToString(s));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
 		}
 		return sb.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showFreeRomsAfterDate()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showFreeRomsAfterDate(java.lang.String, java.util.Date)
 	 */
-
 	@Override
 	public String showFreeRomsAfterDate(String userInputSortCondition, Date date) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = new StringBuilder();
 		try {
-			List<HotelRoom> rooms = hotelRoomController.getFreeHotelRoomsAfterDate(
-					con, userInputSortCondition, date);
+			List<HotelRoom> rooms = hotelRoomController
+					.getFreeHotelRoomsAfterDate(session,
+							userInputSortCondition, date);
 			for (HotelRoom s : rooms) {
 				sb.append(hotelRoomToString(s));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
 		}
 		return sb.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showNumberOfFreeHotelRooms()
-	 */
 
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#changeStatus(java.lang.String)
+	 */
 	@Override
-	public String showNumberOfFreeHotelRooms() {
-		Connection con = connectionUtil.getConnection();
-		int n = 0;
+	public void changeStatus(String idHotelRoom) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		boolean status;
 		try {
-			n = hotelRoomController.getNumberFreeHotelRooms(con);
+			session.beginTransaction();
+			HotelRoom hotelRoom = hotelRoomController.getHotelRoomById(session,
+					Integer.parseInt(idHotelRoom));
+			Boolean statusG = hotelRoom.isStatus();
+			status = statusG == false ? true : false;
+			hotelRoom.setStatus(status);
+			hotelRoomController.updateHotelRoom(session, hotelRoom);
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showNumberOfFreeHotelRooms()
+	 */
+	@Override
+	public String showNumberOfFreeHotelRooms() {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		int n = 0;
+		try {
+
+			n = hotelRoomController.getNumberFreeHotelRooms(session);
+
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
 		}
 		return Integer.toString(n);
 	}
 
-	
+	// TODO id to integer
 	
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showDetailOfHotelRoom()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showDetailOfHotelRoom(java.lang.String)
 	 */
-
 	@Override
-	public String showDetailOfHotelRoom(String userInputHotelRoomNumber) {
-		Connection con = connectionUtil.getConnection();
+	public String showDetailOfHotelRoom(String idHotelRoom) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		String info = null;
 		try {
-			HotelRoom s = hotelRoomController
-					.readByName(con, userInputHotelRoomNumber);
-			
+			HotelRoom s = hotelRoomController.getHotelRoomById(session,
+					Integer.parseInt(idHotelRoom));
 			info = (hotelRoomToString(s));
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
+			session.close();
 		}
 		return info;
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#settleGuestToHotelRoom()
+	// TODO string to integer
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#changePriceOfHotelRoom(java.lang.String, int)
 	 */
-
 	@Override
-	public void settleGuestToHotelRoom(String userInputGuestName,
-			String userInputHotelRoomNumber, Date userinpitDateOfArrive,
-			Date userInputDateOfDeparture) {
-		Connection con = connectionUtil.getConnection();
-		try {
-			connectionUtil.beginTransaction(con);
-			HotelRoom hr = hotelRoomController.readByName(con,
-					userInputHotelRoomNumber);
-
-			Orders order = new Orders( hr,
-					userinpitDateOfArrive, userInputDateOfDeparture);
-			order.setHotelRoom(hr);
-			ordersController.create(con, order);
-			connectionUtil.commitTransaction(con);
-		} catch (Exception e) {
-			LOG1.error(EXCEPTION, e);
-			connectionUtil.rollbackTransaction(con);
-		} 
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#departGuestFromHotelRoom()
-	 */
-
-	// TODO transation
-	@Override
-	public void departGuestFromHotelRoom(String userInputOrderId) {
-		Connection con = connectionUtil.getConnection();
-		try {
-			connectionUtil.beginTransaction(con);
-			
-			ordersController.updatePaid(con, userInputOrderId);
-			serviceController.updatePaid(con, userInputOrderId);
-			
-			connectionUtil.commitTransaction(con);
-		} catch (Exception e) {
-			LOG1.error(EXCEPTION, e);
-			connectionUtil.rollbackTransaction(con);
-
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#changeStatus()
-	 */
-	// TODO transation
-	@Override
-	public void changeStatus(String userInputHotelRoomName) {
-		Connection con = connectionUtil.getConnection();
-		boolean status;
-		try {
-			connectionUtil.beginTransaction(con);
-			Boolean statusG = hotelRoomController.getStatus(con,
-					userInputHotelRoomName);
-			
-			status =statusG == false? true:false;
-			
-			HotelRoom hr = hotelRoomController.readByName(con, userInputHotelRoomName);
-			hotelRoomController.updateStatus(con, hr.getId(), status);
-			connectionUtil.commitTransaction(con);
-		} catch (Exception e) {
-			LOG1.error(EXCEPTION, e);
-			connectionUtil.rollbackTransaction(con);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#addRooms()
-	 */
-
-	@Override
-	public void addRooms(String userInputHotelRoomName, int userInputRoomPrice,
-			int userInputSleepingNumbers, int userInputStarCategory) {
-		Connection con = connectionUtil.getConnection();
-		try {
-			HotelRoom hotelRoom = new HotelRoom(userInputHotelRoomName,
-					userInputRoomPrice, userInputSleepingNumbers,
-					userInputStarCategory);
-			hotelRoomController.create(con, hotelRoom);
-		} catch (Exception e) {
-			LOG1.error(EXCEPTION, e);
-		} finally {
-			connectionUtil.closeConnection(con);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#changePriceOfHotelRoom()
-	 */
-
-	@Override
-	public void changePriceOfHotelRoom(String userInputHotelRoomName,
+	public void changePriceOfHotelRoom(String idHotelRoom,
 			int userInputRoomPrice) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
-			connectionUtil.beginTransaction(con);
-			HotelRoom hotelRoom = hotelRoomController.readByName(con,
-					userInputHotelRoomName);
-			hotelRoomController
-					.updatePrice(con, hotelRoom.getId(), userInputRoomPrice);
-			connectionUtil.commitTransaction(con);
+			session.beginTransaction();
+			HotelRoom hotelRoom = hotelRoomController.getHotelRoomById(session,
+					Integer.parseInt(idHotelRoom));
+			hotelRoom.setRoomPrice(userInputRoomPrice);
+			hotelRoomController.updateHotelRoom(session, hotelRoom);
+			session.getTransaction().commit();
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
-			connectionUtil.rollbackTransaction(con);
-		} 
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#showPriceServiceAndHotelRoom()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showPriceServiceAndHotelRoom()
 	 */
-
 	@Override
 	public String showPriceServiceAndHotelRoom() {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = null;
 		try {
-			connectionUtil.beginTransaction(con);
-			List<String> listService = serviceController.getPriceService(con);
-			List<String> listHotelRoom = hotelRoomController.getPriceHotelRoom(con);
+
+			List<String> listService = serviceController
+					.getPriceService(session);
+			List<String> listHotelRoom = hotelRoomController
+					.getPriceHotelRoom(session);
 			sb = new StringBuilder();
 			for (String a : listService) {
 				sb.append(a);
@@ -452,180 +468,253 @@ public class MainController implements IMainController {
 				sb.append(b);
 				sb.append(" \n ");
 			}
-			connectionUtil.commitTransaction(con);
+
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
-			connectionUtil.rollbackTransaction(con);
-		} 
+
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
 		return sb.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#changePriceOfService()
-	 */
+	// TODO string to int
+	
 
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#showSummToPaidGuest(java.lang.String)
+	 */
 	@Override
-	public void changePriceOfService(String userInputServiceName,
-			int userInputPrice) {
-		Connection con = connectionUtil.getConnection();
+	public String showSummToPaidGuest(String idGuest) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		int num1 = 0;
+		int num2 = 0;
+		int numRez = 0;
 		try {
-			connectionUtil.beginTransaction(con);
-			Service service = serviceController.readByName(con, userInputServiceName);
-			serviceController.updatePrice(con, service.getId(), userInputPrice);
-			connectionUtil.commitTransaction(con);
+			num1 = ordersController.getPriceOrderForGuest(session,
+					Integer.parseInt(idGuest));
+			num2 = serviceController.getSumServiceForGuest(session,
+					Integer.parseInt(idGuest));
+			numRez = num1 + num2;
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
-			connectionUtil.rollbackTransaction(con);	
-		} 
-
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+		return Integer.toString(numRez);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#guestReadCsvFile()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#guestReadCsvFile(java.lang.String)
 	 */
-
 	@Override
 	public String guestReadCsvFile(String userInputFileName) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		String str = " ";
-	    try{
-		 str =importExportCsvController.guestReadCsvFile(con,userInputFileName);
-	    } catch (Exception e) {
+		try {
+			session.beginTransaction();
+			str = importExportCsvController.guestReadCsvFile(session,
+					userInputFileName);
+			session.getTransaction().commit();
+		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
-		}	
+			session.close();
+		}
 		return str;
-				
-   
+
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#guestWriteCsvFile()
-	 */
 
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#guestWriteCsvFile(java.lang.String)
+	 */
 	@Override
 	public String guestWriteCsvFile(String userInputFileName) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		String str = " ";
-	    try{
-	    	str =importExportCsvController.guestWriteCsvFile(con,userInputFileName);
-	    } catch (Exception e) {
+		try {
+			str = importExportCsvController.guestWriteCsvFile(session,
+					userInputFileName);
+		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
-		}	
+			session.close();
+		}
 		return str;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#hotelRoomReadCsvFile()
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#hotelRoomReadCsvFile(java.lang.String)
 	 */
 	@Override
 	public String hotelRoomReadCsvFile(String userInputFileName) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		String str = " ";
-	    try{
-	    	str =importExportCsvController
-				.hotelRoomReadCsvFile(con,userInputFileName);
-	    } catch (Exception e) {
+		try {
+			session.beginTransaction();
+			str = importExportCsvController.hotelRoomReadCsvFile(session,
+					userInputFileName);
+			session.getTransaction().commit();
+		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
-		}	
+			session.close();
+		}
 		return str;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#hotelRoomWriteCsvFile()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#hotelRoomWriteCsvFile(java.lang.String)
 	 */
-
 	@Override
 	public String hotelRoomWriteCsvFile(String userInputFileName) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		String str = " ";
-	    try{
-	
-	    	str =importExportCsvController
-				.hotelRoomWriteCsvFile(con,userInputFileName);
-	    } catch (Exception e) {
+		try {
+			str = importExportCsvController.hotelRoomWriteCsvFile(session,
+					userInputFileName);
+		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
-		}	
+			session.close();
+		}
 		return str;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#serviceReadCsvFile()
-	 */
 
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#serviceReadCsvFile(java.lang.String)
+	 */
 	@Override
 	public String serviceReadCsvFile(String userInputFileName) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		String str = " ";
-	    try{
-	    	str =importExportCsvController.serviceReadCsvFile(con,userInputFileName);
-	    } catch (Exception e) {
+		try {
+			session.beginTransaction();
+			str = importExportCsvController.serviceReadCsvFile(session,
+					userInputFileName);
+			session.getTransaction().commit();
+		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
-		}	
+			session.close();
+		}
 		return str;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.danco.controller.IMainController#serviceWriteCsvFile()
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#serviceWriteCsvFile(java.lang.String)
 	 */
 	@Override
 	public String serviceWriteCsvFile(String userInputFileName) {
-		Connection con = connectionUtil.getConnection();
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		String str = " ";
-	    try{
-	    	str =importExportCsvController.serviceWriteCsvFile(con,userInputFileName);
-	    } catch (Exception e) {
+		try {
+			str = importExportCsvController.serviceWriteCsvFile(session,
+					userInputFileName);
+		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
+			ConnectionFactoryHibernate.destroy();
 		} finally {
-			connectionUtil.closeConnection(con);
-		}	
+			session.close();
+		}
 		return str;
 
 	}
-	
+
 	/**
 	 * Hotel room to string.
 	 *
 	 * @param hr the hr
 	 * @return the string
 	 */
-	private String hotelRoomToString(HotelRoom hr){
-		
+	private String hotelRoomToString(HotelRoom hr) {
+
 		boolean busyB = hr.isBusy();
-		String busyS=busyB==true? "busy":  "free";
-		
+		String busyS = busyB == true ? "busy" : "free";
+
 		boolean statusB = hr.isStatus();
-		String	statusS=statusB == true?"working":"reparing";
-		
-		String hrString =String.format(ROOM_PRINTER_FORMAT, hr.getNumber(),
+		String statusS = statusB == true ? "working" : "reparing";
+
+		String hrString = String.format(ROOM_PRINTER_FORMAT, hr.getNumber(),
 				hr.getSleepingNumber(), hr.getStarCategory(),
 				hr.getRoomPrice(), busyS, statusS);
-		
-		
+
 		return hrString;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#settleGuestToHotelRoom(java.lang.String, java.lang.String, java.util.Date, java.util.Date)
+	 */
+	@Override
+	public String settleGuestToHotelRoom(String idGuest, String idHotelRoom,
+			Date userinpitDateOfArrive, Date userInputDateOfDeparture) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		String result = null;
+		try {
+			session.beginTransaction();
+			HotelRoom hr = hotelRoomController.getHotelRoomById(session,
+					Integer.parseInt(idHotelRoom));
+			if (hr.isBusy() == true) {
+				result = "not Free";
+			} else {
+				changeStatus(idHotelRoom);
+				Guest guest = guestController.getGuestById(session,
+						Integer.parseInt(idGuest));
+				Orders order = new Orders(hr, userinpitDateOfArrive,
+						userInputDateOfDeparture);
+				order.setGuest(guest);
+				ordersController.createOrders(session, order);
+				result = "Settled";
+			}
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.controller.api.IMainController#departGuestFromHotelRoom(java.lang.String)
+	 */
+	@Override
+	public void departGuestFromHotelRoom(String idGuest) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		try {
+			session.beginTransaction();
+			Orders order = ordersController.getOrdersForIdGuest(session,
+					Integer.parseInt(idGuest));
+			order.setPaid(true);
+			List<Service> services = order.getServices();
+			for (Service s : services) {
+				s.setPaid(true);
+				serviceController.updateService(session, s);
+			}
+			ordersController.updateOrders(session, order);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+
+		} finally {
+			session.close();
+		}
+	}
 }

@@ -11,231 +11,229 @@ public interface IMainController {
 	/**
 	 * Adds the guest.
 	 *
-	 * @param userInputGuestName
-	 *            the user input guest name
+	 * @param userInputGuestName the user input guest name
 	 */
-	public void addGuest(String userInputGuestName);
+	//+
+	public abstract void addGuest(String userInputGuestName);
 
 	/**
 	 * Show all guest number.
 	 *
 	 * @return the string
 	 */
-	public String showAllGuestNumber();
-
-	/**
-	 * Show summ to paid guest.
-	 *
-	 * @param userInputGuestName
-	 *            the user input guest name
-	 * @return the string
-	 */
-	public String showSummToPaidGuest(String userInputGuestName);
+	//+
+	public abstract String showAllGuestNumber();
 
 	/**
 	 * Show all guests.
 	 *
-	 * @param userInputSortCondition
-	 *            the user input sort condition
+	 * @param userInputSortCondition the user input sort condition
 	 * @return the string
 	 */
-	public String showAllGuests(String userInputSortCondition);
+	public abstract String showAllGuests(String userInputSortCondition);
+
+	/**
+	 * Creates the service.
+	 *
+	 * @param userInputOrderId the user input order id
+	 * @param userInputGuestName the user input guest name
+	 * @param userInputPrice the user input price
+	 */
+	//+
+	public abstract void createService(int userInputOrderId,
+			String userInputGuestName, int userInputPrice);
+
+	/**
+	 * Adds the service.
+	 *
+	 * @param userInputGuestId the user input guest id
+	 * @param userInputServiceId the user input service id
+	 */
+	//+
+	public abstract void addService(int userInputGuestId, int userInputServiceId);
+
+	/**
+	 * Show list of service guest.
+	 *
+	 * @param idGuest the id guest
+	 * @param userInputSortCondition the user input sort condition
+	 * @return the string
+	 */
+	//TODO string id to integer
+	public abstract String showListOfServiceGuest(String idGuest,
+			String userInputSortCondition);
+
+	/**
+	 * Change price of service.
+	 *
+	 * @param idService the id service
+	 * @param userInputPrice the user input price
+	 */
+	//TODO string to integer
+	public abstract void changePriceOfService(String idService,
+			int userInputPrice);
 
 	/**
 	 * Show list of service.
 	 *
-	 * @param userInputGuestName
-	 *            the user input guest name
-	 * @param userInputSortCondition
-	 *            the user input sort condition
 	 * @return the string
 	 */
-	public String showListOfService(String userInputGuestName,
-			String userInputSortCondition);
+	public abstract String showListOfService();
 
+	/**
+	 * Adds the rooms.
+	 *
+	 * @param userInputHotelRoomName the user input hotel room name
+	 * @param userInputRoomPrice the user input room price
+	 * @param userInputSleepingNumbers the user input sleeping numbers
+	 * @param userInputStarCategory the user input star category
+	 */
+	//+
+	public abstract void addRooms(String userInputHotelRoomName,
+			int userInputRoomPrice, int userInputSleepingNumbers,
+			int userInputStarCategory);
 
 	/**
 	 * Show all rooms.
 	 *
-	 * @param userInputSortCondition
-	 *            the user input sort condition
+	 * @param userInputSortCondition the user input sort condition
 	 * @return the string
 	 */
-	public String showAllRooms(String userInputSortCondition);
+	public abstract String showAllRooms(String userInputSortCondition);
 
 	/**
 	 * Show all free rooms.
 	 *
-	 * @param userInputSortCondition
-	 *            the user input sort condition
+	 * @param userInputSortCondition the user input sort condition
 	 * @return the string
 	 */
-	public String showAllFreeRooms(String userInputSortCondition);
+	public abstract String showAllFreeRooms(String userInputSortCondition);
 
 	/**
 	 * Show free roms after date.
 	 *
-	 * @param userInputSortCondition
-	 *            the user input sort condition
-	 * @param date
-	 *            the date
+	 * @param userInputSortCondition the user input sort condition
+	 * @param date the date
 	 * @return the string
 	 */
-	public String showFreeRomsAfterDate(String userInputSortCondition, Date date);
+	public abstract String showFreeRomsAfterDate(String userInputSortCondition,
+			Date date);
+
+	/**
+	 * Change status.
+	 *
+	 * @param idHotelRoom the id hotel room
+	 */
+	public abstract void changeStatus(String idHotelRoom);
 
 	/**
 	 * Show number of free hotel rooms.
 	 *
 	 * @return the string
 	 */
-	public String showNumberOfFreeHotelRooms();
-
-	
+	public abstract String showNumberOfFreeHotelRooms();
 
 	/**
 	 * Show detail of hotel room.
 	 *
-	 * @param userInputHotelRoomNumber
-	 *            the user input hotel room number
+	 * @param idHotelRoom the id hotel room
 	 * @return the string
 	 */
-	public String showDetailOfHotelRoom(String userInputHotelRoomNumber);
-
-	/**
-	 * Settle guest to hotel room.
-	 *
-	 * @param userInputGuestName
-	 *            the user input guest name
-	 * @param userInputHotelRoomNumber
-	 *            the user input hotel room number
-	 * @param userinpitDateOfArrive
-	 *            the userinpit date of arrive
-	 * @param userInputDateOfDeparture
-	 *            the user input date of departure
-	 */
-	public void settleGuestToHotelRoom(String userInputGuestName,
-			String userInputHotelRoomNumber, Date userinpitDateOfArrive,
-			Date userInputDateOfDeparture);
-
-	/**
-	 * Depart guest from hotel room.
-	 *
-	 * @param userInputHotelRoomName
-	 *            the user input hotel room name
-	 */
-	public void departGuestFromHotelRoom(String userInputHotelRoomName);
-
-	/**
-	 * Change status.
-	 *
-	 * @param userInputHotelRoomName
-	 *            the user input hotel room name
-	 */
-	public void changeStatus(String userInputHotelRoomName);
-
-	/**
-	 * Adds the rooms.
-	 *
-	 * @param userInputHotelRoomName
-	 *            the user input hotel room name
-	 * @param userInputRoomPrice
-	 *            the user input room price
-	 * @param userInputSleepingNumbers
-	 *            the user input sleeping numbers
-	 * @param userInputStarCategory
-	 *            the user input star category
-	 */
-	public void addRooms(String userInputHotelRoomName, int userInputRoomPrice,
-			int userInputSleepingNumbers, int userInputStarCategory);
+	//TODO id to integer
+	public abstract String showDetailOfHotelRoom(String idHotelRoom);
 
 	/**
 	 * Change price of hotel room.
 	 *
-	 * @param userInputHotelRoomName
-	 *            the user input hotel room name
-	 * @param userInputRoomPrice
-	 *            the user input room price
+	 * @param idHotelRoom the id hotel room
+	 * @param userInputRoomPrice the user input room price
 	 */
-	public void changePriceOfHotelRoom(String userInputHotelRoomName,
+	//TODO string to integer
+	public abstract void changePriceOfHotelRoom(String idHotelRoom,
 			int userInputRoomPrice);
-
-
-	/**
-	 * Adds the services.
-	 *
-	 * @param userInputServiceName
-	 *            the user input service name
-	 * @param userInputPrice
-	 *            the user input price
-	 */
-	public void addService(int userInputOrderId,String userInputServiceName, int userInputPrice);
 
 	/**
 	 * Show price service and hotel room.
 	 *
 	 * @return the string
 	 */
-	public String showPriceServiceAndHotelRoom();
+	public abstract String showPriceServiceAndHotelRoom();
 
 	/**
-	 * Change price of service.
+	 * Show summ to paid guest.
 	 *
-	 * @param userInputServiceName
-	 *            the user input service name
-	 * @param userInputPrice
-	 *            the user input price
+	 * @param idGuest the id guest
+	 * @return the string
 	 */
-	public void changePriceOfService(String userInputServiceName,
-			int userInputPrice);
+	//TODO string to int
+	public abstract String showSummToPaidGuest(String idGuest);
 
 	/**
 	 * Guest read csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param userInputFileName the user input file name
+	 * @return the string
 	 */
-	public String guestReadCsvFile(String userInputFileName);
+	public abstract String guestReadCsvFile(String userInputFileName);
 
 	/**
 	 * Guest write csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param userInputFileName the user input file name
+	 * @return the string
 	 */
-	public String guestWriteCsvFile(String userInputFileName);
+	public abstract String guestWriteCsvFile(String userInputFileName);
 
 	/**
 	 * Hotel room read csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param userInputFileName the user input file name
+	 * @return the string
 	 */
-	public String hotelRoomReadCsvFile(String userInputFileName);
+	public abstract String hotelRoomReadCsvFile(String userInputFileName);
 
 	/**
 	 * Hotel room write csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param userInputFileName the user input file name
+	 * @return the string
 	 */
-	public String hotelRoomWriteCsvFile(String userInputFileName);
+	public abstract String hotelRoomWriteCsvFile(String userInputFileName);
 
 	/**
 	 * Service read csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param userInputFileName the user input file name
+	 * @return the string
 	 */
-	public String serviceReadCsvFile(String userInputFileName);
+	public abstract String serviceReadCsvFile(String userInputFileName);
 
 	/**
 	 * Service write csv file.
 	 *
-	 * @param userInputFileName
-	 *            the user input file name
+	 * @param userInputFileName the user input file name
+	 * @return the string
 	 */
-	public String serviceWriteCsvFile(String userInputFileName);
+	public abstract String serviceWriteCsvFile(String userInputFileName);
 
+	/**
+	 * Settle guest to hotel room.
+	 *
+	 * @param idGuest the id guest
+	 * @param idHotelRoom the id hotel room
+	 * @param userinpitDateOfArrive the userinpit date of arrive
+	 * @param userInputDateOfDeparture the user input date of departure
+	 * @return the string
+	 */
+	public abstract String settleGuestToHotelRoom(String idGuest,
+			String idHotelRoom, Date userinpitDateOfArrive,
+			Date userInputDateOfDeparture);
 
+	/**
+	 * Depart guest from hotel room.
+	 *
+	 * @param idGuest the id guest
+	 */
+	public abstract void departGuestFromHotelRoom(String idGuest);
 
 }

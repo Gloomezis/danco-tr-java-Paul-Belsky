@@ -1,40 +1,56 @@
 package com.danco.dao.api;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
-import com.danco.model.IBaseModel;
+import org.hibernate.Session;
+
 import com.danco.model.Service;
 
-public interface IServiceDAO {
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface IServiceDAO.
+ */
+public interface IServiceDAO extends IDAO<Service>{
 
-	//+
-	public int create(Connection con, IBaseModel baseModel) throws SQLException;
+	
+	/**
+	 * Gets the list.
+	 *
+	 * @param session the session
+	 * @param sortCondition the sort condition
+	 * @return the list
+	 * @throws Exception the exception
+	 */
+	public List<Service> getList(Session session, String sortCondition)throws Exception;
 
-	//+
-	public Service read(Connection con, int id) throws SQLException;
+	/**
+	 * Gets the guest them services.
+	 *
+	 * @param session the session
+	 * @param idGuest the id guest
+	 * @return the guest them services
+	 * @throws Exception the exception
+	 */
+	public List<Service> getGuestThemServices(Session session, int idGuest)throws Exception;
 
-	//+
-	public Service readByName(Connection con, String name) throws SQLException;
+	/**
+	 * Gets the sum service for guest.
+	 *
+	 * @param session the session
+	 * @param idGuest the id guest
+	 * @return the sum service for guest
+	 * @throws Exception the exception
+	 */
+	public int getSumServiceForGuest(Session session, int idGuest)throws Exception;
 
-	//+
-	//update only price
-	public int update(Connection con, int id, IBaseModel baseModel)
-			throws SQLException;
-
-	//+
-	public int delete(Connection con, int id) throws SQLException;
-
-	//+
-	public List<Service> getAll(Connection con) throws SQLException;
-
-	//+ update only paid for method departure
-	public int updatePaid(Connection con, String id) throws SQLException;
-
-	//+ get price all service order by price
-	public List<String> getPriceService(Connection con) throws SQLException;
-
-	int updatePrice(Connection con, int id, int price) throws SQLException;
-
+	/**
+	 * Gets the price service.
+	 *
+	 * @param session the session
+	 * @return the price service
+	 * @throws Exception the exception
+	 */
+	public List<String> getPriceService(Session session)throws Exception; 
+	
+	
 }

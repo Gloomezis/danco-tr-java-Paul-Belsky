@@ -1,41 +1,49 @@
 package com.danco.dao.api;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import com.danco.model.Guest;
-import com.danco.model.IBaseModel;
-import com.danco.model.Service;
 
-public interface IGuestDAO {
-
-	
-	public int create(Connection con, IBaseModel baseModel) throws SQLException;
-
-	
-	public Guest read(Connection con, int id) throws SQLException;
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface IGuestDAO.
+ */
+public interface IGuestDAO extends IDAO<Guest>{
 
 	
-	public Guest readByName(Connection con, String name) throws SQLException;
+	
+	/**
+	 * Gets the list.
+	 *
+	 * @param session the session
+	 * @param sortCondition the sort condition
+	 * @return the list
+	 * @throws Exception the exception
+	 */
+	public List<Guest> getList(Session session, String sortCondition)throws Exception; 
+	
+	/**
+	 * Gets the all guest number.
+	 *
+	 * @param session the session
+	 * @return the all guest number
+	 * @throws Exception the exception
+	 */
+	public int getAllGuestNumber(Session session) throws Exception;
+	
+	
+
+
 
 	
-	public int update(Connection con, int id, IBaseModel baseModel)
-			throws SQLException;
-
 	
-	public int delete(Connection con, int id) throws SQLException;
-
-	public List<Guest> getAll(Connection con) throws SQLException;
 	
-	public List<Guest> getAllSorted(Connection con,String sortCondition)throws SQLException;
-
 	
-	public int getAllGuestNumber(Connection con) throws SQLException;
-
-	public List<String> getNameGuestsAndTheyHotelRoom(Connection con,
-			String sortCondition)throws SQLException;
-
-	public List<Service> getGuestService(Connection con, String name)throws SQLException;
-
+	
+	
+	
 }
+	
+	

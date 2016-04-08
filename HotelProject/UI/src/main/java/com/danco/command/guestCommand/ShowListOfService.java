@@ -21,7 +21,7 @@ public class ShowListOfService implements Command {
 	private static final String SORT_INPUT_MESSAGE1 = "Enter room sort condition : date/price";
 	
 	/** The Constant PROTOCOL. */
-	private static final String PROTOCOL = "2" + ";" + "showListOfService"
+	private static final String PROTOCOL = "2" + ";" + "showListOfServiceGuest"
 			+ ";";
 	
 	/** The Constant SEPARATOR. */

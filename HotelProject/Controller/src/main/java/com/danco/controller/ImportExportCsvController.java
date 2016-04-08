@@ -7,10 +7,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Connection;
+
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import com.danco.controller.api.IImportExportCsvController;
 import com.danco.dao.api.IGuestDAO;
@@ -20,23 +21,28 @@ import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.Guest;
 import com.danco.model.HotelRoom;
 import com.danco.model.Service;
-import com.danco.util.ConnectionUtil;
 
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ImportExportCsvController.
+ */
 public class ImportExportCsvController implements IImportExportCsvController{
 
 	/** The LO g1. */
 	private final Logger LOG1 = Logger.getLogger(ImportExportCsvController.class
 			.getName());
 	
+	/** The guest dao. */
 	private IGuestDAO guestDAO = (IGuestDAO) DependencyInjectionManager
 			.getClassInstance(IGuestDAO.class);
 
-	/** The service service. */
+	/** The service dao. */
 	private IServiceDAO serviceDAO = (IServiceDAO) DependencyInjectionManager
 			.getClassInstance(IServiceDAO.class);
 
 
-	/** The service service. */
+	/** The hotel room dao. */
 	private IHotelRoomDAO hotelRoomDAO = (IHotelRoomDAO) DependencyInjectionManager
 			.getClassInstance(IHotelRoomDAO.class);
 
@@ -63,7 +69,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 	/** The Constant NEW_LINE_SEPARATOR. */
 	private static final String NEW_LINE_SEPARATOR = "\n";
 
-	/** The Constant FILE_HEADER. */
+	/** The Constant FILE_HEADER1. */
 	// CSV file header
 	private static final String FILE_HEADER1 = "name";
 
@@ -96,7 +102,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 	/** The Constant HOTEL_ROOM_STATUS. */
 	private static final int HOTEL_ROOM_STATUS = 5;
 
-	/** The Constant FILE_HEADER. */
+	/** The Constant FILE_HEADER2. */
 	// CSV file header
 	private static final String FILE_HEADER2 = "number,roomPrice,sleepingNumber,starCategory,busy,dateOfArrival,dateOfDeparture,status";
 
@@ -109,11 +115,11 @@ public class ImportExportCsvController implements IImportExportCsvController{
 	/** The Constant SERVICE_PRICE. */
 	private static final int SERVICE_PRICE = 1;
 
-	/** The Constant FILE_HEADER. */
+	/** The Constant FILE_HEADER3. */
 	// CSV file header
 	private static final String FILE_HEADER3 = "name,price";
 	
-	private ConnectionUtil connectionUtil = ConnectionUtil.getInstance();
+	
 
 	/*
 	 * (non-Javadoc)
@@ -122,7 +128,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 	 * com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
 	 */
 	@Override
-	public String guestReadCsvFile(Connection con,String fileName) {
+	public String guestReadCsvFile(Session session,String fileName) {
 		StringBuilder sb = new StringBuilder();
 
 		BufferedReader fileReader = null;
@@ -136,7 +142,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 			// Read the CSV file header to skip it
 			fileReader.readLine();
-			connectionUtil.beginTransaction(con);
+			
 			// Read the file line by line starting from the second line
 			while ((line = fileReader.readLine()) != null) {
 				// Get all tokens available in line
@@ -149,7 +155,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 					// uniq add entity
 					int a = 1;
 					
-					List<Guest> guests = guestDAO.getAll(con);
+					List<Guest> guests = guestDAO.getList(session, "name");
 					for (Guest guest1 : guests) {
 						if (guest1.getName().equals(tokens[USER_NAME])) {
 							a = -1;
@@ -157,7 +163,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 					}
 					if (a != -1) {
 
-						guestDAO.create(con, guestReaded);
+						guestDAO.create(session, guestReaded);
 						sb.append(guestReaded.toString() + "\n");
 						
 
@@ -169,10 +175,10 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 				}
 			}
-			connectionUtil.commitTransaction(con);
+			
 
 		} catch (Exception e) {
-			connectionUtil.rollbackTransaction(con);
+			
 			sb.append(ERROR_CSVFILEREADER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -194,7 +200,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 	 * com.danco.importExportCSV.ICsvFileWriter#writeCsvFile(java.lang.String)
 	 */
 	@Override
-	public String guestWriteCsvFile(Connection con,String fileName) {
+	public String guestWriteCsvFile(Session session,String fileName) {
 		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
 
@@ -208,7 +214,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 			// Add a new line separator after the header
 			fileWriter.append(NEW_LINE_SEPARATOR);
-			List<Guest> guests = guestDAO.getAll(con);
+			List<Guest> guests = guestDAO.getList(session,"name");
 
 			// Write a new student object list to the CSV file
 			for (Guest guest : guests) {
@@ -224,8 +230,6 @@ public class ImportExportCsvController implements IImportExportCsvController{
 			sb.append(ERROR_CSVFILEWRITER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
-			connectionUtil.closeConnection(con);
-
 			try {
 				fileWriter.flush();
 				fileWriter.close();
@@ -245,7 +249,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 	 * com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
 	 */
 	@Override
-	public String hotelRoomReadCsvFile(Connection con,String fileName) {
+	public String hotelRoomReadCsvFile(Session session,String fileName) {
 		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
 
@@ -260,7 +264,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 			// Read the CSV file header to skip it
 			fileReader.readLine();
-			connectionUtil.beginTransaction(con);
+			
 			// Read the file line by line starting from the second line
 			while ((line = fileReader.readLine()) != null) {
 				// Get all tokens available in line
@@ -282,7 +286,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 					// uniq add entity
 					int a = 1;
-					List<HotelRoom> hotelRooms = hotelRoomDAO.getAll(con);
+					List<HotelRoom> hotelRooms = hotelRoomDAO.getList(session, "", "number");
 					for (HotelRoom hotelRoom : hotelRooms) {
 						if (hotelRoom.getNumber().equals(
 								tokens[HOTEL_ROOM_NUMBER])) {
@@ -291,7 +295,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 					}
 					if (a != -1) {
 
-						hotelRoomDAO.create(con, hotelRoomReaded);
+						hotelRoomDAO.create(session, hotelRoomReaded);
 						sb.append(hotelRoomReaded.toString() + "\n");
 
 					} else {
@@ -300,10 +304,10 @@ public class ImportExportCsvController implements IImportExportCsvController{
 					}
 
 				}
-			}connectionUtil.commitTransaction(con);
+			}
 
 		} catch (Exception e) {
-			connectionUtil.rollbackTransaction(con);
+			
 			sb.append(ERROR_CSVFILEREADER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -325,7 +329,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 	 * com.danco.importExportCSV.ICsvFileWriter#writeCsvFile(java.lang.String)
 	 */
 	@Override
-	public String hotelRoomWriteCsvFile(Connection con,String fileName) {
+	public String hotelRoomWriteCsvFile(Session session,String fileName) {
 		// TODO Auto-generated method stub
 		StringBuilder sb = new StringBuilder();
 
@@ -339,7 +343,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 			// Add a new line separator after the header
 			fileWriter.append(NEW_LINE_SEPARATOR);
-			List<HotelRoom> hotelRooms = hotelRoomDAO.getAll(con);
+			List<HotelRoom> hotelRooms = hotelRoomDAO.getList(session, "", "number");
 
 			// Write a new student object list to the CSV file
 			for (HotelRoom hotelRoom : hotelRooms) {
@@ -365,8 +369,6 @@ public class ImportExportCsvController implements IImportExportCsvController{
 			sb.append(ERROR_CSVFILEWRITER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
-			connectionUtil.closeConnection(con);
-
 			try {
 				fileWriter.flush();
 				fileWriter.close();
@@ -385,7 +387,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 	 * @see
 	 * com.danco.importExportCSV.ICsvFileReader#readCsvFile(java.lang.String)
 	 */
-	public String serviceReadCsvFile(Connection con,String fileName) {
+	public String serviceReadCsvFile(Session session,String fileName) {
 		StringBuilder sb = new StringBuilder();
 
 		BufferedReader fileReader = null;
@@ -399,7 +401,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 			// Read the CSV file header to skip it
 			fileReader.readLine();
-             connectionUtil.beginTransaction(con);
+        
 			// Read the file line by line starting from the second line
 			while ((line = fileReader.readLine()) != null) {
 				// Get all tokens available in line
@@ -411,7 +413,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 					// uniq add entity
 					int a = 1;
-					List<Service> services = serviceDAO.getAll(con);
+					List<Service> services = serviceDAO.getList(session, "name");
 					for (Service service : services) {
 						if (service.getName().equals(
 								tokens[SERVICE_NAME])) {
@@ -419,17 +421,16 @@ public class ImportExportCsvController implements IImportExportCsvController{
 						}
 					}
 					if (a != -1) {
-						serviceDAO.create(con, serviceReaded);
+						serviceDAO.create(session, serviceReaded);
 						sb.append(serviceReaded.toString() + "\n");
 					} else {
 						sb.append(EQUAL);
 					}
 				}
 			}
-connectionUtil.commitTransaction(con);
+
 		} catch (Exception e) {
 			
-			connectionUtil.rollbackTransaction(con);
 			sb.append(ERROR_CSVFILEREADER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
@@ -450,7 +451,7 @@ connectionUtil.commitTransaction(con);
 	 * @see
 	 * com.danco.importExportCSV.ICsvFileWriter#writeCsvFile(java.lang.String)
 	 */
-	public String serviceWriteCsvFile(Connection con,String fileName) {
+	public String serviceWriteCsvFile(Session session,String fileName) {
 		StringBuilder sb = new StringBuilder();
 
 		// TODO Auto-generated method stub
@@ -467,7 +468,7 @@ connectionUtil.commitTransaction(con);
 
 			// Add a new line separator after the header
 			fileWriter.append(NEW_LINE_SEPARATOR);
-			List<Service> services = serviceDAO.getAll(con);
+			List<Service> services = serviceDAO.getList(session, "name");
 
 			// Write a new student object list to the CSV file
 			for (Service service : services) {
@@ -486,7 +487,7 @@ connectionUtil.commitTransaction(con);
 			sb.append(ERROR_CSVFILEWRITER);
 			LOG1.error(EXCEPTION, e);
 		} finally {
-			connectionUtil.closeConnection(con);
+	
 
 			try {
 				fileWriter.flush();
