@@ -286,7 +286,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 					// uniq add entity
 					int a = 1;
-					List<HotelRoom> hotelRooms = hotelRoomDAO.getList(session, "", "number");
+					List<HotelRoom> hotelRooms = hotelRoomDAO.getList(session, true, "number");
 					for (HotelRoom hotelRoom : hotelRooms) {
 						if (hotelRoom.getNumber().equals(
 								tokens[HOTEL_ROOM_NUMBER])) {
@@ -343,7 +343,7 @@ public class ImportExportCsvController implements IImportExportCsvController{
 
 			// Add a new line separator after the header
 			fileWriter.append(NEW_LINE_SEPARATOR);
-			List<HotelRoom> hotelRooms = hotelRoomDAO.getList(session, "", "number");
+			List<HotelRoom> hotelRooms = hotelRoomDAO.getList(session, true, "number");
 
 			// Write a new student object list to the CSV file
 			for (HotelRoom hotelRoom : hotelRooms) {

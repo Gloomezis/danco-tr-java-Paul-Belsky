@@ -1,10 +1,9 @@
 package com.danco.gloomezis.dao;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -40,35 +39,19 @@ public class HotelRoomDAO implements  IHotelRoomDAO {
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<HotelRoom> getList(Session session, String free, String sortCondition)
+	public List<HotelRoom> getList(Session session, Boolean free, String sortCondition)
 			throws Exception {
 		Criteria crit = session.createCriteria(HotelRoom.class);
 		List<HotelRoom> roomList = null;
-		if (free.isEmpty()) {
-			roomList = (List<HotelRoom>) crit.addOrder(Order.asc(sortCondition)).list();
-		} else {
-			roomList = (List<HotelRoom>) crit.add(Restrictions.eq("busy", 1))
+		if (free) {
+			roomList = (List<HotelRoom>) crit.add(Restrictions.eq("busy", true))
 					.addOrder(Order.asc(sortCondition)).list();
+		} else {
+			roomList = (List<HotelRoom>) crit.addOrder(Order.asc(sortCondition)).list();
 		}
 		return roomList;
 	} 
 	
-	
-	/* (non-Javadoc)
-	 * @see com.danco.gloomezis.dao.IHotelRoomDAO#getFreeListAfterDate(org.hibernate.Session, java.lang.String, java.util.Date)
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<HotelRoom> getFreeListAfterDate(Session session,
-			String SortCondition, Date date)
-			throws Exception {
-		Criteria crit = session.createCriteria(HotelRoom.class);
-		List<HotelRoom> roomList = null;
-		
-			roomList = (List<HotelRoom>) crit.add(Restrictions.lt("date_departure",date)).addOrder(Order.asc(SortCondition)).list();
-		
-		return roomList;
-	} 
 	
 	
     /* (non-Javadoc)
@@ -77,10 +60,8 @@ public class HotelRoomDAO implements  IHotelRoomDAO {
     
 	@Override
 	public int getNumberFreeHotelRooms(Session session) throws Exception {
-		//Integer count = (Integer) session.createQuery("select count(*) from hotel_room as room where room.busy:=1").uniqueResult();
-		Integer count=(Integer) session.createCriteria(HotelRoom.class).add(Restrictions.eq("busy", 1).ignoreCase()).setProjection(Projections.rowCount()).uniqueResult();
-		return count;
-		
+		int count=((Long) session.createCriteria(HotelRoom.class).add(Restrictions.eq("busy", true)).setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		return count;	
 	}
 	
 	
@@ -90,11 +71,17 @@ public class HotelRoomDAO implements  IHotelRoomDAO {
     @Override
 	@SuppressWarnings("unchecked")
 	public List<String> getPriceHotelRoom(Session session) throws Exception{
-		String hql="SELECT hr.number, hr.price from hotel_room as hr ORDER by hr.price DESC";
-		Query query =session.createQuery(hql);
-		@SuppressWarnings("rawtypes")
-		List list = query.list();
-		return list;
+		
+		Criteria crit= session.createCriteria(HotelRoom.class);
+		crit.setProjection(Projections.projectionList().add(Projections.property("number")).add(Projections.property("roomPrice")));
+		List<String> result = new ArrayList<String>();
+		crit.addOrder(Order.desc("price"));
+		 List<Object[]> rows = crit.list(); 
+		    for (Object[] row : rows) {
+		       result.add("Hotel room : "+row[0] + " ,price: " + row[1]);
+		    }
+	
+		return result;
 	}
 	
 

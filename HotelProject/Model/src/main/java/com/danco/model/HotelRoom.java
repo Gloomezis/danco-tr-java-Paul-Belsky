@@ -68,7 +68,6 @@ public class HotelRoom extends BaseModel implements Cloneable, Serializable {
 	public HotelRoom(String number, int roomPrice, int sleepingNumbers,
 			int starCategory) {
 
-		this.setId(-1);
 		this.number = number;
 		this.roomPrice = roomPrice;
 		this.sleepingNumber = sleepingNumbers;
@@ -87,7 +86,7 @@ public class HotelRoom extends BaseModel implements Cloneable, Serializable {
 	public HotelRoom(int id, String number, int roomPrice, int sleepingNumbers,
 			int starCategory) {
 
-		this.setId(id);
+		this.id=id;
 		this.number = number;
 		this.roomPrice = roomPrice;
 		this.sleepingNumber = sleepingNumbers;

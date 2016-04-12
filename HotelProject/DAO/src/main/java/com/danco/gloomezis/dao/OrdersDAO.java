@@ -5,11 +5,11 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.sql.JoinType;
 
 import com.danco.dao.api.IOrdersDAO;
-import com.danco.model.HotelRoom;
 import com.danco.model.Orders;
 
 // TODO: Auto-generated Javadoc
@@ -53,12 +53,9 @@ public class OrdersDAO implements  IOrdersDAO {
 	@Override
 	public Orders getOrdersForIdGuest(Session session, int idGuest)
 			throws Exception {
-		Criteria crit = session.createCriteria(Orders.class);
-
-		Orders order = (Orders) crit.add(Restrictions.and(
-				Restrictions.eq("guest_id", idGuest),
-				Restrictions.eq("status", false)));
-
+		Criteria crit = session.createCriteria(Orders.class).add(Restrictions.eq("paid", false));
+		Orders order=(Orders)crit.createCriteria("guest", JoinType.RIGHT_OUTER_JOIN).add(Restrictions.eq("id", idGuest)).uniqueResult();
+	
 		return order;
 	} 
 	
@@ -68,15 +65,12 @@ public class OrdersDAO implements  IOrdersDAO {
 	@Override
 	public int getPriceOrderForGuest(Session session, int idGuest)
 			throws Exception {
-
-		Criteria crit = session.createCriteria(HotelRoom.class);
-		crit.createCriteria("orders", JoinType.RIGHT_OUTER_JOIN)
-				.add(Restrictions.eq("guest.id", idGuest)).add(Restrictions.eq("paid", false));
-		crit.uniqueResult();
-		HotelRoom hr=(HotelRoom) crit.list();
-		int sum = hr.getRoomPrice();
-
-		return sum;
+		Criteria crit = session.createCriteria(Orders.class,"ord").add(Restrictions.eq("ord.paid", false));
+		crit.createCriteria("guest","gue").add(Restrictions.eq("gue.id", idGuest));
+		crit.createCriteria("hotelRoom","hr")
+			.setProjection(Projections.property("hr.roomPrice"));
+		int summ = (int) crit.uniqueResult();
+		return summ;
 	} 
 	
 	

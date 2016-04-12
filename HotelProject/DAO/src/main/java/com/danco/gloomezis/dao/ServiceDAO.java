@@ -3,10 +3,10 @@
  */
 package com.danco.gloomezis.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -60,7 +60,7 @@ public class ServiceDAO implements  IServiceDAO {
 			throws Exception {
 
 		Criteria crit = session.createCriteria(Service.class);
-		List<Service> serviceList = (List<Service>) crit.createCriteria("orders", JoinType.RIGHT_OUTER_JOIN)
+		List<Service> serviceList = (List<Service>) crit.createCriteria("order", JoinType.RIGHT_OUTER_JOIN)
 				.add(Restrictions.eq("guest.id", idGuest)).add(Restrictions.eq("paid", false)).list();
 		return serviceList;
 	}
@@ -74,9 +74,8 @@ public class ServiceDAO implements  IServiceDAO {
 
 		Criteria crit = session.createCriteria(Service.class);
 		crit.setProjection(Projections.sum("price"))
-				.createCriteria("orders", JoinType.RIGHT_OUTER_JOIN)
+				.createCriteria("order", JoinType.RIGHT_OUTER_JOIN)
 				.add(Restrictions.eq("guest.id", idGuest)).add(Restrictions.eq("paid", false));
-		crit.uniqueResult();
 		Long summ = (Long) crit.uniqueResult();
 		int sum = summ.intValue();
 
@@ -90,11 +89,25 @@ public class ServiceDAO implements  IServiceDAO {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<String> getPriceService(Session session) throws Exception{
-		String hql="SELECT s.name, s.price from service as s ORDER by s.price DESC";
-		Query query =session.createQuery(hql);
-		@SuppressWarnings("rawtypes")
-		List list = query.list();
-		return list;
+		//String hql="SELECT s.name, s.price from service as s ORDER by s.price DESC";
+		//Query query =session.createQuery(hql);
+		//@SuppressWarnings("rawtypes")
+		//List list = query.list();
+		Criteria crit= session.createCriteria(Service.class);
+		crit.setProjection(Projections.projectionList().add(Projections.property("name")).add(Projections.property("price")));
+		List<String> result = new ArrayList<String>();
+		crit.addOrder(Order.desc("price"));
+		 List<Object[]> rows = crit.list(); 
+		    for (Object[] row : rows) {
+		       result.add(" Service : "+row[0] + " ,price: " + row[1]);
+		    }
+		
+		return result;
+		
+		
+		
+		
+		
 	}
 	
 	

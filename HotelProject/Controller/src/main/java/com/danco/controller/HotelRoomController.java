@@ -1,6 +1,5 @@
 package com.danco.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -81,7 +80,7 @@ public class HotelRoomController {
 	 * @return the hotel room list
 	 * @throws Exception the exception
 	 */
-	public List<HotelRoom> getHotelRoomList(Session session, String free, String sortCondition)throws Exception{
+	public List<HotelRoom> getHotelRoomList(Session session, boolean free, String sortCondition)throws Exception{
 		return hotelRoomDAO.getList(session, free, sortCondition);
 	}; 
 	
@@ -97,22 +96,6 @@ public class HotelRoomController {
 		return hotelRoomDAO.getNumberFreeHotelRooms(session);
 	}
 	
-	/**
-	 * Gets the free hotel rooms after date.
-	 *
-	 * @param session the session
-	 * @param userInputSortCondition the user input sort condition
-	 * @param date the date
-	 * @return the free hotel rooms after date
-	 * @throws Exception the exception
-	 */
-	public List<HotelRoom> getFreeHotelRoomsAfterDate(Session session,
-			String userInputSortCondition, Date date) throws Exception {
-
-		return hotelRoomDAO.getFreeListAfterDate(session,
-				userInputSortCondition, date);
-
-	}
 	
 	/**
 	 * Gets the price hotel room.

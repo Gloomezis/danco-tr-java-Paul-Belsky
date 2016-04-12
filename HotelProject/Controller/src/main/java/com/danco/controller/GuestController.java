@@ -82,9 +82,9 @@ public class GuestController {
 	 * @return the guest list
 	 * @throws Exception the exception
 	 */
-	public List<Guest> getGuestList(Session session, String SortCondition)
+	public List<Guest> getGuestList(Session session, String sortCondition)
 			throws Exception {
-		return guestDAO.getList(session, SortCondition);
+		return guestDAO.getList(session, sortCondition);
 
 	}
 	

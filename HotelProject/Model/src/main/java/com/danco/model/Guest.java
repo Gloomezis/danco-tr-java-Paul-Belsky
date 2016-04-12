@@ -69,7 +69,7 @@ public class Guest  extends BaseModel implements  Serializable {
 	 * @param name the name
 	 */
 	public Guest(String name) {
-		this.setId(-1);
+		
 		this.name = name;
 		this.orders = new ArrayList<Orders>();
 	}

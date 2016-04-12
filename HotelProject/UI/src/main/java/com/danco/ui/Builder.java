@@ -21,7 +21,6 @@ import com.danco.command.hotelRoomCommand.SettleGuestToHotelRoom;
 import com.danco.command.hotelRoomCommand.ShowAllFreeRooms;
 import com.danco.command.hotelRoomCommand.ShowAllRooms;
 import com.danco.command.hotelRoomCommand.ShowDetailOfHotelRoom;
-import com.danco.command.hotelRoomCommand.ShowFreeRomsAfterDate;
 import com.danco.command.hotelRoomCommand.ShowNumberOfFreeHotelRooms;
 import com.danco.command.serviceCommand.AddServices;
 import com.danco.command.serviceCommand.ChangePriceOfService;
@@ -238,8 +237,6 @@ public class Builder {
 				.add(new MenuItems(SHOW_NUMBER_FREE_HOTEL_ROOMS, new ShowNumberOfFreeHotelRooms()));
 		secondShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_ROOMS, new ShowAllRooms()));
 		secondShowMenu.getMenuItems().add(new MenuItems(SHOW_ALL_FREE_ROOMS, new ShowAllFreeRooms()));
-		secondShowMenu.getMenuItems()
-				.add(new MenuItems(SHOW_ALL_FREE_ROOMS_AFTER_DATE, new ShowFreeRomsAfterDate()));
 		secondShowMenu.getMenuItems()
 				.add(new MenuItems(SHOW_DETAIL_SELECTED_ROOM, new ShowDetailOfHotelRoom()));
 		secondShowMenu.getMenuItems()

@@ -84,9 +84,7 @@ public class MainController implements IMainController {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		int num = 0;
 		try {
-
 			num = guestController.getAllGuestNumber(session);
-
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			ConnectionFactoryHibernate.destroy();
@@ -109,7 +107,6 @@ public class MainController implements IMainController {
 			sb = new StringBuilder(500);
 			List<Guest> allSortedGuests = guestController.getGuestList(session,
 					userInputSortCondition);
-			session.getTransaction().commit();
 			for (Guest s : allSortedGuests) {
 				sb.append(String.format(GUEST_FORMAT, s.getId(), s.getName()));
 			}
@@ -124,16 +121,16 @@ public class MainController implements IMainController {
 
 	// <<<<<<<<<<SERVICE >>>>>>>>>>>>
 
-	
+	//TODO delete int userInputOrderId
 	/* (non-Javadoc)
 	 * @see com.danco.controller.api.IMainController#createService(int, java.lang.String, int)
 	 */
 	@Override
-	public void createService(int userInputOrderId, String userInputGuestName,
+	public void createService(int userInputOrderId, String userInputServiceName,
 			int userInputPrice) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
-			Service serv = new Service(userInputGuestName, userInputPrice);
+			Service serv = new Service(userInputServiceName, userInputPrice);
 			session.beginTransaction();
 			serviceController.createService(session, serv);
 			session.getTransaction().commit();
@@ -154,7 +151,6 @@ public class MainController implements IMainController {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
 			session.beginTransaction();
-
 			Orders order = ordersController.getOrdersForIdGuest(session,
 					userInputGuestId);
 			Service service = serviceController.getServiceById(session,
@@ -179,14 +175,11 @@ public class MainController implements IMainController {
 	@Override
 	public String showListOfServiceGuest(String idGuest,
 			String userInputSortCondition) {
-
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = null;
 		try {
-
 			List<Service> service = serviceController.getGuestThemServices(
 					session, Integer.parseInt(idGuest));
-			session.getTransaction().commit();
 			sb = new StringBuilder(500);
 			sb.append("");
 			sb.append(idGuest + ":" + "\n");
@@ -234,7 +227,6 @@ public class MainController implements IMainController {
 	 */
 	@Override
 	public String showListOfService() {
-
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = null;
 		try {
@@ -245,7 +237,6 @@ public class MainController implements IMainController {
 			for (Service c : service) {
 				sb.append(String.format(SERVICE_FORMAT, c.getName(),
 						c.getPrice()));
-
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -290,10 +281,8 @@ public class MainController implements IMainController {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = new StringBuilder();
 		try {
-
 			List<HotelRoom> rooms = hotelRoomController.getHotelRoomList(
-					session, "", userInputSortCondition);
-			session.getTransaction().commit();
+					session, true, userInputSortCondition);
 			for (HotelRoom s : rooms) {
 				sb.append(hotelRoomToString(s));
 			}
@@ -315,30 +304,7 @@ public class MainController implements IMainController {
 		StringBuilder sb = new StringBuilder();
 		try {
 			List<HotelRoom> rooms = hotelRoomController.getHotelRoomList(
-					session, "1", userInputSortCondition);
-			for (HotelRoom s : rooms) {
-				sb.append(hotelRoomToString(s));
-			}
-		} catch (Exception e) {
-			LOG1.error(EXCEPTION, e);
-			ConnectionFactoryHibernate.destroy();
-		} finally {
-			session.close();
-		}
-		return sb.toString();
-	}
-
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showFreeRomsAfterDate(java.lang.String, java.util.Date)
-	 */
-	@Override
-	public String showFreeRomsAfterDate(String userInputSortCondition, Date date) {
-		Session session = ConnectionFactoryHibernate.getOrInitSession();
-		StringBuilder sb = new StringBuilder();
-		try {
-			List<HotelRoom> rooms = hotelRoomController
-					.getFreeHotelRoomsAfterDate(session,
-							userInputSortCondition, date);
+					session, true, userInputSortCondition);
 			for (HotelRoom s : rooms) {
 				sb.append(hotelRoomToString(s));
 			}
@@ -385,9 +351,7 @@ public class MainController implements IMainController {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		int n = 0;
 		try {
-
 			n = hotelRoomController.getNumberFreeHotelRooms(session);
-
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			ConnectionFactoryHibernate.destroy();
@@ -454,7 +418,6 @@ public class MainController implements IMainController {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		StringBuilder sb = null;
 		try {
-
 			List<String> listService = serviceController
 					.getPriceService(session);
 			List<String> listHotelRoom = hotelRoomController
@@ -468,7 +431,6 @@ public class MainController implements IMainController {
 				sb.append(b);
 				sb.append(" \n ");
 			}
-
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 
@@ -712,7 +674,6 @@ public class MainController implements IMainController {
 			LOG1.error(EXCEPTION, e);
 			session.getTransaction().rollback();
 			ConnectionFactoryHibernate.destroy();
-
 		} finally {
 			session.close();
 		}

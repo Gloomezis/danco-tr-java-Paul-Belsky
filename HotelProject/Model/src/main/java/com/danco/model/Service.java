@@ -56,7 +56,7 @@ public class Service extends BaseModel implements  Serializable {
 	public Service(
 
 	String name, int price) {
-		this.setId(-1);
+		
 		this.price = price;
 		this.name = name;
 
@@ -71,7 +71,7 @@ public class Service extends BaseModel implements  Serializable {
 	 * @param paid the paid
 	 */
 	public Service(int id, String name, int price, boolean paid) {
-		this.setId(id);
+		this.id=id;
 		this.price = price;
 		this.name = name;
 		this.paid = paid;

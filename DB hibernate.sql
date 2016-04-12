@@ -24,7 +24,7 @@ CREATE  TABLE IF NOT EXISTS `hotel_admin`.`hotel_room` (
   `number` VARCHAR(10) NOT NULL ,
   `room_price` INT NOT NULL ,
   `sleeping_number` INT NOT NULL ,
-  `star_category` SMALLINT NOT NULL ,
+  `star_category` INT NOT NULL ,
   `busy` TINYINT(1) NOT NULL ,
   `status` TINYINT(1) NOT NULL ,
   PRIMARY KEY (`id`) ,
@@ -64,7 +64,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `hotel_admin`.`service` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `orders_id` INT ZEROFILL NOT NULL ,
+  `orders_id` INT ZEROFILL  ,
   `name` VARCHAR(25) NOT NULL ,
   `price` INT NOT NULL ,
   `paid` TINYINT(1) NOT NULL DEFAULT 0 ,

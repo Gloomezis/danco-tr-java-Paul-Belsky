@@ -15,16 +15,6 @@ import com.danco.model.HotelRoom;
 public interface IHotelRoomDAO extends IDAO<HotelRoom>{
 	
 	
-	/**
-	 * Gets the list.
-	 *
-	 * @param session the session
-	 * @param free the free
-	 * @param sortCondition the sort condition
-	 * @return the list
-	 * @throws Exception the exception
-	 */
-	public List<HotelRoom> getList(Session session, String free, String sortCondition)throws Exception; 
 	
 	/**
 	 * Gets the number free hotel rooms.
@@ -35,17 +25,7 @@ public interface IHotelRoomDAO extends IDAO<HotelRoom>{
 	 */
 	public int getNumberFreeHotelRooms(Session session)throws Exception;
 
-	/**
-	 * Gets the free list after date.
-	 *
-	 * @param session the session
-	 * @param SortCondition the sort condition
-	 * @param date the date
-	 * @return the free list after date
-	 * @throws Exception the exception
-	 */
-	public List<HotelRoom> getFreeListAfterDate(Session session,
-			String SortCondition, Date date)throws Exception ;
+	
 
 	/**
 	 * Gets the price hotel room.
@@ -55,6 +35,10 @@ public interface IHotelRoomDAO extends IDAO<HotelRoom>{
 	 * @throws Exception the exception
 	 */
 	public List<String> getPriceHotelRoom(Session session)throws Exception;
+
+	
+	List<HotelRoom> getList(Session session, Boolean free, String sortCondition)
+			throws Exception;
 
 	
 

@@ -109,15 +109,7 @@ public interface IMainController {
 	 */
 	public abstract String showAllFreeRooms(String userInputSortCondition);
 
-	/**
-	 * Show free roms after date.
-	 *
-	 * @param userInputSortCondition the user input sort condition
-	 * @param date the date
-	 * @return the string
-	 */
-	public abstract String showFreeRomsAfterDate(String userInputSortCondition,
-			Date date);
+	
 
 	/**
 	 * Change status.

@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 
 import com.danco.dao.api.IGuestDAO;
 import com.danco.model.Guest;
@@ -49,9 +50,8 @@ public class GuestDAO implements  IGuestDAO {
 	 */
 	@Override
 	public int getAllGuestNumber(Session session) throws Exception {
-		Integer count = (Integer) session.createQuery("select count(*) from guest").uniqueResult();
-		//Integer count1=(Integer) session.createCriteria(Guest.class).setProjection(Projections.rowCount()).uniqueResult();
-		return count;
+		int count1= ((Long) session.createCriteria(Guest.class).setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		return count1;
 		
 	}
 	

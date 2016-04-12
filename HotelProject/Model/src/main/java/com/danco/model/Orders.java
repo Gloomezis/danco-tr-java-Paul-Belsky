@@ -42,7 +42,7 @@ public class Orders extends BaseModel implements Serializable{
 	private int id;
 	
 	/** The services. */
-	@OneToMany(targetEntity = Service.class, mappedBy = "orders",fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Service.class, mappedBy = "order",fetch = FetchType.LAZY)
 	private List<Service> services;
 	
 	/** The guest. */
@@ -89,8 +89,7 @@ public class Orders extends BaseModel implements Serializable{
 	public Orders(int id, 			
 	HotelRoom hotelRoom, Date dateOfArrival, Date dateOfDeparture,boolean paid) {
 		
-		this.setId(id);
-		
+		this.id=id;
 		this.hotelRoom = hotelRoom;
 		this.dateArrive = dateOfArrival;
 		this.dateDeparture = dateOfDeparture;
@@ -110,7 +109,7 @@ public class Orders extends BaseModel implements Serializable{
 			
 			HotelRoom hotelRoom,Date dateOfArrival, Date dateOfDeparture) {
 		
-		this.setId(-1);
+		
 	    this.hotelRoom = hotelRoom;
 		this.dateArrive = dateOfArrival;
 		this.dateDeparture = dateOfDeparture;
