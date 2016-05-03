@@ -15,10 +15,10 @@ import com.danco.ui.Processing;
 public class SettleGuestToHotelRoom implements Command {
 
 	/** The Constant GUEST_INPUT_MESSAGE. */
-	private static final String GUEST_INPUT_MESSAGE = "Enter guest name";
+	private static final String GUEST_INPUT_MESSAGE = "Enter guest id";
 	
 	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
-	private static final String HOTEL_ROOM_INPUT_MESSAGE = "Enter hotel room number";
+	private static final String HOTEL_ROOM_INPUT_MESSAGE = "Enter hotel room id";
 	
 	/** The Constant DATE_ARRIVE_INPUT_MESSAGE. */
 	private static final String DATE_ARRIVE_INPUT_MESSAGE = "Enter date of Arrive / year-month-day  :  yyyy-MM-dd";

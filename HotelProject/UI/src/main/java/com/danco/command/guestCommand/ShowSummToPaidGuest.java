@@ -15,7 +15,7 @@ import com.danco.ui.Processing;
 public class ShowSummToPaidGuest implements Command {
 	
 	/** The Constant GUEST_INPUT_MESSAGE. */
-	private static final String GUEST_INPUT_MESSAGE = "Enter Guest Name";
+	private static final String GUEST_INPUT_MESSAGE = "Enter Guest id";
 	
 	/** The Constant PROTOCOL. */
 	private static final String PROTOCOL = "1" + ";" + "showSummToPaidGuest"
@@ -44,11 +44,7 @@ public class ShowSummToPaidGuest implements Command {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				System.in));
 		try {
-/*
-			int serverPort = 6969;
-			Socket socket = new Socket(InetAddress.getLocalHost(), serverPort);
-			Processing processing = new Processing(socket);
-			*/
+
 			Processing processing = Processing.getInstance();
 			System.out.println(GUEST_INPUT_MESSAGE);
 			String userInputGuestName = reader.readLine();

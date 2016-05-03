@@ -50,8 +50,8 @@ public interface IMainController {
 	 * @param userInputServiceId the user input service id
 	 */
 	//+
-	public abstract void addService(int userInputGuestId, int userInputServiceId);
-
+	//TODO string id to integer
+	public abstract void  addService(String userInputGuestId, String userInputServiceId);
 	/**
 	 * Show list of service guest.
 	 *
@@ -227,5 +227,7 @@ public interface IMainController {
 	 * @param idGuest the id guest
 	 */
 	public abstract void departGuestFromHotelRoom(String idGuest);
+
+	
 
 }

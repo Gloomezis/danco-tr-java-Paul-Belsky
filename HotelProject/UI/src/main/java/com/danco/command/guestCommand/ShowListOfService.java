@@ -15,10 +15,10 @@ import com.danco.ui.Processing;
 public class ShowListOfService implements Command {
 
 	/** The Constant GUEST_INPUT_MESSAGE. */
-	private static final String GUEST_INPUT_MESSAGE = "Enter Guest Name";
+	private static final String GUEST_INPUT_MESSAGE = "Enter Guest id";
 	
 	/** The Constant SORT_INPUT_MESSAGE1. */
-	private static final String SORT_INPUT_MESSAGE1 = "Enter room sort condition : date/price";
+	private static final String SORT_INPUT_MESSAGE1 = "Enter room sort condition : name/price";
 	
 	/** The Constant PROTOCOL. */
 	private static final String PROTOCOL = "2" + ";" + "showListOfServiceGuest"
@@ -50,11 +50,7 @@ public class ShowListOfService implements Command {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				System.in));
 		try {
-/*
-			int serverPort = 6969;
-			Socket socket = new Socket(InetAddress.getLocalHost(), serverPort);
-			Processing processing = new Processing(socket);
-			*/
+
 			Processing processing = Processing.getInstance();
 
 			System.out.println(GUEST_INPUT_MESSAGE);

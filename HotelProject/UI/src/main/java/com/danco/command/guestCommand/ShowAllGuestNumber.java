@@ -37,11 +37,7 @@ public class ShowAllGuestNumber implements Command {
 	public void execute() {
 
 		try {
-			/*
-			int serverPort = 6969;
-			Socket socket = new Socket(InetAddress.getLocalHost(), serverPort);
-			Processing processing = new Processing(socket);
-*/
+			
 			Processing processing = Processing.getInstance();
 			
 			StringBuilder str = new StringBuilder();

@@ -15,13 +15,13 @@ import com.danco.ui.Processing;
 public class AddServiceToGuest implements Command {
 	
 	/** The Constant GUEST_INPUT_MESSAGE. */
-	private static final String GUEST_INPUT_MESSAGE = "Enter Guest Name";
+	private static final String GUEST_INPUT_MESSAGE = "Enter Guest id";
 	
 	/** The Constant SERVICE_INPUT_MESSAGE. */
-	private static final String SERVICE_INPUT_MESSAGE = "Enter Service Name";
+	private static final String SERVICE_INPUT_MESSAGE = "Enter Service id";
 	
 	/** The Constant PROTOCOL. */
-	private static final String PROTOCOL = "2" + ";" + "addServiceToGuest"
+	private static final String PROTOCOL = "2" + ";" + "addService"
 			+ ";";
 	
 	/** The Constant SEPARATOR. */

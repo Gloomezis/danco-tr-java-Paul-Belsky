@@ -15,7 +15,7 @@ import com.danco.ui.Processing;
 public class ChangePriceOfHotelRoom implements Command {
 	
 	/** The Constant HOTEL_ROOM_INPUT_MESSAGE. */
-	private static final String HOTEL_ROOM_INPUT_MESSAGE = "Enter hotel room number";
+	private static final String HOTEL_ROOM_INPUT_MESSAGE = "Enter hotel room id";
 	
 	/** The Constant PRICE_INPUT_MESSAGE1. */
 	private static final String PRICE_INPUT_MESSAGE1 = "Enter new price of hotel room";

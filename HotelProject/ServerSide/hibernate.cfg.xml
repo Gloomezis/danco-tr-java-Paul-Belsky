@@ -15,5 +15,7 @@
 		<mapping class="com.danco.model.HotelRoom" />
 		<mapping class="com.danco.model.Orders" />
 		<mapping class="com.danco.model.Service" />
+		<mapping class="com.danco.model.User" />
+		<mapping class="com.danco.model.Session" />
 	</session-factory>
 </hibernate-configuration>

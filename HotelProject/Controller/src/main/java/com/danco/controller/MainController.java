@@ -15,6 +15,7 @@ import com.danco.model.Guest;
 import com.danco.model.HotelRoom;
 import com.danco.model.Orders;
 import com.danco.model.Service;
+import com.danco.model.User;
 import com.danco.util.ConnectionFactoryHibernate;
 
 // TODO: Auto-generated Javadoc
@@ -37,6 +38,10 @@ public class MainController implements IMainController {
 
 	/** The import export csv controller. */
 	private IImportExportCsvController importExportCsvController = new ImportExportCsvController();
+	
+	private UserController userController = new UserController();
+	
+	private SessionController  sessionController = new SessionController();
 
 	/** The Constant GUEST_FORMAT. */
 	private static final String GUEST_FORMAT = "id: %d, Guest: %s , \n";
@@ -147,14 +152,14 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.api.IMainController#addService(int, int)
 	 */
 	@Override
-	public void addService(int userInputGuestId, int userInputServiceId) {
+	public void addService(String userInputGuestId, String userInputServiceId) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
 			session.beginTransaction();
 			Orders order = ordersController.getOrdersForIdGuest(session,
-					userInputGuestId);
+					Integer.parseInt(userInputGuestId));
 			Service service = serviceController.getServiceById(session,
-					userInputServiceId);
+					Integer.parseInt(userInputServiceId));
 			service.setOrder(order);
 			serviceController.updateService(session, service);
 			session.getTransaction().commit();
@@ -677,5 +682,46 @@ public class MainController implements IMainController {
 		} finally {
 			session.close();
 		}
+	
 	}
+	
+	
+	
+	public void addUser(String userName,String userPass, String userMail) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		try {
+			User u = new User();
+			session.beginTransaction();
+			userController.createUser(session, u);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+	}
+	
+	public void addSession(int userID,String resources, boolean login) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		try {
+			
+			session.beginTransaction();
+			User u = userController.getUserById(session, userID);
+			Date time = new Date();
+			com.danco.model.Session s = new com.danco.model.Session(time, resources,login,
+					u);
+			sessionController.createSession(session, s);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+	}
+	
+
 }

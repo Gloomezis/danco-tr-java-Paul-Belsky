@@ -42,11 +42,7 @@ public class ShowAllGuests implements Command {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				System.in));
 		try {
-/*
-			int serverPort = 6969;
-			Socket socket = new Socket(InetAddress.getLocalHost(), serverPort);
-			Processing processing = new Processing(socket);
-*/
+
 			Processing processing = Processing.getInstance();
 			
 			System.out.println(SORT_INPUT_MESSAGE);

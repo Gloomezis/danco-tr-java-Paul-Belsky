@@ -80,6 +80,41 @@ ENGINE = InnoDB;
 
 
 
+-- -----------------------------------------------------
+-- Table `hotel_admin`.`user`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `hotel_admin`.`user` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `name`  VARCHAR(45) NOT NULL ,
+  `email` VARCHAR(45) NOT NULL ,
+  `password`  VARCHAR(20) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `iduser_UNIQUE` (`id` ASC) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `hotel_admin`.`session`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `hotel_admin`.`session` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `user_id` INT NOT NULL ,
+  `time` DATE NOT NULL ,
+  `resources` VARCHAR(45) NOT NULL ,
+  `login` TINYINT(1) NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  UNIQUE INDEX `idsession_UNIQUE` (`id` ASC) ,
+  INDEX `fk_session_user1_idx` (`user_id` ASC) ,
+  CONSTRAINT `fk_session_user1`
+    FOREIGN KEY (`user_id` )
+    REFERENCES `hotel_admin`.`user` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

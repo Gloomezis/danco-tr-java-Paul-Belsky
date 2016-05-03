@@ -22,8 +22,8 @@ import com.danco.command.hotelRoomCommand.ShowAllFreeRooms;
 import com.danco.command.hotelRoomCommand.ShowAllRooms;
 import com.danco.command.hotelRoomCommand.ShowDetailOfHotelRoom;
 import com.danco.command.hotelRoomCommand.ShowNumberOfFreeHotelRooms;
-import com.danco.command.serviceCommand.AddServices;
 import com.danco.command.serviceCommand.ChangePriceOfService;
+import com.danco.command.serviceCommand.CreateService;
 import com.danco.command.serviceCommand.ShowPriceServiceAndHotelRoom;
 
 // TODO: Auto-generated Javadoc
@@ -31,6 +31,8 @@ import com.danco.command.serviceCommand.ShowPriceServiceAndHotelRoom;
  * The Class Builder.
  */
 public class Builder {
+
+	private static final String CREATE_SERVICE = "Create service";
 
 	/** The root menu. */
 	private Menu rootMenu = buildMenu();
@@ -251,7 +253,7 @@ public class Builder {
 		threeMenu.getMenuItems().add(threeShowMenu);
 		threeMenu.getMenuItems().add(new MenuItems(BACK, null));
 
-		threeAddMenu.getMenuItems().add(new MenuItems(ADD_SERVICE, new AddServices()));
+		threeAddMenu.getMenuItems().add(new MenuItems(CREATE_SERVICE, new CreateService()));
 		threeAddMenu.getMenuItems().add(new MenuItems(BACK, null));
 
 		threeEditMenu.getMenuItems().add(new MenuItems(CHANGE_PRICE_SERVICE, new ChangePriceOfService()));
