@@ -27,9 +27,6 @@ public class User extends BaseModel implements  Serializable{
 	@Column(name="name")
 	private String name;
 	
-	/** The name. */
-	@Column(name="email")
-	private String email;
 	
 	/** The name. */
 	@Column(name="password")
@@ -41,10 +38,10 @@ public class User extends BaseModel implements  Serializable{
 	
    
 	
-	public User(String name, String email, String password) {
+	public User(String name,  String password) {
 		super();
 		this.name = name;
-		this.email = email;
+		
 		this.password = password;
 	}
 
@@ -70,13 +67,6 @@ public class User extends BaseModel implements  Serializable{
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	public String getPassword() {
 		return password;

@@ -2,6 +2,8 @@ package com.danco.controller.api;
 
 import java.util.Date;
 
+import com.danco.model.User;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Interface IMainController.
@@ -228,6 +230,10 @@ public interface IMainController {
 	 */
 	public abstract void departGuestFromHotelRoom(String idGuest);
 
+	public abstract void addHandling(int userID,String resources) ;
 	
+	public abstract void addUser(String userName,String userPass) ;
+	
+	public abstract User getUser(String user, String pwd);
 
 }

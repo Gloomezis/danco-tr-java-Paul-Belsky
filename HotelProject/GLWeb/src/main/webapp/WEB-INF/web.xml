@@ -2,27 +2,274 @@
  "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
+
+
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
-  <servlet>
-  	<servlet-name>RegistrationController</servlet-name>
-  	<display-name>RegistrationController</display-name>
-  	<description></description>
-  	<servlet-class>servlets.RegistrationController</servlet-class>
-  </servlet>
-  <servlet>
-  	<servlet-name>LoginController</servlet-name>
-  	<display-name>LoginController</display-name>
-  	<description></description>
-  	<servlet-class>servlets.LoginController</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-  	<servlet-name>RegistrationController</servlet-name>
-  	<url-pattern>/RegistrationController</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>LoginController</servlet-name>
-  	<url-pattern>/LoginController</url-pattern>
-  </servlet-mapping>
+	<display-name>Archetype Created Web Application</display-name>
+
+
+	<filter>
+		<filter-name>AutFilter</filter-name>
+		<filter-class>filters.AutFilter</filter-class>
+		<init-param>
+			<param-name>loginActionURI</param-name>
+			<param-value>servlets.LoginController</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>AuditFilter</filter-name>
+		<filter-class>filters.AuditFilter</filter-class>
+	</filter>
+
+
+	<filter-mapping>
+		<filter-name>AutFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AuditFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+
+	<servlet>
+		<servlet-name>GuestReadCSV</servlet-name>
+		<servlet-class>csv.GuestReadCSV</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>GuestWriteCSV</servlet-name>
+		<servlet-class>csv.GuestWriteCSV</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>HotelRoomReadCSV</servlet-name>
+		<servlet-class>csv.HotelRoomReadCSV</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>HotelRoomWriteCSV</servlet-name>
+		<servlet-class>csv.HotelRoomWriteCSV</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ServiceReadCSV</servlet-name>
+		<servlet-class>csv.ServiceReadCSV</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ServiceWriteCSV</servlet-name>
+		<servlet-class>csv.ServiceWriteCSV</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LoginController</servlet-name>
+		<servlet-class>servlets.LoginController</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>LogOut</servlet-name>
+		<servlet-class>servlets.LogOut</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>RegistrationController</servlet-name>
+		<servlet-class>servlets.RegistrationController</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AddServiceToGuest</servlet-name>
+		<servlet-class>servlets.guest.AddServiceToGuest</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>GuestCRUD</servlet-name>
+		<servlet-class>servlets.guest.GuestCRUD</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ShowAllGuest</servlet-name>
+		<servlet-class>servlets.guest.ShowAllGuest</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ShowListServiceGuest</servlet-name>
+		<servlet-class>servlets.guest.ShowListServiceGuest</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ShowSummToPaid</servlet-name>
+		<servlet-class>servlets.guest.ShowSummToPaid</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ChangePriceOfHotelRoom</servlet-name>
+		<servlet-class>servlets.hotelRoom.ChangePriceOfHotelRoom</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ChangeStatus</servlet-name>
+		<servlet-class>servlets.hotelRoom.ChangeStatus</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>DepartGuestFromHotelRoom</servlet-name>
+		<servlet-class>servlets.hotelRoom.DepartGuestFromHotelRoom</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>HotelRoomCRUD</servlet-name>
+		<servlet-class>servlets.hotelRoom.HotelRoomCRUD</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>SettleGuestToHotelRoom</servlet-name>
+		<servlet-class>servlets.hotelRoom.SettleGuestToHotelRoom</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ShowAllFreeRooms</servlet-name>
+		<servlet-class>servlets.hotelRoom.ShowAllFreeRooms</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ShowAllRooms</servlet-name>
+		<servlet-class>servlets.hotelRoom.ShowAllRooms</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ShowDetailOfHotelRoom</servlet-name>
+		<servlet-class>servlets.hotelRoom.ShowDetailOfHotelRoom</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ShowNuberOfFreeHotelRoom</servlet-name>
+		<servlet-class>servlets.hotelRoom.ShowNuberOfFreeHotelRoom</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ChangePriceService</servlet-name>
+		<servlet-class>servlets.service.ChangePriceService</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ServiceCRUD</servlet-name>
+		<servlet-class>servlets.service.ServiceCRUD</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>ShowPriceServiceAndHotelRoom</servlet-name>
+		<servlet-class>servlets.service.ShowPriceServiceAndHotelRoom</servlet-class>
+	</servlet>
+
+
+
+<servlet-mapping>
+		<servlet-name>GuestReadCSV</servlet-name>
+		<url-pattern>/csv/GuestReadCSV</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GuestWriteCSV</servlet-name>
+		<url-pattern>/csv/GuestWriteCSV</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>HotelRoomReadCSV</servlet-name>
+		<url-pattern>/csv/HotelRoomReadCSV</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>HotelRoomWriteCSV</servlet-name>
+		<url-pattern>/csv/HotelRoomWriteCSV</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ServiceReadCSV</servlet-name>
+		<url-pattern>/csv/ServiceReadCSV</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ServiceWriteCSV</servlet-name>
+		<url-pattern>/csv/ServiceWriteCSV</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LoginController</servlet-name>
+		<url-pattern>/LoginController</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>LogOut</servlet-name>
+		<url-pattern>/LogOut</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RegistrationController</servlet-name>
+		<url-pattern>/RegistrationController</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddServiceToGuest</servlet-name>
+		<url-pattern>/guest/AddServiceToGuest</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GuestCRUD</servlet-name>
+		<url-pattern>/guest/GuestCRUD</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowAllGuest</servlet-name>
+		<url-pattern>/guest/ShowAllGuest</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowListServiceGuest</servlet-name>
+		<url-pattern>/guest/ShowListServiceGuest</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowSummToPaid</servlet-name>
+		<url-pattern>/guest/ShowSummToPaid</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ChangePriceOfHotelRoom</servlet-name>
+		<url-pattern>/hotelRoom/ChangePriceOfHotelRoom</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ChangeStatus</servlet-name>
+		<url-pattern>/hotelRoom/ChangeStatus</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>DepartGuestFromHotelRoom</servlet-name>
+		<url-pattern>/hotelRoom/DepartGuestFromHotelRoom</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>HotelRoomCRUD</servlet-name>
+		<url-pattern>/hotelRoom/HotelRoomCRUD</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SettleGuestToHotelRoom</servlet-name>
+		<url-pattern>/hotelRoom/SettleGuestToHotelRoom</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowAllFreeRooms</servlet-name>
+		<url-pattern>/hotelRoom/ShowAllFreeRooms</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowAllRooms</servlet-name>
+		<url-pattern>/hotelRoom/ShowAllRooms</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowDetailOfHotelRoom</servlet-name>
+		<url-pattern>/hotelRoom/ShowDetailOfHotelRoom</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowNuberOfFreeHotelRoom</servlet-name>
+		<url-pattern>/hotelRoom/ShowNuberOfFreeHotelRoom</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ChangePriceService</servlet-name>
+		<url-pattern>/service/ChangePriceService</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ServiceCRUD</servlet-name>
+		<url-pattern>/service/ServiceCRUD</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowPriceServiceAndHotelRoom</servlet-name>
+		<url-pattern>/service/ShowPriceServiceAndHotelRoom</url-pattern>
+	</servlet-mapping>
+
+
+	<error-page>
+		<!-- Missing login -->
+		<error-code>401</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	<error-page>
+		<!-- Forbidden directory listing -->
+		<error-code>403</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	<error-page>
+		<!-- Missing resource -->
+		<error-code>404</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	<error-page>
+		<!-- Uncaught exception -->
+		<error-code>500</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+	<error-page>
+		<!-- Unsupported servlet method -->
+		<error-code>503</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+
 </web-app>

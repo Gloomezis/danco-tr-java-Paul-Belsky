@@ -3,6 +3,7 @@ package com.danco.controller;
 import org.hibernate.Session;
 
 
+
 import com.danco.dao.api.IUserDAO;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 import com.danco.model.User;
@@ -44,5 +45,13 @@ public class UserController {
 		return userDAO.getById(session, id);
 
 	}
+	
+	public User getUser(Session session, String user, String pwd) throws Exception {
+
+		return userDAO.getUser(session, user, pwd);
+		
+	}
+	
+	
 
 }

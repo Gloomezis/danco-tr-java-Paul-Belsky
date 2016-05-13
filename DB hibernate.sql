@@ -94,18 +94,18 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `hotel_admin`.`session`
+-- Table `hotel_admin`.`handling`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `hotel_admin`.`session` (
+CREATE  TABLE IF NOT EXISTS `hotel_admin`.`handling` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `user_id` INT NOT NULL ,
   `time` DATE NOT NULL ,
   `resources` VARCHAR(45) NOT NULL ,
   `login` TINYINT(1) NOT NULL ,
   PRIMARY KEY (`id`) ,
-  UNIQUE INDEX `idsession_UNIQUE` (`id` ASC) ,
-  INDEX `fk_session_user1_idx` (`user_id` ASC) ,
-  CONSTRAINT `fk_session_user1`
+  UNIQUE INDEX `idhandling_UNIQUE` (`id` ASC) ,
+  INDEX `fk_handling_user1_idx` (`user_id` ASC) ,
+  CONSTRAINT `fk_handling_user1`
     FOREIGN KEY (`user_id` )
     REFERENCES `hotel_admin`.`user` (`id` )
     ON DELETE NO ACTION

@@ -8,10 +8,10 @@
 </head>
 <style>
 div.ex {
-	text-align: right width:300px;
-	padding: 10px;
-	border: 5px solid grey;
-	margin: 0px
+width: 300px; 
+margin: 7px; 
+border: 4px solid black; 
+padding: 10px; 
 }
 </style>
 <body>
@@ -27,13 +27,9 @@ div.ex {
 					<td>Password</td>
 					<td><input type="text" name="password" /></td>
 				</tr>
-				<tr>
-					<td>Email</td>
-					<td><input type="text" name="email" /></td>
-				</tr>
 			</table>
-			<input type="submit" value="register" />
-			<input type="reset" value="reset" />
+			<input type="submit" value="register" /> <input type="reset"
+				value="reset" />
 		</form>
 	</div>
 </body>

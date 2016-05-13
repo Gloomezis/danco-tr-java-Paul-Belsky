@@ -7,11 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.hibernate.Session;
 
 import com.danco.controller.api.IImportExportCsvController;
 import com.danco.controller.api.IMainController;
 import com.danco.model.Guest;
+import com.danco.model.Handling;
 import com.danco.model.HotelRoom;
 import com.danco.model.Orders;
 import com.danco.model.Service;
@@ -38,10 +40,10 @@ public class MainController implements IMainController {
 
 	/** The import export csv controller. */
 	private IImportExportCsvController importExportCsvController = new ImportExportCsvController();
-	
+
 	private UserController userController = new UserController();
-	
-	private SessionController  sessionController = new SessionController();
+
+	private HandlingController handlingController = new HandlingController();
 
 	/** The Constant GUEST_FORMAT. */
 	private static final String GUEST_FORMAT = "id: %d, Guest: %s , \n";
@@ -59,9 +61,26 @@ public class MainController implements IMainController {
 	private final Logger LOG1 = Logger
 			.getLogger(MainController.class.getName());
 
+	private static final String LOGER_PROPERTY_FILE_PATH = "log4j.properties";
+
+	/*
+	 * 
+	 * private static IMainController instance;
+	 * 
+	 * 
+	 * public static IMainController getInstance() { if (instance == null) {
+	 * instance = new MainController(); } return instance; }
+	 */
+
+	public MainController() {
+		PropertyConfigurator.configure(LOGER_PROPERTY_FILE_PATH);
+	}
+
 	// <<<<<<<<<<GUEST >>>>>>>>>>>>
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.api.IMainController#addGuest(java.lang.String)
 	 */
 	@Override
@@ -81,7 +100,9 @@ public class MainController implements IMainController {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.api.IMainController#showAllGuestNumber()
 	 */
 	@Override
@@ -99,10 +120,11 @@ public class MainController implements IMainController {
 		return Integer.toString(num);
 	}
 
-	
-
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showAllGuests(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#showAllGuests(java.lang.String)
 	 */
 	@Override
 	public String showAllGuests(String userInputSortCondition) {
@@ -126,13 +148,16 @@ public class MainController implements IMainController {
 
 	// <<<<<<<<<<SERVICE >>>>>>>>>>>>
 
-	//TODO delete int userInputOrderId
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#createService(int, java.lang.String, int)
+	// TODO delete int userInputOrderId
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.danco.controller.api.IMainController#createService(int,
+	 * java.lang.String, int)
 	 */
 	@Override
-	public void createService(int userInputOrderId, String userInputServiceName,
-			int userInputPrice) {
+	public void createService(int userInputOrderId,
+			String userInputServiceName, int userInputPrice) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
 			Service serv = new Service(userInputServiceName, userInputPrice);
@@ -148,7 +173,9 @@ public class MainController implements IMainController {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.api.IMainController#addService(int, int)
 	 */
 	@Override
@@ -174,8 +201,12 @@ public class MainController implements IMainController {
 
 	// TODO string id to integer
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showListOfServiceGuest(java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#showListOfServiceGuest(java.
+	 * lang.String, java.lang.String)
 	 */
 	@Override
 	public String showListOfServiceGuest(String idGuest,
@@ -203,8 +234,12 @@ public class MainController implements IMainController {
 
 	// TODO string to integer
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#changePriceOfService(java.lang.String, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#changePriceOfService(java.lang
+	 * .String, int)
 	 */
 	@Override
 	public void changePriceOfService(String idService, int userInputPrice) {
@@ -226,8 +261,9 @@ public class MainController implements IMainController {
 
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.danco.controller.api.IMainController#showListOfService()
 	 */
 	@Override
@@ -254,8 +290,11 @@ public class MainController implements IMainController {
 
 	// <<<<<<<<<<HOTEL ROOM >>>>>>>>>>>>
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#addRooms(java.lang.String, int, int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.danco.controller.api.IMainController#addRooms(java.lang.String,
+	 * int, int, int)
 	 */
 	@Override
 	public void addRooms(String userInputHotelRoomName, int userInputRoomPrice,
@@ -278,8 +317,11 @@ public class MainController implements IMainController {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showAllRooms(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#showAllRooms(java.lang.String)
 	 */
 	@Override
 	public String showAllRooms(String userInputSortCondition) {
@@ -300,8 +342,12 @@ public class MainController implements IMainController {
 		return sb.toString();
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showAllFreeRooms(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#showAllFreeRooms(java.lang.String
+	 * )
 	 */
 	@Override
 	public String showAllFreeRooms(String userInputSortCondition) {
@@ -322,9 +368,11 @@ public class MainController implements IMainController {
 		return sb.toString();
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#changeStatus(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#changeStatus(java.lang.String)
 	 */
 	@Override
 	public void changeStatus(String idHotelRoom) {
@@ -348,8 +396,11 @@ public class MainController implements IMainController {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showNumberOfFreeHotelRooms()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#showNumberOfFreeHotelRooms()
 	 */
 	@Override
 	public String showNumberOfFreeHotelRooms() {
@@ -367,10 +418,13 @@ public class MainController implements IMainController {
 	}
 
 	// TODO id to integer
-	
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showDetailOfHotelRoom(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#showDetailOfHotelRoom(java.lang
+	 * .String)
 	 */
 	@Override
 	public String showDetailOfHotelRoom(String idHotelRoom) {
@@ -392,8 +446,12 @@ public class MainController implements IMainController {
 
 	// TODO string to integer
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#changePriceOfHotelRoom(java.lang.String, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#changePriceOfHotelRoom(java.
+	 * lang.String, int)
 	 */
 	@Override
 	public void changePriceOfHotelRoom(String idHotelRoom,
@@ -415,8 +473,11 @@ public class MainController implements IMainController {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showPriceServiceAndHotelRoom()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#showPriceServiceAndHotelRoom()
 	 */
 	@Override
 	public String showPriceServiceAndHotelRoom() {
@@ -447,10 +508,13 @@ public class MainController implements IMainController {
 	}
 
 	// TODO string to int
-	
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#showSummToPaidGuest(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#showSummToPaidGuest(java.lang
+	 * .String)
 	 */
 	@Override
 	public String showSummToPaidGuest(String idGuest) {
@@ -473,8 +537,12 @@ public class MainController implements IMainController {
 		return Integer.toString(numRez);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#guestReadCsvFile(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#guestReadCsvFile(java.lang.String
+	 * )
 	 */
 	@Override
 	public String guestReadCsvFile(String userInputFileName) {
@@ -496,9 +564,12 @@ public class MainController implements IMainController {
 
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#guestWriteCsvFile(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#guestWriteCsvFile(java.lang.
+	 * String)
 	 */
 	@Override
 	public String guestWriteCsvFile(String userInputFileName) {
@@ -516,9 +587,12 @@ public class MainController implements IMainController {
 		return str;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#hotelRoomReadCsvFile(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#hotelRoomReadCsvFile(java.lang
+	 * .String)
 	 */
 	@Override
 	public String hotelRoomReadCsvFile(String userInputFileName) {
@@ -539,8 +613,12 @@ public class MainController implements IMainController {
 		return str;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#hotelRoomWriteCsvFile(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#hotelRoomWriteCsvFile(java.lang
+	 * .String)
 	 */
 	@Override
 	public String hotelRoomWriteCsvFile(String userInputFileName) {
@@ -558,9 +636,12 @@ public class MainController implements IMainController {
 		return str;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#serviceReadCsvFile(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#serviceReadCsvFile(java.lang
+	 * .String)
 	 */
 	@Override
 	public String serviceReadCsvFile(String userInputFileName) {
@@ -581,8 +662,12 @@ public class MainController implements IMainController {
 		return str;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#serviceWriteCsvFile(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#serviceWriteCsvFile(java.lang
+	 * .String)
 	 */
 	@Override
 	public String serviceWriteCsvFile(String userInputFileName) {
@@ -604,7 +689,8 @@ public class MainController implements IMainController {
 	/**
 	 * Hotel room to string.
 	 *
-	 * @param hr the hr
+	 * @param hr
+	 *            the hr
 	 * @return the string
 	 */
 	private String hotelRoomToString(HotelRoom hr) {
@@ -622,8 +708,12 @@ public class MainController implements IMainController {
 		return hrString;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#settleGuestToHotelRoom(java.lang.String, java.lang.String, java.util.Date, java.util.Date)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#settleGuestToHotelRoom(java.
+	 * lang.String, java.lang.String, java.util.Date, java.util.Date)
 	 */
 	@Override
 	public String settleGuestToHotelRoom(String idGuest, String idHotelRoom,
@@ -657,8 +747,12 @@ public class MainController implements IMainController {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.controller.api.IMainController#departGuestFromHotelRoom(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.danco.controller.api.IMainController#departGuestFromHotelRoom(java
+	 * .lang.String)
 	 */
 	@Override
 	public void departGuestFromHotelRoom(String idGuest) {
@@ -682,15 +776,13 @@ public class MainController implements IMainController {
 		} finally {
 			session.close();
 		}
-	
+
 	}
-	
-	
-	
-	public void addUser(String userName,String userPass, String userMail) {
+
+	public void addUser(String userName, String userPass) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
-			User u = new User();
+			User u = new User(userName, userPass);
 			session.beginTransaction();
 			userController.createUser(session, u);
 			session.getTransaction().commit();
@@ -702,17 +794,16 @@ public class MainController implements IMainController {
 			session.close();
 		}
 	}
-	
-	public void addSession(int userID,String resources, boolean login) {
+
+	public void addHandling(int userID, String resources) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
-			
+
 			session.beginTransaction();
 			User u = userController.getUserById(session, userID);
 			Date time = new Date();
-			com.danco.model.Session s = new com.danco.model.Session(time, resources,login,
-					u);
-			sessionController.createSession(session, s);
+			Handling h = new Handling(time, resources, u);
+			handlingController.createSession(session, h);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -722,6 +813,23 @@ public class MainController implements IMainController {
 			session.close();
 		}
 	}
-	
+
+	public User getUser(String user, String pwd) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		User u = null;
+		try {
+			session.beginTransaction();
+			u = userController.getUser(session, user, pwd);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+		return u;
+
+	}
 
 }

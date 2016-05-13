@@ -5,10 +5,10 @@
 <head>
 <style>
 div.ex {
-	text-align: right width:300px;
-	padding: 10px;
-	border: 5px solid grey;
-	margin: 0px
+width: 300px; 
+margin: 7px; 
+border: 4px solid black; 
+padding: 10px; 
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
