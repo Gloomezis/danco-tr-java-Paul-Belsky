@@ -1,7 +1,10 @@
 package com.danco.controller.api;
 
 import java.util.Date;
+import java.util.List;
 
+import com.danco.model.Guest;
+import com.danco.model.Service;
 import com.danco.model.User;
 
 // TODO: Auto-generated Javadoc
@@ -32,7 +35,7 @@ public interface IMainController {
 	 * @param userInputSortCondition the user input sort condition
 	 * @return the string
 	 */
-	public abstract String showAllGuests(String userInputSortCondition);
+	public abstract List<Guest> showAllGuests(String userInputSortCondition);
 
 	/**
 	 * Creates the service.
@@ -62,7 +65,7 @@ public interface IMainController {
 	 * @return the string
 	 */
 	//TODO string id to integer
-	public abstract String showListOfServiceGuest(String idGuest,
+	public abstract List<Service> showListOfServiceGuest(String idGuest,
 			String userInputSortCondition);
 
 	/**
@@ -80,7 +83,7 @@ public interface IMainController {
 	 *
 	 * @return the string
 	 */
-	public abstract String showListOfService();
+	public abstract List<Service> showListOfService();
 
 	/**
 	 * Adds the rooms.
@@ -101,7 +104,7 @@ public interface IMainController {
 	 * @param userInputSortCondition the user input sort condition
 	 * @return the string
 	 */
-	public abstract String showAllRooms(String userInputSortCondition);
+	public abstract List<String> showAllRooms(String userInputSortCondition);
 
 	/**
 	 * Show all free rooms.
@@ -109,7 +112,7 @@ public interface IMainController {
 	 * @param userInputSortCondition the user input sort condition
 	 * @return the string
 	 */
-	public abstract String showAllFreeRooms(String userInputSortCondition);
+	public abstract List<String> showAllFreeRooms(String userInputSortCondition);
 
 	
 
@@ -151,7 +154,7 @@ public interface IMainController {
 	 *
 	 * @return the string
 	 */
-	public abstract String showPriceServiceAndHotelRoom();
+	public abstract List<String> showPriceServiceAndHotelRoom();
 
 	/**
 	 * Show summ to paid guest.
@@ -230,10 +233,12 @@ public interface IMainController {
 	 */
 	public abstract void departGuestFromHotelRoom(String idGuest);
 
-	public abstract void addHandling(int userID,String resources) ;
+	public abstract void addHandling(String userLogin,String resources) ;
 	
 	public abstract void addUser(String userName,String userPass) ;
 	
-	public abstract User getUser(String user, String pwd);
+	public abstract User getUserByLogin(String login);
+
+	public abstract User getUser(String login, String pwd);
 
 }

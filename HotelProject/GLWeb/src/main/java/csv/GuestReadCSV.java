@@ -17,13 +17,11 @@ public class GuestReadCSV extends HttpServlet {
 	private IMainController mainController = (IMainController) DependencyInjectionManager
 			.getClassInstance(IMainController.class);
    
-   
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String res=mainController.guestReadCsvFile(request.getParameter("path"));
 	
 		response.setContentType("text/html");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("result.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("csv/readCSVResult.jsp");
 
 		request.setAttribute("results", res);
 		dispatcher.forward(request, response);

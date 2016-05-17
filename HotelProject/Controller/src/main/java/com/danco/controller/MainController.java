@@ -3,6 +3,7 @@
  */
 package com.danco.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,12 +45,6 @@ public class MainController implements IMainController {
 	private UserController userController = new UserController();
 
 	private HandlingController handlingController = new HandlingController();
-
-	/** The Constant GUEST_FORMAT. */
-	private static final String GUEST_FORMAT = "id: %d, Guest: %s , \n";
-
-	/** The Constant SERVICE_FORMAT. */
-	private static final String SERVICE_FORMAT = "service : %s, price: %d \n";
 
 	/** The Constant ROOM_PRINTER_FORMAT. */
 	private static final String ROOM_PRINTER_FORMAT = "room: %s  , sleeping numbers: %d,  stars category: %d,  price: %d , busy :%s,status %s \n";
@@ -127,23 +122,20 @@ public class MainController implements IMainController {
 	 * com.danco.controller.api.IMainController#showAllGuests(java.lang.String)
 	 */
 	@Override
-	public String showAllGuests(String userInputSortCondition) {
+	public List<Guest> showAllGuests(String userInputSortCondition) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
-		StringBuilder sb = null;
+		List<Guest> allSortedGuests = null;
 		try {
-			sb = new StringBuilder(500);
-			List<Guest> allSortedGuests = guestController.getGuestList(session,
+			 allSortedGuests = guestController.getGuestList(session,
 					userInputSortCondition);
-			for (Guest s : allSortedGuests) {
-				sb.append(String.format(GUEST_FORMAT, s.getId(), s.getName()));
-			}
+			
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			ConnectionFactoryHibernate.destroy();
 		} finally {
 			session.close();
 		}
-		return sb.toString();
+		return  allSortedGuests;
 	}
 
 	// <<<<<<<<<<SERVICE >>>>>>>>>>>>
@@ -209,27 +201,22 @@ public class MainController implements IMainController {
 	 * lang.String, java.lang.String)
 	 */
 	@Override
-	public String showListOfServiceGuest(String idGuest,
+	public List<Service> showListOfServiceGuest(String idGuest,
 			String userInputSortCondition) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
-		StringBuilder sb = null;
+		List<Service> service = null;
 		try {
-			List<Service> service = serviceController.getGuestThemServices(
+			 service = serviceController.getGuestThemServices(
 					session, Integer.parseInt(idGuest));
-			sb = new StringBuilder(500);
-			sb.append("");
-			sb.append(idGuest + ":" + "\n");
-			for (Service c : service) {
-				sb.append(String.format(SERVICE_FORMAT, c.getName(),
-						c.getPrice()));
-			}
+			
+			
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			ConnectionFactoryHibernate.destroy();
 		} finally {
 			session.close();
 		}
-		return sb.toString();
+		return service;
 	}
 
 	// TODO string to integer
@@ -267,25 +254,19 @@ public class MainController implements IMainController {
 	 * @see com.danco.controller.api.IMainController#showListOfService()
 	 */
 	@Override
-	public String showListOfService() {
+	public List<Service> showListOfService() {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
-		StringBuilder sb = null;
+		List<Service> service = null;
 		try {
-			List<Service> service = serviceController.getServiceList(session,
+			 service = serviceController.getServiceList(session,
 					"name");
-			sb = new StringBuilder(500);
-			sb.append("");
-			for (Service c : service) {
-				sb.append(String.format(SERVICE_FORMAT, c.getName(),
-						c.getPrice()));
-			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			ConnectionFactoryHibernate.destroy();
 		} finally {
 			session.close();
 		}
-		return sb.toString();
+		return service;
 	}
 
 	// <<<<<<<<<<HOTEL ROOM >>>>>>>>>>>>
@@ -324,22 +305,24 @@ public class MainController implements IMainController {
 	 * com.danco.controller.api.IMainController#showAllRooms(java.lang.String)
 	 */
 	@Override
-	public String showAllRooms(String userInputSortCondition) {
+	public List<String> showAllRooms(String userInputSortCondition) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
-		StringBuilder sb = new StringBuilder();
+		List<HotelRoom> rooms = null;
+		List<String> results=new ArrayList<String>();
 		try {
-			List<HotelRoom> rooms = hotelRoomController.getHotelRoomList(
+			 rooms = hotelRoomController.getHotelRoomList(
 					session, true, userInputSortCondition);
-			for (HotelRoom s : rooms) {
-				sb.append(hotelRoomToString(s));
-			}
+			 for (HotelRoom s : rooms) {
+				 results.add(hotelRoomToString(s));
+				}
+
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
 			ConnectionFactoryHibernate.destroy();
 		} finally {
 			session.close();
 		}
-		return sb.toString();
+		return results;
 	}
 
 	/*
@@ -350,14 +333,15 @@ public class MainController implements IMainController {
 	 * )
 	 */
 	@Override
-	public String showAllFreeRooms(String userInputSortCondition) {
+	public List<String> showAllFreeRooms(String userInputSortCondition) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
-		StringBuilder sb = new StringBuilder();
+		List<HotelRoom> rooms=null;
+		List<String> results=new ArrayList<String>();
 		try {
-			List<HotelRoom> rooms = hotelRoomController.getHotelRoomList(
+			 rooms = hotelRoomController.getHotelRoomList(
 					session, true, userInputSortCondition);
 			for (HotelRoom s : rooms) {
-				sb.append(hotelRoomToString(s));
+				results.add(hotelRoomToString(s));
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -365,7 +349,7 @@ public class MainController implements IMainController {
 		} finally {
 			session.close();
 		}
-		return sb.toString();
+		return results;
 	}
 
 	/*
@@ -480,22 +464,20 @@ public class MainController implements IMainController {
 	 * com.danco.controller.api.IMainController#showPriceServiceAndHotelRoom()
 	 */
 	@Override
-	public String showPriceServiceAndHotelRoom() {
+	public List<String> showPriceServiceAndHotelRoom() {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
-		StringBuilder sb = null;
+		List<String> result = new ArrayList<String>();
 		try {
 			List<String> listService = serviceController
 					.getPriceService(session);
 			List<String> listHotelRoom = hotelRoomController
 					.getPriceHotelRoom(session);
-			sb = new StringBuilder();
+			
 			for (String a : listService) {
-				sb.append(a);
-				sb.append(" \n ");
+				result.add(a);
 			}
 			for (String b : listHotelRoom) {
-				sb.append(b);
-				sb.append(" \n ");
+				result.add(b);
 			}
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -504,7 +486,7 @@ public class MainController implements IMainController {
 		} finally {
 			session.close();
 		}
-		return sb.toString();
+		return  result;
 	}
 
 	// TODO string to int
@@ -686,35 +668,9 @@ public class MainController implements IMainController {
 
 	}
 
-	/**
-	 * Hotel room to string.
-	 *
-	 * @param hr
-	 *            the hr
-	 * @return the string
-	 */
-	private String hotelRoomToString(HotelRoom hr) {
-
-		boolean busyB = hr.isBusy();
-		String busyS = busyB == true ? "busy" : "free";
-
-		boolean statusB = hr.isStatus();
-		String statusS = statusB == true ? "working" : "reparing";
-
-		String hrString = String.format(ROOM_PRINTER_FORMAT, hr.getNumber(),
-				hr.getSleepingNumber(), hr.getStarCategory(),
-				hr.getRoomPrice(), busyS, statusS);
-
-		return hrString;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.danco.controller.api.IMainController#settleGuestToHotelRoom(java.
-	 * lang.String, java.lang.String, java.util.Date, java.util.Date)
-	 */
+	
+	
+	
 	@Override
 	public String settleGuestToHotelRoom(String idGuest, String idHotelRoom,
 			Date userinpitDateOfArrive, Date userInputDateOfDeparture) {
@@ -779,10 +735,10 @@ public class MainController implements IMainController {
 
 	}
 
-	public void addUser(String userName, String userPass) {
+	public void addUser(String userLogin, String userPass) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
-			User u = new User(userName, userPass);
+			User u = new User(userLogin, userPass);
 			session.beginTransaction();
 			userController.createUser(session, u);
 			session.getTransaction().commit();
@@ -795,12 +751,12 @@ public class MainController implements IMainController {
 		}
 	}
 
-	public void addHandling(int userID, String resources) {
+	public void addHandling(String userLogin, String resources) {
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		try {
 
 			session.beginTransaction();
-			User u = userController.getUserById(session, userID);
+			User u = userController.getUserByLogin(session, userLogin);
 			Date time = new Date();
 			Handling h = new Handling(time, resources, u);
 			handlingController.createSession(session, h);
@@ -813,13 +769,14 @@ public class MainController implements IMainController {
 			session.close();
 		}
 	}
-
-	public User getUser(String user, String pwd) {
+	//login validation
+	public User getUserByLogin(String login) {
+		
 		Session session = ConnectionFactoryHibernate.getOrInitSession();
 		User u = null;
 		try {
 			session.beginTransaction();
-			u = userController.getUser(session, user, pwd);
+			u = userController.getUserByLogin(session, login);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			LOG1.error(EXCEPTION, e);
@@ -831,5 +788,46 @@ public class MainController implements IMainController {
 		return u;
 
 	}
+	
+	
+	public User getUser(String login, String pwd) {
+		Session session = ConnectionFactoryHibernate.getOrInitSession();
+		User u = null;
+		try {
+			session.beginTransaction();
+			u = userController.getUser(session, login,pwd);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			LOG1.error(EXCEPTION, e);
+			session.getTransaction().rollback();
+			ConnectionFactoryHibernate.destroy();
+		} finally {
+			session.close();
+		}
+		return u;
+	}
+	
+	/**
+	 * Hotel room to string.
+	 *
+	 * @param hr
+	 *            the hr
+	 * @return the string
+	 */
+	private String hotelRoomToString(HotelRoom hr) {
+
+		boolean busyB = hr.isBusy();
+		String busyS = busyB == true ? "busy" : "free";
+
+		boolean statusB = hr.isStatus();
+		String statusS = statusB == true ? "working" : "reparing";
+
+		String hrString = String.format(ROOM_PRINTER_FORMAT, hr.getNumber(),
+				hr.getSleepingNumber(), hr.getStarCategory(),
+				hr.getRoomPrice(), busyS, statusS);
+
+		return hrString;
+	}
+
 
 }

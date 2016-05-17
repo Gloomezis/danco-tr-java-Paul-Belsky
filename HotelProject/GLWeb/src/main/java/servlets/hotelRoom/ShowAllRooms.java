@@ -1,6 +1,7 @@
 package servlets.hotelRoom;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,20 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 import com.danco.controller.api.IMainController;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 
+
 public class ShowAllRooms extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IMainController mainController = (IMainController) DependencyInjectionManager
 			.getClassInstance(IMainController.class);
        
-    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String res=mainController.showAllRooms(request.getParameter("sortCondition"));
+		List<String> res=mainController.showAllRooms(request.getParameter("sortCondition"));
 		
 		response.setContentType("text/html");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("result.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("hotelRoom/showAllRoomsResult.jsp");
 
 		request.setAttribute("results", res);
 		dispatcher.forward(request, response);
 	}
+	
+	
+	
+	
 
 }

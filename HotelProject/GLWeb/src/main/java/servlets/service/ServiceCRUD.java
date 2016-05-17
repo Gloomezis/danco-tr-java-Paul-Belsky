@@ -17,12 +17,10 @@ public class ServiceCRUD extends HttpServlet {
 	private IMainController mainController = (IMainController) DependencyInjectionManager
 			.getClassInstance(IMainController.class);
        
-  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		mainController.createService(Integer.parseInt(request.getParameter("orderId")), request.getParameter("serviceName"),Integer.parseInt( request.getParameter("servicePrice")));
 		
-		
-		RequestDispatcher view = request.getRequestDispatcher("home.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("successAction.jsp");
 		view.forward(request, response);
 	}
 

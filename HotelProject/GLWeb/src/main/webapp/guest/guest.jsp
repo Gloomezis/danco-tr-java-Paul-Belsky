@@ -31,8 +31,13 @@
 					<td>Show summ to paid:</td>
 					<td><a href='showSummToPaid.jsp'>Go</a></td>
 				</tr>
+				<tr>
+					<td>Show all guest number:</td>
+					<td><form action="ShowAllGuestNumber" method="get">
+					<input type="button" value="Guest number">
+					</form></td>
+				</tr>
 			</table>
 	</div>
-
 </body>
 </html>

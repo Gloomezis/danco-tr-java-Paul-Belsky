@@ -47,10 +47,9 @@
 			<tr>
 				<td>Show number of free hotel room:</td>
 				<td><form action="ShowNumberOfFreeHotelRoom" method="get">
-						<a href='result.jsp'>Go</a>
+						<input type="button" value="Free hotel room number">
 					</form></td>
 			</tr>
-
 		</table>
 	</div>
 </body>

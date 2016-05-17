@@ -17,12 +17,11 @@ public class ShowDetailOfHotelRoom extends HttpServlet {
 	private IMainController mainController = (IMainController) DependencyInjectionManager
 			.getClassInstance(IMainController.class);
        
-    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String res=mainController.showDetailOfHotelRoom(request.getParameter("id"));
 		
 		response.setContentType("text/html");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("result.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("hotelRoom/showDetailOfHotelRoomResult.jsp");
 
 		request.setAttribute("results", res);
 		dispatcher.forward(request, response);

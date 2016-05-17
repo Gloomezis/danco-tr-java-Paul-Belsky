@@ -11,18 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.danco.controller.api.IMainController;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
 
-/**
- * Servlet implementation class AddServiceToGuest
- */
+
 public class AddServiceToGuest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private IMainController mainController = (IMainController) DependencyInjectionManager
 			.getClassInstance(IMainController.class);
        
-   
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		mainController.addService(request.getParameter("guestId"), request.getParameter("serviceId"));
-		RequestDispatcher view = request.getRequestDispatcher("home.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("successAction.jsp");
 		view.forward(request, response);
 	}
 

@@ -27,8 +27,7 @@ import com.danco.model.User;
 
 public class LoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private final String userID = "admin";
-    private final String password = "password";
+    
     private IMainController mainController = (IMainController) DependencyInjectionManager
 			.getClassInstance(IMainController.class);
  
@@ -36,30 +35,26 @@ public class LoginController extends HttpServlet {
             HttpServletResponse response) throws ServletException, IOException {
  
         // get request parameters for userID and password
-        String user = request.getParameter("name");
+        String userLogin = request.getParameter("login");
         String pwd = request.getParameter("password");
-        User userFromBase= mainController.getUser(user,pwd);
+        User userFromBase= mainController.getUser(userLogin,pwd);
          
-         
-        if(userFromBase.getName().equals(user) && userFromBase.getPassword().equals(pwd)){
+        if(userFromBase.getLogin().equals(userLogin) && userFromBase.getPassword().equals(pwd)){
             HttpSession session = request.getSession();
-            session.setAttribute("user", userFromBase.getName());
-            session.setAttribute("userId", userFromBase.getId());
+            session.setAttribute("userLogin", userFromBase.getLogin());
             //setting session to expiry in 30 mins
             session.setMaxInactiveInterval(30*60);
-            Cookie userName = new Cookie("user", user);
+            Cookie userName = new Cookie("user", userLogin);
             userName.setMaxAge(30*60);
             response.addCookie(userName);
-            response.sendRedirect("/success.jsp");
+            response.sendRedirect("/main/success.jsp");
         }else{
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
             PrintWriter out= response.getWriter();
             out.println("<font color=red>Either user name or password is wrong.</font>");
             rd.include(request, response);
         }
- 
     }
- 
 }
 
 

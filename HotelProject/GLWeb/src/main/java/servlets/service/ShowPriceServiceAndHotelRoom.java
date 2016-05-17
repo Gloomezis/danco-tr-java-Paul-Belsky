@@ -1,6 +1,7 @@
 package servlets.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,12 +18,11 @@ public class ShowPriceServiceAndHotelRoom extends HttpServlet {
 	private IMainController mainController = (IMainController) DependencyInjectionManager
 			.getClassInstance(IMainController.class);
        
-    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String res= mainController.showPriceServiceAndHotelRoom();
+		List<String> res= mainController.showPriceServiceAndHotelRoom();
 		
 		response.setContentType("text/html");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("result.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("service/showPriceServiceAndHotelRoom.jsp");
 
 		request.setAttribute("results", res);
 		dispatcher.forward(request, response);

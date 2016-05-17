@@ -8,18 +8,21 @@
 </head>
 <body>
 <%
-String userName = null;
-String sessionID = null;
+//allow access only if session exists
+if(session.getAttribute("userLogin") == null){
+  response.sendRedirect("index.jsp");
+}
+String userLogin = null;
 Cookie[] cookies = request.getCookies();
 if(cookies !=null){
 for(Cookie cookie : cookies){
-    if(cookie.getName().equals("user")) userName = cookie.getValue();
+  if(cookie.getName().equals("user")) userLogin = cookie.getValue();
 }
 }
 %>
-<h3>Hi <%=userName %>, do the checkout.</h3>
+<h3>Hi <%=userLogin %>, do the checkout.</h3>
 <br>
-<form action="Logout" method="post">
+<form action="LogOut" method="post">
 <input type="submit" value="Logout" >
 </form>
 </body>

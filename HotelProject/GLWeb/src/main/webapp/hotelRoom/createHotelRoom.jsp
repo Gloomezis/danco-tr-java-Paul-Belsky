@@ -7,12 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Create hotel room</title>
 </head>
-
 <body>
 <div class="ex">
 	<form action="HotelRoomCRUD" method="post">
 		<table style="with: 50%">
-		
 			<tr>
 				<td>Hotel room number</td>
 				<td><input type="text" name="number" /></td>

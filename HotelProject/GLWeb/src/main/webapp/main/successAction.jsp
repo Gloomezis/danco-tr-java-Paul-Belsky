@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Error</title>
+<title>Insert title here</title>
 </head>
 <body>
-   Error
+<h3> Successfully action</h3>
+	<a href="home.jsp">Back</a>
 </body>
 </html>

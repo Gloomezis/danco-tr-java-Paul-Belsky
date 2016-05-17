@@ -1,6 +1,7 @@
 package servlets.guest;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.danco.controller.api.IMainController;
 import com.danco.gloomezis.dependencyInjection.DependencyInjectionManager;
+import com.danco.model.Service;
 
 
 public class ShowListServiceGuest extends HttpServlet {
@@ -19,10 +21,10 @@ public class ShowListServiceGuest extends HttpServlet {
        
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String res=mainController.showListOfServiceGuest(request.getParameter("id"), request.getParameter("sortCondition"));
+		List<Service> res=mainController.showListOfServiceGuest(request.getParameter("id"), request.getParameter("sortCondition"));
 		
 		response.setContentType("text/html");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("result.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("guest/showListServiceGuestResult.jsp");
 
 		request.setAttribute("results", res);
 		dispatcher.forward(request, response);

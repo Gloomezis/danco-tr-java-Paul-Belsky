@@ -24,8 +24,8 @@ public class User extends BaseModel implements  Serializable{
 	private int id;
 
 	/** The name. */
-	@Column(name="name")
-	private String name;
+	@Column(name="login")
+	private String login;
 	
 	
 	/** The name. */
@@ -40,8 +40,7 @@ public class User extends BaseModel implements  Serializable{
 	
 	public User(String name,  String password) {
 		super();
-		this.name = name;
-		
+		this.login = name;
 		this.password = password;
 	}
 
@@ -59,12 +58,12 @@ public class User extends BaseModel implements  Serializable{
 		
 	}
 
-	public String getName() {
-		return name;
+	public String getLogin() {
+		return login;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 

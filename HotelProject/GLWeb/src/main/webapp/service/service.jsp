@@ -23,12 +23,11 @@
 					<td>Show price service and hotel room:</td>
 					<td>
 					<form action="ShowPriceServiceAndHotelRoom" method="get">
-					<a href='result.jsp'>Go</a>
+					<input type="button" value="Price services and rooms">
 					</form>
 					</td>
 				</tr>
 			</table>
 	</div>
-
 </body>
 </html>

@@ -11,7 +11,6 @@
 <div class="ex">
 	<form action="ServiceCRUD" method="post">
 		<table style="with: 50%">
-		
 			<tr>
 				<td>Order id</td>
 				<td><input type="text" name="orderId" /></td>

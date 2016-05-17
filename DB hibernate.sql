@@ -85,8 +85,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `hotel_admin`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `name`  VARCHAR(45) NOT NULL ,
-  `email` VARCHAR(45) NOT NULL ,
+  `login`  VARCHAR(45) NOT NULL UNIQUE,
   `password`  VARCHAR(20) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `iduser_UNIQUE` (`id` ASC) )
@@ -101,7 +100,6 @@ CREATE  TABLE IF NOT EXISTS `hotel_admin`.`handling` (
   `user_id` INT NOT NULL ,
   `time` DATE NOT NULL ,
   `resources` VARCHAR(45) NOT NULL ,
-  `login` TINYINT(1) NOT NULL ,
   PRIMARY KEY (`id`) ,
   UNIQUE INDEX `idhandling_UNIQUE` (`id` ASC) ,
   INDEX `fk_handling_user1_idx` (`user_id` ASC) ,

@@ -11,10 +11,6 @@
 	<filter>
 		<filter-name>AutFilter</filter-name>
 		<filter-class>filters.AutFilter</filter-class>
-		<init-param>
-			<param-name>loginActionURI</param-name>
-			<param-value>servlets.LoginController</param-value>
-		</init-param>
 	</filter>
 	<filter>
 		<filter-name>AuditFilter</filter-name>
@@ -24,12 +20,48 @@
 
 	<filter-mapping>
 		<filter-name>AutFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/main/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AutFilter</filter-name>
+		<url-pattern>/hotelRoom/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AutFilter</filter-name>
+		<url-pattern>/service/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AutFilter</filter-name>
+		<url-pattern>/csv/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AutFilter</filter-name>
+		<url-pattern>/guest/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>AuditFilter</filter-name>
+		<url-pattern>/main/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>AuditFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/hotelRoom/*</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AuditFilter</filter-name>
+		<url-pattern>/service/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AuditFilter</filter-name>
+		<url-pattern>/csv/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>AuditFilter</filter-name>
+		<url-pattern>/guest/*</url-pattern>
+	</filter-mapping>
+	
+	
+	
 
 
 
@@ -137,6 +169,12 @@
 		<servlet-name>ShowPriceServiceAndHotelRoom</servlet-name>
 		<servlet-class>servlets.service.ShowPriceServiceAndHotelRoom</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>ShowAllGuestNumber</servlet-name>
+		<display-name>ShowAllGuestNumber</display-name>
+		<description></description>
+		<servlet-class>servlets.guest.ShowAllGuestNumber</servlet-class>
+	</servlet>
 
 
 
@@ -243,6 +281,10 @@
 	<servlet-mapping>
 		<servlet-name>ShowPriceServiceAndHotelRoom</servlet-name>
 		<url-pattern>/service/ShowPriceServiceAndHotelRoom</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>ShowAllGuestNumber</servlet-name>
+		<url-pattern>/ShowAllGuestNumber</url-pattern>
 	</servlet-mapping>
 
 

@@ -17,12 +17,10 @@ public class ChangePriceService extends HttpServlet {
 	private IMainController mainController = (IMainController) DependencyInjectionManager
 			.getClassInstance(IMainController.class);
        
-    
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		mainController.changePriceOfService(request.getParameter("id"), Integer.parseInt(request.getParameter("price")));
 		
-		
-		RequestDispatcher view = request.getRequestDispatcher("home.jsp");
+		RequestDispatcher view = request.getRequestDispatcher("successAction.jsp");
 		view.forward(request, response);
 	}
 

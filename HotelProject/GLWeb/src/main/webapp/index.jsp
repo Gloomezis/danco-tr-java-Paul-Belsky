@@ -3,18 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-div.ex {
-width: 300px; 
-margin: 7px; 
-border: 4px solid black; 
-padding: 10px; 
-}
-</style>
+<link rel="stylesheet" href="theme/theme.css" type="text/css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>login</title>
 </head>
-
 <body>
 	<h1>Login Form</h1>
 	<div class="ex">
@@ -22,7 +14,7 @@ padding: 10px;
 			<table style="with: 50%">
 				<tr>
 					<td>Full Name</td>
-					<td><input type="text" name="name" /></td>
+					<td><input type="text" name="login" /></td>
 				</tr>
 				<tr>
 					<td>Password</td>
@@ -32,7 +24,7 @@ padding: 10px;
 			<input type="submit" value="login" /> <input type="reset"
 				value="reset" />
 		</form>
-		<form action="registration.jsp">
+		<form action="home/registration.jsp">
 			<input type="submit" value="register" />
 		</form>
 	</div>
