@@ -44,7 +44,7 @@ public class RegistrationController extends HttpServlet {
 			rd.include(request, response);
 		} else {
 			if(mainController.getUserByLogin(login) !=null){
-				 rd = request.getRequestDispatcher("/main/sorryThatLoginUsed.jsp");	
+				 rd = request.getRequestDispatcher("/sorryThatLoginUsed.jsp");	
 			}else{
 			mainController.addUser(login, pass);
 			 rd = request.getRequestDispatcher("/main/success.jsp");

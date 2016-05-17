@@ -24,7 +24,7 @@
 			<input type="submit" value="login" /> <input type="reset"
 				value="reset" />
 		</form>
-		<form action="home/registration.jsp">
+		<form action="registration.jsp">
 			<input type="submit" value="register" />
 		</form>
 	</div>
