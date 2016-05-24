@@ -1,9 +1,0 @@
-com.danco.controller.api.IMainController=com.danco.controller.MainController
-com.danco.utils.IInputManager=com.danco.util.InputManager
-com.danco.utils.IPrintUtil=com.danco.util.PrintUtil
-com.danco.dao.api.IGuestDAO=com.danco.gloomezis.dao.GuestDAO
-com.danco.dao.api.IHotelRoomDAO=com.danco.gloomezis.dao.HotelRoomDAO
-com.danco.dao.api.IOrdersDAO=com.danco.gloomezis.dao.OrdersDAO
-com.danco.dao.api.IServiceDAO=com.danco.gloomezis.dao.ServiceDAO
-com.danco.dao.api.IHandlingDAO=com.danco.gloomezis.dao.HandlingDAO
-com.danco.dao.api.IUserDAO=com.danco.gloomezis.dao.UserDAO
