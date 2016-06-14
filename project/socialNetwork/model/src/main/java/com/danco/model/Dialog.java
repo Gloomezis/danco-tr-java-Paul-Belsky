@@ -1,6 +1,7 @@
 package com.danco.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "dialog")
@@ -41,19 +44,36 @@ public class Dialog extends BaseModel implements Serializable {
 	@Temporal(value=TemporalType.DATE)
 	private Date timeCreation;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id") 
 	private User creator;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity = DialogMessage.class, mappedBy = "dialog",fetch = FetchType.LAZY)
 	private List<DialogMessage> dialogMessages;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "group_id") 
 	private Group group;
 
+	public Dialog(int id, String title, Date timeCreation,User creator,Group group) {
+		this.id=id;
+		this.title=title;
+		this.timeCreation=timeCreation;
+		this.creator=creator;
+		this.group=group;
+		this.dialogMessages=new ArrayList<DialogMessage>();
+	}
+	
+	public Dialog(String title, Date timeCreation) {
+		this.title=title;
+		this.timeCreation=timeCreation;
+	}
+	
 	public Dialog() {
-		super();
+		
 	}
 
 	public String getTitle() {

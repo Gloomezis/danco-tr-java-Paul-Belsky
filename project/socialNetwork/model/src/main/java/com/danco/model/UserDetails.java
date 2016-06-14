@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "user_details")
 public class UserDetails extends BaseModel implements Serializable {
@@ -29,36 +31,52 @@ public class UserDetails extends BaseModel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name="last_name")
+	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name="first_name")
+	@Column(name = "first_name")
 	private String firstName;
 
-	@Column(name= "date_of_birth")
-	@Temporal(value=TemporalType.DATE)
+	@Column(name = "date_of_birth")
+	@Temporal(value = TemporalType.DATE)
 	private Date dateOfBirth;
 
-	@Column(name="gender")
+	@Column(name = "gender")
 	private String gender;
 
-	@Column(name="phone_number")
+	@Column(name = "phone_number")
 	private int phoneNumber;
-	
-	
+
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "location_id")
 	private Location location;
-	
-	
 
-	public UserDetails() {
-		super();
+	public UserDetails(int id, String lastName, String firstName,
+			Date dateOdBirth, String gender, int phoneNumber, User user,
+			Location location) {
+		this.id = id;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.dateOfBirth = dateOdBirth;
+		this.gender = gender;
+		this.phoneNumber = phoneNumber;
+		this.user = user;
+		this.location = location;
+	}
+
+	public UserDetails(String lastName, String firstName, Date dateOdBirth,
+			String gender, int phoneNumber) {
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.dateOfBirth = dateOdBirth;
+		this.gender = gender;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getLastName() {

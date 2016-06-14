@@ -23,17 +23,30 @@ public class Location extends BaseModel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name="country")
+	@Column(name = "country")
 	private String country;
 
-	@Column(name="state")
+	@Column(name = "state")
 	private String state;
 
-	@Column(name="city")
+	@Column(name = "city")
 	private String city;
 
 	public Location() {
-		super();
+
+	}
+
+	public Location(int id, String country, String state, String city) {
+		this.id = id;
+		this.country = country;
+		this.state = state;
+		this.city = city;
+	}
+
+	public Location(String country, String state, String city) {
+		this.country = country;
+		this.state = state;
+		this.city = city;
 	}
 
 	public String getCountry() {

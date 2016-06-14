@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="user")
@@ -55,45 +57,49 @@ public class User extends BaseModel implements  Serializable{
 	@Column(name="lang")
 	private String lang;
 	
-	
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_role_id")
 	private UserRole userRole;
 	
 	
-	
-	
-	
+	@JsonIgnore
 	@ManyToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY)
 			@JoinTable(name="group_list", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="group_id"))  
 	private List<Group> groups;
 	
-	
+	@JsonIgnore
 	@ManyToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY)
     @JoinTable(name="friend_list",
                 joinColumns={@JoinColumn(name="user_id")},
                 inverseJoinColumns={@JoinColumn(name="friend_id")})
     private Set<User> users = new HashSet<User>();
- 
+	
+	@JsonIgnore
     @ManyToMany(mappedBy="users")
     private Set<User> friends = new HashSet<User>();
     
-    /** The services. */
+	@JsonIgnore
 	@OneToMany(targetEntity = Message.class, mappedBy = "sender",fetch = FetchType.LAZY)
 	private List<Message> messages_sended;
 	
+	@JsonIgnore	
 	@OneToMany(targetEntity = Message.class, mappedBy = "receiver",fetch = FetchType.LAZY)
 	private List<Message> messages_received;
 
+	@JsonIgnore
 	@OneToMany(targetEntity = Comment.class, mappedBy = "creator",fetch = FetchType.LAZY)
 	private List<Comment> commenst;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity = Post.class, mappedBy = "creator",fetch = FetchType.LAZY)
 	private List<Post> posts;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity = Dialog.class, mappedBy = "creator",fetch = FetchType.LAZY)
 	private List<Dialog> dialogs;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity = Group.class, mappedBy = "creator",fetch = FetchType.LAZY)
 	private List<Group> groupsCreated;
 	

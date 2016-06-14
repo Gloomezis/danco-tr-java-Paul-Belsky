@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "message")
 public class Message extends BaseModel implements Serializable {
@@ -28,30 +30,44 @@ public class Message extends BaseModel implements Serializable {
 	@Column(name = "idMessage")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	@Column(name="text")
+
+	@Column(name = "text")
 	private String text;
 
-	@Column(name= "time_creation")
-	@Temporal(value=TemporalType.DATE)
+	@Column(name = "time_creation")
+	@Temporal(value = TemporalType.DATE)
 	private Date timeCreation;
 
-	@Column(name="is_read")
+	@Column(name = "is_read")
 	private boolean isRead;
-	
-	
-	
+
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sender_id")
 	private User sender;
-	
-	
+
+	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "receiver_id")
 	private User receiver;
 
 	public Message() {
-		super();
+	}
+
+	public Message(int id, String text, Date timeCreation, boolean isRead,
+			User sender, User receiver) {
+		this.id = id;
+		this.text = text;
+		this.timeCreation = timeCreation;
+		this.isRead = isRead;
+		this.sender = sender;
+		this.receiver = receiver;
+
+	}
+
+	public Message(String text, Date timeCreation) {
+		this.text = text;
+		this.timeCreation = timeCreation;
 	}
 
 	@Override

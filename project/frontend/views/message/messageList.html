@@ -1,0 +1,10 @@
+
+<div ng-if="authService.isLoggedIn()" ng-init="getMessages()" ng-show="messageList">
+	<h4>Dialog {{messageList.length}} total.</h4>
+	<div ng-scroller>
+		<div ng-scroller-repeat=”message in messageList | filter:filterMessage”>
+		{{message.sender.userDetails.fName}}, {{message.timeCreation}}
+			<a href="#/messages/{{receiver.id}}"> {{message.text}}</a>
+		</div>
+	</div>
+	<div class="clear"></div>

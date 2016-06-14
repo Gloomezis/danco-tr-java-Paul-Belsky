@@ -1,0 +1,156 @@
+<form id="registerForm" name="registerForm" ng-submit="register(userData)">
+    <h2>Register</h2>
+
+   <div class="regisrationform">
+		<div class="container">
+            <table >
+                <tr>
+				<th><label for="login">Login:</label> </th>
+                <td><input type="text" id="login" name="login" ng-model="userData.login" ng-minlength="5" ng-maxlength="20" ng-pattern="/^[A-z][A-z0-9]*$/" required="required"/>
+                <span ng-show="registerForm.login.$error.required && registerForm.login.$dirty">required</span>
+                <span ng-show="!registerForm.login.$error.minLength && !registerForm.login.$error.maxLength && registerForm.login.$error.pattern && registerForm.login.$dirty">Must start with a letter, and contain letters &amp; numbers only.</span>
+                <span ng-show="!registerForm.login.$error.required && (registerForm.login.$error.minlength || registerForm.login.$error.maxlength) && registerForm.login.$dirty">Username ust be between 5 and 20 characters.</span>
+                </td>
+			<tr/>
+			 <tr>
+                 <th><label for="password">Password:</label> </th>
+                 <td><input type="password" id="password" name="password" ng-model="userData.password" ng-minlength="8" ng-maxlength="20"
+                   ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" required="required"/>
+                   <span ng-show="registerForm.password.$error.required && myForm.password.$dirty">required</span>
+                   <span ng-show="!registerForm.password.$error.required && (registerForm.password.$error.minlength || registerForm.password.$error.maxlength) && registerForm.password.$dirty">Passwords must be between 8 and 20 characters.</span>
+                   <span ng-show="!registerForm.password.$error.required && !registerForm.password.$error.minlength && !registerForm.password.$error.maxlength && registerForm.password.$error.pattern && registerForm.password.$dirty">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</span>
+                  </td>
+                  
+			<tr/>
+			 <tr>
+                 <th><label for="confirmPassword">Confirm Password:</label> </th>
+                 <td><input type="password" id="confirmdPassword"  name="confirmdPassword" ng-model="confirmdPassword" required="required"/>
+                 <span ng-show="registerForm.confirmdPassword.$error.required && registerForm.confirmdPassword.$dirty">Please confirm your password.</span>
+                 <span ng-show="!registerForm.confirmdPassword.$error.required && registerForm.confirmdPassword.$error.noMatch &&  registerForm.confirmdPassword.$dirty">Passwords do not match.</span>
+                 
+                 </td>
+                 <tr/>
+			</table>
+		</div>
+
+		<div class="container">
+            <table>
+			<tr>
+                <th><label for="fname">First name:</label></th>
+                <td><input type="text" id="fname" name="fname" ng-model="userData.userDetails.firstName" required="required"/>
+                 <span ng-show="registerForm.fname.$error.required && registerForm.fname.$dirty">required</span>
+                </td>
+                </tr>
+			<tr>
+                <th><label for="lname">Last name:</label></th>
+                <td> <input type="text" id="lname" name="lname" ng-model="userData.userDetails.lastName" required="required"/></td>
+                <span ng-show="registerForm.lname.$error.required && registerForm.lname.$dirty">required</span>
+                </tr>
+			<tr>
+			
+			
+                <th><label for="radioButtons">Gender:</label></th>
+				<td> <span id="radioButtons" >
+					<input type="radio" name="gender" id="male" value="male" ng-model="userData.userDetails.gender" required="required"/>Male
+					 
+					<input type="radio"  name="gender" id="female"  value="female" ng-model="userData.userDetails.gender" required="required" />Female<br/>
+					 
+                    </span></td>
+                </tr>
+			<tr>
+                <th><label for="datepicker">Birthday date:</label></th>
+                <td> <input type="text" class="datepicker" name="birthday" id="birthday" ng-model="userData.userDetails.dateOfBirth" required="required"/>
+                 <span ng-show="registerForm.birthday.$error.required && registerForm.birthday.$dirty">required</span>
+                </td>
+                </tr>
+            </table>
+		</div>
+
+		<div class="container">
+            <table>
+			<tr>
+                <th><label for="city">City:</label></th>
+                <td> <input type="text" id="city" name="city" ng-model="userData.userDetails.location.city" required="required"/>
+                <span ng-show="registerForm.city.$error.required && registerForm.city.$dirty">required</span>
+                </td>
+                </tr>
+			<tr>
+                <th><label for="state">State:</label></th>
+                <td><input type="text" id="state" name="state" ng-model="userData.userDetails.location.state" required="required"/>
+                 <span ng-show="registerForm.state.$error.required && registerForm.state.$dirty">required</span>
+                </td>
+                </tr>
+			<tr>
+                <th><label for="country">Country:</label> </th>
+                <td><input type="text" id="country" name="country" ng-model="userData.userDetails.location.country" required="required"/>
+                <span ng-show="registerForm.country.$error.required && registerForm.country.$dirty">required</span>
+                </td>
+                </tr>
+			<tr>
+                <th><label for="phone">Phone:</label> </th>
+                <td><input type="email" id="phone" name="phone" ng-model="userData.userDetails.phoneNumber"   ng-pattern="/^\d+$/" required="required"/>
+                <span ng-show="registerForm.login.$error.pattern && registerForm.email.$dirty">Just number valid</span>
+                <span ng-show="registerForm.phone.$error.required && registerForm.phone.$dirty">required</span>
+                </td>
+                </tr>
+			<tr>
+                <th><label for="email">Email:</label></th>
+                <td> <input type="email" id="email" name="email" ng-model="userData.email" required="required"/></td>
+                <span ng-show="registerForm.email.$error.required && registerForm.email.$dirty">required</span>
+                <span ng-show="!registerForm.email.$error.required && registerForm.email.$error.email && registerForm.email.$dirty">invalid email</span>
+                </tr>
+                </table>
+		</div>
+	</div>
+	<input type="submit"  ng-disabled="registerForm.$invalid" value="Register">
+</form>
+
+
+<style>
+    .container{
+       width: 1500;
+        height: 50;   
+    }
+    
+   td {
+      width: 20em;
+      line-height: 1.5em;
+      padding: 0.25em;
+      border: 1px  black;
+    }
+    tr {
+      width: 10em;
+      line-height: 1.5em;
+     
+    }
+    
+     th {
+      width: 10em;
+      line-height: 1.5em;
+     
+    }
+    
+    
+
+</style>
+
+<script>
+	$(function() {
+		$(".datepicker").datepicker();
+	});
+</script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+
+
+
+
+
+
+
+
+
+
+

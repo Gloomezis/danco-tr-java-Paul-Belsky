@@ -1,0 +1,13 @@
+<div ng-if="authService.isLoggedIn()" ng-init="getDialogMessages()" ng-show="dialogMessageList">
+    <h4>Dialog {{dialogMessageList.length}} total.</h4>
+   
+    <ul>
+        <li class="dialogMessages" ng-repeat="dialogMessage in dialogMessageList | filter: filterDialogMessage">
+            <a href="#/user/{{dialogMessage.creator.id}}">{{dialogMessage.creator.userDetails.fname}}</a>
+            <a>{{dialogMessage.timeCreation}}</a>
+            <a>{{dialogMessage.text}}</a>
+        </li>
+    </ul>
+    <a>PLACE FOR WRITING NEW MESSAGE</a>
+</div>
+<div class="clear"></div>

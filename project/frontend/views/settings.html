@@ -1,0 +1,74 @@
+<form id="editProfileForm" name="editProfileForm" ng-submit="editProfile(userData)">
+    <h2>Register</h2>
+
+   <div class="Setting form">
+		
+		<div class="container">
+            <table>
+			<tr>
+                <th><label for="fname">First name:</label></th>
+                <td><input type="text" id="fname" ng-model="userData..FName" required="required"/></td>
+                </tr>
+			<tr>
+                <th><label for="lname">Last name:</label></th>
+                <td> <input type="text" id="lname" ng-model="userData.LName" required="required"/></td>
+                </tr>
+                
+			<tr>
+                <th><label for="radioButtons">Gender:</label></th>
+				<td> <span id="radioButtons" >
+					<input type="radio" name="gender" id="male" value="male" ng-model="userData.gender" required="required"/>Male
+
+					<input type="radio"  name="gender" id="female"  value="female" ng-model="userData.gender" required="required" />Female<br/>
+                    </span></td>
+                </tr>
+                
+			<tr>
+                <th><label for="datepicker">Birthday date:</label></th>
+                <td> <input type="text" class="datepicker" name="birthday" ng-model="userData.birthday" required="required"/></td>
+                </tr>
+            </table>
+		</div>
+
+		<div class="container">
+            <table>
+			<tr>
+                <th><label for="adress">Adress:</label> </th>
+                <td><input type="text" id="adress" ng-model="userData.adress" required="required"/></td>
+                </tr>
+			<tr>
+                <th><label for="city">City:</label></th>
+                <td> <input type="text" id="city" ng-model="userData.city" required="required"/></td>
+                </tr>
+			<tr>
+                <th><label for="state">State:</label></th>
+                <td><input type="text" id="state" ng-model="userData.state" required="required"/></td>
+                </tr>
+			<tr>
+                <th><label for="country">Country:</label> </th>
+                <td><input type="text" id="country" ng-model="userData.country" required="required"/></td>
+                </tr>
+			<tr>
+                <th><label for="phone">Phone:</label> </th>
+                <td><input type="email" id="phone" ng-model="userData.phone" required="required"/></td>
+                </tr>
+			<tr>
+                <th><label for="email">Email:</label></th>
+                <td> <input type="email" id="email" ng-model="userData.email" required="required"/></td>
+                </tr>
+                
+               <tr> 
+                <th><label for="radioButtons">Language:</label></th>
+				<td> <span id="radioButtons" >
+					<input type="radio" name="language" id="english" value="english" ng-model="userData.language" required="required"/>English
+					<input type="radio"  name="language" id="russian"  value="russian" ng-model="userData.language" required="required" />Russian<br/>
+                    </span></td>
+                </tr>
+                
+                </table>
+		</div>
+		
+	</div>
+	<button type="submit">Edit Profile</button>
+    <a href="#/" class="button">Cancel</a>
+</form>

@@ -1,0 +1,14 @@
+<div ng-if="authService.isLoggedIn()">
+
+    <div id="posts" ng-include="'views/myInfo.html'" ng-controller="UserController"></div>
+    <div id="posts" ng-include="'views/post.html'" ng-controller="PostsController"></div>
+
+    
+</div>
+
+<div ng-if="!authService.isLoggedIn()" id="forms">
+    <div ng-include="'views/login.html'" ng-controller="LoginController"></div>
+
+    <div ng-include="'views/register.html'" ng-controller="RegisterController"></div>
+</div>
+<div class="clear"></div>

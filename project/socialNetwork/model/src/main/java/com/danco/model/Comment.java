@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "comment")
 public class Comment extends BaseModel implements Serializable {
@@ -29,24 +31,39 @@ public class Comment extends BaseModel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	
-	@Column(name="text")
+	@Column(name = "text")
 	private String text;
 
-	@Column(name= "time_creation")
-	@Temporal(value=TemporalType.DATE)
+	@Column(name = "time_creation")
+	@Temporal(value = TemporalType.DATE)
 	private Date timeCreation;
-	
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id") 
+	@JoinColumn(name = "user_id")
 	private User creator;
-	
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post_id") 
+	@JoinColumn(name = "post_id")
 	private Post post;
 
 	public Comment() {
-		super();
+
+	}
+
+	public Comment(String text, Date timeCreation) {
+		this.text = text;
+		this.timeCreation = timeCreation;
+	}
+
+	public Comment(int id, String text, Date timeCreation, User creator,
+			Post post) {
+		this.id = id;
+		this.text = text;
+		this.timeCreation = timeCreation;
+		this.creator = creator;
+		this.post = post;
 	}
 
 	public String getComment() {

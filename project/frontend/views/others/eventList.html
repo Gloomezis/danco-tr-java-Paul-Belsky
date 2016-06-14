@@ -1,0 +1,13 @@
+<div ng-if="authService.isLoggedIn()" ng-init="getEvents()" ng-show="eventsList">
+    <h4>Events</h4>
+    <ul>
+        <li class="post" ng-repeat="post in postList | filter: filterPost">
+            <a href="#/users/{{post.creator.id}}">
+                {{post.creator.login}}
+            </a>
+          <a>{{post.text}}</a>
+          <a>{{post.timeCreation}}</a>
+        </li>
+    </ul>
+</div>
+<div class="clear"></div>

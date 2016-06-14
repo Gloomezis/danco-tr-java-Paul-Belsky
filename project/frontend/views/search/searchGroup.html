@@ -1,0 +1,11 @@
+<div ng-if="authService.isLoggedIn()"  ng-show="groupList">
+    <h4>Group {{groupList.length}} total.</h4>
+    <ul>
+        <li class="groups" ng-repeat="group in groupList | filter: filterGroup">
+            <a href="#/groups/{{group.id}}">
+             Name:  {{group.title}} total: {{group.members.length}}
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="clear"></div>

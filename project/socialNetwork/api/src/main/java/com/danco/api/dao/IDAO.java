@@ -5,7 +5,7 @@ package com.danco.api.dao;
 import com.danco.model.BaseModel;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface IDAO.
  *
@@ -23,7 +23,7 @@ public interface IDAO<T extends BaseModel > {
 	 * @param model the model
 	 * @throws Exception the exception
 	 */
-	default void create(T model) {
+	default void create(T model) throws Exception{
 		
 	}
 
@@ -34,7 +34,7 @@ public interface IDAO<T extends BaseModel > {
 	 * @param model the model
 	 * @throws Exception the exception
 	 */
-	default void update( T model) {
+	default void update( T model) throws Exception{
 	
 	}
 
@@ -45,7 +45,7 @@ public interface IDAO<T extends BaseModel > {
 	 * @param model the model
 	 * @throws Exception the exception
 	 */
-	default void delete( T model) {
+	default void delete( T model) throws Exception{
 		
 	} 
 	
@@ -57,7 +57,7 @@ public interface IDAO<T extends BaseModel > {
 	 * @return the by id
 	 * @throws Exception the exception
 	 */
-	public T getById(int idModel) ; 
+	public T getById(int idModel) throws Exception; 
 	
 	
 	

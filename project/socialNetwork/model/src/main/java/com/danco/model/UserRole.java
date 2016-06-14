@@ -23,11 +23,19 @@ public class UserRole extends BaseModel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name="role")
+	@Column(name = "role")
 	private String role;
 
 	public UserRole() {
-		super();
+	}
+
+	public UserRole(int id, String role) {
+		this.id = id;
+		this.role = role;
+	}
+
+	public UserRole(String role) {
+		this.role = role;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.danco.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "group")
 public class Group extends BaseModel implements Serializable {
@@ -31,29 +34,50 @@ public class Group extends BaseModel implements Serializable {
 	@Column(name = "idGroup")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	@Column(name="title")
+
+	@Column(name = "title")
 	private String title;
 
-	@Column(name="description")
+	@Column(name = "description")
 	private String description;
 
-	@Column(name= "time_creation")
-	@Temporal(value=TemporalType.DATE)
+	@Column(name = "time_creation")
+	@Temporal(value = TemporalType.DATE)
 	private Date timeCreation;
-	
+
+	@JsonIgnore
 	@ManyToMany(mappedBy = "groups")
 	private List<User> members;
-	
-	@OneToMany(targetEntity = Dialog.class, mappedBy = "group",fetch = FetchType.LAZY)
+
+	@JsonIgnore
+	@OneToMany(targetEntity = Dialog.class, mappedBy = "group", fetch = FetchType.LAZY)
 	private List<Dialog> dialogs;
-	
+
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id") 
+	@JoinColumn(name = "user_id")
 	private User creator;
 
 	public Group() {
-		super();
+
+	}
+
+	public Group(int id, String title, String description,Date timeCreation,User creator) {
+		this.id=id;
+		this.title=title;
+		this.description=description;
+		this.timeCreation=timeCreation;
+		this.creator=creator;
+		this.dialogs=new ArrayList<Dialog>();
+		this.members=new ArrayList<User>();
+
+	}
+	
+	public Group(String title, String description,Date timeCreation) {
+		this.title=title;
+		this.description=description;
+		this.timeCreation=timeCreation;
+
 	}
 
 	public String getTitle() {

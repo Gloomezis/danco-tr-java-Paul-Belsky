@@ -30,7 +30,7 @@ public class Language extends BaseModel implements Serializable {
 	private String code;
 
 	public Language() {
-		super();
+		
 	}
 
 	@Override

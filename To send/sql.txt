@@ -1,0 +1,2 @@
+insert into user_role (role) VALUES ('user');
+insert into user  (login , password , email, time_registration,user_role_id ) VALUES ('Paul','1111','gloomezis@mail.ru','2015-12-18',1)

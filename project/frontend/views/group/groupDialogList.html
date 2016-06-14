@@ -1,0 +1,12 @@
+<div ng-if="authService.isLoggedIn()" ng-init="getDialogs()" ng-show="dialogList">
+    <h4>Dialog {{dialogList.length}} total.</h4>
+      <a>PLACE CREATE DIALOG</a>
+    <ul>
+        <li class="dialogs" ng-repeat="dialog in dialogList | filter: filterDialog">
+            <a href="#/groups/{{group.id}}/dialogs/{{dialog.id}}">
+             Name:  {{dialog.title}} total messages: {{dialog.dialogMessages.length}}
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="clear"></div>

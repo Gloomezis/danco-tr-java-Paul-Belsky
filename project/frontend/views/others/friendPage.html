@@ -1,0 +1,47 @@
+<div class="page-header">
+	<h1>Friend page</h1>
+</div>
+<div>
+	<div>
+		<dl>
+
+			<dt>Last Name:</dt>
+			<dd>{{user.userDetails.lastName}}</dd>
+
+			<dt>First Name:</dt>
+			<dd>{{user.userDetails.firstName}}</dd>
+
+			<dt>Date of birth:</dt>
+			<dd>{{user.userDetails.dateOfBirth}}</dd>
+
+			<dt>Gender:</dt>
+			<dd>{{user.userDetails.gender}}</dd>
+
+			<dt>Phone number:</dt>
+			<dd>{{user.userDetails.phoneNumber}}</dd>
+
+			<dt>Email:</dt>
+			<dd>{{user.email}}</dd>
+
+			<h3>Location:</h3>
+
+			<dt>Country:</dt>
+			<dd>{{user.location.country}}</dd>
+
+			<dt>State:</dt>
+			<dd>{{user.locationstate.state}}</dd>
+
+			<dt>City:</dt>
+			<dd>{{user.location.city}}</dd>
+
+		</dl>
+
+<div ng-switch on="selected">
+        <button ng-switch-when='true' ng-click='addFriend()'>Add to Friends</button>
+        <button ng-switch-when='false' ng-click='deleteFriend()'>Delete from friends</button>
+    </div>
+
+
+
+		
+</div>

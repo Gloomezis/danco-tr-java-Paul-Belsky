@@ -28,16 +28,39 @@ public class DialogMessage extends BaseModel implements Serializable {
 	@Column(name = "idDialog_message")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	
-	@Column(name="text")
+
+	@Column(name = "text")
 	private String text;
 
-	@Column(name= "time_creation")
-	@Temporal(value=TemporalType.DATE)
+	@Column(name = "time_creation")
+	@Temporal(value = TemporalType.DATE)
 	private Date timeCreation;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User creator;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "dialog_id")
+	private Dialog dialog;
+
 	public DialogMessage() {
-		super();
+
+	}
+
+	public DialogMessage(int id, String text, Date timeCreation, User creator,
+			Dialog dialog) {
+		this.id = id;
+		this.text = text;
+		this.timeCreation = timeCreation;
+		this.creator = creator;
+		this.dialog = dialog;
+
+	}
+
+	public DialogMessage(String text, Date timeCreation) {
+		this.text = text;
+		this.timeCreation = timeCreation;
 	}
 
 	public String getText() {
@@ -55,16 +78,6 @@ public class DialogMessage extends BaseModel implements Serializable {
 	public void setTimeCreation(Date timeCreation) {
 		this.timeCreation = timeCreation;
 	}
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id") 
-	private User creator;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dialog_id") 
-	private Dialog dialog;
-	
-	
 
 	@Override
 	public int getId() {
