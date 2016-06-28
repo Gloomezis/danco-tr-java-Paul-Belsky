@@ -3,91 +3,67 @@ package com.danco.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.context.annotation.ComponentScan;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.springframework.stereotype.Repository;
 
-
-
 import com.danco.api.dao.ICommentDAO;
+import com.danco.api.dao.util.ResultBuilder;
+import com.danco.dao.util.HibernateGenericResultBuilder;
 import com.danco.model.Comment;
-
+import com.danco.model.Post;
 
 @Repository
-@ComponentScan("com.danco.dao")  
-public class CommentDAO implements ICommentDAO {
+public class CommentDAO extends BaseDAO<Comment> implements ICommentDAO {
+
+	public CommentDAO() {
+		super(Comment.class);
+		System.out.println("Comment dao created");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Comment> getListByPostId(int id) {
+		Criteria criteria = sf.getCurrentSession()
+				.createCriteria(Comment.class);
+		List<Comment> commentList = (List<Comment>) criteria
+				.createCriteria("post", JoinType.RIGHT_OUTER_JOIN)
+				.add(Restrictions.eq("id", id)).list();
+		return commentList;
+	}
 
 	
-	
+	@Override
+	public List<Comment> getListByPostIdPagination(int id, int startPostId,
+			int pageSize) throws Exception {
+		Criteria criteria = sf.getCurrentSession()
+				.createCriteria(Comment.class);
+	//	List<Comment> commentList = (List<Comment>) criteria
+	//			.createCriteria("post", JoinType.RIGHT_OUTER_JOIN)
+	//			.add(Restrictions.eq("id", id)).setFirstResult(startPostId)
+	//			.setMaxResults(pageSize).addOrder(Order.asc("timeCreation"))
+	//			.list();
+		criteria.createCriteria("post", JoinType.LEFT_OUTER_JOIN)
+				.add(Restrictions.eq("id", id));
+		List<Comment> commentList = (List<Comment>) new HibernateGenericResultBuilder<Comment>(
+				criteria).withOffset(startPostId).withLimit(pageSize)
+				.orderedBy("timeCreation").result();
 		
-	    private SessionFactory sf;
-		
-	    public CommentDAO() {
-			System.out.println("Comment dao created");
-		} 
+		return commentList;
+	}
 
-	    @Required
-		@Autowired 
-		public void setSf(SessionFactory sf) {
-			this.sf = sf;
-		}
+	@Override
+	public int getmessageCountByPostId(int id) throws Exception {
+		Criteria criteria = sf.getCurrentSession()
+				.createCriteria(Comment.class);
+		criteria.createCriteria("post", JoinType.RIGHT_OUTER_JOIN)
+				.add(Restrictions.eq("id", id))
+				.setProjection(Projections.rowCount());
+		Long count = (Long) criteria.uniqueResult();
 
-		
-		/* (non-Javadoc)
-		 * @see com.danco.dao.ICommentDAO#create(com.danco.model.Comment)
-		 */
-		@Override
-		public void create(Comment comment) throws Exception{
-			sf.getCurrentSession().save(comment);
-		}
-
-		
-		/* (non-Javadoc)
-		 * @see com.danco.dao.ICommentDAO#update(com.danco.model.Comment)
-		 */
-		@Override
-		public void update( Comment comment) throws Exception{
-			sf.getCurrentSession().update(comment);
-		}
-		
-		/* (non-Javadoc)
-		 * @see com.danco.dao.ICommentDAO#delete(com.danco.model.Comment)
-		 */
-		@Override
-		public void delete( Comment comment) throws Exception{
-			sf.getCurrentSession().delete(comment);
-		} 
-		
-
-		
-		/* (non-Javadoc)
-		 * @see com.danco.dao.ICommentDAO#getById(int)
-		 */
-		@Override
-		public Comment getById(int idComment)  throws Exception{
-		return	(Comment) sf.getCurrentSession().get(Comment.class, idComment);
-				
-		    
-		}
-
-		
-		
-		/* (non-Javadoc)
-		 * @see com.danco.dao.ICommentDAO#getList()
-		 */
-		@Override
-		public List<Comment> getList()  throws Exception{
-		
-		    @SuppressWarnings("unchecked")
-	        List<Comment> listComment = (List<Comment>) sf.getCurrentSession()
-	                .createCriteria(Comment.class)
-	                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-	 
-	        return listComment;
-		   
-		}
-
+		return count.intValue();
+	}
 
 }

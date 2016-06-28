@@ -4,16 +4,13 @@ import java.util.List;
 
 import com.danco.model.Comment;
 
-public interface ICommentService {
+public interface ICommentService extends IService<Comment>{
 
-	public abstract void create(Comment comment)throws Exception;
+	public abstract List<Comment> getListByPostId(int id) ;
 
-	public abstract void update(Comment comment)throws Exception;
+	public abstract List<Comment> getListByPostIdPagination(int id,
+			int startPostId, int pageSize);
 
-	public abstract void delete(Comment comment)throws Exception;
-
-	public abstract Comment getById(int idModel)throws Exception;
-
-	public abstract List<Comment> getList()throws Exception;
+	public abstract int getCommentCountByPostId(int id);
 
 }

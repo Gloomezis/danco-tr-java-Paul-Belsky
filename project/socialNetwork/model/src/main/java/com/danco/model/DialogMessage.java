@@ -1,6 +1,5 @@
 package com.danco.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -17,7 +16,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "dialog_message")
-public class DialogMessage extends BaseModel implements Serializable {
+public class DialogMessage extends BaseModel  {
 
 	/**
 	 * 

@@ -24,21 +24,15 @@
 	>
 
 
-	<!-- Настраивает управление транзакциями с помощью аннотации @Transactional -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	
 
-	<!-- Менеджер транзакций -->
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
-	<!-- Настройки бина dataSource будем хранить в отдельном файле -->
+	
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="classpath:jdbc.property" />
 
-	<!-- Непосредственно бин dataSource -->
+	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource" 
 		p:driverClassName="${jdbc.driverClassName}" 
@@ -46,7 +40,7 @@
 		p:username="${jdbc.username}" 
 		p:password="${jdbc.password}" />
 
-	<!-- Настройки фабрики сессий Хибернейта -->
+	
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" autowire="byType">
 		<property name="dataSource" ref="dataSource" />

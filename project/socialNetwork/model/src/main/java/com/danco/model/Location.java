@@ -1,7 +1,5 @@
 package com.danco.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "location")
-public class Location extends BaseModel implements Serializable {
+public class Location extends BaseModel{
 
 	/**
 	 * 

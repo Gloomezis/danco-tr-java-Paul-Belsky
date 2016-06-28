@@ -4,16 +4,12 @@ import java.util.List;
 
 import com.danco.model.Group;
 
-public interface IGroupService {
+public interface IGroupService extends IService<Group>{
 
-	public abstract void create(Group group)throws Exception;
+	
 
-	public abstract void update(Group group)throws Exception;
+	public  List<Group> searchByTitle(String title);
 
-	public abstract void delete(Group group)throws Exception;
-
-	public abstract Group getById(int idModel)throws Exception;
-
-	public abstract List<Group> getList()throws Exception;
+	public  List<Group> getListByUserId(int id);
 
 }

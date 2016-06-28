@@ -1,6 +1,5 @@
 package com.danco.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "message")
-public class Message extends BaseModel implements Serializable {
+public class Message extends BaseModel  {
 
 	/**
 	 * 

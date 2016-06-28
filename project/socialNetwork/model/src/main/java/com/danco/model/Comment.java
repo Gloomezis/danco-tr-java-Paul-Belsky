@@ -1,6 +1,5 @@
 package com.danco.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "comment")
-public class Comment extends BaseModel implements Serializable {
+public class Comment extends BaseModel  {
 
 	/**
 	 * 
@@ -66,11 +65,11 @@ public class Comment extends BaseModel implements Serializable {
 		this.post = post;
 	}
 
-	public String getComment() {
+	public String getText() {
 		return text;
 	}
 
-	public void setComment(String text) {
+	public void setText(String text) {
 		this.text = text;
 	}
 

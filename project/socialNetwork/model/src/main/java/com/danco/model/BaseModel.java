@@ -1,10 +1,17 @@
 package com.danco.model;
 
+import java.io.Serializable;
+
 
 /**
  * The Class BaseModel.
  */
-public abstract class BaseModel {
+public abstract class BaseModel implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Instantiates a new base model.

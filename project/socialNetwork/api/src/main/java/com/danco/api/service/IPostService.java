@@ -4,16 +4,13 @@ import java.util.List;
 
 import com.danco.model.Post;
 
-public interface IPostService {
+public interface IPostService extends IService<Post>{
 
-	public abstract void create(Post post)throws Exception;
+	
+	public List<Post> getListByUserId(int id, int startPostId, int pageSize);
 
-	public abstract void update(Post post)throws Exception;
+	public int getPostCountByUserId(int id);
 
-	public abstract void delete(Post post)throws Exception;
 
-	public abstract Post getById(int idModel)throws Exception;
-
-	public abstract List<Post> getList()throws Exception;
 
 }

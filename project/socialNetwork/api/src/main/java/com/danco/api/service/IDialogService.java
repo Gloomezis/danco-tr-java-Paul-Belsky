@@ -4,16 +4,11 @@ import java.util.List;
 
 import com.danco.model.Dialog;
 
-public interface IDialogService {
+public interface IDialogService extends IService<Dialog>{
 
-	public abstract void create(Dialog dialog)throws Exception;
+	
 
-	public abstract void update(Dialog dialog)throws Exception;
+	public List<Dialog> getListByGroupId(int id);
 
-	public abstract void delete(Dialog dialog)throws Exception;
-
-	public abstract Dialog getById(int idModel)throws Exception;
-
-	public abstract List<Dialog> getList()throws Exception;
 
 }

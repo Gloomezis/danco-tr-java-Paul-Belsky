@@ -10,65 +10,39 @@ import org.springframework.transaction.annotation.Transactional;
 import com.danco.api.dao.IGroupDAO;
 import com.danco.api.service.IGroupService;
 import com.danco.model.Group;
+import com.danco.model.Post;
 
+@Service
+public class GroupService extends BaseService<Group> implements IGroupService {
 
-	@Service
-	public class GroupService implements IGroupService {
+	@Autowired
+	private IGroupDAO dao;
 
-		private IGroupDAO dao;
-
-		@Required
-		@Autowired
-		public void setDao(IGroupDAO dao) {
-			this.dao = dao;
+	public GroupService() {
+		System.out.println("Group service cereated");
+	}
+	@Transactional(readOnly = true,rollbackFor=Exception.class)
+	@Override
+	public List<Group> searchByTitle(String title) {
+		try {
+			return dao.searchByTitle(title);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
+		return null;
+	}
 
-		public GroupService() {
-			System.out.println("Group service cereated");
-		}
+	@Transactional(readOnly = true,rollbackFor=Exception.class)
+	@Override
+	public List<Group> getListByUserId(int id) {
+		List<Group> groups = null;
+		try {
+			groups = dao.getListByUserId(id);
 
-		/* (non-Javadoc)
-		 * @see com.danco.service.IGroupService#create(com.danco.model.Group)
-		 */
-		@Override
-		public void create(Group group)throws Exception {
-			dao.create(group);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
-
-		/* (non-Javadoc)
-		 * @see com.danco.service.IGroupService#update(com.danco.model.Group)
-		 */
-		@Override
-		@Transactional
-		public void update(Group group)throws Exception {
-			dao.update(group);
-		}
-
-		/* (non-Javadoc)
-		 * @see com.danco.service.IGroupService#delete(com.danco.model.Group)
-		 */
-		@Override
-		@Transactional
-		public void delete(Group group) throws Exception{
-			dao.delete(group);
-		}
-
-		/* (non-Javadoc)
-		 * @see com.danco.service.IGroupService#getById(int)
-		 */
-		@Override
-		@Transactional
-		public Group getById(int idModel)throws Exception {
-			return dao.getById(idModel);
-		}
-
-		/* (non-Javadoc)
-		 * @see com.danco.service.IGroupService#getList()
-		 */
-		@Override
-		@Transactional
-		public List<Group> getList()throws Exception{
-			return dao.getList();
-		}
+		return groups;
+	}
 
 }

@@ -1,0 +1,419 @@
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,500,700);
+
+
+
+sidebar ul{
+    list-style-type: none;
+    margin:0;
+    padding:0;
+    width:15%;
+    background-color: #f1f1f1;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+
+  }
+ sidebar li a{
+  display: block;
+  color: #000;
+  padding: 8px 0 8px 16px;
+  text-decoration: none;
+ }
+ sidebar li a.active{
+  background-color: #4CAF50
+ }
+ sidebar li a:hover:not(.active){
+  background-color: #555;
+  color: white;}
+
+body {
+    margin: 0;
+    background-color: #e7ecea;
+    font-family: 'Raleway', Arial, sans-serif;
+    word-wrap: break-word;
+}
+
+#wrapper {
+    width: 970px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#header {
+    color:  #1a1a1a;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+
+#text {
+    padding: 14px;
+}
+
+#text i {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+header {
+    border-bottom: 1px solid #ccc;
+    background-color: rgba(40,44,42,0.05);
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+header > div > ul > li:first-child {
+    border-left: 1px solid #ccc;
+}
+
+header > div > ul > li {
+    background-color: #f7f7f7;
+    display: inline-block;
+    padding: 10px 29px;
+    border-right: 1px solid #ccc;
+    vertical-align: bottom;
+    float: left;
+    height: 43px;
+    text-align: center;
+}
+
+header > div > ul > li:hover {
+    background-color: rgba(116, 119, 123, 0.01);
+}
+
+header > div > ul > li > a {
+    font-weight: bold;
+    color: #1a1a1a;
+    text-decoration: none;
+}
+
+header > div > ul > li > a > i {
+    display: block;
+}
+
+header i {
+    color: #1a1a1a;
+    font-size: 30px;
+}
+
+#nav {
+    width: 1250px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#badge {
+    padding: 2px 7px;
+    background-color: #DEDEDE;
+    border-radius: 50px;
+    font-size: 15px;
+    color: #2CC185;
+    position: absolute;
+    top: 15px;
+    left: 44%;
+}
+
+#forms {
+    display: block;
+}
+
+#loginForm {
+    border: 1px solid #ccc;
+    float: left;
+    padding: 10px;
+    margin: 20px 0 0 25%;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+#loginForm input {
+    display: block;
+}
+
+#registerForm {
+    border: 1px solid #ccc;
+    float: right;
+    padding: 10px;
+    margin: 20px 25% 20px 0;
+    width: 200px;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+#userHeader {
+    background-size: cover!important;
+    padding: 5px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 -200px 200px -200px #000000;
+}
+
+#userFullName {
+    color: #fff;
+    text-rendering: optimizelegibility;
+    text-shadow: 0 0 3px rgba(0,0,0,.8);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.postHeader {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-color: rgba(44, 193, 133, 0.25);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+}
+
+.postHeader img {
+    margin: 3px;
+}
+
+.buttons {
+    float: right;
+    margin: 5px;
+}
+
+.floatRight {
+    float: right;
+}
+
+#changePasswordForm {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 20px 0 20px 40%;
+    width: 180px;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+#changePasswordForm input {
+    display: block;
+}
+
+#search {
+    width: 100px;
+}
+
+#searchDiv {
+    display: block;
+}
+
+#searchDiv input {
+    width: 100px;
+}
+
+#searchResults {
+    position: absolute;
+    top: 64px;
+    left: 738px;
+    text-align: left;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #ccc;
+}
+
+#searchResults a {
+    text-decoration: none;
+    color: #74777b;
+}
+
+#friendRequests {
+    position: absolute;
+    top: 64px;
+    left: 553px;
+    padding: 5px;
+    background-color: #ccc;
+}
+
+#friendRequests a {
+    text-decoration: none;
+    color: #74777b;
+}
+
+ul {
+    list-style-type: none;
+    -webkit-padding-start: 0px;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.profileImageSearch {
+    max-width: 50px;
+    max-height: 50px;
+    display: block;
+    margin-left: 36.5px;
+}
+
+.profileImg {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.newsFeedPost {
+    border: 1px solid #ccc;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 2px;
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.1), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.newsFeedPost img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.newsFeedPost a {
+    text-decoration: none;
+    color: #74777b;
+}
+
+.postContent {
+    margin: 10px;
+    font-weight: bold;
+}
+
+#editProfileForm {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 200px;
+    text-align: center;
+    border-radius: 2px;
+    box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+#profileImagePreview {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+#coverImagePreview {
+    max-width: 260px;
+    max-height: 150px;
+}
+
+textarea {
+    resize: none;
+    background-color: rgba(255, 255, 255, 0.50);
+}
+
+#postContent {
+    width: 50%;
+    height: 50px;
+    margin: 3px;
+}
+
+
+
+#addCommentForm {
+    padding: 3px;
+    border-radius: 2px;
+    border-top: 1px solid #ccc;
+}
+
+#addCommentForm textarea{
+    width: 50%;
+    margin-left: 20%;
+}
+
+#addCommentForm button{
+    vertical-align: top;
+}
+
+#postButton {
+    vertical-align: top;
+    margin-top: 38px;
+}
+
+.comment {
+    padding: 5px;
+    margin: 5px 50px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+}
+
+.comment img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.commentHeader {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-color: rgba(44, 193, 133, 0.15);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+}
+
+.commentHeader img {
+    margin: 3px;
+}
+
+.friends {
+    text-align: center;
+    display: block;
+    float: left;
+    margin: 3px;
+    padding: 3px;
+    border: 1px solid #ccc;
+    width: 115px;
+    height: 100px;
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+    border-radius: 2px;
+}
+
+.friends a {
+    text-decoration: none;
+    color: #74777b;
+}
+
+#friendsPreview {
+    border: 1px solid #ccc;
+    width: 40%;
+    margin: 5px;
+    float: right;
+    text-align: center;
+    padding: 1px;
+    border-radius: 2px;
+}
+
+#friendsHeader {
+    background-color: rgba(44, 193, 133, 0.25);
+    padding: 10px;
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+    border-radius: 2px;
+}
+
+#friendsPreview a {
+    text-decoration: none;
+    color: #74777b;
+}
+
+#posts {
+    width: 58%;
+    float: left;
+    border-radius: 2px;
+}
+
+.hover {
+    background-color: #ccc;
+}
+
+.hover img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+#loginForm input.ng-invalid.ng-dirty, #registerForm input.ng-invalid.ng-dirty {
+    background-color: rgba(255, 0, 0, 0.25);
+}
+#loginForm input.ng-valid.ng-dirty, #registerForm > input.ng-valid.ng-dirty {
+    background-color: rgba(0, 128, 0, 0.25);
+}
+
+.clear {
+    clear: both;
+}

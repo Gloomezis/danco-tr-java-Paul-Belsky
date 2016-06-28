@@ -9,64 +9,35 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.danco.api.dao.IDialogDAO;
 import com.danco.api.service.IDialogService;
+import com.danco.model.Comment;
 import com.danco.model.Dialog;
 
 @Service
-public class DialogService implements IDialogService {
-
+public class DialogService extends BaseService<Dialog> implements IDialogService {
+	@Autowired
 	private IDialogDAO dao;
 
-	@Required
-	@Autowired
-	public void setDao(IDialogDAO dao) {
-		this.dao = dao;
-	}
 
 	public DialogService() {
 		System.out.println("Dialog service cereated");
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.IDialogService#create(com.danco.model.Dialog)
-	 */
+
 	@Override
-	public void create(Dialog dialog)throws Exception {
-		dao.create(dialog);
+	@Transactional (readOnly = true,rollbackFor=Exception.class)
+	public List<Dialog> getListByGroupId(int id)  {
+		List<Dialog> dialogs = null;
+		try {
+			dialogs=dao.getListByGroupId(id);
+			
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return  dialogs;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.IDialogService#update(com.danco.model.Dialog)
-	 */
-	@Override
-	@Transactional
-	public void update(Dialog dialog)throws Exception {
-		dao.update(dialog);
-	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.IDialogService#delete(com.danco.model.Dialog)
-	 */
-	@Override
-	@Transactional
-	public void delete(Dialog dialog) throws Exception{
-		dao.delete(dialog);
-	}
+	
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.IDialogService#getById(int)
-	 */
-	@Override
-	@Transactional
-	public Dialog getById(int idModel) throws Exception{
-		return dao.getById(idModel);
-	}
-
-	/* (non-Javadoc)
-	 * @see com.danco.service.IDialogService#getList()
-	 */
-	@Override
-	@Transactional
-	public List<Dialog> getList() throws Exception{
-		return dao.getList();
-	}
+	
 }

@@ -1,0 +1,84 @@
+'use strict';
+
+var socialNetworkApp = angular
+    .module('socialNetworkApp', ['ngRoute', 'ui.bootstrap','pascalprecht.translate','angular-loading-bar', 'ui-notification', 'infinite-scroll', 'angularMoment', 'nsPopover'])
+    .constant({
+        'BASE_URL': 'http://localhost:8080/restController',
+        'PAGE_SIZE': '5'
+    })
+    .config(function ($routeProvider, cfpLoadingBarProvider) {
+
+        cfpLoadingBarProvider.includeSpinner = false;
+
+        $routeProvider
+            .when('/', {
+                templateUrl: 'templates/home.html',
+                controller: 'HomeController',
+                resolve: {
+                    friendsDataPreview: function (authService, friendsService) {
+                        if (authService.isLoggedIn()) {
+                            return friendsService.getOwnFriendsPreview();
+                        }
+                    }
+                }
+            })
+            .when('/register', {
+                templateUrl: 'templates/registerForm.html',
+                controller: 'RegisterController',
+                resolve: {
+                    friendsDataPreview: function (authService, friendsService) {
+                        if (authService.isLoggedIn()) {
+                            return friendsService.getOwnFriendsPreview();
+                        }
+                    }
+                }
+            })
+            .when('/users/:username', {
+                templateUrl: 'templates/userProfile.html',
+                controller: 'UserProfileController',
+                resolve: {
+                    isLoggedIn: isLoggedIn,
+                    getUserFullData: function (authService, userService, $route) {
+                        if (authService.isLoggedIn()) {
+                            return userService.getDataAboutUser($route.current.params.username)
+                        }
+                    }
+                }
+            })
+            .when('/users/:username/friends', {
+                templateUrl: 'templates/friends.html',
+                controller: 'FriendsController',
+                resolve: {
+                    isLoggedIn: isLoggedIn
+                }
+            })
+            .when('/profile', {
+                templateUrl: 'templates/editProfileForm.html',
+                controller: 'EditProfileController',
+                resolve: {
+                    isLoggedIn: isLoggedIn,
+                    userData: function (authService, userService) {
+                        if (authService.isLoggedIn()){
+                            return userService.getDataAboutMe();
+                        }
+                    }
+                }
+            })
+            .when('/profile/password', {
+                templateUrl: 'templates/changePasswordForm.html',
+                controller: 'ChangePasswordController',
+                resolve: {
+                    isLoggedIn: isLoggedIn
+                }
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    });
+
+var isLoggedIn = function ($location, authService, Notification) {
+    if (!authService.isLoggedIn()) {
+        $location.path('/');
+        Notification.info("You don't have access here.");
+    }
+};

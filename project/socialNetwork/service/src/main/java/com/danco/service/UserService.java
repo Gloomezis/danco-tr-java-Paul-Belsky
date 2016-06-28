@@ -9,83 +9,67 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.danco.api.dao.IUserDAO;
 import com.danco.api.service.IUserService;
+import com.danco.model.Comment;
 import com.danco.model.User;
 
-
 @Service
-public class UserService implements IUserService{
-	
-	
-    private IUserDAO dao;
-	
+public class UserService extends BaseService<User> implements IUserService {
 
-	
-	@Required
 	@Autowired
-	public void setDao(IUserDAO dao) {
-		this.dao = dao;
-	}
+	private IUserDAO dao;
 
-	
 	public UserService() {
 		System.out.println("User service created");
-	} 
-    
-    @Override
-    
-    public void create(User user)throws Exception {
-        dao.create(user);
-    }
-	
-	
-    
-    @Override
-    @Transactional 
-	public void update(User user) throws Exception{
-		dao.update(user);
 	}
-
-	
-    @Override
-    @Transactional 
-    public void delete(User user) throws Exception{
-		dao.delete(user);
-	} 
-	
-    @Override
-    @Transactional 
-	public User getById(int idModel)throws Exception{
-		return dao.getById(idModel);
-	}
-
-	
-	@Override
-	@Transactional 
-	public List<User> getList()throws Exception {
-		return dao.getList();
-	}
-
 
 	@Override
-	@Transactional 
-	public User getByLogin(String login) throws Exception{
-		return dao.getByLogin(login);
-	}
-
-
-	@Override
-	public boolean isUserExist(User user) throws Exception{
-		return getByLogin(user.getLogin())!=null;
-	}
-
-
-	@Override
-	@Transactional 
-	public User getByLoginAndPassword(String login, String password)
-			throws Exception {
+	@Transactional(readOnly = true,rollbackFor=Exception.class)
+	public User getByUsername(String username) {
+		try {
+			return dao.getByUsername(username);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
 		
-		return dao.getByLoginAndPassword(login,password);
+	//	User user = dao.getByUsername(username);
+	//	if (null == user) {
+	//		throw new UsernameNotFoundException("The user with name: "
+	//				+ username + " was not found");
+	//	}
+
+	//	return user; 
+		
+		return null;
 	}
 
-	
+	@Override
+	@Transactional(readOnly = true,rollbackFor=Exception.class)
+	public List<User> searchByName(String name) {
+		try {
+			return dao.searchByName(name);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+
+	@Override
+	@Transactional//(readOnly = true,rollbackFor=Exception.class)
+	public User getByCredentials(String username,String password) {
+		User user = null;
+		try {
+			user = dao.gerByCredentials(username,password);
+
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return user;
+
+	}
+
+	@Override
+	public boolean isUserExist(User user)  {
+		return getByUsername((user.getUsername())) != null;
+	}
+
 }

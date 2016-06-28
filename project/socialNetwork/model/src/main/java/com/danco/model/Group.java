@@ -1,6 +1,5 @@
 package com.danco.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "group")
-public class Group extends BaseModel implements Serializable {
+public class Group extends BaseModel  {
 
 	/**
 	 * 

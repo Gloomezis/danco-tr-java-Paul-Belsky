@@ -1,2 +1,70 @@
+
 insert into user_role (role) VALUES ('user');
-insert into user  (login , password , email, time_registration,user_role_id ) VALUES ('Paul','1111','gloomezis@mail.ru','2015-12-18',1)
+insert into user_role (role) VALUES ('admin');
+
+
+
+insert into location (country, city, state) VALUES ('Belarus','Hrodno','Hrodnenskaya');
+insert into location (country, city, state) VALUES ('Belarus','Minsk','Minskaya');
+insert into location (country, city, state) VALUES ('Belarus','Gomel','Gomelskaya');
+
+insert into user_details  (first_name , last_name , email, date_of_birth ,gender,phone_number,location_id ) VALUES ('Paul','Belski','gloomezis@mail.ru','1988-09-24','male','570309','1');
+insert into user_details  (first_name , last_name , email, date_of_birth ,gender,phone_number,location_id ) VALUES ('Nadezda','Belskaya','nadia@mail.ru','1990-01-16','female','698201','2');
+insert into user_details  (first_name , last_name , email, date_of_birth ,gender,phone_number,location_id ) VALUES ('Harry','Potter','harry@mail.ru','1995-01-12','male','111111','3');
+
+insert into user  (username, password,user_details_id,user_role_id ) VALUES ('root','1111',1,2);
+insert into user  (username, password,user_details_id,user_role_id,lang ) VALUES ('root2','2222',2,1,'rus');
+insert into user  (username, password,user_details_id,user_role_id,lang ) VALUES ('root3','3333',3,1,'rus');
+
+
+
+insert into message (text,sender_id,receiver_id) VALUES ('Hello',1,2);
+insert into message (text,sender_id,receiver_id) VALUES ('Hello to',2,1);
+insert into message (text,sender_id,receiver_id) VALUES ('You are nice',1,2);
+insert into message (text,sender_id,receiver_id) VALUES ('Thanks',2,1);
+insert into message (text,sender_id,receiver_id) VALUES ('Boobs',1,2);
+
+
+
+insert into friend_list(user_id,friend_id,status) VALUES (1,2,true);
+insert into friend_list(user_id,friend_id,status) VALUES (2,1,true);
+insert into friend_list(user_id,friend_id) VALUES (3,1);
+insert into friend_list(user_id,friend_id) VALUES (1,3);
+
+
+
+insert into post (text,user_id) VALUES ('post by Paul',1);
+insert into post (text,user_id) VALUES ('post by Paul2',1);
+insert into post (text,user_id) VALUES ('post by Nadia',2);
+
+insert into comment (post_id,user_id,text) VALUES (1,2,'comment to postID 1 by nadia');
+insert into comment (post_id,user_id,text) VALUES (2,2,'comment to postID 2 by nadia');
+insert into comment (post_id,user_id,text) VALUES (3,1,'comment to postID 3 by Paul');
+insert into comment (post_id,user_id,text) VALUES (3,1,'comment to postID 3 by Paul');
+insert into comment (post_id,user_id,text) VALUES (3,2,'comment to postID 3 by nadia');
+insert into comment (post_id,user_id,text) VALUES (3,3,'comment to postID 3 by Harry');
+insert into comment (post_id,user_id,text) VALUES (3,2,'comment to postID 3 by nadia');
+insert into comment (post_id,user_id,text) VALUES (3,1,'comment to postID 3 by Paul');
+insert into comment (post_id,user_id,text) VALUES (3,3,'comment to postID 3 by Harry');
+insert into comment (post_id,user_id,text) VALUES (3,2,'comment to postID 3 by nadia');
+insert into comment (post_id,user_id,text) VALUES (3,1,'comment to postID 3 by Paul');
+
+
+
+
+insert into mydb.group (title,description,user_id) VALUES ('group 1 name','very interesting group',1);
+insert into mydb.group (title,description,user_id) VALUES ('group 2 name','middle interesting group',1);
+insert into mydb.group (title,description,user_id) VALUES ('group 3 name','low interesting group',2);
+
+insert into dialog(title,text,group_id,user_id,time_creation) VALUES ('first dialog in group 1','hello all from first dialog group 1',1,1,CURRENT_TIMESTAMP);
+insert into dialog(title,text,group_id,user_id,time_creation) VALUES ('second dialog in group 1','hello all from second dialog group 1',1,2,CURRENT_TIMESTAMP);
+insert into dialog(title,text,group_id,user_id,time_creation) VALUES ('first dialog in group 2','hello all from first dialog group 2',1,2,CURRENT_TIMESTAMP);
+
+insert into dialog_message(text,dialog_id,user_id) VALUES ('message for first dialog from paul',1,1);
+insert into dialog_message(text,dialog_id,user_id) VALUES ('message for first dialog from Nadya',1,2);
+insert into dialog_message(text,dialog_id,user_id) VALUES ('message for secomd dialog from paul',2,1);
+insert into dialog_message(text,dialog_id,user_id) VALUES ('message for first dialog from paul',1,1);
+
+
+
+

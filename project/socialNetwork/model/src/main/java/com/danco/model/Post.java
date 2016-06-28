@@ -1,6 +1,5 @@
 package com.danco.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "post")
-public class Post extends BaseModel implements Serializable {
+public class Post extends BaseModel  {
 
 	/**
 	 * 
@@ -49,6 +48,10 @@ public class Post extends BaseModel implements Serializable {
 	@JsonIgnore
 	@OneToMany(targetEntity = Comment.class, mappedBy = "post", fetch = FetchType.LAZY)
 	private List<Comment> comments;
+	
+	public Post() {
+		
+	}
 
 	public Post(int id, String text, Date timeCreation, User creator) {
 		this.id = id;

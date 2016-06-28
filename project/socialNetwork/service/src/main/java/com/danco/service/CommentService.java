@@ -10,64 +10,58 @@ import org.springframework.transaction.annotation.Transactional;
 import com.danco.api.dao.ICommentDAO;
 import com.danco.api.service.ICommentService;
 import com.danco.model.Comment;
+import com.danco.model.User;
 
 @Service
-public class CommentService implements ICommentService {
+public class CommentService extends BaseService<Comment> implements
+		ICommentService {
 
-	private ICommentDAO dao;
-
-	@Required
 	@Autowired
-	public void setDao(ICommentDAO dao) {
-		this.dao = dao;
-	}
+	private ICommentDAO dao;
 
 	public CommentService() {
 		System.out.println("Comment service cereated");
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.ICommentService#create(com.danco.model.Comment)
-	 */
 	@Override
-	public void create(Comment comment)throws Exception {
-		dao.create(comment);
+	@Transactional(readOnly = true,rollbackFor=Exception.class)
+	public List<Comment> getListByPostId(int id) {
+		List<Comment> comments = null;
+		try {
+			comments = dao.getListByPostId(id);
+
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return comments;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.ICommentService#update(com.danco.model.Comment)
-	 */
 	@Override
-	@Transactional
-	public void update(Comment comment) throws Exception{
-		dao.update(comment);
+	@Transactional(readOnly = true,rollbackFor=Exception.class)
+	public List<Comment> getListByPostIdPagination(int id, int startPostId,
+			int pageSize) {
+		List<Comment> comments = null;
+		try {
+			comments = dao.getListByPostIdPagination(id, startPostId, pageSize);
+
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return comments;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.ICommentService#delete(com.danco.model.Comment)
-	 */
+	@Transactional(readOnly = true,rollbackFor=Exception.class)
 	@Override
-	@Transactional
-	public void delete(Comment comment)throws Exception {
-		dao.delete(comment);
-	}
+	public int getCommentCountByPostId(int id) {
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.ICommentService#getById(int)
-	 */
-	@Override
-	@Transactional
-	public Comment getById(int idModel) throws Exception{
-		return dao.getById(idModel);
-	}
+		int messageCount = 0;
+		try {
+			messageCount = dao.getmessageCountByPostId(id);
 
-	/* (non-Javadoc)
-	 * @see com.danco.service.ICommentService#getList()
-	 */
-	@Override
-	@Transactional
-	public List<Comment> getList() throws Exception{
-		return dao.getList();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+		}
+		return messageCount;
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.danco.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -19,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "user_details")
-public class UserDetails extends BaseModel implements Serializable {
+public class UserDetails extends BaseModel  {
 
 	/**
 	 * 
@@ -30,6 +29,14 @@ public class UserDetails extends BaseModel implements Serializable {
 	@Column(name = "idUser_details")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Column(name = "last_name")
 	private String lastName;
@@ -47,15 +54,26 @@ public class UserDetails extends BaseModel implements Serializable {
 	@Column(name = "phone_number")
 	private int phoneNumber;
 
+	@Column(name="email")
+	private String email;
+	
+	
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+	@OneToOne(mappedBy = "userDetails",fetch = FetchType.LAZY)
+	private User user; 
+	
+	
+	
 
-	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY)
+
+	@OneToOne()
 	@JoinColumn(name = "location_id")
 	private Location location;
+	
+	public UserDetails(){
+		
+	}
+
 
 	public UserDetails(int id, String lastName, String firstName,
 			Date dateOdBirth, String gender, int phoneNumber, User user,

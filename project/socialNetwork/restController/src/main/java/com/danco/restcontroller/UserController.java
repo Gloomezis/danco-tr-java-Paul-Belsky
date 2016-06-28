@@ -1,224 +1,382 @@
 package com.danco.restcontroller;
-import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-import java.util.Map;
-
-import org.apache.log4j.Logger;
 //import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import com.danco.api.service.IUserService;
 import com.danco.model.User;
+import com.danco.model.UserDetails;
 import com.danco.model.UserRole;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.danco.restcontroller.security.IJwtUtil;
+import com.danco.restcontroller.security.JwtUtil;
 
 @RestController
 public class UserController {
-	
-	
+	@Autowired
 	private IUserService service;
 	
-	
-	@Required
-	@Autowired
-	public void setService(IUserService service) {
-		this.service = service;
-	}
+	private IJwtUtil jwtUtil=new JwtUtil() ;
+
+
 
 	
 	
-	private static final Logger LOGGER = Logger.getLogger(UserController.class);
-	private static final String EXCEPTION = "Exception";
 
-    
-	
 	public UserController() {
 		System.out.println("Created user controller");
 	}
 
+	// <<<<<<<<<<<<<<<<USER METHODS>>>>>>>>>>>>>>>>>>>>>
 
+	// TODO grouplist with pagination
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/users/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+			public HashMap<String, Object> getUsersBySearch(
+					@RequestParam(value="searcTerms",required=true) String firstname
+					) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+				List<User> users = service.searchByName(firstname);
+				if (users == null) {
+					System.out.println("User with userName " + firstname
+							+ " not found");
+					responseMap.put("errorCode", 404);
+					responseMap.put("errorMsg", "Not found");
+					return responseMap;
+				}
+				responseMap.put("errorCode", 200);
+				responseMap.put("errorMsg", "Ok");
+				responseMap.put("responseEntity", users);
+				return responseMap;
+			}
 
 	
-	@RequestMapping(value = "/user/", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> listAllUsers() throws Exception{
-        List<User> users = null;
-			users = service.getList();
-        if(users.isEmpty()){
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
-        }
-        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
-    }
-	
-	
-	 @RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	    public ResponseEntity<User> getUser(@PathVariable("id") int id) throws Exception{
-	        System.out.println("Fetching User with id " + id);
-	        User user = null;
-				user = service.getById(id);
-	        if (user == null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	        }
-	        return new ResponseEntity<User>(user, HttpStatus.OK);
-	    }
-	
-	
-	 @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-	    public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user)throws Exception {
-	        System.out.println("Updating User " + id);
-	        User currentUser = null;
-				currentUser = service.getById(id);
-	        if (currentUser==null) {
-	            System.out.println("User with id " + id + " not found");
-	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	        }
-	        currentUser=userSetter(user,currentUser);
-				service.update(currentUser);
-	        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
-	    }
-	
-	
-	
-	 @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-	    public ResponseEntity<User> deleteUser(@PathVariable("id") int id) throws Exception{
-	        System.out.println("Fetching & Deleting User with id " + id);
-	        User user = null;
-				user = service.getById(id);
-	        if (user == null) {
-	            System.out.println("Unable to delete. User with id " + id + " not found");
-	            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-	        }
-				service.delete(user);
-	        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-	    }
-	 
-	 
-	 
-	 
-	 public String objectToJson(Object obj) throws JsonProcessingException {
-		 ObjectMapper mapper = new ObjectMapper();
-		 String jsonObject = mapper.writeValueAsString(obj);
-		 return jsonObject;
-		 }
-
-		 public Object jsonToObject(String json) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		 Object obj = mapper.readValue(json, User.class);
-		 return obj;
-		 }
-	 
-		 @ResponseStatus(HttpStatus.OK)
-		 @RequestMapping(value = "/jackson/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-		    public String getUserJackson(@PathVariable("id") int id) throws Exception{
-		        System.out.println("Fetching User with id " + id);
-		        User user = service.getById(id);;
-		        ObjectMapper mapper = new ObjectMapper();
-				String jsonObject = mapper.writeValueAsString(user);
-			    return jsonObject;
-		    }
-	
-		 @RequestMapping(value = "/register", method = RequestMethod.POST)
-		    public ResponseEntity<Void> login(@RequestBody User user,    UriComponentsBuilder ucBuilder) throws Exception {
-		        System.out.println("Creating User " + user.getLogin());
-					if (service.isUserExist(user)) {
-					    System.out.println("A User with name " + user.getLogin() + " already exist");
-					    return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-					}
-		        service.create(user);
-		       
-		        HttpHeaders headers = new HttpHeaders();
-		        headers.setLocation(ucBuilder.path("/index").buildAndExpand().toUri());
-		        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
-		    }
-	 
-	 
-		 @RequestMapping(value = "/login", method = RequestMethod.POST)
-		    public ResponseEntity<Object> login(@PathVariable("login") String login,  @PathVariable("password") String password ) throws Exception {
-		        System.out.println("login User " + login);
-		        
-		        User user = null;
-				user = service.getByLoginAndPassword(login,password);
-	        if (user == null) {
-	            System.out.println("User with login " + login + " not found");
-	            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-	        }
-	        Map<String,Object> res = new HashMap<String,Object>();
-	        res.put("id", user.getId());
-	        res.put("role",user.getUserRole().getRole());
-	        return new ResponseEntity<Object>(res, HttpStatus.OK);
-		    }
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-		 
-	 
-	 
-	 
-	 
-
-	private User userSetter(User userFromRequest,User updatedUser){
-		updatedUser.setLogin(userFromRequest.getLogin());
-		updatedUser.setPassword(userFromRequest.getPassword());
-		updatedUser.setEmail(userFromRequest.getEmail());
-		return updatedUser;
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/users/logint", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> loginT() {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		User user=new User("root", "1111");
+		System.out.println("login User " + user.getUsername()+" "+user.getPassword());
+		
+		User responseEntity = null;
+		responseEntity = service.getByCredentials(user.getUsername(),
+				user.getPassword());
+		if (responseEntity == null) {
+			System.out.println("User with user name " + user.getUsername()
+					+ " not found");
+			responseMap.put("errorCode", 404);
+			responseMap.put("errorMsg", "Not found");
+			return responseMap;
+		}
+		responseEntity.setToken(jwtUtil.generateToken(responseEntity));
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		responseMap.put("responseEntity", responseEntity);
+		return responseMap;
 	}
-	 
+	
+	
+	
+	
+	
+	
+	
+	
+	// DONE //write request body by User user
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/users/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> login(@RequestBody User user) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		System.out.println("login User " + user.getUsername()+" "+user.getPassword());
+
+		User responseEntity = null;
+		responseEntity = service.getByCredentials(user.getUsername(),
+				user.getPassword());
+		if (responseEntity == null) {
+			System.out.println("User with user name " + user.getUsername()
+					+ " not found");
+			responseMap.put("errorCode", 404);
+			responseMap.put("errorMsg", "Not found");
+			return responseMap;
+		}
+		responseEntity.setToken(jwtUtil.generateToken(responseEntity));
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		responseMap.put("responseEntity", responseEntity);
+		return responseMap;
+	}
+
+	// TODO frontend Autservice write logout methods
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/users/logout", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> login() {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		return responseMap;
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/users/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> register(@RequestBody User user)
+			throws Exception {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		System.out.println("register User "
+				+ user.getUserDetails().getFirstName());
+		if (!service.isUserExist(user)) {
+			responseMap.put("errorCode", 406);
+			responseMap.put("errorMsg",
+					"Account with this username allready exist");
+			return responseMap;
+		}
+		try {
+			service.create(user);
+			responseMap.put("errorCode", 200);
+			responseMap.put("errorMsg", "Ok");
+
+			return responseMap;
+		} catch (Exception e) {
+			responseMap.put("errorCode", 409);
+			responseMap.put("errorMsg", "Conflicted");
+			return responseMap;
+		}
+
+	}
+
+	// frontend User: getDataAboutMe
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/me", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getDataAboutMe() {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		// User user = service.getById(id);
+
+		// if (user==null) {
+		// System.out.println("User with id " + //id + " not found");
+		// responseMap.put("errorCode", 404);
+		// responseMap.put("errorMsg", "Not found");
+		// return responseMap;
+		// }
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		// responseMap.put("friendUsers", user);
+		return responseMap;
+	}
+
+	// TODO frontend: User editProfile update user write usersetter
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/me", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> editProfile(@RequestBody User user) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+
+		System.out.println("Updating user " + user.getId());
+		User currentUser = null;
+		currentUser = service.getById(user.getId());
+		if (currentUser == null) {
+			System.out.println("User with id " + user.getId() + " not found");
+			responseMap.put("errorCode", 404);
+			responseMap.put("errorMsg", "not found");
+			return responseMap;
+		}
+		// TODO entitySetter write
+		currentUser = entitySetter(user, currentUser);
+		try {
+			service.update(currentUser);
+			responseMap.put("errorCode", 200);
+			responseMap.put("errorMsg", "ok");
+			return responseMap;
+		} catch (Exception e) {
+			responseMap.put("errorCode", 409);
+			responseMap.put("errorMsg", "Conflicted");
+			return responseMap;
+		}
+
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/me/changepassword", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> changePassword(@RequestBody User user) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+
+		System.out.println("Updating password user id:" + user.getId());
+		User currentUser = null;
+		currentUser = service.getById(user.getId());
+		if (currentUser == null) {
+			System.out.println("User with id " + user.getId() + " not found");
+			responseMap.put("errorCode", 404);
+			responseMap.put("errorMsg", "not found");
+			return responseMap;
+		}
+		currentUser = entitySetterPassword(user, currentUser);
+		try {
+			service.update(currentUser);
+			responseMap.put("errorCode", 200);
+			responseMap.put("errorMsg", "ok");
+			return responseMap;
+		} catch (Exception e) {
+			responseMap.put("errorCode", 409);
+			responseMap.put("errorMsg", "Conflicted");
+			return responseMap;
+		}
+
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getDataAboutUser(
+			@PathVariable("userId") int id) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		User user = service.getById(id);
+
+		if (user == null) {
+			System.out.println("User with id " + id + " not found");
+			responseMap.put("errorCode", 404);
+			responseMap.put("errorMsg", "Not found");
+			return responseMap;
+
+		}
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		responseMap.put("user", user);
+		return responseMap;
+	}
+
+	// <<<<<<<<<<<<<<<<Friends METHODS>>>>>>>>>>>>>>>>>>>>>
+
+	// QUESTION about friends getting
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/me/friends", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getAllMyFriends(@RequestParam("id") int id) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		User user = service.getById(id);
+		Set<User> users = user.getFriends();
+		if (users.isEmpty()) {
+			System.out.println("User with id " + id + " not found");
+			responseMap.put("errorCode", 404);
+			responseMap.put("errorMsg", "Not found");
+			return responseMap;
+
+		}
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		responseMap.put("friends", users);
+		return responseMap;
+	}
+
+	// TODO write method to get friend list by user id
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/users/{userId}/friends", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getAllUserFriends(@PathVariable("id") int id) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		User user = service.getById(id);
+		Set<User> users = user.getFriends();
+		if (users.isEmpty()) {
+			System.out.println("User with id " + id + " not found");
+			responseMap.put("errorCode", 404);
+			responseMap.put("errorMsg", "Not found");
+			return responseMap;
+
+		}
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		responseMap.put("friendUsers", users);
+		return responseMap;
+	}
+
+	// TODO write adding to friend by my id
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/me/request/{userId}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> sendFriendRequest(
+			@PathVariable("userId") int id) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		return responseMap;
+	}
+
+	// TODO write getting list friends by my id
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/me/request/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getFriendRequest() {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		return responseMap;
+	}
+
+	// TODO write me
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/me/request/{reqestUserId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> approveRejectFriendRequest(
+			@PathVariable("reqestUserId") int id,
+			@RequestParam(value="status",required=true) String status
+			) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		if(status=="approved"){
+			
+		}
+        if(status=="rejected"){
+			
+		} 
+		responseMap.put("errorCode", 200);
+		responseMap.put("errorMsg", "Ok");
+		return responseMap;
+	}
+
+
+
+	private User entitySetter(User requestEntity, User updatedEntity) {
+
+		User finallEntity = updatedEntity;
+		finallEntity.setLang(requestEntity.getLang());
+		return finallEntity;
+	}
+
+	private User entitySetterPassword(User requestEntity, User updatedEntity) {
+
+		User finallEntity = updatedEntity;
+		finallEntity.setPassword((requestEntity.getPassword()));
+		return finallEntity;
+	}
+
+	private UserDetails entitySetter(UserDetails requestEntity,
+			UserDetails updatedEntity) {
+		UserDetails finallEntity = updatedEntity;
+		finallEntity.setDateOfBirth(requestEntity.getDateOfBirth());
+		finallEntity.setEmail(requestEntity.getEmail());
+		finallEntity.setFirstName(requestEntity.getFirstName());
+		finallEntity.setLastName(requestEntity.getLastName());
+		finallEntity.setGender(requestEntity.getGender());
+		finallEntity.setPhoneNumber(requestEntity.getPhoneNumber());
+		return finallEntity;
+	}
+
+	private UserRole entitySetter(UserRole requestEntity, UserRole updatedEntity) {
+
+		UserRole finallEntity = updatedEntity;
+		finallEntity.setRole(requestEntity.getRole());
+		return finallEntity;
+	}
+
+
 }
