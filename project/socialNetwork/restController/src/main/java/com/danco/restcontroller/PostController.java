@@ -1,198 +1,289 @@
 package com.danco.restcontroller;
 
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.danco.api.exception.MyException;
+import com.danco.api.message.MessageUtil;
 import com.danco.api.service.IPostService;
 import com.danco.model.Post;
+import com.danco.model.User;
+import com.danco.restcontroller.security.IJwtUtil;
+import com.danco.restcontroller.security.JwtUtil;
 
+
+/**
+ * The Class PostController.
+ */
 @RestController
 public class PostController {
 
+	/** The Constant POST_ID. */
+	private static final String POST_ID = "postId";
+	
+	/** The Constant POSTS_POST_ID. */
+	private static final String POSTS_POST_ID = "/posts/{postId}";
+	
+	/** The Constant ME_NEWS. */
+	private static final String ME_NEWS = "/me/news";
+	
+	/** The Constant USERS_USER_ID_POSTS. */
+	private static final String USERS_USER_ID_POSTS = "/users/{userId}/posts";
+	
+	/** The Constant USER_ID. */
+	private static final String USER_ID = "userId";
+	
+	/** The Constant USERS_USER_ID_WALL. */
+	private static final String USERS_USER_ID_WALL = "/users/{userId}/wall";
+	
+	/** The Constant AUTHORIZATION. */
+	private static final String AUTHORIZATION = "Authorization";
+	
+	/** The Constant MESSAGE. */
+	private static final String MESSAGE = "message";
+	
+	/** The Constant RESPONSE_ENTITY. */
+	private static final String RESPONSE_ENTITY = "responseEntity";
+	
+	/** The Constant ME_FEED. */
+	private static final String ME_FEED = "/me/feed";
+	
+	/** The Constant PAGE_SIZE. */
+	private static final String PAGE_SIZE = "PageSize";
+	
+	/** The Constant START_POST_ID. */
+	private static final String START_POST_ID = "StartPostId";
+	
+	/** The Constant CREATED_POST_CONTROLLER. */
+	private static final String CREATED_POST_CONTROLLER = "Created post controller";
+
+	/** The service. */
 	@Autowired
 	private IPostService service;
 
+	/** The jwt util. */
+	private IJwtUtil jwtUtil = JwtUtil.getInstance();
+
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = LogManager
+			.getLogger(PostController.class);
+
+	/**
+	 * Instantiates a new post controller.
+	 */
 	public PostController() {
-		System.out.println("Created post controller");
+		System.out.println(CREATED_POST_CONTROLLER);
 	}
-
-	// get getPosts: /me/feed?StartPostId=' + lastPostId + '&PageSize=' +
-	// pageSize;
-
-	// get getUserPosts: '/users/' + username + '/wall?StartPostId=' +
-	// lastPostId + '&PageSize=' + pageSize;
 
 	
-	
-
-	// TODO write pagination and gett my info to getList(myId)
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/me/feed", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getMyPostList(@RequestParam(value="StartPostId") int startPostId,@RequestParam(value="PageSize") int pageSize)  {
+	/**
+	 * Gets the my post list.
+	 *
+	 * @param startPostId the start post id
+	 * @param pageSize the page size
+	 * @param header the header
+	 * @return the my post list
+	 */
+	@RequestMapping(value = ME_FEED, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getMyPostList(
+			@RequestParam(value = START_POST_ID) int startPostId,
+			@RequestParam(value = PAGE_SIZE) int pageSize,
+			@RequestHeader(AUTHORIZATION) String header) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-		int myId=1;
-		int entityCount= service.getPostCountByUserId(myId);
-		
-		List<Post> responseEntity = service.getListByUserId(myId,startPostId,pageSize);
-
-		if (responseEntity == null) {
-			System.out.println("My posts  not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			return responseMap;
-		}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("pageCount",(entityCount/pageSize)+1);
-		responseMap.put("responseEntity", responseEntity);
-		return responseMap;
-	}
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/users/{userId}/wall", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getUserPostList(@PathVariable("userId") int id,
-			@RequestParam(value="StartPostId",required=false) int startPostId ,@RequestParam(value="PageSize",required=false) int pageSize	)  {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-		int entityCount= service.getPostCountByUserId(id);
-		int lastPageNumber = (int) ((entityCount / pageSize) + 1);
-		List<Post> responseEntity = service.getListByUserId(id,startPostId,pageSize);
-
-		if (responseEntity==null) {
-			System.out.println("List post user: " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			responseMap.put("pageCount",lastPageNumber);
-			return responseMap;
-	}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("pageCount",lastPageNumber);
-		responseMap.put("responseEntity", responseEntity);
-		return responseMap;
-	}
-
-	// TODO write method to get post of all my friend ordering by time creation
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/events", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getEventAllPostList()  {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-		List<Post> responseEntity = service.getList();
-
-		if (responseEntity == null) {
-			System.out.println("My posts  not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			return responseMap;
-		}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("responseEntity", responseEntity);
-		return responseMap;
-	}
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getPost(@PathVariable("postId") int id)
-			 {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-		Post responseEntity = service.getById(id);
-
-		if (responseEntity == null) {
-			System.out.println("Post with id " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			return responseMap;
-		}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("responseEntity", responseEntity);
-		return responseMap;
-	}
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> createPost(@RequestBody Post requestEntity) {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		User usFromHeader = jwtUtil.getUserFromHeader(header);
+		int myId = usFromHeader.getId();
 		try {
-			service.create(requestEntity);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "Ok");
+			responseMap = service.getListByUserId(myId, startPostId, pageSize);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
+		responseMap.put(MESSAGE, MessageUtil.EMPTY_MESSAGE);
+		return responseMap;
 
 	}
 
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> updatePost(@PathVariable("postId") int id,
+	
+	/**
+	 * Gets the user post list.
+	 *
+	 * @param id the id
+	 * @param startPostId the start post id
+	 * @param pageSize the page size
+	 * @return the user post list
+	 */
+	@RequestMapping(value = USERS_USER_ID_WALL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getUserPostList(
+			@PathVariable(USER_ID) int id,
+			@RequestParam(value = START_POST_ID, required = false) int startPostId,
+			@RequestParam(value = PAGE_SIZE, required = false) int pageSize) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		try {
+			responseMap = service.getListByUserId(id, startPostId, pageSize);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
+			return responseMap;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
+		}
+		responseMap.put(MESSAGE, MessageUtil.EMPTY_MESSAGE);
+		return responseMap;
+	}
+
+	
+	/**
+	 * Gets the news post list.
+	 *
+	 * @param header the header
+	 * @param startPostId the start post id
+	 * @param pageSize the page size
+	 * @return the news post list
+	 */
+	@RequestMapping(value = ME_NEWS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getNewsPostList(
+			@RequestHeader(AUTHORIZATION) String header,
+			@RequestParam(value = START_POST_ID) int startPostId,
+			@RequestParam(value = PAGE_SIZE) int pageSize) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		User u = jwtUtil.getUserFromHeader(header);
+		try {
+			responseMap = service.getNewsPostList(u.getId(), startPostId,
+					pageSize);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
+			return responseMap;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
+		}
+		responseMap.put(MESSAGE, MessageUtil.EMPTY_MESSAGE);
+		return responseMap;
+	}
+
+	
+	/**
+	 * Creates the post.
+	 *
+	 * @param header the header
+	 * @param requestEntity the request entity
+	 * @return the hash map
+	 */
+	@RequestMapping(value = USERS_USER_ID_POSTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> createPost(
+			@RequestHeader(AUTHORIZATION) String header,
 			@RequestBody Post requestEntity) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-
-		System.out.println("Updating post " + id);
-		Post currentEntity = null;
-		currentEntity = service.getById(id);
-		if (currentEntity == null) {
-			System.out.println("Post with id " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "not found");
-			return responseMap;
-		}
-		currentEntity = entitySetter(requestEntity, currentEntity);
 		try {
-			service.update(currentEntity);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "ok");
+			User currentUser = jwtUtil.getUserFromHeader(header);
+			requestEntity.setCreator(currentUser);
+			requestEntity.setTimeCreation(new Date());
+			service.create(requestEntity);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
-
+		responseMap.put(MESSAGE, MessageUtil.POST_CREATED);
+		return responseMap;
 	}
 
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> deletePost(@PathVariable("postId") int id) {
+	
+	/**
+	 * Update post.
+	 *
+	 * @param id the id
+	 * @param requestEntity the request entity
+	 * @return the hash map
+	 */
+	@RequestMapping(value = POSTS_POST_ID, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> updatePost(@PathVariable(POST_ID) int id,
+			@RequestBody Post requestEntity) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-
-		System.out.println("Deleting post id: " + id);
 		Post currentEntity = null;
-		currentEntity = service.getById(id);
-		if (currentEntity == null) {
-			System.out.println("Comment with id " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "not found");
-			return responseMap;
-		}
 		try {
-			service.delete(currentEntity);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "ok");
+			currentEntity = service.getById(id);
+			currentEntity = entitySetter(requestEntity, currentEntity);
+			service.update(currentEntity);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
+		responseMap.put(MESSAGE, MessageUtil.POST_UPDATED);
+		return responseMap;
 
 	}
 
+	
+	/**
+	 * Delete post.
+	 *
+	 * @param id the id
+	 * @return the hash map
+	 */
+	@RequestMapping(value = POSTS_POST_ID, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> deletePost(@PathVariable(POST_ID) int id) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		Post currentEntity = null;
+		try {
+			currentEntity = service.getById(id);
+			service.delete(currentEntity);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
+			return responseMap;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
+		}
+		responseMap.put(MESSAGE, MessageUtil.POST_DELETED);
+		return responseMap;
+	}
+
+	/**
+	 * Entity setter.
+	 *
+	 * @param requestEntity the request entity
+	 * @param updatedEntity the updated entity
+	 * @return the post
+	 */
 	private Post entitySetter(Post requestEntity, Post updatedEntity) {
 		Post finallEntity = updatedEntity;
 		finallEntity.setText(requestEntity.getText());

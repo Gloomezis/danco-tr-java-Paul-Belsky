@@ -1,54 +1,40 @@
-<div ng-if="post.totalCommentsCount >= 0" id="comments" ng-controller="CommentsController">
 
-    <a href="" ng-if="post.totalCommentsCount - post.comments.length > 0" ng-hide="isHidden"
-       ng-click="showAllComments(post); isHidden = true"  translate="SHOW_ALL_COMMENTS">
-        Show All сomments :{{post.totalCommentsCount}} </a>
+<div infinite-scroll='showAllComments()' infinite-scroll-disabled='isScrollPaused'
+infinite-scroll-distance='0.01'>
+    <div ng-if="authService.isLoggedIn()"   ng-show="dialogMessages"></div>
 
-
-    <div class="comment" ng-repeat="comment in post.comments | orderBy: 'id'">
-        <div class="commentHeader">
-            <div class="buttons">
-                <button ng-if="comment.author.username == authService.getCurrentUser().userName ||
-        post.author.username == authService.getCurrentUser().userName" ng-click="deleteComment(post, comment) " translate="DELETE">Delete
-                </button>
-
-                <button ng-if="comment.author.username == authService.getCurrentUser().userName"
-                        ng-click="comment.editing = true"
-                        ng-hide="comment.editing"
-                        translate="EDIT">Edit
-                </button>
-            </div>
-
-            <a ng-controller="HoverController" href="#/users/{{comment.author.username}}"
-               hover-intent="hoverBox(comment.author.username)"
-               ns-popover ns-popover-template="templates/hoverBox.html"
-               ns-popover-trigger="mouseenter" ns-popover-timeout="0.5" ns-popover-placement="bottom">
-                <img ng-src="{{'resources/defaultProfilePicture.jpg'}}"/>
-                {{comment.author.name}}</a>
+    <h4 translate="COMMENTS">Comments:</h4>
+    <a translate="СOMMENTS_COUNT"> Comments count: </a>{{count}}
+    <form id="addCommentForm" name="addCommentForm" ng-submit="addComment(commentData)">
+         <textarea class="commentContent" placeholder="..." ng-model="commentData.text"
+         minlength="2" required></textarea>
+         <button type="submit" translate="COMMENT">Comment</button>
+    </form>
+    <div class="comment" ng-repeat="comment in comments">
+         <div class="commentHeader">
+              <div class="buttons">
+                   <button  class="btn btn-default" ng-if="comment.creator.username == authService.getCurrentUser().username" ng-click="deleteComment(comment)" translate="DELETE">
+                     Delete
+                 </button>
+                 <button  class="btn btn-default"  ng-if="comment.creator.username == authService.getCurrentUser().username" ng-click="comment.editing = true"
+                 ng-hide="comment.editing" translate="EDIT">Edit
+                 </button>
+             </div>
+            <a href="#/users/{{comment.creator.id}}">
+            <img ng-src="{{'resources/defaultProfilePicture.jpg'}}"/>
+            {{comment.creator.userDetails.firstName}}</a>
         </div>
-        <div class="postContent" ng-hide="comment.editing">{{comment.commentContent}}</div>
+        <div class="commentContent" ng-hide="comment.editing">{{comment.text}}</div>
         <div ng-show="comment.editing">
-            <form ng-submit="editComment(post, comment)">
-                <textarea ng-model="comment.commentContent" cols="30" rows="3">
-                    comment.commentContent
-                </textarea>
-                <button type="submit" ng-click="comment.editing = false" translate="SAVE">Save</button>
-                <a href="" ng-click="comment.editing = false"    translate="Cancel">Cancel</a>
-            </form>
+             <form ng-submit="editComment(comment)">
+                <textarea ng-model="comment.text" cols="30" rows="3" placeholder="Write comment...."  translate translate-attr-placeholder="WRITE_COMMENT_PLACEHOLDER">
+                 </textarea>
+                 <button type="submit" class="btn btn-default" ng-click="comment.editing = false" translate="SAVE">Save</button>
+                <a href="" class="btn btn-default" ng-click="comment.editing = false"    translate="CANCEL">Cancel</a>
+             </form>
         </div>
-
-        <div class="floatRight">{{dateFromNow(comment.date)}}</div>
-        <div class="clear"></div>
-        <div ng-if="isFriend || post.author.isFriend || post.wallOwner.isFriend">
-        </div>
+        <div class="floatRight"> {{comment.timeCreation  |  date:"MM/dd/yyyy 'at' h:mma" }}</div>
         <div class="clear"></div>
     </div>
-
-    <div ng-if="isFriend || post.author.isFriend || post.wallOwner.isFriend">
-        <form id="addCommentForm" name="addCommentForm" ng-submit="addComment(post, commentData)">
-            <textarea class="commentContent" placeholder="Comment..." ng-model="commentData.commentContent"
-                      minlength="2" required></textarea>
-            <button type="submit" translate="COMMENT">Comment</button>
-        </form>
-    </div>
+    
 </div>

@@ -11,44 +11,63 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
-import com.danco.model.JwtAuthenticationToken;
 import com.danco.restcontroller.security.exception.JwtTokenMissingException;
 
 
+
+/**
+ * The Class JwtAuthenticationFilter.
+ */
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    public JwtAuthenticationFilter() {
-        super("/**");
+    /** The Constant NO_JWT_TOKEN_FOUND_IN_REQUEST_HEADERS. */
+    private static final String NO_JWT_TOKEN_FOUND_IN_REQUEST_HEADERS = "No JWT token found in request headers";
+	
+	/** The Constant BEARER. */
+	private static final String BEARER = "Bearer ";
+	
+	/** The Constant AUTHORIZATION. */
+	private static final String AUTHORIZATION = "Authorization";
+	
+	/** The Constant DEFAULT_FILTER_PROCESSES_URL. */
+	private static final String DEFAULT_FILTER_PROCESSES_URL = "/**";
+
+	/**
+	 * Instantiates a new jwt authentication filter.
+	 */
+	public JwtAuthenticationFilter() {
+        super(DEFAULT_FILTER_PROCESSES_URL);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter#requiresAuthentication(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response) {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter#attemptAuthentication(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
-        String header = request.getHeader("Authorization");
-
-        if (header == null || !header.startsWith("Bearer ")) {
-            throw new JwtTokenMissingException("No JWT token found in request headers");
+        String header = request.getHeader(AUTHORIZATION);
+        if (header == null || !header.startsWith(BEARER)) {
+            throw new JwtTokenMissingException(NO_JWT_TOKEN_FOUND_IN_REQUEST_HEADERS);
         }
-
         String authToken = header.substring(7);
-
         JwtAuthenticationToken authRequest = new JwtAuthenticationToken(authToken);
-
         return getAuthenticationManager().authenticate(authRequest);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter#successfulAuthentication(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, javax.servlet.FilterChain, org.springframework.security.core.Authentication)
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authResult);
-
-        // As this authentication is in HTTP header, after success we need to continue the request normally
-        // and return the response as if the resource was not secured at all
         chain.doFilter(request, response);
     }
 }

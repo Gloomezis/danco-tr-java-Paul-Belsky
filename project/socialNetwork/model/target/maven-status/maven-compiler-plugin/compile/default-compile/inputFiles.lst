@@ -1,13 +1,11 @@
-D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\UserRole.java
-D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Group.java
-D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Language.java
-D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\BaseModel.java
-D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Location.java
-D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\dto\NewUserDTO.java
 D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Post.java
 D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\UserDetails.java
 D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\DialogMessage.java
+D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Group.java
 D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Dialog.java
+D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\BaseModel.java
+D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Location.java
 D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Comment.java
+D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Friendship.java
 D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\Message.java
 D:\FinalProjectSocialNetwork\project\socialNetwork\model\src\main\java\com\danco\model\User.java

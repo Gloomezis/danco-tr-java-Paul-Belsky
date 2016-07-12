@@ -14,7 +14,8 @@
   <mapping class="com.danco.model.Post" /> 
   <mapping class="com.danco.model.User" /> 
   <mapping class="com.danco.model.UserDetails" /> 
-  <mapping class="com.danco.model.UserRole" /> 
+  <mapping class="com.danco.model.Friendship" /> 
+
 
 
 	</session-factory>

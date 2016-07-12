@@ -10,132 +10,159 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
-@Table(name = "group")
-public class Group extends BaseModel  {
 
-	/**
-	 * 
-	 */
+/**
+ * The Class Group.
+ */
+@Entity
+@Table(name = Group.GROUPS)
+public class Group extends BaseModel {
+
+	/** The Constant GROUP. */
+	private static final String GROUP = "group";
+	
+	/** The Constant DESCRIPTION2. */
+	private static final String DESCRIPTION2 = "description";
+	
+	/** The Constant TITLE2. */
+	private static final String TITLE2 = "title";
+	
+	/** The Constant ID_GROUP. */
+	private static final String ID_GROUP = "idGroup";
+	
+	/** The Constant GROUPS. */
+	static final String GROUPS = "groups";
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The id. */
 	@Id
-	@Column(name = "idGroup")
+	@Column(name = ID_GROUP)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "title")
+	/** The title. */
+	@Column(name = TITLE2)
 	private String title;
 
-	@Column(name = "description")
+	/** The description. */
+	@Column(name = DESCRIPTION2)
 	private String description;
 
-	@Column(name = "time_creation")
-	@Temporal(value = TemporalType.DATE)
-	private Date timeCreation;
-
+	/** The dialogs. */
 	@JsonIgnore
-	@ManyToMany(mappedBy = "groups")
-	private List<User> members;
-
-	@JsonIgnore
-	@OneToMany(targetEntity = Dialog.class, mappedBy = "group", fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Dialog.class, mappedBy = GROUP, fetch = FetchType.LAZY)
 	private List<Dialog> dialogs;
 
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User creator;
-
+	/**
+	 * Instantiates a new group.
+	 */
 	public Group() {
-
 	}
 
-	public Group(int id, String title, String description,Date timeCreation,User creator) {
-		this.id=id;
-		this.title=title;
-		this.description=description;
-		this.timeCreation=timeCreation;
-		this.creator=creator;
-		this.dialogs=new ArrayList<Dialog>();
-		this.members=new ArrayList<User>();
-
+	/**
+	 * Instantiates a new group.
+	 *
+	 * @param id the id
+	 * @param title the title
+	 * @param description the description
+	 * @param timeCreation the time creation
+	 * @param creator the creator
+	 */
+	public Group(int id, String title, String description, Date timeCreation,
+			User creator) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.dialogs = new ArrayList<Dialog>();
 	}
-	
-	public Group(String title, String description,Date timeCreation) {
-		this.title=title;
-		this.description=description;
-		this.timeCreation=timeCreation;
 
+	/**
+	 * Instantiates a new group.
+	 *
+	 * @param title the title
+	 * @param description the description
+	 * @param timeCreation the time creation
+	 */
+	public Group(String title, String description, Date timeCreation) {
+		this.title = title;
+		this.description = description;
 	}
 
+	/**
+	 * Gets the title.
+	 *
+	 * @return the title
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * Sets the title.
+	 *
+	 * @param title the new title
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public Date getTimeCreation() {
-		return timeCreation;
-	}
-
-	public void setTimeCreation(Date timeCreation) {
-		this.timeCreation = timeCreation;
-	}
-
+	/* (non-Javadoc)
+	 * @see com.danco.model.BaseModel#getId()
+	 */
 	@Override
 	public int getId() {
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.danco.model.BaseModel#setId(int)
+	 */
 	@Override
 	public void setId(int id) {
 		this.id = id;
 
 	}
 
-	public List<User> getMembers() {
-		return members;
-	}
-
-	public void setMembers(List<User> members) {
-		this.members = members;
-	}
-
+	/**
+	 * Gets the dialogs.
+	 *
+	 * @return the dialogs
+	 */
 	public List<Dialog> getDialogs() {
 		return dialogs;
 	}
 
+	/**
+	 * Sets the dialogs.
+	 *
+	 * @param dialogs the new dialogs
+	 */
 	public void setDialogs(List<Dialog> dialogs) {
 		this.dialogs = dialogs;
 	}
-
-	public User getCreator() {
-		return creator;
-	}
-
-	public void setCreator(User creator) {
-		this.creator = creator;
-	}
-
 }

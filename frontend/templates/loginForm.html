@@ -1,11 +1,11 @@
 <form id="loginForm" name="loginForm" ng-submit="login(userData)">
-    <h2  translate="LOGIN" >Login</h2>
+	<h2  translate="LOGIN" >Login</h2>
 
-    <label for="username" translate="USERNAME">Username:</label>
-    <input type="text" id="username" ng-model="userData.username" required/>
+	<label for="username" translate="USERNAME">Username:</label>
+	<input type="text" id="username" ng-model="userData.username" required/>
 
-    <label for="password" translate="PASSWORD">Password:</label>
-    <input type="password" id="password" ng-model="userData.password" required/>
+	<label for="password" translate="PASSWORD">Password:</label>
+	<input type="password" id="password" ng-model="userData.password" required/>
 
-    <button type="submit" ng-disabled="loginForm.$invalid"  translate="LOGIN">Login</button>
+	<button type="submit"  class="btn btn-primary" ng-disabled="loginForm.$invalid"  translate="LOGIN">Login</button>
 </form>

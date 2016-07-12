@@ -1,178 +1,231 @@
 package com.danco.restcontroller;
 
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.danco.api.exception.MyException;
+import com.danco.api.message.MessageUtil;
 import com.danco.api.service.ICommentService;
+import com.danco.api.service.IPostService;
 import com.danco.model.Comment;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.danco.model.Post;
+import com.danco.restcontroller.security.IJwtUtil;
+import com.danco.restcontroller.security.JwtUtil;
 
+
+/**
+ * The Class CommentController.
+ */
 @RestController
 public class CommentController {
 
+	/** The Constant COMMENT_ID. */
+	private static final String COMMENT_ID = "commentId";
+	
+	/** The Constant POSTS_POST_ID_COMMENTS_COMMENT_ID. */
+	private static final String POSTS_POST_ID_COMMENTS_COMMENT_ID = "/posts/{postId}/comments/{commentId}";
+	
+	/** The Constant AUTHORIZATION. */
+	private static final String AUTHORIZATION = "Authorization";
+	
+	/** The Constant MESSAGE. */
+	private static final String MESSAGE = "message";
+	
+	/** The Constant RESPONSE_ENTITY. */
+	private static final String RESPONSE_ENTITY = "responseEntity";
+	
+	/** The Constant PAGE_SIZE. */
+	private static final String PAGE_SIZE = "PageSize";
+	
+	/** The Constant START_COMMENT_ID. */
+	private static final String START_COMMENT_ID = "StartCommentId";
+	
+	/** The Constant POST_ID. */
+	private static final String POST_ID = "postId";
+	
+	/** The Constant POSTS_POST_ID_COMMENTS. */
+	private static final String POSTS_POST_ID_COMMENTS = "/posts/{postId}/comments";
+	
+	/** The Constant CREATED_COMMENT_CONTROLLER. */
+	private static final String CREATED_COMMENT_CONTROLLER = "Created comment controller";
+	
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = LogManager
+			.getLogger(CommentController.class);
+
+	/** The service. */
 	@Autowired
 	private ICommentService service;
 
+	/** The post service. */
 	@Autowired
-	private ObjectMapper mapper;
+	private IPostService postService;
 
+	/** The jwt util. */
+	private IJwtUtil jwtUtil = JwtUtil.getInstance();
+
+	/**
+	 * Instantiates a new comment controller.
+	 */
 	public CommentController() {
-		System.out.println("Created comment controller");
+		System.out.println(CREATED_COMMENT_CONTROLLER);
 	}
 
-	// TODO add pagination mb no pagination
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getCommentList(@PathVariable("postId") int id) {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-		List<Comment> responseEntity = service.getListByPostId(id);
-
-		if (responseEntity.isEmpty()) {
-			System.out.println("User with id " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			return responseMap;
-		}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("responseEntity", responseEntity);
-		return responseMap;
-	}
 	
-	//http://localhost:8080/restController/posts/3/commentspag?StartPostId=2&PageSize=3
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}/commentspag", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getCommentListWithPagination(@PathVariable("postId") int id,@RequestParam(value="StartPostId",required=true) int startPostId ,@RequestParam(value="PageSize",required=true) int pageSize) {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-		List<Comment> responseEntity = service.getListByPostIdPagination(id,startPostId,pageSize);
-		int entityCount= service.getCommentCountByPostId(id);
-		int lastPageNumber = (int) ((entityCount / pageSize) + 1);
-
-		if (responseEntity.isEmpty()) {
-			System.out.println("User with id " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			return responseMap;
-		}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("responseEntity", responseEntity);
-		responseMap.put("pageCount",lastPageNumber);
-		return responseMap;
-	}
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}/comments/{commentId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getComment(@PathVariable("commentId") int id) {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-		Comment responseEntity = service.getById(id);
-
-		if (responseEntity == null) {
-			System.out.println("Comment with id " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			return responseMap;
-		}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("comment", responseEntity);
-		return responseMap;
-	}
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}/comments", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> createComment(
-			@PathVariable("postId") int id, @RequestBody Comment comment) {
+	/**
+	 * Gets the comment list with pagination.
+	 *
+	 * @param id the id
+	 * @param startCommentId the start comment id
+	 * @param pageSize the page size
+	 * @return the comment list with pagination
+	 */
+	@RequestMapping(value = POSTS_POST_ID_COMMENTS, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getCommentListWithPagination(
+			@PathVariable(POST_ID) int id,
+			@RequestParam(value = START_COMMENT_ID, required = true) int startCommentId,
+			@RequestParam(value = PAGE_SIZE, required = true) int pageSize) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
 		try {
-			service.create(comment);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "Ok");
-
+			responseMap = service.getListByPostIdPagination(id, startCommentId,
+					pageSize);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
+		responseMap.put(MESSAGE, MessageUtil.EMPTY_MESSAGE);
+		return responseMap;
+	}
+
+	
+	/**
+	 * Creates the comment.
+	 *
+	 * @param requestEntity the request entity
+	 * @param header the header
+	 * @param id the id
+	 * @return the hash map
+	 */
+	@RequestMapping(value = POSTS_POST_ID_COMMENTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> createComment(
+			@RequestBody Comment requestEntity,
+			@RequestHeader(AUTHORIZATION) String header,
+			@PathVariable(POST_ID) int id) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		try {
+			requestEntity.setTimeCreation(new Date());
+			requestEntity.setCreator(jwtUtil.getUserFromHeader(header));
+			Post post = postService.getById(id);
+			requestEntity.setPost(post);
+			service.create(requestEntity);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
+			return responseMap;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
+		}
+		responseMap.put(MESSAGE, MessageUtil.COMMENT_CREATED);
+		return responseMap;
 
 	}
 
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}/comments/{commentId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	/**
+	 * Update comment.
+	 *
+	 * @param postId the post id
+	 * @param commentId the comment id
+	 * @param comment the comment
+	 * @return the hash map
+	 */
+	@RequestMapping(value = POSTS_POST_ID_COMMENTS_COMMENT_ID, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public HashMap<String, Object> updateComment(
-			@PathVariable("postId") int postId,
-			@PathVariable("commentId") int commentId,
+			@PathVariable(POST_ID) int postId,
+			@PathVariable(COMMENT_ID) int commentId,
 			@RequestBody Comment comment) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-
-		System.out.println("Updating comment " + commentId);
 		Comment currentComment = null;
-		currentComment = service.getById(commentId);
-		if (currentComment == null) {
-			System.out.println("Comment with id " + commentId + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "not found");
-			return responseMap;
-		}
-		currentComment = commentSetter(comment, currentComment);
 		try {
+			currentComment = service.getById(commentId);
+			currentComment = commentSetter(comment, currentComment);
 			service.update(currentComment);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "ok");
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
-
+		responseMap.put(MESSAGE, MessageUtil.COMMENT_UPDATED);
+		return responseMap;
 	}
 
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/posts/{postId}/comments/{commentId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	/**
+	 * Delete comment.
+	 *
+	 * @param postId the post id
+	 * @param commentId the comment id
+	 * @return the hash map
+	 */
+	@RequestMapping(value = POSTS_POST_ID_COMMENTS_COMMENT_ID, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public HashMap<String, Object> deleteComment(
-			@PathVariable("postId") int postId,
-			@PathVariable("commentId") int commentId) {
+			@PathVariable(POST_ID) int postId,
+			@PathVariable(COMMENT_ID) int commentId) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-
-		System.out.println("Deleting comment id: " + commentId);
 		Comment currentComment = null;
+		try{
 		currentComment = service.getById(commentId);
-		if (currentComment == null) {
-			System.out.println("Comment with id " + commentId + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "not found");
-			return responseMap;
-		}
-		try {
-			service.delete(currentComment);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "ok");
+		service.delete(currentComment);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
-
+		responseMap.put(MESSAGE, MessageUtil.COMMENT_DELETED);
+		return responseMap;
 	}
 
+	/**
+	 * Comment setter.
+	 *
+	 * @param requestEntity the request entity
+	 * @param updatedEntity the updated entity
+	 * @return the comment
+	 */
 	private Comment commentSetter(Comment requestEntity, Comment updatedEntity) {
 		Comment finallEntity = updatedEntity;
 		finallEntity.setText(requestEntity.getText());
 		return finallEntity;
 	}
-
 }

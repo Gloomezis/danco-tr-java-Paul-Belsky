@@ -1,19 +1,44 @@
 <div ng-if="authService.isLoggedIn()">
+
     <div id="userHeader" ng-include="'templates/userHeader.html'" onload="isHeaderLoaded = true"
-         style="background: url('{{'userfont.png'}}') no-repeat fixed center"></div>
-    <div ng-controller="PostsController" ng-show="isHeaderLoaded">
+    style="background: url('{{'resources/userfont.png'}}') no-repeat fixed center"></div>
+    <div  ng-if="userFullData.user.username != authService.getCurrentUser().username">
+         <button class="btn btn-default" ng-if="userFullData.user.username != authService.getCurrentUser().username&& !isFriend" ng-click="subscribe(userFullData.user.id)" translate="SUBSCRIBE">Subscribe </button>
+          <button class="btn btn-default" ng-if="userFullData.user.username != authService.getCurrentUser().username && isFriend" ng-click="unsubscribe(userFullData.user.id)" translate="UNSUBSCRIBE">Unsubscribe</button>
+         <button class="btn btn-success" ng-if="isFriend" disabled translate="FRIEND">Friend</button>
+   </div>
+   <div  ng-if="userFullData.user.username != authService.getCurrentUser().username">
+         <a href="#/messages/{{userFullData.user.id}}" class="btn btn-default" translate="SEND_PRIVATE_MESSAGE">
+         Send private message</a>
+  </div> 
+  <ul>
+       <li><a translate="NAME">Name :</a>{{userFullData.user.userDetails.firstName}}</li>
+       <li><a translate="LAST_NAME">Last name :</a>{{userFullData.user.userDetails.lastName}}</li>
+       <hr>
+       <li><a translate="GENDER">Gender :</a>
+           <a ng-if="userFullData.user.userDetails.gender == 'Female'" translate="FEMALE">Female</a>
+           <a ng-if="userFullData.user.userDetails.gender=='Male'" translate="MALE">Male</a>
+       </li>
+       <hr>
+        <li><a translate="CITY">City :</a>{{userFullData.user.userDetails.location.city}}</li>
+       <li><a translate="STATE">State:</a>{{userFullData.user.userDetails.location.state}}</li>
+       <li><a translate="COUNTRY">Country:</a>{{userFullData.user.userDetails.location.country}}</li>
+        <hr>
+      <li><a translate="EMAIL">Email :</a>{{userFullData.user.userDetails.email}}</li>
+  </ul>
 
-        <form ng-if="isFriend" ng-submit="addPost(postData.postContent, userFullData.username)">
-            <textarea id="postContent" ng-model="postData.postContent" placeholder="Write something..."></textarea>
-            <button id="postButton" type="submit" translate="POST">Post</button>
-        </form>
-
-        <div id="posts" ng-include="'templates/userPosts.html'"></div>
+  <div ng-controller="PostsController" ng-show="isHeaderLoaded">
+     <div ng-if="userFullData.user.username == authService.getCurrentUser().username">
+        <form  ng-submit="addPost(postData, userFullData.user.id)">
+            <textarea id="postContent" ng-model="postData.text" placeholder="..." ></textarea>
+            <button class="btn btn-default" id="postButton" type="submit" translate="POST">Post</button>
+        </form>  
+        <div id="posts" ng-include="'templates/post.html'" ></div> 
     </div>
-
-    <div ng-if="isFriend" id="friendsPreview" ng-include="'templates/friendsPreview.html'"
-         ng-show="friendsPreviewList"
-         ng-controller="FriendsController"
-         ng-init="getFriendsPreview()"></div>
+    <div class="clear"></div>
+    <div ng-if="userFullData.user.username != authService.getCurrentUser().username">
+         <div id="posts" ng-include="'templates/userPosts.html'" "></div>   
+    </div>
+  </div>
 </div>
 <div class="clear"></div>

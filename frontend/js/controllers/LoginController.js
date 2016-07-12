@@ -5,17 +5,16 @@ socialNetworkApp.controller('LoginController',
 
         $scope.login = function (userData) {
             authService.login(userData)
-                .then(function (data) {
-                    if (data.errorCode==200) {
+            .then(function (data) {
+                if (data.responseEntity) {
                     authService.setCredentials(data.responseEntity);
-                    Notification.success('Successfully logged in!');
+                    Notification.success(data.message);
                     $route.reload();
-                    }else{
-                     Notification.error(data.errorCode+' '+data.errorMsg);  
-                    }
-                   
-                }, function (error) {
-                    Notification.error(error.error_description);
-                })
+                }else{
+                   Notification.error(data.message);  
+               }
+           }, function (error) {
+            Notification.error(error.error_description);
+        })
         }
     });

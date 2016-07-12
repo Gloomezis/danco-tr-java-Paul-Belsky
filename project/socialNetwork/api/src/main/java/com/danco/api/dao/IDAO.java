@@ -2,7 +2,9 @@ package com.danco.api.dao;
 
 import java.util.List;
 
+import com.danco.api.exception.MyException;
 import com.danco.model.BaseModel;
+
 
 /**
  * The Interface IDAO.
@@ -15,43 +17,41 @@ public interface IDAO<T extends BaseModel> {
 	 * Creates the.
 	 *
 	 * @param model the model
-	 * @throws Exception the exception
+	 * @throws MyException the my exception
 	 */
-	public void create(T model) throws Exception;
+	public void create(T model) throws MyException;
 
 	/**
 	 * Update.
 	 *
 	 * @param model the model
-	 * @throws Exception the exception
+	 * @throws MyException the my exception
 	 */
-	public void update(T model) throws Exception;
+	public void update(T model) throws MyException;
 
 	/**
 	 * Delete.
 	 *
 	 * @param model the model
-	 * @throws Exception the exception
+	 * @throws MyException the my exception
 	 */
-	public void delete(T model) throws Exception;
+	public void delete(T model) throws MyException;
 
 	/**
 	 * Gets the by id.
 	 *
 	 * @param idModel the id model
 	 * @return the by id
-	 * @throws Exception the exception
+	 * @throws MyException the my exception
 	 */
-	public T getById(int idModel) throws Exception;
+	public T getById(int idModel) throws MyException;
 
 	/**
-	 * Gets the all.
+	 * Gets the list.
 	 *
-	 * @return the all
-	 * @throws Exception the exception
+	 * @return the list
+	 * @throws MyException the my exception
 	 */
-	public List<T> getList() throws Exception;
-
-	
+	public List<T> getList() throws MyException;
 
 }

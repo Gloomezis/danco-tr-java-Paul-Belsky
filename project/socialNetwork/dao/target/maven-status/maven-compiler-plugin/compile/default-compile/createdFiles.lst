@@ -1,0 +1,11 @@
+com\danco\dao\PostDAO.class
+com\danco\dao\UserDetailsDAO.class
+com\danco\dao\LocationDAO.class
+com\danco\dao\DialogMessageDAO.class
+com\danco\dao\BaseDAO.class
+com\danco\dao\DialogDAO.class
+com\danco\dao\UserDAO.class
+com\danco\dao\GroupDAO.class
+com\danco\dao\CommentDAO.class
+com\danco\dao\FriendshipDAO.class
+com\danco\dao\MessageDAO.class

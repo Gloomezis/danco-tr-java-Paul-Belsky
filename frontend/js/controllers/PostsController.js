@@ -1,93 +1,143 @@
 'use strict';
 
 socialNetworkApp.controller('PostsController',
-    function PostsController($scope, $routeParams, PAGE_SIZE, postsService, Notification) {
+    function PostsController($scope, $routeParams, PAGE_SIZE, postsService, Notification,$route) {
 
-        var lastPostId = '';
-        $scope.posts = [];
+
+        var lastPostId = '0';
+        $scope.currentPagePosts = 1; 
+        $scope.maxSize = PAGE_SIZE; 
         $scope.postsMessage = 'Loading posts...';
+        $scope.count=0;
+        $scope.posts = [];
+        
+
+        $scope.newsEventPosts = function () {
+            if ($scope.isScrollPaused) return;
+            $scope.isScrollPaused = true;
+            postsService.getPostsNewsEvents($scope.maxSize,  lastPostId)
+            .then(function (data) {
+                if(!data.responseEntity){
+                    $scope.postsMessage = 'No more posts.';
+                    Notification.error(data.message);
+                }else{
+                    $scope.posts = $scope.posts.concat(data.responseEntity);
+                    if (data.responseEntity.length > 0) {
+                        lastPostId = ($scope.currentPagePosts)*$scope.maxSize; 
+                        $scope.currentPagePosts = $scope.currentPagePosts+1; 
+                        $scope.isScrollPaused = false;
+                    } else { 
+                        $scope.isScrollPaused = true;
+                    }
+                }
+            }, function (error) {
+                Notification.error(error.message);
+            })
+        };
+
 
         $scope.newsFeedPosts = function () {
             if ($scope.isScrollPaused) return;
             $scope.isScrollPaused = true;
-
-            postsService.getPosts(PAGE_SIZE, lastPostId)
-                .then(function (data) {
-                    $scope.posts = $scope.posts.concat(data);
-                    if (data.length > 0) {
-                        $scope.isScrollPaused = false;
-                        lastPostId = data[data.length - 1].id;
-                    } else {
-                        $scope.isScrollPaused = true;
-                        $scope.postsMessage = 'No more posts.';
-                    }
-                }, function (error) {
-                    Notification.error(error.message);
-                })
-        };
+            postsService.getPosts( $scope.maxSize,  lastPostId)
+            .then(function (data) {
+               $scope.debug=data;
+               if(!data.responseEntity){
+                  $scope.postsMessage = 'No more posts.';
+                  if(data.message){
+                   Notification.error(data.message);
+               }
+           }else{
+             $scope.count = data.count;
+              $scope.posts = $scope.posts.concat(data.responseEntity);
+              if (data.responseEntity.length > 0) {
+                lastPostId = ($scope.currentPagePosts)*$scope.maxSize; 
+                $scope.currentPagePosts = $scope.currentPagePosts+1; 
+                $scope.isScrollPaused = false;
+            } else { $scope.isScrollPaused = true;
+            }
+        }
+    }, function (error) {
+        Notification.error(error.message);
+    })
+    };
 
         $scope.userPosts = function () {
             if ($scope.isScrollPaused) return;
             $scope.isScrollPaused = true;
+            postsService.getUserPosts($scope.maxSize, lastPostId, $routeParams.username)
+            .then(function (data) {
+               $scope.debug=data;
+               if(!data.responseEntity){
+                $scope.postsMessage = 'No more posts.';
+                if(data.message){
+                   Notification.error(data.message);
+               }
+           }else
+           {
+              $scope.count = data.count;
+              $scope.posts = $scope.posts.concat(data.responseEntity);
+              if (data.responseEntity.length > 0) {
+                lastPostId = ($scope.currentPagePosts)*$scope.maxSize; 
+                $scope.currentPagePosts = $scope.currentPagePosts+1; 
+                $scope.isScrollPaused = false;
+            } else {
+                $scope.isScrollPaused = true;
+            }
+        }
+    }, function (error) {
+        Notification.error(error.message);
+    });
+    };
 
-            postsService.getUserPosts(PAGE_SIZE, lastPostId, $routeParams.username)
-                .then(function (data) {
-                    $scope.posts = $scope.posts.concat(data);
-                    if (data.length > 0) {
-                        $scope.isScrollPaused = false;
-                        lastPostId = data[data.length - 1].id;
-                    } else {
-                        $scope.isScrollPaused = true;
-                        $scope.postsMessage = 'No more posts.';
-                    }
-                }, function (error) {
-                    Notification.error(error.message);
-                });
-        };
 
-        $scope.addPost = function (data, username) {
-            var postContent = {
-                postContent: data,
-                username: username
-            };
-
-            postsService.addPost(postContent)
-                .then(function (data) {
-                    $('#postContent').val('');
-                    $scope.posts.unshift(data);
-                    Notification.success('Post successfully added.');
-                }, function (error) {
-                    $('#postContent').val('');
-                    Notification.error(error.message);
-                })
+        $scope.addPost = function (postData, userId) {
+            postsService.addPost(postData, userId)
+            .then(function (data) {
+                if(!data.responseEntity){
+                    Notification.success(data.message);
+                    $route.reload();
+                }else{
+                    Notification.error(data.message);
+                }
+            }, function (error) {
+                Notification.error('Failed creating post.');
+            })
         };
 
         $scope.editPost = function (post) {
-
             postsService.editPost(post)
-                .then(function (data) {
-                    post.postContent = data.content;
-                    Notification.success('Post edited successfully.');
-                }, function (error) {
-                    console.log(error);
-                    Notification.error('Failed editing post.');
-                })
+            .then(function (data) {
+             if(!data.responseEntity){
+                Notification.success(data.message);
+            }else{
+                Notification.error(data.message);
+            }
+        }, function (error) {
+            console.log(error);
+            Notification.error('Failed editing post.');
+        })
         };
 
         $scope.deletePost = function (post) {
             postsService.deletePost(post)
-                .then(function () {
+            .then(function (data) {
+                if(!data.responseEntity){
+                    Notification.success(data.message);
                     $scope.posts.splice($scope.posts.indexOf(post), 1);
-                    Notification.success('Post deleted successfully.');
-                }, function (error) {
-                    console.log(error);
-                    Notification.error('Failed deleting post.');
-                })
+                }else{
+                    Notification.error(data.message);
+                }
+            }, function (error) {
+                console.log(error);
+                Notification.error('Failed deleting post.');
+            })
         };
 
+        
         $scope.dateFromNow = function (date) {
-            return moment(date).add(3, 'hours').fromNow();
+            return moment(date).add(1, 'minut').fromNow();
         };
 
-       
+
     });

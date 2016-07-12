@@ -1,69 +1,46 @@
 <div id="header" ng-if="!authService.isLoggedIn()">
-       <div id="text"><img src="resources/logo.png" width="50px" height="50px"/><span>    Fixed worls Social Network</span></div>
+ <div id="text"><img src="resources/logo.png" width="50px" height="50px"/><span> Fixed worls Social Network</span></div>
 
 </div>
-
 <header>
     <div id="nav" ng-if="authService.isLoggedIn()" ng-controller="FriendsController" ng-init="getFriendRequests()">
         <ul>
             <li>
               <a><img src="resources/logo.png" width="50px" height="50px"/></a> 
-            </li>
-            <li>
-                <a href="#/users/{{authService.getCurrentUser().username}}"><i class="pe-7s-user"></i>{{authService.getCurrentUser().username}}</a>
-            </li>
-            <li><a href="" ng-click="routeReload()"   ><i class="pe-7s-home"></i>Home</a></li>
-            <li><a href="#/users/{{authService.getCurrentUser().userName}}/friends"><i
-                    class="pe-7s-users" ></i>Friends</a></li>
-
-
-            <li><a href="" ng-click="getFriendRequests(true)" ><i class="pe-7s-add-user"></i>Friend Requests<span ng-show="friendRequests" id="badge">{{friendRequests.length}}</span></a>
-            </li>
-
-                <span ng-show="showRequests" id="friendRequests" ng-if="friendRequests.length > 0">
-                    <ul>
-                        <li ng-repeat="friendRequest in friendRequests">
-                            <a href="#/users/{{friendRequest.user.username}}">
-                                <img class="profileImageSearch"
-                                     ng-src="{{'resources/defaultProfilePicture.jpg'}}"/>
-                                {{friendRequest.user.name}}
-                            </a>
-                            <button ng-click="approveFriendRequest(friendRequest)" translate="APPROVE">Approve</button>
-                            <button ng-click="rejectFriendRequest(friendRequest)" translate="REJECT">Reject</button>
-                        </li>
-                    </ul>
-                </span>
+          </li>
+          <li>
+            <a href="#/me"><i class="pe-7s-user"></i>{{authService.getCurrentUser().userDetails.firstName}}</a>
+        </li>
+        <li><a href="" ng-click="routeReload()"  ><i class="pe-7s-home"></i><span translate="HOME_HEADER">Home</span></a></li>
+        <li><a href="#/followers" ><i
+            class="pe-7s-users" ></i><span translate="FRIENDS_HEADER">Friends</span></a></li>
 
             <li id="search" ng-click="showSearch = true"><a href=""><i class="pe-7s-search"></i><span
-                    ng-hide="showSearch" >Search</span></a>
+                ng-hide="showSearch" translate="SEARCH_HEADER">Search</span></a>
                 <span ng-show="showSearch" id="searchDiv" ng-controller="SearchController">
-                    <input type="text" ng-model="searchUserInput" ng-change="searchUser(searchUserInput)"
-                           placeholder="Search..."
-                           required ng-focus="showHideResults()" ng-blur="showHideResults()"/>
+                    <input type="text" ng-model="searchUserInput.param" ng-change="searchUser(searchUserInput)"
+                    placeholder="Search..."
+                    required ng-focus="showHideResults()" ng-blur="showHideResults()" translate translate-attr-placeholder="SEARCH_PLACEHOLDER"/>
 
                     <div id="searchResults" ng-show="showSearchResults">
                         <ul>
-                            <li ng-repeat="searchResult in searchObj">
-                                <a href="#/users/{{searchResult.username}}">
-                                    <img class="profileImg"
-                                         ng-src="{{'resources/defaultProfilePicture.jpg'}}"/>
-                                    {{searchResult.name}}
+                            <li ng-repeat="searchResult in searchObj.responseEntity">
+                                <a href="#/users/{{searchResult.id}}">
+                                    <img id="profileImgSearch"
+                                    ng-src="{{'resources/defaultProfilePicture.jpg'}}"/>
+                                    {{searchResult.userDetails.firstName}}
                                 </a>
                             </li>
                         </ul>
-                        <span ng-if="searchObj" >Results total{{searchObj.length}}</span>
+                        <span ng-if="searchObj" translate="RESULTS_TOTAL">Results total</span>{{searchObj.responseEntity.length}}
                     </div>
                 </span>
             </li>
 
-            <li><a href="#/profile" ><i class="pe-7s-id" ></i>Edit Profile</a></li>
-            <li><a href="#/profile/password"  ><i class="pe-7s-key" ></i>Change Password</a></li>
-            <li><a href="" ng-click="logout()" ng-controller="LogoutController"  ><i class="pe-7s-switch" ></i>Logout</a> </li>
-            <div class="clear"></div>
-            <div ng-controller="TransleteController">
-                <li><button class="btn btn-primary" ng-click="changeLanguage('en')"     translate="BUTTON_LANG_EN" class="ng-scope">eng</button></li>
-               <li> <button class="btn btn-primary" ng-click="changeLanguage('ru')" translate="BUTTON_LANG_RU" class="ng-scope">ru</button></li>
-              </div>
+            <li><a href="#/profile" ><i class="pe-7s-id" ></i><span translate="EDIT_PROFILE_HEADER">Edit Profile</span></a></li>
+            <li><a href="#/profile/password"  ><i class="pe-7s-key" ></i><span translate="CHANGE_PASSWORD_HEADER">Change Password</span></a></li>
+            <li><a href="" ng-click="logout()" ng-controller="LogoutController"  ><i class="pe-7s-switch" ></i><span translate="LOGOUT_HEADER">Logout</span></a> </li>
+            <div class="clear"></div> 
         </ul>
     </div>                    
 </header>

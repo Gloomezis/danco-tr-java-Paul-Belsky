@@ -1,49 +1,26 @@
 'use strict';
 
-socialNetworkApp.controller('GroupController',
-    function GroupController($scope,  groupService, Notification) {
+socialNetworkApp.controller('GroupsController',
+  function GroupsController($scope, groupsService, Notification,dataGroups) {
 
 
- $scope.getGrops= function () {
-            
-        };
-
-        $scope.getGroup = function () {
-            
-        };
-
-        $scope.getUserGroupList = function () {
-           
-        };
-
-        $scope.getMyGroupList = function () {
-           
-        };
-
-        $scope.addGroup = function () {
-           
-        };
-
-         $scope.editGroup = function () {
-           
-        };
-
-         $scope.deleteGroup = function () {
-           
-        };
-
-         $scope.getGroupMembers = function () {
-           
-        };
-
-          $scope.subscribeGroup = function () {
-           
-        };
-
-          $scope.deleteSubscribeGroup = function () {
-           
-        };
-
+   $scope.dataGroups=dataGroups;
    
-        
-    });
+   $scope.getGrops= function () {
+    groupsService.getGroups()
+    .then(function (data) {
+      if(!data.responseEntity){
+        if(data.message){
+         Notification.error(data.message);
+       }
+     }else
+     {
+       $scope.groups = data;
+       Notification.success(data.message);
+     }
+   }, function (error) {
+    Notification.error(error.message);
+  })
+  };
+}); 
+

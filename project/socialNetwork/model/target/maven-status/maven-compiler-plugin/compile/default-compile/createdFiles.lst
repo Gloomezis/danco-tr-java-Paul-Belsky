@@ -1,0 +1,11 @@
+com\danco\model\Dialog.class
+com\danco\model\DialogMessage.class
+com\danco\model\Message.class
+com\danco\model\Location.class
+com\danco\model\Group.class
+com\danco\model\Comment.class
+com\danco\model\UserDetails.class
+com\danco\model\Friendship.class
+com\danco\model\Post.class
+com\danco\model\BaseModel.class
+com\danco\model\User.class

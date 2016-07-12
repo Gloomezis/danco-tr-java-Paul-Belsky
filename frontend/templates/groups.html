@@ -1,0 +1,13 @@
+
+<h4 translate="GROUPS">Groups:</h4>
+<ul>
+	<li class="groups" ng-repeat="group in dataGroups.responseEntity">
+		<a id="groupTitle" href="#/groups/{{group.id}}/dialogs">{{group.title}}</a><br>
+		<a translate="ABOUT">About:</a>
+		{{group.description}} <br>
+		<a href="#/groups/{{group.id}}/dialogs" ><i class="pe-7s-play"></i></a>
+	</li>
+</ul>
+<p style="text-align: left;"><img src="resources/as.jpg "  width="940" height="300"></p>
+
+<div class="clear"></div>

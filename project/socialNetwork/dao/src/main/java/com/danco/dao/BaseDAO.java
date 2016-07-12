@@ -3,58 +3,110 @@ package com.danco.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.stereotype.Repository;
 
 import com.danco.api.dao.IDAO;
+import com.danco.api.exception.MessageException;
+import com.danco.api.exception.MyException;
 import com.danco.model.BaseModel;
 
-@Repository
-public abstract class BaseDAO <T extends BaseModel> implements IDAO<T> {
-	
-	
+
+/**
+ * The Class BaseDAO.
+ *
+ * @param <T> the generic type
+ */
+public abstract class BaseDAO<T extends BaseModel> implements IDAO<T> {
+
+	/** The Constant UNCHECKED. */
+	private static final String UNCHECKED = "unchecked";
+
+	/** The clazz. */
 	private Class<T> clazz;
-	 
-	@Autowired 
-	 protected SessionFactory sf;
 
-	   
+	/** The sf. */
+	@Autowired
+	protected SessionFactory sf;
 
-	   public BaseDAO(Class<T> clazz) {
-	    	  this.clazz = clazz;
-	    	 }
-
-	    	 protected Criteria getCriteria (){
-	    	  return sf.getCurrentSession().createCriteria(clazz);
-	    	 }
-	    
-	    
-	
-	public void create(T model)throws Exception {
-		sf.getCurrentSession().save(model);
+	/**
+	 * Instantiates a new base DAO.
+	 *
+	 * @param clazz the clazz
+	 */
+	public BaseDAO(Class<T> clazz) {
+		this.clazz = clazz;
 	}
-	
-	public void update(T model)throws Exception {
-		sf.getCurrentSession().update(model);
+
+	/**
+	 * Gets the criteria.
+	 *
+	 * @return the criteria
+	 * @throws MyException the my exception
+	 */
+	protected Criteria getCriteria() throws MyException {
+
+		Criteria criteria = sf.getCurrentSession().createCriteria(clazz);
+		if (criteria == null) {
+			throw new MyException(MessageException.DB_ERROR);
+		}
+		return criteria;
 	}
-	
-	public void delete(T model)throws Exception {
-		sf.getCurrentSession().delete(model);
-	}	
+
+	/**
+	 * Gets the session.
+	 *
+	 * @return the session
+	 * @throws MyException the my exception
+	 */
+	protected Session getSession() throws MyException {
+		Session session = null;
+		session = sf.getCurrentSession();
+		if (session == null) {
+			throw new MyException(MessageException.DB_ERROR);
+		}
+		return session;
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.api.dao.IDAO#create(com.danco.model.BaseModel)
+	 */
+	public void create(T model) throws MyException {
+		getSession().save(model);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.api.dao.IDAO#update(com.danco.model.BaseModel)
+	 */
+	public void update(T model) throws MyException {
+		getSession().update(model);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.api.dao.IDAO#delete(com.danco.model.BaseModel)
+	 */
+	public void delete(T model) throws MyException {
+		getSession().delete(model);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.api.dao.IDAO#getById(int)
+	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	public T getById(int idModel)throws Exception {
-		return (T)sf.getCurrentSession().get(clazz,idModel);
-	} 
-	
+	@SuppressWarnings(UNCHECKED)
+	public T getById(int idModel) throws MyException {
+		return (T) getSession().get(clazz, idModel);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.danco.api.dao.IDAO#getList()
+	 */
 	@Override
-	@SuppressWarnings("unchecked")
-	public List<T> getList() throws Exception{
+	@SuppressWarnings(UNCHECKED)
+	public List<T> getList() throws MyException {
 		Criteria criteria = getCriteria();
 		return criteria.list();
-	} 
-	
+	}
 
- }
+}

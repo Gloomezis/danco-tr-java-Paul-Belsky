@@ -1,0 +1,91 @@
+
+insert into location (country, city, state) VALUES ('Belarus','Hrodno','Hrodnenskaya');
+insert into location (country, city, state) VALUES ('Belarus','Minsk','Minskaya');
+insert into location (country, city, state) VALUES ('Belarus','Gomel','Gomelskaya');
+
+insert into user_details  (first_name , last_name , email,gender,location_id ) VALUES ('Paul','Belski','gloomezis@mail.ru','male','1');
+insert into user_details  (first_name , last_name , email,gender,location_id ) VALUES ('Nadezda','Belskaya','nadia@mail.ru','female','2');
+insert into user_details  (first_name , last_name , email ,gender,location_id ) VALUES ('Harry','Potter','harry@mail.ru','male','3');
+
+insert into user  (username, password,user_details_id ) VALUES ('root','1111',1);
+insert into user  (username, password,user_details_id ) VALUES ('root2','2222',2);
+insert into user  (username, password,user_details_id ) VALUES ('root3','3333',3);
+
+
+
+insert into message (text,sender_id,receiver_id) VALUES ('Hello',1,2);
+insert into message (text,sender_id,receiver_id) VALUES ('Hello to',2,1);
+insert into message (text,sender_id,receiver_id) VALUES ('You are nice',1,2);
+insert into message (text,sender_id,receiver_id) VALUES ('Thanks',2,1);
+insert into message (text,sender_id,receiver_id) VALUES ('Boobs',1,2);
+
+
+
+insert into friend_list(user_id,friend_id) VALUES (1,2);
+insert into friend_list(user_id,friend_id) VALUES (2,1);
+insert into friend_list(user_id,friend_id) VALUES (3,1);
+insert into friend_list(user_id,friend_id) VALUES (1,3);
+
+
+
+insert into post (text,user_id) VALUES ('post by Paul',1);
+insert into post (text,user_id) VALUES ('post by Paul2',1);
+insert into post (text,user_id) VALUES ('post by Nadia',2);
+insert into post (text,user_id) VALUES ('post by Paula 3',1);
+insert into post (text,user_id) VALUES ('post by Paulaa 4',1);
+insert into post (text,user_id) VALUES ('post by Paula 5',1);
+insert into post (text,user_id) VALUES ('post by Paulaa 6',1);
+insert into post (text,user_id) VALUES ('post by Paula 7',1);
+insert into post (text,user_id) VALUES ('post by Paulaa 8',1);
+insert into post (text,user_id) VALUES ('post by Paula 9',1);
+insert into post (text,user_id) VALUES ('post by Paulaa 10',1);
+insert into post (text,user_id) VALUES ('post by Paulaa 11',1);
+insert into post (text,user_id) VALUES ('post by Paulaa 12',1);
+insert into post (text,user_id) VALUES ('post by Paula 13',1);
+insert into post (text,user_id) VALUES ('post by Paulaa 14',1);
+insert into post (text,user_id) VALUES ('post by Nadia 2',2);
+insert into post (text,user_id) VALUES ('post by Paula 15',1);
+insert into post (text,user_id) VALUES ('post by Nadia 3',2);
+insert into post (text,user_id) VALUES ('post by Paulaa 16',1);
+insert into post (text,user_id) VALUES ('post by Paula 17',1);
+insert into post (text,user_id) VALUES ('post by Nadia 4',2);
+insert into post (text,user_id) VALUES ('post by Paulaa 18',1);
+insert into post (text,user_id) VALUES ('post by Nadia 19',2);
+insert into post (text,user_id) VALUES ('post by Hattyk 19',3);
+
+insert into comment (post_id,user_id,text) VALUES (1,2,'comment to postID 1 by nadia');
+insert into comment (post_id,user_id,text) VALUES (2,2,'comment to postID 2 by nadia');
+insert into comment (post_id,user_id,text) VALUES (3,1,'comment to postID 3 by Paul');
+insert into comment (post_id,user_id,text) VALUES (3,1,'comment to postID 3 by Paul');
+insert into comment (post_id,user_id,text) VALUES (3,2,'comment to postID 3 by nadia');
+insert into comment (post_id,user_id,text) VALUES (3,3,'comment to postID 3 by Harry');
+insert into comment (post_id,user_id,text) VALUES (3,2,'comment to postID 3 by nadia');
+insert into comment (post_id,user_id,text) VALUES (3,1,'comment to postID 3 by Paul');
+insert into comment (post_id,user_id,text) VALUES (3,3,'comment to postID 3 by Harry');
+insert into comment (post_id,user_id,text) VALUES (3,2,'comment to postID 3 by nadia');
+insert into comment (post_id,user_id,text) VALUES (3,1,'comment to postID 3 by Paul');
+
+
+
+
+insert into groups (title,description) VALUES ('Bike check/Байк чек','send bike for people checking/Покажи свой байк');
+insert into groups (title,description) VALUES ('Buying bikes/Покупка велосипедов','write you search response for bike/Размести обьявление о покупке велосипеда');
+insert into groups (title,description) VALUES ('Trade bikes/Продажа велосипедов','write you bike for trade/размести обьявление о продаже велосипеда');
+insert into groups (title,description) VALUES ('Speaking about bikes/Велоразговоры','any question about bikes/всё об велосипедах');
+insert into groups (title,description) VALUES ('Speaking about everything/разговор обо всём','spam group/различный спам');
+insert into groups (title,description) VALUES ('Bike travels/Велотуризм','travel speaking/разговор об путешевствиях');
+
+
+insert into dialog(title,text,group_id,user_id,time_creation) VALUES ('first dialog in group 1','hello all from first dialog group 1',1,1,CURRENT_TIMESTAMP);
+insert into dialog(title,text,group_id,user_id,time_creation) VALUES ('second dialog in group 1','hello all from second dialog group 1',1,2,CURRENT_TIMESTAMP);
+insert into dialog(title,text,group_id,user_id,time_creation) VALUES ('first dialog in group 2','hello all from first dialog group 2',1,2,CURRENT_TIMESTAMP);
+
+insert into dialog_message(text,dialog_id,user_id) VALUES ('message for first dialog from paul',1,1);
+insert into dialog_message(text,dialog_id,user_id) VALUES ('message for first dialog from Nadya',1,2);
+insert into dialog_message(text,dialog_id,user_id) VALUES ('message for secomd dialog from paul',2,1);
+insert into dialog_message(text,dialog_id,user_id) VALUES ('message for first dialog from paul',1,1);
+
+
+
+
+

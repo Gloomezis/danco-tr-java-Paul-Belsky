@@ -10,6 +10,6 @@ socialNetworkApp.controller('AppController',
 
         //set headers after refresh
         if (sessionStorage.currentUser != undefined) {
-            $http.defaults.headers.common.Authorization = 'Bearer ' + authService.getCurrentUser().access_token;
+            $http.defaults.headers.common.Authorization = 'Bearer ' + authService.getCurrentUser().token;
         }
     });

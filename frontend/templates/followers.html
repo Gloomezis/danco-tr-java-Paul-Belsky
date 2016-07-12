@@ -1,0 +1,22 @@
+<div infinite-scroll='getFollowers()' infinite-scroll-disabled='isScrollPaused'
+infinite-scroll-distance='0.01'>
+
+<div ng-if="authService.isLoggedIn()"  ng-show="friendsList">
+    <h4 translate="FOLLOWERS">Followers:</h4>
+    <a href="#/followings" class="btn btn-default" translate="FOLLOWINGS">Followings</a>
+    <a  translate="TOTAL" >total:</a>{{friendsCount}}
+
+    <div class="comment" ng-repeat="fri in friendsList">
+        <ul>
+            <li >
+                <a href="#/users/{{fri.friend.id}}">
+                    <img class="messageHeader"
+                    ng-src="{{'resources/defaultProfilePicture.jpg'}}"/>
+                    {{fri.friend.userDetails.firstName}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+</div>
+</div>

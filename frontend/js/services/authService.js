@@ -9,12 +9,13 @@ socialNetworkApp.factory('authService',
             login: function (userData) {
                 var deferred = $q.defer();
                 $http.post(serviceUrl + '/login', userData)
-                    .success(function (data) {
-                        deferred.resolve(data);
-                    })
-                    .error(function (error) {
-                        deferred.reject(error)
-                    });
+                .success(function (data) {
+                    
+                    deferred.resolve(data);
+                })
+                .error(function (error) {
+                    deferred.reject(error)
+                });
 
                 return deferred.promise;
             },
@@ -22,12 +23,12 @@ socialNetworkApp.factory('authService',
             register: function (userData) {
                 var deferred = $q.defer();
                 $http.post(serviceUrl + '/register', userData)
-                    .success(function (data) {
-                        deferred.resolve(data)
-                    })
-                    .error(function (error) {
-                        deferred.reject(error)
-                    });
+                .success(function (data) {
+                    deferred.resolve(data)
+                })
+                .error(function (error) {
+                    deferred.reject(error)
+                });
 
                 return deferred.promise;
             },
@@ -35,12 +36,12 @@ socialNetworkApp.factory('authService',
             logout: function () {
                 var deferred = $q.defer();
                 $http.post(serviceUrl + '/logout')
-                    .success(function (data) {
-                        deferred.resolve(data);
-                    })
-                    .error(function (error) {
-                        deferred.reject(error)
-                    });
+                .success(function (data) {
+                    deferred.resolve(data);
+                })
+                .error(function (error) {
+                    deferred.reject(error)
+                });
 
                 return deferred.promise;
             },
@@ -59,7 +60,7 @@ socialNetworkApp.factory('authService',
             setCredentials: function (data) {
                 sessionStorage.currentUser = JSON.stringify(data);
                 $http.defaults.headers.common.Authorization =
-                    'Bearer ' + data.token;
+                'Bearer ' + data.token;
             },
 
             clearCredentials: function () {

@@ -16,43 +16,115 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity
-@Table(name = "post")
-public class Post extends BaseModel  {
 
-	/**
-	 * 
-	 */
+/**
+ * The Class Post.
+ */
+@Entity
+@Table(name = Post.POST)
+public class Post extends BaseModel {
+
+	/** The Constant USER_ID. */
+	private static final String USER_ID = "user_id";
+	
+	/** The Constant TIME_CREATION. */
+	private static final String TIME_CREATION = "time_creation";
+	
+	/** The Constant TEXT2. */
+	private static final String TEXT2 = "text";
+	
+	/** The Constant ID_POST. */
+	private static final String ID_POST = "idPost";
+	
+	/** The Constant POST. */
+	static final String POST = "post";
+
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	/** The id. */
 	@Id
-	@Column(name = "idPost")
+	@Column(name = ID_POST)
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name = "text")
+	/** The text. */
+	@Column(name = TEXT2)
 	private String text;
 
-	@Column(name = "time_creation")
-	@Temporal(value = TemporalType.DATE)
+	/** The time creation. */
+	@Column(name = TIME_CREATION)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	private Date timeCreation;
 
-	@JsonIgnore
+	/** The creator. */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = USER_ID)
 	private User creator;
 
+	/** The comments. */
 	@JsonIgnore
-	@OneToMany(targetEntity = Comment.class, mappedBy = "post", fetch = FetchType.LAZY)
+	@OneToMany(targetEntity = Comment.class, mappedBy = POST, fetch = FetchType.LAZY)
 	private List<Comment> comments;
-	
-	public Post() {
-		
+
+	/** The editing. */
+	@Transient
+	private Boolean editing = false;
+
+	/**
+	 * Gets the creator.
+	 *
+	 * @return the creator
+	 */
+	public User getCreator() {
+		return creator;
 	}
 
+	/**
+	 * Sets the creator.
+	 *
+	 * @param creator the new creator
+	 */
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
+
+	/**
+	 * Gets the comments.
+	 *
+	 * @return the comments
+	 */
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	/**
+	 * Sets the comments.
+	 *
+	 * @param comments the new comments
+	 */
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	/**
+	 * Instantiates a new post.
+	 */
+	public Post() {
+	}
+
+	/**
+	 * Instantiates a new post.
+	 *
+	 * @param id the id
+	 * @param text the text
+	 * @param timeCreation the time creation
+	 * @param creator the creator
+	 */
 	public Post(int id, String text, Date timeCreation, User creator) {
 		this.id = id;
 		this.text = text;
@@ -61,36 +133,84 @@ public class Post extends BaseModel  {
 		this.comments = new ArrayList<Comment>();
 	}
 
+	/**
+	 * Instantiates a new post.
+	 *
+	 * @param text the text
+	 * @param timeCreation the time creation
+	 */
 	public Post(String text, Date timeCreation) {
 		this.text = text;
 		this.timeCreation = timeCreation;
 	}
 
+	/**
+	 * Gets the text.
+	 *
+	 * @return the text
+	 */
 	public String getText() {
 		return text;
 	}
 
+	/**
+	 * Sets the text.
+	 *
+	 * @param text the new text
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}
 
+	/**
+	 * Gets the time creation.
+	 *
+	 * @return the time creation
+	 */
 	public Date getTimeCreation() {
 		return timeCreation;
 	}
 
+	/**
+	 * Sets the time creation.
+	 *
+	 * @param timeCreation the new time creation
+	 */
 	public void setTimeCreation(Date timeCreation) {
 		this.timeCreation = timeCreation;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.danco.model.BaseModel#getId()
+	 */
 	@Override
 	public int getId() {
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.danco.model.BaseModel#setId(int)
+	 */
 	@Override
 	public void setId(int id) {
 		this.id = id;
-
 	}
 
+	/**
+	 * Gets the editing.
+	 *
+	 * @return the editing
+	 */
+	public Boolean getEditing() {
+		return editing;
+	}
+
+	/**
+	 * Sets the editing.
+	 *
+	 * @param editing the new editing
+	 */
+	public void setEditing(Boolean editing) {
+		this.editing = editing;
+	}
 }

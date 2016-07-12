@@ -1,0 +1,41 @@
+<div infinite-scroll='getDialogMessages()' infinite-scroll-disabled='isScrollPaused'
+infinite-scroll-distance='0.01'>
+
+
+  <div ng-if="authService.isLoggedIn()"    ng-show="dialogMessages">
+      <h4 translate="DIALOGS_MESSAGES">Dialogs messages:</h4>
+     <a translate="DIALOGS_MESSAGES_TOTAL">Dialogs messages total:</a>{{dialogMessagesCount}}
+
+    <form   id="addDialogMessageForm" name="addDialogMessageForm" ng-submit="addDialogMessage(dialogMessageData)">
+         <h4 translate="ADD_DIALOG_MESSAGE">Add Dialog message:</h4>
+          <p>
+             <textarea class="dialogMessageText" placeholder="..."  ng-model="dialogMessageData.text"
+             minlength="2" maxlength="400" required  >
+             </textarea>
+          </p>
+          <button   class="btn btn-primary" type="submit" translate="WRITE_DIALOG_MESSAGE">Write dialog message</button>
+          <hr>
+    </form>
+
+    <ul>
+        <li class="dialogMessages" ng-repeat="dialogMessage in dialogMessages">
+            <a translate="DATE_CREATION">Date Creation: </a>
+            <a id="dateCreation">{{dialogMessage.timeCreation  |  date:"MM/dd/yyyy 'at' h:mma" }},</a>
+             <a id="peopleName" href="#/users/{{dialogMessage.creator.id}}">  {{dialogMessage.creator.userDetails.firstName}}   {{dialogMessage.creator.userDetails.lastName}}  </a>
+             <a translate="WRITED">  writed:  </a> <br>
+            <a>{{dialogMessage.text}}</a>
+           <div class="buttons">
+               <button  class="btn btn-primary" ng-if="dialogMessage.creator.id == authService.getCurrentUser().id" ng-click="deleteDialogMessage(dialogMessage)" translate="DELETE">
+                 Delete
+               </button>
+           </div >
+        </li>
+    </ul>
+  <div class="clear"></div>
+  </div>
+</div>
+
+
+
+
+

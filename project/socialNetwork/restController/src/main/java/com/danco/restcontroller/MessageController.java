@@ -1,154 +1,265 @@
 package com.danco.restcontroller;
 
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.danco.api.exception.MyException;
+import com.danco.api.message.MessageUtil;
 import com.danco.api.service.IMessageService;
+import com.danco.api.service.IUserService;
 import com.danco.model.Message;
+import com.danco.model.User;
+import com.danco.restcontroller.security.IJwtUtil;
+import com.danco.restcontroller.security.JwtUtil;
 
+
+/**
+ * The Class MessageController.
+ */
 @RestController
 public class MessageController {
 
+	/** The Constant ME_MESSAGES_USER_USER_ID. */
+	private static final String ME_MESSAGES_USER_USER_ID = "/me/messages/user/{userId}";
+	
+	/** The Constant MESSAGE_ID. */
+	private static final String MESSAGE_ID = "messageId";
+	
+	/** The Constant ME_MESSAGES_MESSAGE_ID. */
+	private static final String ME_MESSAGES_MESSAGE_ID = "/me/messages/{messageId}";
+	
+	/** The Constant MESSAGE. */
+	private static final String MESSAGE = "message";
+	
+	/** The Constant RESPONSE_ENTITY. */
+	private static final String RESPONSE_ENTITY = "responseEntity";
+	
+	/** The Constant PAGE_SIZE. */
+	private static final String PAGE_SIZE = "PageSize";
+	
+	/** The Constant AUTHORIZATION. */
+	private static final String AUTHORIZATION = "Authorization";
+	
+	/** The Constant START_MESSAGE_ID. */
+	private static final String START_MESSAGE_ID = "StartMessageId";
+	
+	/** The Constant ME_MESSAGES. */
+	private static final String ME_MESSAGES = "/me/messages";
+	
+	/** The Constant CREATED_MESSAGE_CONTROLLER. */
+	private static final String CREATED_MESSAGE_CONTROLLER = "Created message controller";
+	
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = LogManager
+			.getLogger(MessageController.class);
+
+	/** The service. */
 	@Autowired
 	private IMessageService service;
 
+	/** The user service. */
+	@Autowired
+	private IUserService userService;
+
+	/** The jwt util. */
+	private IJwtUtil jwtUtil = JwtUtil.getInstance();
+
+	/**
+	 * Instantiates a new message controller.
+	 */
 	public MessageController() {
-		System.out.println("Created message controller");
+		System.out.println(CREATED_MESSAGE_CONTROLLER);
 	}
 
-	// TODO write getted messageList ordered by datetime (one last message by
-	// one user) creating bylast users
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/me/messages", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getMyMessagesList() {
+	
+	/**
+	 * Gets the my messages list.
+	 *
+	 * @param header the header
+	 * @param startMessageId the start message id
+	 * @param pageSize the page size
+	 * @return the my messages list
+	 */
+	@RequestMapping(value = ME_MESSAGES, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getMyMessagesList(
+			@RequestHeader(AUTHORIZATION) String header,
+			@RequestParam(value = START_MESSAGE_ID) int startMessageId,
+			@RequestParam(value = PAGE_SIZE) int pageSize) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-
-		// write GetList(myID) list messages uniq users by last shown message
-		// ordered by datetime
-		List<Message> responseEntity = service.getList();
-
-		if (responseEntity == null) {
-			System.out.println("My posts  not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			return responseMap;
-		}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("responseEntity", responseEntity);
-		return responseMap;
-	}
-
-	// TODO get list message one by one with selected user
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/me/messages/user/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> getMyMessagesOneByOne(
-			@PathVariable("userId") int id) {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-
-		// write GetList(myID,userId)
-		List<Message> responseEntity = service.getList();
-
-		if (responseEntity.isEmpty()) {
-			System.out.println("List post user: " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "Not found");
-			return responseMap;
-		}
-		responseMap.put("errorCode", 200);
-		responseMap.put("errorMsg", "Ok");
-		responseMap.put("responseEntity", responseEntity);
-		return responseMap;
-	}
-
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/me/messages", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> createMessage(@RequestBody Message message) {
-		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		User usFromHeader = jwtUtil.getUserFromHeader(header);
+		int myId = usFromHeader.getId();
 		try {
-			service.create(message);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "Ok");
+			responseMap = service.getListByUserId(myId, startMessageId,
+					pageSize);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
-
+		responseMap.put(MESSAGE, MessageUtil.EMPTY_MESSAGE);
+		return responseMap;
 	}
 
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/me/messages/{messageId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	
+	/**
+	 * Gets the my messages one by one.
+	 *
+	 * @param header the header
+	 * @param userId the user id
+	 * @param startMessageId the start message id
+	 * @param pageSize the page size
+	 * @return the my messages one by one
+	 */
+	@RequestMapping(value = ME_MESSAGES_USER_USER_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> getMyMessagesOneByOne(
+			@RequestHeader(AUTHORIZATION) String header,
+			@PathVariable("userId") int userId,
+			@RequestParam(value = START_MESSAGE_ID) int startMessageId,
+			@RequestParam(value = PAGE_SIZE) int pageSize) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		User usFromHeader = jwtUtil.getUserFromHeader(header);
+		int myId = usFromHeader.getId();
+		try {
+			responseMap = service.getListPrivateMessage(myId, userId,
+					startMessageId, pageSize);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
+			return responseMap;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
+		}
+		responseMap.put(MESSAGE, MessageUtil.EMPTY_MESSAGE);
+		return responseMap;
+	}
+
+	
+	/**
+	 * Creates the message.
+	 *
+	 * @param header the header
+	 * @param userId the user id
+	 * @param requestBody the request body
+	 * @return the hash map
+	 */
+	@RequestMapping(value = ME_MESSAGES_MESSAGE_ID, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> createMessage(
+			@RequestHeader(AUTHORIZATION) String header,
+			@PathVariable(MESSAGE_ID) int userId,
+			@RequestBody Message requestBody) {
+		HashMap<String, Object> responseMap = new HashMap<String, Object>();
+		try {
+			User usFromHeader = jwtUtil.getUserFromHeader(header);
+			int myId = usFromHeader.getId();
+			requestBody.setTimeCreation(new Date());
+			requestBody.setSender(userService.getById(myId));
+			requestBody.setReceiver(userService.getById(userId));
+			service.create(requestBody);
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
+			return responseMap;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
+		}
+		responseMap.put(MESSAGE, MessageUtil.MESSAGE_CREATED);
+		return responseMap;
+	}
+
+	
+	/**
+	 * Update message.
+	 *
+	 * @param id the id
+	 * @param requestEntity the request entity
+	 * @return the hash map
+	 */
+	@RequestMapping(value = ME_MESSAGES_MESSAGE_ID, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public HashMap<String, Object> updateMessage(
-			@PathVariable("messageId") int id,
+			@PathVariable(MESSAGE_ID) int id,
 			@RequestBody Message requestEntity) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-
-		System.out.println("Updating message " + requestEntity.getId());
 		Message currentEntity = null;
-		currentEntity = service.getById(requestEntity.getId());
-		if (currentEntity == null) {
-			System.out.println("Post with id " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "not found");
-			return responseMap;
-		}
-		currentEntity = entitySetter(requestEntity, currentEntity);
 		try {
+			currentEntity = service.getById(requestEntity.getId());
+			currentEntity = entitySetter(requestEntity, currentEntity);
 			service.update(currentEntity);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "ok");
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
-
+		responseMap.put(MESSAGE, MessageUtil.MESSAGE_UPDATED);
+		return responseMap;
 	}
 
-	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(value = "/me/messages/{messageId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public HashMap<String, Object> deletePost(@PathVariable("messageId") int id) {
+	
+	/**
+	 * Delete post.
+	 *
+	 * @param id the id
+	 * @return the hash map
+	 */
+	@RequestMapping(value = ME_MESSAGES_MESSAGE_ID, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public HashMap<String, Object> deletePost(@PathVariable(MESSAGE_ID) int id) {
 		HashMap<String, Object> responseMap = new HashMap<String, Object>();
-
-		System.out.println("Deleting post id: " + id);
-		Message currentEntity = null;
-		currentEntity = service.getById(id);
-		if (currentEntity == null) {
-			System.out.println("Message with id " + id + " not found");
-			responseMap.put("errorCode", 404);
-			responseMap.put("errorMsg", "not found");
-			return responseMap;
-		}
 		try {
+			Message currentEntity = null;
+			currentEntity = service.getById(id);
 			service.delete(currentEntity);
-			responseMap.put("errorCode", 200);
-			responseMap.put("errorMsg", "ok");
+		} catch (MyException e) {
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, e.getMessage());
 			return responseMap;
 		} catch (Exception e) {
-			responseMap.put("errorCode", 409);
-			responseMap.put("errorMsg", "Conflicted");
-			return responseMap;
+			LOGGER.error(e.getMessage());
+			responseMap.put(RESPONSE_ENTITY, null);
+			responseMap.put(MESSAGE, MessageUtil.SERVER_ERROR);
 		}
-
+		responseMap.put(MESSAGE, MessageUtil.MESSAGE_DELETED);
+		return responseMap;
 	}
 
+	/**
+	 * Entity setter.
+	 *
+	 * @param requestEntity the request entity
+	 * @param updatedEntity the updated entity
+	 * @return the message
+	 */
 	private Message entitySetter(Message requestEntity, Message updatedEntity) {
 		Message finallEntity = updatedEntity;
 		finallEntity.setText(requestEntity.getText());
-		finallEntity.setRead(requestEntity.isRead());
+		finallEntity.setDeleted(requestEntity.getDeleted());
 		return finallEntity;
 	}
 

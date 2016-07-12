@@ -1,0 +1,34 @@
+<div infinite-scroll='getMyMessagesOneByOne()' infinite-scroll-disabled='isScrollPaused'
+infinite-scroll-distance='0.01'>
+
+<div ng-if="authService.isLoggedIn()"  ng-show="messages">
+	<h4 translate="PRIVATE_MESSAGES">Private messages</h4>
+	
+	<form id="addMessageForm" name="addMessageForm" ng-submit="addMessage(messageData)">
+        <textarea class="messageContent" placeholder="Message..." ng-model="messageData.text"
+        minlength="2" required></textarea>
+        <button  type="submit" class="btn btn-default"  translate="ADD_MESSAGE">Add message</button>
+    </form>
+    <div class="clear"></div>
+    <div class="message" ng-repeat="message in messages">
+             <div class="messageHeader">
+                    <div class="buttons">
+                        <button  type="submit" class="btn btn-default" ng-if="message.sender.username == authService.getCurrentUser().username" ng-click="message.deleted = true;deleteMessage(message)" translate="DELETE">Delete</button>
+                         <button  class="btn btn-default"  ng-if="message.sender.username == authService.getCurrentUser().username" ng-click="message.editing = true"
+                        ng-hide="message.editing" translate="EDIT">Edit</button>
+                     </div>
+                    <a href="#/users/{{message.sender.id}}"> <img ng-src="{{'resources/defaultProfilePicture.jpg'}}"/>{{message.sender.userDetails.firstName}}</a> 
+            </div>
+            <div class="messageContent" ng-hide="message.editing">{{message.text}}</div>
+            <div class="floatRight">{{message.timeCreation  |  date:"MM/dd/yyyy 'at' h:mma" }}</div>
+            <div ng-show="message.editing">
+                <form ng-submit="editMessage(message)">
+                     <textarea ng-model="message.text" cols="30" rows="3"  placeholder="...." translate translate-attr-placeholder="WRITE_MESSAGE_PLACEHOLDER"> </textarea>
+                    <button type="submit" class="btn btn-default" ng-click="message.editing = false" translate="SAVE">Save</button>
+                     <a href=""  class="btn btn-default" ng-click="message.editing = false"    translate="CANCEL">Cancel</a>
+                </form>
+            </div>
+        <div class="clear"></div>
+    </div>
+    </div>
+</div>

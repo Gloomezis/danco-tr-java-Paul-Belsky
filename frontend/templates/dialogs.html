@@ -1,0 +1,36 @@
+<div infinite-scroll='getDialogs()' infinite-scroll-disabled='isScrollPaused'
+infinite-scroll-distance='0.01'>
+
+<div ng-if="authService.isLoggedIn()"  ng-show="dialogs">
+    <h4 translate="DIALOGS">Dialogs:</h4>
+    <a translate="DIALOG_TOTAL">Dialogs total:</a>{{dialogsCount}}
+
+    <form    id="addDialogForm" name="addDialogForm" ng-submit="addDialog(dialogData)">
+      <h4 translate="ADD_DIALOG1">Add Dialog:</h4>
+      <label for="title" translate="TITLE">Title:</label>
+      <input type="text" id="title" ng-model="dialogData.title" required="required"/>
+      <p><textarea class="dialogText" placeholder="Dialog text.." ng-model="dialogData.text"
+          minlength="2" required translate translate-attr-placeholder="WRITE_DIALOG_PLACEHOLDER"></textarea></p>
+          <button type="submit"  class="btn btn-primary" translate="ADD_DIALOG">Add dialog</button>
+          <hr>
+    </form>
+      
+      <ul>
+        <li class="dialogs" ng-repeat="dialog in dialogs">
+              <a id="dialogTitle" href="#/groups/{{dialog.group.id}}/dialogs/{{dialog.id}}/messages">{{dialog.title}}</a><br>
+              <a translate="AUTHOR">Author:</a>
+              <a  id="peopleName" href="#/users/{{dialog.creator.id}}"> {{dialog.creator.userDetails.firstName}}  {{dialog.creator.userDetails.lastName}}</a>
+               <a translate="DESCRIPTION">Description:</a> {{dialog.text}}
+               <a id="dateCreation" translate="DATE_CREATION">Date creation:</a>{{dialog.timeCreation  |  date:"MM/dd/yyyy 'at' h:mma" }}
+               <a href="#/groups/{{dialog.group.id}}/dialogs/{{dialog.id}}/messages" >
+               <i class="pe-7s-play"></i>
+               </a>
+               <div class="buttons">
+                   <button  class="btn btn-primary" ng-if="dialog.creator.id == authService.getCurrentUser().id" ng-click="deleteDialog(dialog)" translate="DELETE">Delete</button>
+               </div>  
+        </li>
+      </ul>
+      <div class="clear"></div>
+  </div>
+</div>
+

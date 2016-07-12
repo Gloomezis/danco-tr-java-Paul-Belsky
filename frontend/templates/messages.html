@@ -1,0 +1,33 @@
+<div infinite-scroll='getMyMessagesList()' infinite-scroll-disabled='isScrollPaused'
+infinite-scroll-distance='0.01'>
+
+<div ng-if="authService.isLoggedIn()"  ng-show="messages">
+	<h4 translate="MESSAGES">Messages:</h4>
+	
+  <div class="message" ng-repeat="message in messages">
+    <div class="messageHeader">
+        <div class="buttons">
+            <a href="#/messages/{{message.sender.id}}" class="btn btn-default" ng-if="message.sender.username != authService.getCurrentUser().username" translate="CHAT">Chat</a>
+            <a>
+                 <button  type="submit" class="btn btn-default" ng-if="message.sender.username == authService.getCurrentUser().username" ng-click="message.deleted = true ;deleteMessage(message)" translate="DELETE">Delete</button>
+                 <button  class="btn btn-default"  ng-if="message.sender.username == authService.getCurrentUser().username" ng-click="message.editing = true" ng-hide="message.editing" translate="EDIT">Edit </button>
+             </a>      
+        </div>
+        <a href="#/users/{{message.sender.id}}"><img ng-src="{{'resources/defaultProfilePicture.jpg'}}"/>
+        {{message.sender.userDetails.firstName}}</a> 
+        <a ng-if="message.sender.username == authService.getCurrentUser().username"><span translate="WRITED_TO">writed to:</span> {{message.receiver.userDetails.firstName}}</a>
+    </div>
+    <div class="messageContent" ng-hide="message.editing">{{message.text}}</div>
+    <div class="floatRight">{{message.timeCreation  |  date:"MM/dd/yyyy 'at' h:mma" }}</div>
+    <div ng-show="message.editing">
+         <form ng-submit="editMessage(message)">
+             <textarea ng-model="message.text" cols="30" rows="3" placeholder="Write message...." translate translate-attr-placeholder="WRITE_MESSAGE_PLACEHOLDER"></textarea>
+             <button type="submit" class="btn btn-default" ng-click="message.editing = false" translate="SAVE">Save</button>
+             <a href=""  class="btn btn-default" ng-click="message.editing = false"    translate="CANCEL">Cancel</a>
+         </form>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+</div>
+</div>

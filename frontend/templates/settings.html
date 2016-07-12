@@ -1,0 +1,12 @@
+
+<div ng-controller="TransleteController" ng-if="authService.isLoggedIn()">
+	<h2 translate="SETTINGS">Settings</h2>
+	<a translate="SELECT_LANGUAGE">Select Language:</a>
+	<ul>
+		<li>
+			<button class="btn btn-primary" ng-click="changeLanguage('en')"     translate="BUTTON_LANG_EN" >eng</button>
+			<button class="btn btn-primary" ng-click="changeLanguage('ru')" translate="BUTTON_LANG_RU" >ru</button>
+		</li>
+	</ul>
+	<p style="text-align: center;"><img src="resources/city.jpg " ></p>
+</div>

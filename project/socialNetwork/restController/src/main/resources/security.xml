@@ -12,8 +12,8 @@ xmlns:context="http://www.springframework.org/schema/context"
 	<global-method-security pre-post-annotations="enabled" />
 	<http pattern="/users/login" security="none" />
 	<http pattern="/users/register" security="none" />
-	<http pattern="/users/logout" security="none" />
-	<http pattern="/users/logint" security="none" />
+	
+	
 	<!-- mb need add /restController -->
 	<http pattern="/users/**" entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
 		<csrf disabled="true" />

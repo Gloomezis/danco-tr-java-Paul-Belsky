@@ -1,6 +1,143 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway:400,500,700);
 
 
+#groupTitle{
+      font-size: 22px;
+}
+
+#dialogTitle{
+      font-size: 22px;
+}
+
+#dateCreation{
+    color: #9A9A9A
+}
+
+#peopleName{
+    color: #0F0F0F
+}
+
+#addDialogMessageForm {
+    padding: 3px;
+    border-radius: 2px;
+    border-top: 1px solid #ccc;
+}
+
+#addDialogMessageForm textarea{
+    width: 50%;
+    margin-left: 0%;
+}
+
+#addDialogMessageForm button{
+    vertical-align: top;
+}
+
+
+
+
+#addDialogForm {
+    padding: 3px;
+    border-radius: 2px;
+    border-top: 1px solid #ccc;
+}
+
+#addDialogForm textarea{
+    width: 50%;
+    margin-left: 0%;
+}
+
+#addDialogForm button{
+    vertical-align: top;
+}
+
+
+.dialogMessages {
+    text-align: left;
+    display: block;
+    float: left;
+    margin: 10px;
+    padding: 15px;
+    border: 3px solid #ccc;
+    width: 1200px;
+    height: 120px;
+    box-shadow:0 10px 10px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+    border-radius: 10px;
+    background-color: #FAFAFA
+}
+.dialogMessages h4{
+    font-size: 15px;
+    line-height: 0px;
+    margin: lem 0 0.5em 0;
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+    color:#000000;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(53,86,129,0,3);
+
+}
+
+
+.dialogs {
+    text-align: left;
+    display: block;
+    float: left;
+    margin: 10px;
+    padding: 15px;
+    border: 3px solid #ccc;
+    width: 1200px;
+    height: 100px;
+    box-shadow:0 10px 10px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+    border-radius: 10px;
+    background-color: #FAFAFA
+}
+.dialogs h4{
+    font-size: 15px;
+    line-height: 0px;
+    margin: lem 0 0.5em 0;
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+    color:#000000;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(53,86,129,0,3);
+
+}
+
+.dialogs i {
+    
+    font-size: 40px;
+}
+
+
+.groups {
+    text-align: left;
+    display: block;
+    float: left;
+    margin: 10px;
+    padding: 15px;
+    border: 3px solid #ccc;
+    width: 450px;
+    height: 140px;
+    box-shadow:0 10px 10px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+    border-radius: 10px;
+    background-color: #FAFAFA
+}
+.groups h4{
+    font-size: 22px;
+    line-height: 0px;
+    margin: lem 0 0.5em 0;
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+    color:#000000;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(53,86,129,0,3);
+}
+.groups i {
+    
+    font-size: 30px;
+}
 
 sidebar ul{
     list-style-type: none;
@@ -73,7 +210,7 @@ header > div > ul > li {
     border-right: 1px solid #ccc;
     vertical-align: bottom;
     float: left;
-    height: 43px;
+    height: 60px;
     text-align: center;
 }
 
@@ -97,7 +234,7 @@ header i {
 }
 
 #nav {
-    width: 1250px;
+    width: 1300px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -160,7 +297,7 @@ header i {
 .postHeader {
     border: 1px solid #ccc;
     border-radius: 2px;
-    background-color: rgba(44, 193, 133, 0.25);
+    background-color: rgba(173, 173, 133, 0.25);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
 }
 
@@ -177,13 +314,17 @@ header i {
     float: right;
 }
 
+.floatLeft {
+    float: inherit;
+}
+
 #changePasswordForm {
     border: 1px solid #ccc;
     padding: 10px;
     margin: 20px 0 20px 40%;
-    width: 180px;
+    width: 200px;
     text-align: center;
-    border-radius: 2px;
+    border-radius: 20px;
     box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
 
@@ -192,7 +333,7 @@ header i {
 }
 
 #search {
-    width: 100px;
+    width: 200px;
 }
 
 #searchDiv {
@@ -211,6 +352,11 @@ header i {
     border: 1px solid #ccc;
     padding: 5px;
     background-color: #ccc;
+}
+
+#profileImgSearch {
+    max-width: 70px;
+    max-height: 70px;
 }
 
 #searchResults a {
@@ -238,17 +384,7 @@ ul {
     -webkit-margin-after: 0;
 }
 
-.profileImageSearch {
-    max-width: 50px;
-    max-height: 50px;
-    display: block;
-    margin-left: 36.5px;
-}
 
-.profileImg {
-    max-width: 50px;
-    max-height: 50px;
-}
 
 .newsFeedPost {
     border: 1px solid #ccc;
@@ -286,8 +422,8 @@ ul {
 }
 
 #profileImagePreview {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 140px;
+    max-height: 140px;
 }
 
 #coverImagePreview {
@@ -295,10 +431,7 @@ ul {
     max-height: 150px;
 }
 
-textarea {
-    resize: none;
-    background-color: rgba(255, 255, 255, 0.50);
-}
+
 
 #postContent {
     width: 50%;
@@ -306,7 +439,10 @@ textarea {
     margin: 3px;
 }
 
-
+textarea {
+    resize: none;
+    background-color: rgba(255, 255, 255, 0.50);
+}
 
 #addCommentForm {
     padding: 3px;
@@ -328,6 +464,43 @@ textarea {
     margin-top: 38px;
 }
 
+.message {
+    padding: 5px;
+    margin: 5px 50px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+}
+
+.message img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.messageHeader {
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-color: rgba(173, 173, 133, 0.25);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
+}
+
+.messageHeader img {
+    margin: 3px;
+}
+
+
+#messageContent {
+    width: 50%;
+    height: 50px;
+    margin: 3px;
+}
+
+.cmessageContent {
+    margin: 10px;
+    font-weight: bold;
+}
+
+
 .comment {
     padding: 5px;
     margin: 5px 50px;
@@ -344,12 +517,23 @@ textarea {
 .commentHeader {
     border: 1px solid #ccc;
     border-radius: 2px;
-    background-color: rgba(44, 193, 133, 0.15);
+    background-color: rgba(173, 173, 133, 0.25);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.1) inset;
 }
 
 .commentHeader img {
     margin: 3px;
+}
+
+#commentContent {
+    width: 50%;
+    height: 50px;
+    margin: 3px;
+}
+
+.commentContent {
+    margin: 10px;
+    font-weight: bold;
 }
 
 .friends {
@@ -416,4 +600,9 @@ textarea {
 
 .clear {
     clear: both;
+}
+
+.footer{
+    text-align: center;
+      tex
 }

@@ -13,9 +13,6 @@
     <label for="lastname" translate="LAST_NAME">Last Name:</label>
     <input type="text" id="lastname" ng-model="userData.userDetails.lastName" required="required"/>
 
-    <label for="birthday" translate="BIRTHDAY_DATE">Birthday date:</label>
-    <input type="text"   id="birthday" ng-model="userData.userDetails.dateOfBirth" required="required"/>
-
     <label for="city"  translate="CITY">City:</label>
     <input type="text" id="city"  ng-model="userData.userDetails.location.city" required="required"/>
 
@@ -24,9 +21,6 @@
 
     <label for="country"  translate="COUNTRY">Country:</label> 
     <input type="text" id="country"  ng-model="userData.userDetails.location.country" required="required"/>
-
-    <label for="phone"  translate="PHONE">Phone:</label> 
-    <input type="email" id="phone"  ng-model="userData.userDetails.phoneNumber"   ng-pattern="/^\d+$/" required="required"/>
 
     <label for="email">Email:</label>
     <input type="email" id="email" ng-model="userData.userDetails.email" required="required"/>
@@ -40,5 +34,5 @@
 
     </div>
 
-    <button type="submit" ng-disabled="registerForm.$invalid"  translate="REGISTER">Register</button>
+    <button type="submit" class="btn btn-primary" ng-disabled="registerForm.$invalid"  translate="REGISTER">Register</button>
 </form>

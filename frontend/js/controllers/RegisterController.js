@@ -5,13 +5,16 @@ socialNetworkApp.controller('RegisterController',
 
         $scope.register = function (userData) {
             authService.register(userData)
-                .then(function (data) {
-                    authService.setCredentials(data);
-                    Notification.success('Successfully registered!');
+            .then(function (data) {
+                if(!data.responseEntity){
+                    Notification.success(data.message);
                     $route.reload();
-                }, function (error) {
-                    var errorMsg = error.modelState[Object.keys(error.modelState)[0]][0];
-                    Notification.error(errorMsg);
-                })
+                }else{
+                    Notification.error(data.message);
+                }
+            }, function (error) {
+                var errorMsg = error.modelState[Object.keys(error.modelState)[0]][0];
+                Notification.error(errorMsg);
+            })
         }
     });
